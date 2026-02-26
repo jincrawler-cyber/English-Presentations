@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Grammar: Countable & Uncountable</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .correct-pulse { animation: success 0.5s ease; }
+        @keyframes success {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); background-color: #dcfce7; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-indigo-700 mb-2">Food & Drinks 🍎🥛</h1>
+            <p class="text-slate-500 font-medium italic">Level A2: Countable vs Uncountable Nouns</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="flex bg-white rounded-xl shadow-sm p-1 mb-8 border border-slate-200">
+            <button id="btn-learn" onclick="switchTab('learn')" class="flex-1 py-3 rounded-lg transition-all font-semibold bg-indigo-600 text-white shadow-md">
+                Study Guide 📖
+            </button>
+            <button id="btn-game" onclick="switchTab('game')" class="flex-1 py-3 rounded-lg transition-all font-semibold text-slate-500 hover:bg-slate-50">
+                Interactive Practice 🎮
+            </button>
+        </div>
+
+        <!-- LEARN TAB -->
+        <div id="tab-learn" class="space-y-6 fade-in">
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    How to identify them? 💡
+                </h2>
+                <p class="mb-6 text-slate-600">
+                    En inglés, la diferencia depende de si vemos el objeto como una <strong>unidad individual</strong> o como una <strong>masa/sustancia</strong>.
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <!-- Liquids -->
+                    <div class="p-4 rounded-xl border-2 bg-blue-50 border-blue-200">
+                        <h3 class="font-bold text-lg text-blue-800 mb-1">Liquids 💧</h3>
+                        <p class="text-xs font-bold text-blue-600 uppercase mb-2">Uncountable</p>
+                        <p class="text-sm text-slate-700 italic mb-2">Water, Milk, Juice, Wine</p>
+                        <p class="text-sm text-slate-600">No puedes contarlos uno a uno. Necesitas un recipiente: <em>"A glass of..."</em></p>
+                    </div>
+                    <!-- Grains -->
+                    <div class="p-4 rounded-xl border-2 bg-yellow-50 border-yellow-200">
+                        <h3 class="font-bold text-lg text-yellow-800 mb-1">Grains & Powders 🧂</h3>
+                        <p class="text-xs font-bold text-yellow-600 uppercase mb-2">Uncountable</p>
+                        <p class="text-sm text-slate-700 italic mb-2">Rice, Sugar, Salt, Flour</p>
+                        <p class="text-sm text-slate-600">Son demasiado pequeños para contarlos individualmente. Se ven como una masa.</p>
+                    </div>
+                    <!-- Mass Food -->
+                    <div class="p-4 rounded-xl border-2 bg-orange-50 border-orange-200">
+                        <h3 class="font-bold text-lg text-orange-800 mb-1">Mass & Sliced Food 🧀</h3>
+                        <p class="text-xs font-bold text-orange-600 uppercase mb-2">Uncountable</p>
+                        <p class="text-sm text-slate-700 italic mb-2">Meat, Cheese, Bread, Butter</p>
+                        <p class="text-sm text-slate-600">No tienen forma natural definida. Se cuentan por peso o porciones (slices/pieces).</p>
+                    </div>
+                    <!-- Countables -->
+                    <div class="p-4 rounded-xl border-2 bg-green-50 border-green-200">
+                        <h3 class="font-bold text-lg text-green-800 mb-1">Individual Units 🍎</h3>
+                        <p class="text-xs font-bold text-green-600 uppercase mb-2">Countable</p>
+                        <p class="text-sm text-slate-700 italic mb-2">Apple, Banana, Burger, Egg</p>
+                        <p class="text-sm text-slate-600">Tienen una forma física clara. Puedes decir "one, two, three..." y ponerles "s" al final.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="bg-indigo-900 text-white p-6 rounded-2xl shadow-lg">
+                <h3 class="font-bold text-lg mb-2">Pro-Tip 🚀</h3>
+                <p class="text-indigo-100 italic">"Remember: <strong>Bread 🍞</strong> and <strong>Money 💵</strong> are uncountable in English, even if they seem countable in Spanish!"</p>
+            </div>
+        </div>
+
+        <!-- GAME TAB -->
+        <div id="tab-game" class="hidden fade-in">
+            <div id="game-container" class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 min-h-[450px] flex flex-col items-center justify-center relative">
+                <!-- Stats -->
+                <div class="absolute top-6 left-6 text-indigo-600 font-bold">
+                    Score: <span id="score">0</span>
+                </div>
+                <div class="absolute top-6 right-6 text-slate-400 font-mono">
+                    <span id="current-step">1</span> / <span id="total-steps">12</span>
+                </div>
+
+                <!-- Card Content -->
+                <div id="quiz-content" class="text-center w-full max-w-sm">
+                    <div id="item-icon" class="text-7xl mb-6 drop-shadow-md">🍎</div>
+                    <h2 id="item-name" class="text-4xl font-bold text-slate-800 mb-2 italic">Apple</h2>
+                    <p class="text-slate-500 mb-8 font-medium italic">Countable or Uncountable?</p>
+
+                    <div class="grid grid-cols-1 gap-4">
+                        <button onclick="checkAnswer('countable')" class="py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-bold text-xl shadow-lg transition-all transform active:scale-95">
+                            Countable
+                        </button>
+                        <button onclick="checkAnswer('uncountable')" class="py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl font-bold text-xl shadow-lg transition-all transform active:scale-95">
+                            Uncountable
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feedback Area -->
+                <div id="feedback" class="hidden mt-8 p-4 rounded-xl w-full max-w-sm text-center font-medium animate-bounce">
+                    <!-- Text injected by JS -->
+                </div>
+            </div>
+
+            <!-- Result Screen (Hidden by default) -->
+            <div id="result-screen" class="hidden text-center bg-white p-12 rounded-3xl shadow-xl border border-slate-200 fade-in">
+                <div class="text-6xl mb-4">🏆</div>
+                <h2 class="text-3xl font-bold mb-2">Practice Finished!</h2>
+                <p class="text-xl text-slate-600 mb-8">Final Score: <span id="final-score" class="text-indigo-600 font-black">0</span></p>
+                <button onclick="resetGame()" class="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all">
+                    Try Again 🔄
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const foodItems = [
+            { name: 'Apple', emoji: '🍎', type: 'countable', tip: 'Es una unidad individual con forma definida.' },
+            { name: 'Water', emoji: '💧', type: 'uncountable', tip: 'Los líquidos no se cuentan, solo sus envases.' },
+            { name: 'Rice', emoji: '🍚', type: 'uncountable', tip: 'Los granos son demasiado pequeños para contarlos.' },
+            { name: 'Burger', emoji: '🍔', type: 'countable', tip: 'Puedes pedir "one burger, two burgers".' },
+            { name: 'Cheese', emoji: '🧀', type: 'uncountable', tip: 'Es una masa. Usamos "a piece of cheese".' },
+            { name: 'Milk', emoji: '🥛', type: 'uncountable', tip: 'Líquido: No tiene forma individual.' },
+            { name: 'Eggs', emoji: '🥚', type: 'countable', tip: 'Vienen en unidades contables (one egg).' },
+            { name: 'Meat', emoji: '🥩', type: 'uncountable', tip: 'Se considera una sustancia o masa general.' },
+            { name: 'Cookies', emoji: '🍪', type: 'countable', tip: 'Son unidades horneadas independientes.' },
+            { name: 'Sugar', emoji: '🧂', type: 'uncountable', tip: 'Los polvos se consideran incontables.' },
+            { name: 'Bread', emoji: '🍞', type: 'uncountable', tip: '¡Ojo! El pan en inglés es una masa incontable.' },
+            { name: 'Coffee', emoji: '☕', type: 'uncountable', tip: 'Es un líquido. Solo contamos las tazas (cups).' }
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+        let canAnswer = true;
+
+        function switchTab(tab) {
+            const learnTab = document.getElementById('tab-learn');
+            const gameTab = document.getElementById('tab-game');
+            const btnLearn = document.getElementById('btn-learn');
+            const btnGame = document.getElementById('btn-game');
+
+            if (tab === 'learn') {
+                learnTab.classList.remove('hidden');
+                gameTab.classList.add('hidden');
+                btnLearn.className = "flex-1 py-3 rounded-lg transition-all font-semibold bg-indigo-600 text-white shadow-md";
+                btnGame.className = "flex-1 py-3 rounded-lg transition-all font-semibold text-slate-500 hover:bg-slate-50";
+            } else {
+                learnTab.classList.add('hidden');
+                gameTab.classList.remove('hidden');
+                btnGame.className = "flex-1 py-3 rounded-lg transition-all font-semibold bg-indigo-600 text-white shadow-md";
+                btnLearn.className = "flex-1 py-3 rounded-lg transition-all font-semibold text-slate-500 hover:bg-slate-50";
+                resetGame();
+            }
+        }
+
+        function updateQuiz() {
+            const item = foodItems[currentIndex];
+            document.getElementById('item-icon').textContent = item.emoji;
+            document.getElementById('item-name').textContent = item.name;
+            document.getElementById('current-step').textContent = currentIndex + 1;
+            document.getElementById('total-steps').textContent = foodItems.length;
+            document.getElementById('feedback').classList.add('hidden');
+            canAnswer = true;
+        }
+
+        function checkAnswer(userAnswer) {
+            if (!canAnswer) return;
+            canAnswer = false;
+
+            const item = foodItems[currentIndex];
+            const feedbackDiv = document.getElementById('feedback');
+            const isCorrect = userAnswer === item.type;
+
+            feedbackDiv.classList.remove('hidden', 'bg-green-100', 'text-green-700', 'bg-red-100', 'text-red-700');
+            
+            if (isCorrect) {
+                score++;
+                document.getElementById('score').textContent = score;
+                feedbackDiv.innerHTML = `✅ <strong>Correct!</strong> ${item.tip}`;
+                feedbackDiv.classList.add('bg-green-100', 'text-green-700');
+            } else {
+                feedbackDiv.innerHTML = `❌ <strong>Wrong!</strong> ${item.tip}`;
+                feedbackDiv.classList.add('bg-red-100', 'text-red-700');
+            }
+
+            setTimeout(() => {
+                if (currentIndex < foodItems.length - 1) {
+                    currentIndex++;
+                    updateQuiz();
+                } else {
+                    showResults();
+                }
+            }, 2000);
+        }
+
+        function showResults() {
+            document.getElementById('quiz-content').classList.add('hidden');
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').textContent = `${score} / ${foodItems.length}`;
+        }
+
+        function resetGame() {
+            currentIndex = 0;
+            score = 0;
+            document.getElementById('score').textContent = '0';
+            document.getElementById('quiz-content').classList.remove('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            updateQuiz();
+        }
+
+        // Initialize quiz
+        window.onload = updateQuiz;
+    </script>
+</body>
+</html>

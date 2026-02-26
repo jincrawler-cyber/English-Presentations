@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verb Patterns Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .slide-container { min-height: 600px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Main Container -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative slide-container">
+        
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-indigo-600 h-2 transition-all duration-500" style="width: 0%"></div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="slide-content" class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center">
+            <!-- Content will be injected here by JavaScript -->
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 6</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- State ---
+        let currentSlide = 0;
+        const totalSlides = 8;
+        
+        // Quiz State
+        const quizQuestions = [
+            { text: "I promise _____ you tomorrow.", options: ["to call", "calling"], correct: 0 },
+            { text: "Do you enjoy _____ video games?", options: ["to play", "playing"], correct: 1 },
+            { text: "She decided _____ a new car.", options: ["to buy", "buying"], correct: 0 },
+            { text: "Please stop _____ so much noise!", options: ["to make", "making"], correct: 1 },
+            { text: "I would like _____ a pizza.", options: ["to order", "ordering"], correct: 0 },
+        ];
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let quizSelected = null;
+        let quizIsCorrect = null;
+        let quizShowResult = false;
+
+        // --- Icons (SVG Strings) ---
+        const icons = {
+            book: '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+            brain: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>',
+            star: '<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+            rotate: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
+            users: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+            truck: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-9l-5-3H10v12h3"/><path d="M7 17a2 2 0 1 0 0 4 2 2 0 1 0 0-4Z"/><path d="M17 17a2 2 0 1 0 0 4 2 2 0 1 0 0-4Z"/></svg>'
+        };
+
+        // --- Render Functions ---
+
+        function renderSlide() {
+            const container = document.getElementById('slide-content');
+            const progressBar = document.getElementById('progress-bar');
+            const counter = document.getElementById('slide-counter');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            // Update UI State
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            counter.innerText = `${currentSlide + 1} / ${totalSlides}`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            
+            // Render Specific Slide
+            let html = '';
+            
+            if (currentSlide === 0) { // Intro
+                html = `
+                    <div class="text-center fade-in">
+                        <div class="mb-6 inline-block p-4 bg-indigo-100 rounded-full text-indigo-600">
+                            ${icons.book}
+                        </div>
+                        <h1 class="text-5xl font-extrabold text-slate-900 mb-4">Verb Patterns</h1>
+                        <p class="text-2xl text-slate-600 mb-8">Verb + to + Verb <br/><span class="text-sm">vs</span><br/> Verb + Verb + ing</p>
+                        <button onclick="nextSlide()" class="px-8 py-4 bg-indigo-600 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-indigo-700 transform hover:scale-105 transition-all">
+                            Start Class
+                        </button>
+                    </div>
+                `;
+            } 
+            else if (currentSlide === 1) { // Observation
+                html = `
+                    <div class="w-full h-full flex flex-col items-center fade-in">
+                        <h2 class="text-3xl font-bold mb-8 text-center">Read these sentences. <br/><span class="text-indigo-600">What is different?</span></h2>
+                        <div class="grid md:grid-cols-2 gap-8 w-full">
+                            <div class="bg-green-50 p-6 rounded-xl border-2 border-green-200">
+                                <h3 class="text-green-800 font-bold mb-4 uppercase tracking-wider text-sm">Group A</h3>
+                                <ul class="space-y-4 text-xl">
+                                    <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>want to buy</strong> a new car.</li>
+                                    <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>decided to go</strong> to the party.</li>
+                                    <li class="p-3 bg-white rounded-lg shadow-sm">We <strong>need to study</strong> for the exam.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-purple-50 p-6 rounded-xl border-2 border-purple-200">
+                                <h3 class="text-purple-800 font-bold mb-4 uppercase tracking-wider text-sm">Group B</h3>
+                                <ul class="space-y-4 text-xl">
+                                    <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>enjoy reading</strong> comics.</li>
+                                    <li class="p-3 bg-white rounded-lg shadow-sm">He <strong>finished working</strong> late.</li>
+                                    <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>don't mind waiting</strong> here.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            else if (currentSlide === 2) { // Analysis
+                html = `
+                    <div class="w-full flex flex-col items-center fade-in">
+                        <h2 class="text-3xl font-bold mb-6">Let's analyze the pattern</h2>
+                        
+                        <div class="flex flex-col md:flex-row gap-4 items-center mb-8 w-full justify-center">
+                            <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center w-64">
+                                <p class="text-lg text-slate-500 mb-2">First Verb</p>
+                                <p class="text-3xl font-bold text-slate-800">want</p>
+                            </div>
+                            <div class="text-4xl text-slate-300">+</div>
+                            <div id="reveal-1" class="p-6 border-2 rounded-xl shadow-md text-center w-64 bg-slate-100 border-slate-200 transition-all duration-500">
+                                <p class="text-lg text-slate-500 mb-2">Second Verb</p>
+                                <p class="text-3xl font-bold text-green-700 reveal-text">???</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-4 items-center mb-10 w-full justify-center">
+                            <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center w-64">
+                                <p class="text-lg text-slate-500 mb-2">First Verb</p>
+                                <p class="text-3xl font-bold text-slate-800">enjoy</p>
+                            </div>
+                            <div class="text-4xl text-slate-300">+</div>
+                            <div id="reveal-2" class="p-6 border-2 rounded-xl shadow-md text-center w-64 bg-slate-100 border-slate-200 transition-all duration-500">
+                                <p class="text-lg text-slate-500 mb-2">Second Verb</p>
+                                <p class="text-3xl font-bold text-purple-700 reveal-text">???</p>
+                            </div>
+                        </div>
+
+                        <button onclick="revealPattern()" class="px-6 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg hover:bg-indigo-700 flex items-center gap-2">
+                            ${icons.brain} Reveal Pattern
+                        </button>
+                    </div>
+                `;
+            }
+            else if (currentSlide === 3) { // Rule 1
+                html = `
+                    <div class="w-full fade-in">
+                        <h2 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                            <span class="bg-green-100 text-green-700 p-2 rounded-lg">Rule #1</span>
+                            Infinitive (to + verb)
+                        </h2>
+                        <p class="text-xl text-slate-600 mb-8">We usually use <b>to + verb</b> when thinking about the <b>future</b>, <b>plans</b>, or <b>goals</b>.</p>
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                            ${['want', 'need', 'decide', 'plan', 'hope', 'promise', 'would like', 'learn'].map(verb => `
+                                <div class="bg-white border-2 border-green-100 p-4 rounded-xl text-center shadow-sm hover:shadow-md hover:border-green-300 transition-all cursor-default">
+                                    <span class="text-xl font-bold text-green-800">${verb}</span>
+                                    <span class="block text-sm text-green-600 mt-1">+ to go</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500 italic text-green-800 text-lg">
+                            "I <b>plan to visit</b> Mexico next year."
+                        </div>
+                    </div>
+                `;
+            }
+            else if (currentSlide === 4) { // Rule 2
+                html = `
+                    <div class="w-full fade-in">
+                        <h2 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                            <span class="bg-purple-100 text-purple-700 p-2 rounded-lg">Rule #2</span>
+                            Gerund (verb + ing)
+                        </h2>
+                        <p class="text-xl text-slate-600 mb-8">We usually use <b>-ing</b> for things we <b>enjoy</b>, <b>dislike</b>, or when an action is <b>finished</b>.</p>
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                            ${['enjoy', 'mind', 'finish', 'stop', 'suggest', 'avoid', 'miss', 'practice'].map(verb => `
+                                <div class="bg-white border-2 border-purple-100 p-4 rounded-xl text-center shadow-sm hover:shadow-md hover:border-purple-300 transition-all cursor-default">
+                                    <span class="text-xl font-bold text-purple-800">${verb}</span>
+                                    <span class="block text-sm text-purple-600 mt-1">+ doing</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500 italic text-purple-800 text-lg">
+                            "I <b>enjoy swimming</b> in the ocean."
+                        </div>
+                    </div>
+                `;
+            }
+            else if (currentSlide === 5) { // Find Someone Who
+                html = `
+                    <div class="w-full fade-in">
+                        <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                            <span class="bg-blue-100 text-blue-700 p-2 rounded-lg">${icons.users}</span>
+                            Find Someone Who...
+                        </h2>
+                        <p class="text-lg text-slate-600 mb-6">Stand up and ask your classmates! <br/><i>Question: "Do you enjoy cooking on weekends?" -> Answer: "Yes, I do!"</i></p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            ${[
+                                "...<b>enjoys cooking</b> on weekends.",
+                                "...<b>plans to travel</b> next summer.",
+                                "...<b>avoids eating</b> fast food.",
+                                "...<b>wants to learn</b> a new language.",
+                                "...<b>doesn't mind washing</b> the dishes.",
+                                "...<b>hopes to get</b> a good grade."
+                            ].map(phrase => `
+                                <div onclick="this.classList.toggle('bg-blue-50'); this.classList.toggle('border-blue-400')" class="p-4 border-2 border-slate-200 rounded-xl transition-all cursor-pointer flex flex-col justify-between h-28">
+                                    <span class="block text-lg text-slate-700">${phrase}</span>
+                                    <span class="text-sm font-bold text-slate-400 mt-2 border-b-2 border-slate-300 border-dashed pb-1 w-3/4">Name: </span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            else if (currentSlide === 6) { // Food Truck Project
+                html = `
+                    <div class="w-full fade-in">
+                        <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                            <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">${icons.truck}</span>
+                            Project: Design a Food Truck!
+                        </h2>
+                        <p class="text-lg text-slate-600 mb-4">Work in pairs. Create a food truck using <b>verb patterns</b>, <b>quantity expressions</b> (a lot of, some, a few, any), and <b>food vocabulary</b>.</p>
+
+                        <div class="bg-orange-50 p-6 rounded-xl border-2 border-orange-200 shadow-sm space-y-6">
+                            <div>
+                                <h3 class="font-bold text-orange-800 text-xl mb-2">1. The Concept</h3>
+                                <p class="text-slate-700 text-lg mb-2">We <b>decided to open</b> a food truck called <span class="border-b-2 border-slate-400 px-8 text-transparent">____</span></p>
+                                <p class="text-slate-700 text-lg">We <b>want to serve</b> <span class="border-b-2 border-slate-400 px-12 text-transparent">____</span></p>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-orange-800 text-xl mb-2">2. The Menu & Ingredients</h3>
+                                <p class="text-slate-700 text-lg mb-2">For our special dish, we need <b>a lot of</b> <span class="border-b-2 border-slate-400 px-8 text-transparent">____</span></p>
+                                <p class="text-slate-700 text-lg">We also add <b>a little</b> <span class="border-b-2 border-slate-400 px-8 text-transparent">____</span> and <b>some</b> <span class="border-b-2 border-slate-400 px-8 text-transparent">____</span></p>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-orange-800 text-xl mb-2">3. The Customers</h3>
+                                <p class="text-slate-700 text-lg mb-2">People will <b>enjoy eating</b> our <span class="border-b-2 border-slate-400 px-8 text-transparent">____</span></p>
+                                <p class="text-slate-700 text-lg">They <b>won't mind waiting</b> because <span class="border-b-2 border-slate-400 px-12 text-transparent">____</span>!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            else if (currentSlide === 7) { // Quiz
+                renderQuiz(container);
+                return; // Quiz handles its own injection
+            }
+
+            container.innerHTML = html;
+        }
+
+        // --- Logic Functions ---
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function revealPattern() {
+            const box1 = document.getElementById('reveal-1');
+            const box2 = document.getElementById('reveal-2');
+            
+            // Apply styles
+            box1.className = "p-6 border-2 rounded-xl shadow-md text-center w-64 bg-green-100 border-green-500 scale-110 transition-all duration-500";
+            box2.className = "p-6 border-2 rounded-xl shadow-md text-center w-64 bg-purple-100 border-purple-500 scale-110 transition-all duration-500";
+            
+            // Change Text
+            box1.querySelector('.reveal-text').innerText = 'to go';
+            box2.querySelector('.reveal-text').innerText = 'reading';
+        }
+
+        // --- Quiz Logic ---
+
+        function renderQuiz(container) {
+            if (quizShowResult) {
+                container.innerHTML = `
+                    <div class="text-center fade-in">
+                        <div class="text-yellow-400 mx-auto mb-6 flex justify-center">${icons.star}</div>
+                        <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                        <p class="text-2xl mb-8">You scored <span class="text-indigo-600 font-bold">${quizScore}</span> out of ${quizQuestions.length}</p>
+                        <button onclick="restartQuiz()" class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-indigo-700">
+                            ${icons.rotate} Try Again
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = quizQuestions[currentQuizQ];
+            const parts = q.text.split('_____');
+            
+            // Options logic
+            let optionsHtml = q.options.map((opt, idx) => {
+                let btnClass = "bg-white border-2 border-indigo-100 hover:border-indigo-400 hover:shadow-md text-indigo-900";
+                
+                if (quizSelected !== null) {
+                    if (idx === q.correct) btnClass = "bg-green-500 text-white border-green-600 scale-105 shadow-lg";
+                    else if (idx === quizSelected) btnClass = "bg-red-500 text-white border-red-600 opacity-50";
+                    else btnClass = "bg-slate-100 text-slate-400 opacity-50";
+                }
+
+                return `<button onclick="handleAnswer(${idx})" ${quizSelected !== null ? 'disabled' : ''} class="p-4 rounded-xl text-xl font-bold transition-all transform ${btnClass}">${opt}</button>`;
+            }).join('');
+
+            // Sentence display logic
+            let answerSpan = '_____';
+            let spanClass = 'border-slate-300';
+            
+            if (quizSelected !== null) {
+                answerSpan = q.options[quizSelected];
+                spanClass = quizIsCorrect ? 'border-green-500 text-green-600' : 'border-red-500 text-red-600';
+            }
+
+            container.innerHTML = `
+                <div class="w-full max-w-lg mx-auto fade-in">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700">Question ${currentQuizQ + 1}/${quizQuestions.length}</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600">Score: ${quizScore}</span>
+                    </div>
+
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed">
+                            ${parts[0]}
+                            <span class="inline-block border-b-4 px-2 min-w-[100px] text-center transition-colors ${spanClass}">${answerSpan}</span>
+                            ${parts[1] || ''}
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        ${optionsHtml}
+                    </div>
+                    
+                    ${quizSelected !== null ? `
+                        <div class="mt-6 text-center font-bold text-xl animate-bounce ${quizIsCorrect ? 'text-green-600' : 'text-red-600'}">
+                            ${quizIsCorrect ? 'Correct! 🎉' : 'Oops! Try to remember the rule.'}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function handleAnswer(index) {
+            if (quizSelected !== null) return;
+            
+            quizSelected = index;
+            const q = quizQuestions[currentQuizQ];
+            quizIsCorrect = (index === q.correct);
+            
+            if (quizIsCorrect) quizScore++;
+            
+            renderSlide(); // Re-render to show result
+
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    quizSelected = null;
+                    quizIsCorrect = null;
+                } else {
+                    quizShowResult = true;
+                }
+                renderSlide();
+            }, 1500);
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            quizSelected = null;
+            quizIsCorrect = null;
+            quizShowResult = false;
+            renderSlide();
+        }
+
+        // Initialize
+        renderSlide();
+
+    </script>
+</body>
+</html>
