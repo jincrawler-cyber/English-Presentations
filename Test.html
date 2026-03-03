@@ -71,7 +71,7 @@
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
         <div class="text-center">
             <i class="ph ph-spinner animate-spin text-4xl text-blue-600"></i>
-            <p class="mt-2 text-slate-500">Cargando motor base...</p>
+            <p class="mt-2 text-slate-500" id="loading-text">Cargando motor base...</p>
         </div>
     </div>
 
@@ -91,6 +91,7 @@
           messagingSenderId: "946380288618",
           appId: "1:946380288618:web:4bd2ad0d1de8e5e5f6d013"
         };
+        
         const MODO_EXAMEN = true; 
         const PASSWORD_ADMIN = "PROFE123";
         const PORTADA_URL = ""; 
@@ -164,7 +165,19 @@
             } 
         };
 
-        // --- INICIALIZACIÓN ---
+        // =================================================================
+        // MANEJO DE ERRORES GLOBALES (Previene que se quede cargando)
+        // =================================================================
+        window.addEventListener('unhandledrejection', (event) => {
+            console.warn("Falla capturada:", event.reason);
+            const appEl = document.getElementById('app');
+            if(appEl && appEl.innerHTML.includes('Cargando')) {
+                state.firebaseError = "Fallo de red o permisos (" + event.reason.message + ")";
+                initLocalMode();
+            }
+        });
+
+        // --- INICIALIZACIÓN BLINDADA ---
         function init() { 
             try { 
                 if (typeof __app_id !== 'undefined') state.appId = __app_id; 
@@ -190,11 +203,17 @@
                 state.auth = getAuth(app); 
                 state.db = getFirestore(app); 
                 
-                const authReq = (typeof __initial_auth_token !== 'undefined' && __initial_auth_token && !MI_CONFIGURACION_FIREBASE)
+                const authPromise = (typeof __initial_auth_token !== 'undefined' && __initial_auth_token && !MI_CONFIGURACION_FIREBASE)
                     ? signInWithCustomToken(state.auth, __initial_auth_token)
                     : signInAnonymously(state.auth);
                 
-                authReq.then((userCred) => {
+                // TEMPORIZADOR DE EMERGENCIA (Timeout 8s): Si Firebase se queda pensando, fuerza modo local.
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error("Tiempo de conexión a la nube agotado.")), 8000)
+                );
+
+                Promise.race([authPromise, timeoutPromise])
+                .then((userCred) => {
                     state.user = userCred.user;
                     state.view = 'login';
                     render();
@@ -202,19 +221,25 @@
                     onAuthStateChanged(state.auth, (u) => {
                         if (u) state.user = u;
                     });
-                }).catch((e) => {
-                    console.warn("Firebase Auth Error (Fallback a Local):", e.message); 
+                })
+                .catch((e) => {
+                    console.warn("Firebase Auth abortado. Usando Fallback Local.", e.message); 
                     state.firebaseError = e.message;
                     initLocalMode(); 
                 });
             } catch(e) { 
-                console.warn("Firebase Init Error (Fallback a Local):", e.message); 
+                console.warn("Firebase falló al iniciar. Usando Fallback Local.", e.message); 
                 state.firebaseError = e.message;
                 initLocalMode(); 
             } 
         }
 
-        function initLocalMode() { state.mode = 'local'; state.user = { uid: 'local-' + Date.now() }; state.view = 'login'; render(); }
+        function initLocalMode() { 
+            state.mode = 'local'; 
+            state.user = { uid: 'local-' + Date.now() }; 
+            state.view = 'login'; 
+            render(); 
+        }
         
         // =================================================================
         // SISTEMA ANTI-TRAMPAS SEVERO
@@ -241,30 +266,21 @@
             window.addEventListener('blur', () => { triggerPenalty("Pérdida de foco en la ventana / App externa"); });
             document.addEventListener("visibilitychange", () => { if (document.hidden) triggerPenalty("Cambio de pestaña oculto"); });
 
-            // Detección de teclas (Print Screen) segura para iFrames y entornos estrictos
             document.addEventListener('keyup', (e) => {
                 if (e.key === 'PrintScreen' || e.code === 'PrintScreen') {
                     if (navigator.clipboard && navigator.clipboard.writeText) {
                         navigator.clipboard.writeText('').catch(() => {
-                            // Fallback silencioso si falla por políticas de permisos
                             try {
                                 const el = document.createElement('textarea');
-                                el.value = '';
-                                document.body.appendChild(el);
-                                el.select();
-                                document.execCommand('copy');
-                                document.body.removeChild(el);
+                                el.value = ''; document.body.appendChild(el); el.select();
+                                document.execCommand('copy'); document.body.removeChild(el);
                             } catch(err) {}
                         });
                     } else {
-                         // Fallback si Clipboard API no está disponible
                          try {
                                 const el = document.createElement('textarea');
-                                el.value = '';
-                                document.body.appendChild(el);
-                                el.select();
-                                document.execCommand('copy');
-                                document.body.removeChild(el);
+                                el.value = ''; document.body.appendChild(el); el.select();
+                                document.execCommand('copy'); document.body.removeChild(el);
                             } catch(err) {}
                     }
                     triggerPenalty("Intento de Captura de Pantalla detectado");
@@ -311,7 +327,7 @@
                 const localKeys = JSON.parse(localStorage.getItem('quiz_keys_local') || '{}');
                 localKeys[key.toUpperCase()] = { nombre: name };
                 localStorage.setItem('quiz_keys_local', JSON.stringify(localKeys));
-                startAdmin(); // Refresca la tabla automáticamente
+                startAdmin(); 
             }
         }
         
@@ -322,7 +338,7 @@
                 const localKeys = JSON.parse(localStorage.getItem('quiz_keys_local') || '{}');
                 delete localKeys[key];
                 localStorage.setItem('quiz_keys_local', JSON.stringify(localKeys));
-                startAdmin(); // Refresca la tabla automáticamente
+                startAdmin(); 
             }
         }
         
@@ -342,7 +358,7 @@
                 c.innerHTML = `<div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center fade-in"><i class="ph ph-warning text-5xl text-yellow-500 mb-4"></i><h2 class="text-2xl font-bold">Plantilla Vacía</h2><p class="text-slate-500 mt-2">No hay preguntas cargadas en RAW_QUIZ_DATA.</p></div>`; return;
             }
 
-            c.innerHTML = `<div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center fade-in overflow-hidden">${img}<div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i class="ph ph-student text-indigo-600 text-3xl"></i></div><h1 class="text-3xl font-bold text-slate-800 mb-2">Quiz Escolar</h1><p class="text-slate-500 mb-6">Ingresa tu clave.</p>${state.firebaseError ? `<div class="text-xs bg-red-100 text-red-800 p-2 mb-4 rounded font-bold">Firebase no configurado correctamente. Usando Modo Local.</div>` : (isLocal?'<div class="text-xs bg-orange-100 text-orange-800 p-2 mb-4 rounded font-bold">Pruebas rápidas: Test1973</div>':'')}<input id="ki" placeholder="Tu Clave" class="w-full p-4 border-2 rounded-xl mb-4 text-center text-2xl uppercase focus:border-indigo-500 transition outline-none"><div id="err" class="hidden text-red-500 font-bold mb-4">Clave inválida o no registrada</div><button id="btn" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow hover:bg-indigo-700 transition">Entrar</button><button onclick="window.goAdmin()" class="mt-6 text-xs text-slate-400 font-bold uppercase hover:text-slate-600 transition">Portal de Profesor</button></div></div>`; 
+            c.innerHTML = `<div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center fade-in overflow-hidden">${img}<div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i class="ph ph-student text-indigo-600 text-3xl"></i></div><h1 class="text-3xl font-bold text-slate-800 mb-2">Quiz Escolar</h1><p class="text-slate-500 mb-6">Ingresa tu clave.</p>${state.firebaseError ? `<div class="text-xs bg-yellow-50 border border-yellow-200 text-yellow-700 p-3 mb-4 rounded-lg font-medium text-left"><i class="ph ph-warning-circle mr-1"></i> <b>Nube no conectada:</b> ${state.firebaseError}.<br>El examen funcionará en Modo Local (los datos se guardarán en este dispositivo).</div>` : (isLocal?'<div class="text-xs bg-orange-100 text-orange-800 p-2 mb-4 rounded font-bold">Pruebas rápidas: Test1973</div>':'')}<input id="ki" placeholder="Tu Clave" class="w-full p-4 border-2 rounded-xl mb-4 text-center text-2xl uppercase focus:border-indigo-500 transition outline-none"><div id="err" class="hidden text-red-500 font-bold mb-4">Clave inválida o no registrada</div><button id="btn" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow hover:bg-indigo-700 transition">Entrar</button><button onclick="window.goAdmin()" class="mt-6 text-xs text-slate-400 font-bold uppercase hover:text-slate-600 transition">Portal de Profesor</button></div></div>`; 
             
             const handle = async () => { 
                 const k = document.getElementById('ki').value.trim(); if(!k) return; 
@@ -435,7 +451,6 @@
                 } 
                 state.results = localResults.sort((a,b) => b.score - a.score); 
                 
-                // MODO LOCAL: Leer alumnos registrados internamente
                 const localKeysObj = JSON.parse(localStorage.getItem('quiz_keys_local') || '{}');
                 state.studentsList = Object.keys(localKeysObj).map(k => ({ id: k, nombre: localKeysObj[k].nombre })).sort((a,b) => a.nombre.localeCompare(b.nombre));
                 
@@ -444,3 +459,8 @@
         }
         
         function renderAdminDashboard(c) { const rows = state.adminTab === 'results' ? state.results.map((r, i) => { const g = r.grade10 || ((r.score/r.totalQuestions)*10).toFixed(1); return `<tr class="border-b text-sm hover:bg-slate-50"><td class="p-3">${i+1}</td><td class="p-3 font-medium">${r.studentName}</td><td class="p-3 font-bold text-lg text-indigo-600">${g}</td><td class="p-3 text-center">${r.warnings>0?'<span class="text-red-600 bg-red-100 px-2 py-1 rounded font-bold">⚠️ '+r.warnings+'</span>':''}</td><td class="p-3 text-right"><button onclick="window.openReview('${r.id}')" class="bg-blue-100 text-blue-600 p-2 rounded hover:bg-blue-200 mr-2 transition"><i class="ph ph-eye"></i></button><button onclick="window.delRes('${r.id}', this)" class="bg-red-50 text-red-500 p-2 rounded hover:bg-red-100 transition"><i class="ph ph-trash"></i></button></td></tr>`; }).join('') : state.studentsList.map(s => `<tr class="border-b text-sm"><td class="p-3 font-bold text-indigo-600">${s.id}</td><td class="p-3">${s.nombre}</td><td class="p-3 text-right"><button onclick="window.delKey('${s.id}', this)" class="bg-red-50 text-red-500 p-2 rounded hover:bg-red-100"><i class="ph ph-trash"></i></button></td></tr>`).join(''); const content = state.adminTab === 'results' ? `<table class="w-full text-left bg-white rounded-xl shadow-sm text-sm overflow-hidden"><thead class="bg-slate-50 border-b border-slate-200"><tr><th class="p-3 text-slate-500">#</th><th class="p-3 text-slate-500">Alumno</th><th class="p-3 text-slate-500">Nota</th><th class="p-3 text-center text-slate-500">Alertas</th><th class="p-3"></th></tr></thead><tbody>${rows||'<tr><td colspan="6" class="p-4 text-center text-gray-400">Sin datos</td></tr>'}</tbody></table>` : `<div class="mb-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex gap-2"><input id="nk" placeholder="Clave (Ej: JUAN01)" class="p-3 border border-slate-200 rounded-lg w-1/3 outline-none focus:border-indigo-400"><input id="nn" placeholder="Nombre Completo" class="p-3 border border-slate-200 rounded-lg w-1/2 outline-none focus:border-indigo-400"><button onclick="window.addKey()" class="bg-indigo-600 text-white px-6 font-bold rounded-lg hover:bg-indigo-700 transition">Agregar</button></div><table class="w-full text-left bg-white rounded shadow text-sm"><thead><tr><th class="p-3">Clave</th><th class="p-3">Nombre</th><th></th></tr></thead><tbody>${rows}</tbody></table>`; c.innerHTML = `<div class="w-full max-w-4xl fade-in self-start mt-8"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold flex items-center gap-2"><i class="ph ph-chalkboard-teacher text-indigo-600"></i> Panel de Control</h2><button onclick="location.reload()" class="text-sm text-red-500 bg-red-50 px-4 py-2 rounded-lg font-bold hover:bg-red-100 transition">Cerrar Sesión</button></div><div class="flex gap-2 mb-4 bg-slate-200 p-1 rounded-xl inline-flex"><button onclick="window.setTab('results')" class="px-6 py-2 rounded-lg text-sm font-bold transition ${state.adminTab==='results'?'bg-white shadow text-indigo-600':'text-slate-500 hover:text-slate-700'}">Resultados</button><button onclick="window.setTab('keys')" class="flex-1 py-2 rounded-lg text-sm font-bold transition ${state.adminTab==='keys'?'bg-white shadow text-indigo-600':'text-slate-500 hover:text-slate-700'}">Base de Alumnos</button></div>${content}</div>`; window.setTab = t => { state.adminTab = t; render(); }; window.delRes = async (id, btn) => { if (btn.dataset.confirm !== 'true') { btn.dataset.confirm = 'true'; btn.innerHTML = '¿Seguro?'; btn.classList.add('bg-red-600', 'text-white'); setTimeout(() => { btn.dataset.confirm = 'false'; btn.innerHTML = '<i class="ph ph-trash"></i>'; btn.classList.remove('bg-red-600', 'text-white'); }, 3000); return; } if (state.mode === 'cloud') { await deleteDoc(getDocRef('resultados_quiz', id)); } else { localStorage.removeItem(id); startAdmin(); } }; window.delKey = async (id, btn) => { if (btn.dataset.confirm !== 'true') { btn.dataset.confirm = 'true'; btn.innerHTML = '¿Seguro?'; btn.classList.add('bg-red-600', 'text-white'); setTimeout(() => { btn.dataset.confirm = 'false'; btn.innerHTML = '<i class="ph ph-trash"></i>'; btn.classList.remove('bg-red-600', 'text-white'); }, 3000); return; } await deleteStudentKey(id); }; window.addKey = async () => { const k=document.getElementById('nk').value, n=document.getElementById('nn').value; if(k&&n) { await createStudentKey(k,n); document.getElementById('nk').value=''; document.getElementById('nn').value=''; } }; window.openReview = (id) => { const r = state.results.find(x => x.id === id); if(!r) return; let ans = {}; try { ans = JSON.parse(r.answers || '{}'); } catch(e){} let h = `<div class="mb-6 bg-indigo-50 border border-indigo-100 p-4 rounded-xl flex justify-between items-center"><h4 class="font-bold text-xl text-indigo-900">${r.studentName}</h4><div class="text-right"><p class="text-xs text-indigo-400 font-bold uppercase tracking-wider">Nota Actual</p><p class="font-black text-3xl text-indigo-600">${r.grade10}</p></div></div>`; RAW_QUIZ_DATA.forEach((q, i) => { const a = ans[q.id]; let s = "Sin respuesta", c = false; if (a) { c = a.correct; if(a.type==='cheat') s=`<span class="text-red-600 font-bold">${a.val}</span>`; else if (q.type === 'choice' || q.type === 'reading' || q.type==='listening') s = q.options[a.val] || "Opción inválida"; else if (q.type === 'essay' || q.type === 'text') s = a.val; else if (q.type === 'fill-gap') s = `Respuestas: ${a.val.userInputs.join(', ')}`; else s = "Completado en interactivo"; } h += `<div class="mb-4 border-b border-slate-100 pb-4"><div class="flex justify-between items-center mb-1"><p class="font-bold text-xs text-slate-400 uppercase tracking-wider">PREGUNTA ${q.id} (${q.type})</p>${c?'<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">CORRECTO</span>':'<span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">INCORRECTO</span>'}</div><p class="mb-2 font-medium text-slate-800">${q.q}</p><div class="bg-slate-50 p-3 rounded-lg text-sm font-mono border-l-4 ${c?'border-green-400 text-slate-600':'border-red-400 text-red-600'}">${s}</div></div>`; }); document.getElementById('review-content').innerHTML = h; document.getElementById('review-modal').style.display = 'flex'; }; }
+
+        init();
+    </script>
+</body>
+</html>
