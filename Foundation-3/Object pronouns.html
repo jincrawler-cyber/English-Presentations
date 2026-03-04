@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Grammar: Object Pronouns</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; }
+        .slide { display: none; height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; }
+        .active-slide { display: flex; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .highlight { color: #2563eb; font-weight: bold; }
+        .box { background-color: #f3f4f6; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin: 20px 0; max-width: 800px; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <!-- NAVIGATION BUTTONS -->
+    <div class="fixed bottom-8 left-0 right-0 flex justify-center gap-4 z-10">
+        <button onclick="changeSlide(-1)" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition disabled:opacity-50" id="prevBtn" disabled>← Previous</button>
+        <p class="py-3 px-4 bg-white rounded-full shadow font-mono" id="slideCounter">1 / 8</p>
+        <button onclick="changeSlide(1)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition disabled:opacity-50" id="nextBtn">Next →</button>
+    </div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active-slide" id="slide1">
+        <h1 class="text-6xl font-bold text-blue-600 mb-6">Welcome Class!</h1>
+        <h2 class="text-4xl text-slate-600">Today's Topic: Little Helper Words</h2>
+        <div class="mt-12 text-2xl text-slate-500">(Object Pronouns)</div>
+        <p class="mt-8 text-xl">Click "Next" to start.</p>
+    </div>
+
+    <!-- SLIDE 2: Observation (The problem) -->
+    <div class="slide" id="slide2">
+        <h2 class="text-4xl font-bold mb-8">Read these sentences...</h2>
+        <div class="box text-left text-2xl leading-relaxed">
+            <p class="mb-4">🚫 <span class="text-red-500">Repetition sounds bad:</span></p>
+            <p>I have a new <strong>friend</strong> named John.</p>
+            <p>I like <strong>John</strong> very much.</p>
+            <p>I call <strong>John</strong> every day.</p>
+        </div>
+        <p class="text-3xl mt-6">It sounds repetitive, right?</p>
+    </div>
+
+    <!-- SLIDE 3: Observation (The solution) -->
+    <div class="slide" id="slide3">
+        <h2 class="text-4xl font-bold mb-8">We can make it better!</h2>
+        <div class="box text-left text-2xl leading-relaxed border-l-8 border-green-500">
+            <p class="mb-4">✅ <span class="text-green-600">Use "Helper Words" (Pronouns):</span></p>
+            <p>I have a new friend named John.</p>
+            <p>I like <span class="highlight">him</span> very much.</p>
+            <p>I call <span class="highlight">him</span> every day.</p>
+        </div>
+        <p class="text-3xl mt-6"><span class="highlight">Him</span> = John</p>
+    </div>
+
+    <!-- SLIDE 4: Discovery (Examples from image) -->
+    <div class="slide" id="slide4">
+        <h2 class="text-4xl font-bold mb-6">Look at the examples from your book</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xl text-left max-w-4xl">
+            <div class="box bg-white">
+                <p class="mb-3">• He tells <span class="highlight">me</span> he doesn't want anything.</p>
+                <p class="mb-3">• I usually get <span class="highlight">him</span> something boring.</p>
+                <p>• I hope he likes <span class="highlight">it</span>.</p>
+            </div>
+            <div class="box bg-white">
+                <p class="mb-3">• I never know what gift to get <span class="highlight">her</span>.</p>
+                <p class="mb-3">• She never likes <span class="highlight">them</span> (perfume or clothes).</p>
+                <p>• They usually buy <span class="highlight">us</span> books.</p>
+            </div>
+        </div>
+        <h3 class="text-2xl font-bold mt-8 text-blue-800">Let's analyze these words!</h3>
+    </div>
+
+    <!-- SLIDE 5: Inductive Questions -->
+    <div class="slide" id="slide5">
+        <h2 class="text-4xl font-bold mb-8">Discovery Time 🕵️‍♀️</h2>
+        <p class="text-2xl mb-8">Look at the words in <span class="highlight">blue</span> (me, him, it, her, them, us).</p>
+        
+        <div class="space-y-6 max-w-2xl text-left text-xl">
+            <div class="box cursor-pointer hover:bg-blue-50 transition" onclick="revealAnswer('ans1')">
+                <p><strong>Question 1:</strong> Which words are for <u>people</u>?</p>
+                <p id="ans1" class="hidden mt-2 text-green-600 font-bold">👉 me, him, her, us, them</p>
+            </div>
+            <div class="box cursor-pointer hover:bg-blue-50 transition" onclick="revealAnswer('ans2')">
+                <p><strong>Question 2:</strong> Which words are for <u>things</u> (objects)?</p>
+                <p id="ans2" class="hidden mt-2 text-green-600 font-bold">👉 it, them</p>
+            </div>
+            <div class="box cursor-pointer hover:bg-blue-50 transition" onclick="revealAnswer('ans3')">
+                <p><strong>Question 3:</strong> Which word is for <u>people AND things</u> (plural)?</p>
+                <p id="ans3" class="hidden mt-2 text-green-600 font-bold">👉 them</p>
+            </div>
+        </div>
+        <p class="text-slate-500 mt-4">(Click the boxes to see answers)</p>
+    </div>
+
+    <!-- SLIDE 6: The Rule (Position) -->
+    <div class="slide" id="slide6">
+        <h2 class="text-4xl font-bold mb-8">Where do they go?</h2>
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-2xl mb-12">
+            <div class="bg-red-100 p-6 rounded-lg border-2 border-red-400">
+                <h3 class="font-bold text-red-800 mb-2">SUBJECT 🧍</h3>
+                <p>Does the action</p>
+                <p class="mt-2 text-sm text-slate-600">(I, You, He, She...)</p>
+            </div>
+            <div class="text-4xl">➡️ VERB ➡️</div>
+            <div class="bg-blue-100 p-6 rounded-lg border-2 border-blue-400 scale-110 shadow-xl">
+                <h3 class="font-bold text-blue-800 mb-2">OBJECT 🎁</h3>
+                <p>Receives the action</p>
+                <p class="mt-2 text-sm text-slate-600">(me, him, her...)</p>
+            </div>
+        </div>
+        <div class="text-3xl">
+            <p class="mb-4"><span class="text-red-600 font-bold">She</span> calls <span class="text-blue-600 font-bold">me</span>.</p>
+            <p><span class="text-red-600 font-bold">I</span> call <span class="text-blue-600 font-bold">her</span>.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: The Table -->
+    <div class="slide" id="slide7">
+        <h2 class="text-3xl font-bold mb-6">The Grammar Table</h2>
+        <table class="text-2xl bg-white shadow-lg rounded-lg overflow-hidden">
+            <thead class="bg-slate-800 text-white">
+                <tr>
+                    <th class="py-4 px-8">Subject Pronouns</th>
+                    <th class="py-4 px-8 bg-blue-900">Object Pronouns</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+                <tr><td class="py-3">I</td><td class="py-3 font-bold text-blue-600 bg-blue-50">me</td></tr>
+                <tr><td class="py-3">You</td><td class="py-3 font-bold text-blue-600 bg-blue-50">you</td></tr>
+                <tr><td class="py-3">He</td><td class="py-3 font-bold text-blue-600 bg-blue-50">him</td></tr>
+                <tr><td class="py-3">She</td><td class="py-3 font-bold text-blue-600 bg-blue-50">her</td></tr>
+                <tr><td class="py-3">It</td><td class="py-3 font-bold text-blue-600 bg-blue-50">it</td></tr>
+                <tr><td class="py-3">We</td><td class="py-3 font-bold text-blue-600 bg-blue-50">us</td></tr>
+                <tr><td class="py-3">They</td><td class="py-3 font-bold text-blue-600 bg-blue-50">them</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SLIDE 8: Practice -->
+    <div class="slide" id="slide8">
+        <h2 class="text-4xl font-bold mb-8">Let's Practice!</h2>
+        <p class="text-xl mb-6">Complete the sentences with the correct Object Pronoun.</p>
+        
+        <div class="space-y-4 max-w-3xl text-left text-2xl w-full">
+            <div class="box bg-white">
+                1. My sister is nice. I love <select class="border-2 border-blue-300 rounded px-2 py-1 text-blue-600 font-bold"><option>?</option><option>her</option><option>him</option><option>it</option></select>.
+            </div>
+            <div class="box bg-white">
+                2. These shoes are cool! I want to buy <select class="border-2 border-blue-300 rounded px-2 py-1 text-blue-600 font-bold"><option>?</option><option>it</option><option>us</option><option>them</option></select>.
+            </div>
+            <div class="box bg-white">
+                3. We are at the cinema. Can you see <select class="border-2 border-blue-300 rounded px-2 py-1 text-blue-600 font-bold"><option>?</option><option>us</option><option>we</option><option>them</option></select>?
+            </div>
+        </div>
+        <h3 class="text-3xl font-bold text-blue-600 mt-8">Great job! 🎉</h3>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function changeSlide(direction) {
+            // Hide current
+            document.getElementById('slide' + currentSlide).classList.remove('active-slide');
+            
+            // Update number
+            currentSlide += direction;
+            
+            // Bounds check
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            
+            // Show new
+            document.getElementById('slide' + currentSlide).classList.add('active-slide');
+            
+            // Update buttons/counter
+            document.getElementById('slideCounter').innerText = currentSlide + ' / ' + totalSlides;
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+        }
+
+        function revealAnswer(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenji's Airport Adventure - Interactive Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .active-slide {
+            display: block;
+        }
+        .vocab {
+            background-color: #dbeafe;
+            color: #1e40af;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .decision-box {
+            background-color: #e0f2fe;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        .path-title {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .image-placeholder {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #dde2e7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 0.8rem;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #f9fafb;
+            transition: transform 0.2s ease-in-out; /* Added for smooth zoom */
+            cursor: pointer;
+            object-fit: cover; /* Make sure images fit well */
+        }
+        .image-placeholder:hover {
+            transform: scale(1.5); /* Zoom effect on hover */
+            position: relative;
+            z-index: 10;
+        }
+        .decision-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            margin-top: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #9ca3af;
+            background-color: #f9fafb;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .decision-btn:hover {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+
+        <!-- Slide 0: Title -->
+        <div class="slide active-slide text-center">
+            <h1 class="text-4xl font-bold text-blue-600 mb-4">Kenji's Airport Adventure</h1>
+            <p class="text-xl text-gray-600 mb-8">A story about traveling and making quick decisions.</p>
+            <img src="images/Intro.png">
+        </div>
+
+        <!-- Scene 1, Part 1 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 1: Security Check</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/1 Security.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji is at the airport. He is going to visit his grandparents. He puts his bag on the conveyor belt. He takes out his keys with a cool <span class="vocab">keychain</span> and puts them in the tray.
+                        <br><br>
+                        He checks his pockets. He has <span class="vocab">some gum</span>, <span class="vocab">some cash</span>, and a <span class="vocab">receipt</span> from a souvenir shop.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 1, Part 2 (First Decision) -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 1: Security Check</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                     <img src="images/2 Bottle.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        The security officer waits. Suddenly, Kenji remembers. In his backpack, he has a full <span class="vocab">water bottle</span>! He can't take it through security.
+                    </p>
+                    <div class="decision-box">
+                        <h3 class="font-bold text-sky-800">Class Decision: What should Kenji do?</h3>
+                        <div class="mt-4">
+                            <button onclick="goToSlide(3)" class="decision-btn"><strong>Option A:</strong> Throw the water bottle in the trash can.</button>
+                            <button onclick="goToSlide(6)" class="decision-btn"><strong>Option B:</strong> Step out of line and drink it all very fast.</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PATH A -->
+        <!-- Scene 2A, Part 1 -->
+        <div class="slide">
+            <div class="path-title">PATH A</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 2: A Kind Stranger</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/Trash.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji throws the <span class="vocab">water bottle</span> away and passes security. While collecting his things, he sees a woman drop her purse. Her things spill out.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 2A, Part 2 -->
+        <div class="slide">
+            <div class="path-title">PATH A</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 2: A Kind Stranger</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/Spilled.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji helps her. He sees a <span class="vocab">hairbrush</span>, a <span class="vocab">mirror</span>, and some <span class="vocab">hand lotion</span>. The woman is very thankful. "You are very kind," she says. "Please, take this <span class="vocab">candy bar</span>."
+                    </p>
+                     <div class="decision-box">
+                        <h3 class="font-bold text-sky-800">Class Decision: What should Kenji do?</h3>
+                        <div class="mt-4">
+                            <button onclick="goToSlide(5)" class="decision-btn"><strong>Option A-1:</strong> Accept the candy bar and say "thank you."</button>
+                            <button onclick="goToSlide(5)" class="decision-btn"><strong>Option A-2:</strong> Politely refuse and say "it was no problem."</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Scene for Path A -->
+         <div class="slide">
+            <div class="path-title">PATH A - ENDING</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 3: At the Gate</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/Old woman.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji arrives at his gate. The woman is there! She is sitting next to his grandparents. She is his grandmother's old friend! They all laugh. Whether he took the candy or not, his act of kindness made the start of his trip a happy one. He sits down, ready for his flight.
+                    </p>
+                    <p class="text-center font-bold text-2xl mt-8 text-blue-600">THE END</p>
+                    <div class="text-center mt-6">
+                        <button onclick="goToSlide(0)" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">
+                            Restart Story
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PATH B SLIDES START HERE -->
+        <!-- Scene 2B, Part 1 -->
+        <div class="slide">
+            <div class="path-title">PATH B</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 2: A Dizzy Spell</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/Drinking.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji steps out of line and drinks the whole <span class="vocab">water bottle</span>. He feels very full and a little dizzy. He gets through security and sits on a bench to recover.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 2B, Part 2 -->
+        <div class="slide">
+            <div class="path-title">PATH B</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 2: A Dizzy Spell</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                     <img src="images/License.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        As he stands up, his wallet falls! His <span class="vocab">driver's license</span> falls out. A young man picks it up. "Be careful," the man says, handing it back. "You dropped this." He also offers Kenji <span class="vocab">some tissues</span>.
+                    </p>
+                    <div class="decision-box">
+                        <h3 class="font-bold text-sky-800">Class Decision: What should Kenji do?</h3>
+                        <div class="mt-4">
+                            <button onclick="goToSlide(8)" class="decision-btn"><strong>Option B-1:</strong> Thank the man and take the tissues.</button>
+                            <button onclick="goToSlide(8)" class="decision-btn"><strong>Option B-2:</strong> Thank him but say he doesn't need the tissues.</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Scene for Path B -->
+         <div class="slide">
+            <div class="path-title">PATH B - ENDING</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 3: At the Gate</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/Talking Friend.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji arrives at his gate and sees the same young man. He is also on the same flight! They start talking. The man is visiting his cousin in the same city. Because Kenji was friendly, he made a new acquaintance for the flight. He sits down, ready for his trip with a new friend.
+                    </p>
+                    <p class="text-center font-bold text-2xl mt-8 text-blue-600">THE END</p>
+                    <div class="text-center mt-6">
+                        <button onclick="goToSlide(0)" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">
+                            Restart Story
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div id="navContainer" class="flex justify-between mt-8">
+            <button id="prevBtn" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Previous
+            </button>
+            <button id="nextBtn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50">
+                Next
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Presentation Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const navContainer = document.getElementById('navContainer');
+        const totalSlides = slides.length;
+
+        // Define which slides have decisions or are end slides
+        const customNavSlides = [2, 4, 5, 7, 8];
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            slides[n].classList.add('active-slide');
+            currentSlide = n; // Update current slide index
+
+            // Handle navigation visibility
+            prevBtn.disabled = n === 0;
+            nextBtn.disabled = n === totalSlides - 1;
+
+            if (customNavSlides.includes(n)) {
+                navContainer.style.display = 'none'; // Hide nav on decision/end slides
+            } else {
+                navContainer.style.display = 'flex'; // Show nav on other slides
+            }
+        }
+
+        // Function for decision/restart buttons to jump to a specific slide
+        function goToSlide(n) {
+            if (n >= 0 && n < totalSlides) {
+                showSlide(n);
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+        
+        showSlide(currentSlide); // Initialize the first slide
+    </script>
+</body>
+</html>
+
+

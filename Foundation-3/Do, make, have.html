@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Presentation (A1 English)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* A soft, light blue background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* This container gives the 3D perspective to the cards */
+        .card-container {
+            perspective: 1000px;
+        }
+        /* The main card element that holds the front and back faces */
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        /* This class is added by JavaScript when the card is clicked */
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        /* Common styles for both front and back faces of the card */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* For Safari */
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 1rem; /* rounded-2xl */
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        /* Styling for the front of the card */
+        .card-front {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed); /* Indigo to Purple gradient */
+            color: white;
+        }
+        /* Styling for the back of the card, initially hidden */
+        .card-back {
+            background-color: #ffffff;
+            color: #374151; /* gray-700 */
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6">
+    <main class="w-full max-w-2xl mx-auto flex flex-col">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Flashcard Presentation</h1>
+            <p class="text-lg text-gray-600 mt-2">Click the card to see the definition.</p>
+        </header>
+
+        <!-- Container for the single, large flashcard -->
+        <div id="card-display-area" class="w-full h-80 sm:h-96 mb-6">
+            <!-- The interactive card will be inserted here by the script -->
+        </div>
+
+        <!-- Navigation controls -->
+        <div id="navigation-controls" class="flex items-center justify-between w-full max-w-md mx-auto">
+            <button id="prev-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors">
+                Previous
+            </button>
+            <span id="card-counter" class="text-lg font-semibold text-gray-700 mx-4"></span>
+            <button id="next-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors">
+                Next
+            </button>
+        </div>
+
+        <!-- Word list container, hidden by default -->
+        <div id="word-list-container" class="mt-10 hidden">
+            <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Word List</h2>
+            <ul id="word-list" class="bg-white p-6 rounded-lg shadow-md grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <!-- JavaScript will populate this list -->
+            </ul>
+        </div>
+        
+        <!-- Restart button, hidden by default -->
+        <div id="restart-container" class="text-center mt-6 hidden">
+             <button id="restart-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors">
+                Restart Presentation
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        // We add an 'emoji' property to each word object, which is more reliable than image URLs.
+        const words = [
+            { word: 'the dishes', definition: 'To wash plates, cups, and forks.', emoji: '🍽️' },
+            { word: 'the laundry', definition: 'To wash dirty clothes.', emoji: '🧺' },
+            { word: 'the housework', definition: 'To clean the house (floors, windows, etc.).', emoji: '🧹' },
+            { word: 'some work', definition: 'To do a job or a task.', emoji: '💼' },
+            { word: 'a party', definition: 'To have a fun event with friends.', emoji: '🎉' },
+            { word: 'free time', definition: 'To have time when you are not working.', emoji: '📖' },
+            { word: 'a snack', definition: 'To eat small food between meals.', emoji: '🥨' },
+            { word: 'something to drink', definition: 'To have water, juice, or soda.', emoji: '🥤' },
+            { word: 'the bed', definition: 'To make your bed look neat in the morning.', emoji: '🛏️' },
+            { word: 'plans', definition: 'To create ideas for the future.', emoji: '🗓️' },
+            { word: 'a mistake', definition: 'To do something wrong.', emoji: '❌' },
+            { word: 'a good time', definition: 'To have fun and enjoy yourself.', emoji: '😄' },
+            { word: 'research', definition: 'To study a topic to find information.', emoji: '🔬' },
+            { word: 'friends', definition: 'To meet new people and be friendly.', emoji: '🧑‍🤝‍🧑' },
+            { word: 'dinner', definition: 'To prepare the main meal of the evening.', emoji: '🍝' },
+            { word: 'yoga', definition: 'To do a relaxing exercise.', emoji: '🧘‍♀️' },
+            { word: 'coffee', definition: 'To prepare a hot, brown drink.', emoji: '☕' },
+            { word: 'a decision', definition: 'To choose something you need to do.', emoji: '🤔' }
+        ];
+
+        const displayArea = document.getElementById('card-display-area');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const cardCounter = document.getElementById('card-counter');
+        const wordListElement = document.getElementById('word-list');
+        const wordListContainer = document.getElementById('word-list-container');
+        const restartContainer = document.getElementById('restart-container');
+        const restartBtn = document.getElementById('restart-btn');
+        const navigationControls = document.getElementById('navigation-controls');
+
+        let currentIndex = 0;
+
+        function renderCard(index) {
+            displayArea.innerHTML = '';
+            const item = words[index];
+            if (!item) return;
+
+            const cardContainer = document.createElement('div');
+            cardContainer.className = 'card-container h-full w-full max-w-md mx-auto';
+
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const cardFront = document.createElement('div');
+            cardFront.className = 'card-face card-front flex flex-col justify-center items-center p-4 gap-y-4';
+            cardFront.innerHTML = `
+                <span class="text-7xl sm:text-8xl">${item.emoji}</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-center">${item.word}</h2>
+            `;
+
+            const cardBack = document.createElement('div');
+            cardBack.className = 'card-face card-back';
+            cardBack.innerHTML = `<p class="text-xl sm:text-2xl">${item.definition}</p>`;
+
+            card.appendChild(cardFront);
+            card.appendChild(cardBack);
+            cardContainer.appendChild(card);
+            
+            displayArea.appendChild(cardContainer);
+
+            cardContainer.addEventListener('click', () => {
+                card.classList.toggle('is-flipped');
+            });
+
+            cardCounter.textContent = `${index + 1} / ${words.length}`;
+        }
+
+        function populateWordList() {
+            if (!wordListElement) return;
+            words.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'text-gray-700';
+                li.textContent = item.word;
+                wordListElement.appendChild(li);
+            });
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < words.length - 1) {
+                currentIndex++;
+                renderCard(currentIndex);
+            } else {
+                // End of presentation
+                displayArea.classList.add('hidden');
+                navigationControls.classList.add('hidden');
+                wordListContainer.classList.remove('hidden');
+                restartContainer.classList.remove('hidden');
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + words.length) % words.length;
+            renderCard(currentIndex);
+        });
+        
+        restartBtn.addEventListener('click', () => {
+            // Hide list and restart button
+            wordListContainer.classList.add('hidden');
+            restartContainer.classList.add('hidden');
+
+            // Show presentation
+            displayArea.classList.remove('hidden');
+            navigationControls.classList.remove('hidden');
+
+            // Reset to first card
+            currentIndex = 0;
+            renderCard(currentIndex);
+        });
+
+        // Initial setup
+        renderCard(currentIndex);
+        populateWordList();
+    </script>
+</body>
+</html>
+

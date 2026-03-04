@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Saturday with Kenji - Interactive Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .active-slide {
+            display: block;
+        }
+        .vocab {
+            background-color: #dbeafe;
+            color: #1e40af;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .pause-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #facc15;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+
+        <!-- Slide 0: Title -->
+        <div class="slide active-slide text-center">
+            <h1 class="text-4xl font-bold text-blue-600 mb-4">A Saturday with Kenji</h1>
+            <p class="text-xl text-gray-600 mb-8">An interactive story to learn vocabulary about relationships.</p>
+            <img src="images/Intro.png" alt="Kenji" class="rounded-xl shadow-lg w-1/2 mx-auto">
+        </div>
+
+        <!-- Slide 1: Vocabulary -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Key Vocabulary: Relationships</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-6 text-gray-700">
+                <div>
+                    <h3 class="font-bold text-blue-700 mb-2 border-b-2 border-blue-200 pb-1">Family</h3>
+                    <ul class="space-y-1">
+                        <li><span class="vocab">Parents</span>
+                        <li><span class="vocab">Siblings</span></li>
+                        <li><span class="vocab">Grandparents</span></li>
+                        <li><span class="vocab">Uncle</span> / <span class="vocab">Aunt</span></li>
+                        <li><span class="vocab">Cousin</span>
+                        <li><span class="vocab">Niece</span> / <span class="vocab">Nephew</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-blue-700 mb-2 border-b-2 border-blue-200 pb-1">Romantic</h3>
+                    <ul class="space-y-1">
+                        <li><span class="vocab">Boyfriend</span> / <span class="vocab">Girlfriend</span></li>
+                        <li><span class="vocab">Fiancé</span> / <span class="vocab">Fiancée</span></li>
+                        <li><span class="vocab">Crush</span>
+                        <li><span class="vocab">Ex</span></li>
+                        <li><span class="vocab">Situationship</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-blue-700 mb-2 border-b-2 border-blue-200 pb-1">Friendship</h3>
+                    <ul class="space-y-1">
+                        <li><span class="vocab">Best friend</span></li>
+                        <li><span class="vocab">Close friend</span></li>
+                        <li><span class="vocab">Acquaintance</span></li>
+                        <li><span class="vocab">Confidant</span></li>
+                    </ul>
+                </div>
+                <div class="md:col-start-1">
+                    <h3 class="font-bold text-blue-700 mb-2 border-b-2 border-blue-200 pb-1">Professional</h3>
+                     <ul class="space-y-1">
+                        <li><span class="vocab">Colleague</span> / <span class="vocab">Co-worker</span></li>
+                        <li><span class="vocab">Boss</span> / <span class="vocab">Manager</span></li>
+                        <li><span class="vocab">Partner</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-blue-700 mb-2 border-b-2 border-blue-200 pb-1">Social</h3>
+                    <ul class="space-y-1">
+                        <li><span class="vocab">Neighbor</span></li>
+                        <li><span class="vocab">Peer</span></li>
+                        <li><span class="vocab">Teammate</span>, <span class="vocab">Classmate</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 1, Part 1 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 1: The Morning</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/1.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        It is Saturday. Kenji is in his apartment. He is a student. His <span class="vocab">neighbor</span>, Mrs. Gable, is an old, friendly woman. Kenji looks at his phone.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 1, Part 2 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 1: The Morning</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/2.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        He has a message from his <span class="vocab">best friend</span>, Yumi. Yumi is his <span class="vocab">confidant</span>. But then, he sees another message from Haru. Haru is Kenji's <span class="vocab">crush</span>. Some <span class="vocab">classmates</span> and Haru are going to go to the park.
+                    </p>
+                    <div class="pause-box">
+                        <h3 class="font-bold text-yellow-800">Class Break:</h3>
+                        <ul class="list-disc list-inside mt-2 text-yellow-700">
+                            <li>Who is Yumi? (Yumi is Kenji's <span class="vocab">best friend</span>.)</li>
+                            <li>What is Haru to Kenji? (Haru is his <span class="vocab">crush</span>.)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 2, Part 1 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 2: The Decision</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                 <div class="md:col-span-1">
+                    <img src="images/3.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji decides to be responsible. He texts Haru: "I can't. I have to study."
+                        <br><br>
+                        He calls Yumi: "Yes, I am going to meet you at the library."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 2, Part 2 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 2: The Decision</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                     <img src="images/4.png">
+                </div>
+                <div class="md:col-span-1">
+                     <p class="text-gray-700 leading-relaxed">
+                        Yumi says: "Great! My <span class="vocab">cousin</span>, Akari, is in the city. Can she come? She is a <span class="vocab">peer</span>; we are the same age."
+                        <br><br>
+                        On his way out, he sees Leo, the <span class="vocab">nephew</span> of his <span class="vocab">neighbor</span>. Leo is waiting for his <span class="vocab">aunt</span>.
+                    </p>
+                    <div class="pause-box">
+                        <h3 class="font-bold text-yellow-800">Class Break:</h3>
+                        <ul class="list-disc list-inside mt-2 text-yellow-700">
+                            <li>Who is Akari? (She is Yumi's <span class="vocab">cousin</span>.)</li>
+                            <li>Who is Leo? (He is the <span class="vocab">nephew</span> of Kenji's <span class="vocab">neighbor</span>.)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 3, Part 1 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 3: At the Library</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                     <img src="images/5.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        At the library, Yumi says: "Kenji, this is Akari. He's my <span class="vocab">close friend</span>."
+                        <br><br>
+                        Suddenly, Kenji sees Sara, his <span class="vocab">ex</span>. They are now just <span class="vocab">acquaintances</span>. She is with a man.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 3, Part 2 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 3: At the Library</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                 <div class="md:col-span-1">
+                     <img src="images/6.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Sara says: "Kenji! Hi! This is my <span class="vocab">fiancé</span>, David." David asks if they were <span class="vocab">classmates</span>.
+                        <br><br>
+                        Kenji tells Yumi: "No problem. She has her life, I have my life."
+                    </p>
+                    <div class="pause-box">
+                        <h3 class="font-bold text-yellow-800">Class Break:</h3>
+                         <ul class="list-disc list-inside mt-2 text-yellow-700">
+                            <li>Who is Sara? (She is Kenji's <span class="vocab">ex</span>.)</li>
+                            <li>Who is David? (He is Sara's <span class="vocab">fiancé</span>.)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 4, Part 1 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 4: A Call From Work</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/7.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji works part-time at a café. His phone rings. It's his <span class="vocab">boss</span>, Mr. Tanaka.
+                        <br><br>
+                        Mr. Tanaka says: "My <span class="vocab">partner</span> in the business is sick. And your <span class="vocab">colleague</span>, Maria, has a family emergency. Can you work?"
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scene 4, Part 2 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 4: A Call From Work</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/8.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji tells his friends: "My <span class="vocab">manager</span> needs me at work. My <span class="vocab">teammate</span> can't go."
+                        <br><br>
+                        Akari says: "You should go. We are a good team." Kenji is going to leave.
+                    </p>
+                    <div class="pause-box">
+                        <h3 class="font-bold text-yellow-800">Class Break:</h3>
+                        <ul class="list-disc list-inside mt-2 text-yellow-700">
+                            <li>Who called Kenji? (His <span class="vocab">boss</span> / <span class="vocab">manager</span>.)</li>
+                            <li>Why does he need to work? (Because his <span class="vocab">colleague</span> has an emergency.)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 5, Part 1 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 5: The End of the Day</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/9.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji finishes his shift. He helped his <span class="vocab">boss</span> and his <span class="vocab">co-worker</span>.
+                        <br><br>
+                        He sees Haru at the park entrance. Haru is alone. Haru says: "I only invited the others because I wanted to see you."
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scene 5, Part 2 -->
+        <div class="slide">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Scene 5: The End of the Day</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="images/10.png">
+                </div>
+                <div class="md:col-span-1">
+                    <p class="text-gray-700 leading-relaxed">
+                        Kenji is surprised. Maybe this is not a <span class="vocab">situationship</span>, but a real connection.
+                        <br><br>
+                        Kenji asks: "Are you free tomorrow evening?" Haru says yes. Kenji says: "Great. I am going to call you."
+                        <br><br>
+                        It was a day full of different people: his <span class="vocab">best friend</span>, his <span class="vocab">ex</span>, his <span class="vocab">boss</span>, and now... maybe his future <span class="vocab">girlfriend</span>.
+                    </p>
+                    <p class="text-center font-bold text-2xl mt-8 text-blue-600">THE END</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-between mt-8">
+            <button id="prevBtn" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Previous
+            </button>
+            <button id="nextBtn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50">
+                Next
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Presentation Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            slides[n].classList.add('active-slide');
+            prevBtn.disabled = n === 0;
+            nextBtn.disabled = n === totalSlides - 1;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
+
