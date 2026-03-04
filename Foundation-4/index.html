@@ -3,24 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foundation 4</title>
+    <title>Materiales - English Class</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; background-color: #e9ecef; color: #333; }
-        .card { background: white; padding: 25px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h2 { color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
-        ul { list-style: none; padding: 0; }
-        li { margin: 15px 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        a { text-decoration: none; color: #495057; font-weight: 500; display: block; }
-        a:hover { color: #007bff; transform: translateX(5px); transition: 0.2s; }
-        .badge { font-size: 0.8em; padding: 3px 8px; border-radius: 4px; margin-right: 10px; color: white; }
-        .html { background: #28a745; } /* Verde para presentaciones */
-        .pptx { background: #dc3545; } /* Rojo para PowerPoints */
-        .back-btn { display: inline-block; margin-top: 20px; color: #6c757d; font-size: 0.9em; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* CAMBIA ESTA URL por tu imagen de fondo (puedes subir una a tu carpeta images/) */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1300&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .card { 
+            /* EFECTO DE TRANSPARENCIA (Glassmorphism) */
+            background: rgba(255, 255, 255, 0.2); /* Blanco con 20% de opacidad */
+            backdrop-filter: blur(15px); /* Desenfoque del fondo */
+            -webkit-backdrop-filter: blur(15px); /* Para Safari */
+            
+            padding: 40px; 
+            border-radius: 20px; 
+            max-width: 500px; 
+            width: 90%;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+            color: white;
+        }
+
+        /* ESTILO DEL LOGO */
+        .logo-grupo {
+            width: 100px; /* Ajusta el tamaño */
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 50%; /* Si el logo es circular */
+        }
+
+        h2 { 
+            margin-top: 0;
+            font-size: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 15px;
+        }
+
+        ul { list-style: none; padding: 0; margin: 30px 0; }
+
+        li { margin: 15px 0; }
+
+        .btn-material {
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-material:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .badge {
+            font-size: 0.7em;
+            padding: 4px 8px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .html { background: #2ecc71; }
+        .pptx { background: #e74c3c; }
+
+        .back-link {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
+    <img src="images/logo-universidad.png" alt="Logo Grupo" class="logo-grupo">
+    
     <h2>Foundation 4</h2>
     <p>Select material to check:</p>
     
