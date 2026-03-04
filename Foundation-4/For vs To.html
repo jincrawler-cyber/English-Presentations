@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Grammar: To vs For</title>
+    <!-- Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animaciones personalizadas */
+        .fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* Ocultar elementos no activos */
+        .hidden-slide { display: none !important; }
+        
+        /* Estilos para texto oculto (para revelar al hacer clic) */
+        .reveal-text {
+            background-color: #cbd5e1;
+            color: transparent;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .reveal-text.revealed {
+            background-color: transparent;
+            color: inherit;
+            cursor: default;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans h-screen w-screen overflow-hidden flex flex-col">
+
+    <!-- BARRA SUPERIOR -->
+    <header class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center z-10">
+        <h1 class="text-2xl font-bold flex items-center gap-2">
+            <span>✈️</span> Travel & Purposes
+        </h1>
+        <div class="text-sm font-medium bg-blue-700 px-3 py-1 rounded-full">
+            Slide <span id="current-slide-num">1</span> / <span id="total-slides-num">7</span>
+        </div>
+    </header>
+
+    <!-- ÁREA PRINCIPAL DE DIAPOSITIVAS -->
+    <main class="flex-grow relative overflow-hidden flex justify-center items-center p-8">
+        
+        <!-- Diapositiva 1: Título -->
+        <section class="slide w-full max-w-5xl flex flex-col items-center text-center fade-in">
+            <span class="text-9xl mb-6">🏖️</span>
+            <h2 class="text-6xl font-extrabold text-blue-800 mb-6 tracking-tight">Planning a Trip</h2>
+            <p class="text-3xl text-slate-600 mb-12">Expressing Purpose: <span class="font-bold text-blue-600">TO</span> vs <span class="font-bold text-emerald-600">FOR</span></p>
+            <button onclick="nextSlide()" class="text-2xl bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full shadow-lg transition transform hover:scale-105">
+                Start Lesson ➔
+            </button>
+        </section>
+
+        <!-- Diapositiva 2: Observación (Input) -->
+        <section class="slide hidden-slide w-full max-w-6xl flex flex-col h-full justify-center fade-in">
+            <h2 class="text-4xl font-bold mb-2 text-center text-slate-800">1. Look and Compare</h2>
+            <p class="text-xl text-center text-slate-500 mb-8">How do we answer the question "Why?"</p>
+            
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Columna A -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border-t-8 border-blue-500">
+                    <h3 class="text-2xl font-bold mb-6 text-blue-600 text-center border-b pb-4">Column A</h3>
+                    <ul class="space-y-6 text-2xl">
+                        <li>I am going to Hawaii <br><strong class="text-blue-600">to relax</strong>.</li>
+                        <li>I need a passport <br><strong class="text-blue-600">to travel</strong>.</li>
+                        <li>She packed a map <br><strong class="text-blue-600">to find</strong> her way.</li>
+                    </ul>
+                </div>
+                <!-- Columna B -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border-t-8 border-emerald-500">
+                    <h3 class="text-2xl font-bold mb-6 text-emerald-600 text-center border-b pb-4">Column B</h3>
+                    <ul class="space-y-6 text-2xl">
+                        <li>I am going to Hawaii <br><strong class="text-emerald-600">for a vacation</strong>.</li>
+                        <li>I need a passport <br><strong class="text-emerald-600">for the trip</strong>.</li>
+                        <li>She packed a map <br><strong class="text-emerald-600">for directions</strong>.</li>
+                    </ul>
+                </div>
+                <!-- Columna C -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border-t-8 border-purple-500">
+                    <h3 class="text-2xl font-bold mb-6 text-purple-600 text-center border-b pb-4">Column C</h3>
+                    <ul class="space-y-6 text-2xl">
+                        <li>A camera is <br><strong class="text-purple-600">for taking</strong> photos.</li>
+                        <li>A big suitcase is <br><strong class="text-purple-600">for carrying</strong> clothes.</li>
+                        <li>Sunglasses are <br><strong class="text-purple-600">for protecting</strong> eyes.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center mt-6 text-slate-400 italic text-lg">Read the sentences. Do they have the same meaning?</p>
+        </section>
+
+        <!-- Diapositiva 3: Descubrimiento Guiado -->
+        <section class="slide hidden-slide w-full max-w-5xl flex flex-col h-full justify-center fade-in">
+            <h2 class="text-5xl font-bold mb-10 text-center text-slate-800">2. Let's Discover</h2>
+            
+            <div class="space-y-8">
+                <!-- Pregunta 1 -->
+                <div class="bg-white p-6 rounded-xl shadow text-3xl flex items-center justify-between cursor-pointer border-l-8 border-blue-500" onclick="revealText('ans1')">
+                    <span>What kind of words come after <strong class="text-blue-600">TO</strong>? <br><span class="text-xl text-slate-500">(relax, travel, find)</span></span>
+                    <span id="ans1" class="reveal-text px-4 py-2 font-bold text-blue-600">Verbs (Base Form)</span>
+                </div>
+                <!-- Pregunta 2 -->
+                <div class="bg-white p-6 rounded-xl shadow text-3xl flex items-center justify-between cursor-pointer border-l-8 border-emerald-500" onclick="revealText('ans2')">
+                    <span>What kind of words come after <strong class="text-emerald-600">FOR</strong>? <br><span class="text-xl text-slate-500">(a vacation, the trip, directions)</span></span>
+                    <span id="ans2" class="reveal-text px-4 py-2 font-bold text-emerald-600">Nouns (Things)</span>
+                </div>
+                <!-- Pregunta 3 -->
+                <div class="bg-white p-6 rounded-xl shadow text-3xl flex items-center justify-between cursor-pointer border-l-8 border-purple-500" onclick="revealText('ans3')">
+                    <span>When explaining an <strong>object's function</strong>... <br><span class="text-xl text-slate-500">(taking, carrying, protecting)</span></span>
+                    <span id="ans3" class="reveal-text px-4 py-2 font-bold text-purple-600">FOR + Verb(ing)</span>
+                </div>
+            </div>
+            <p class="text-center mt-10 text-slate-500 text-xl animate-pulse">👆 Click the gray boxes to reveal the answers!</p>
+        </section>
+
+        <!-- Diapositiva 4: La Regla -->
+        <section class="slide hidden-slide w-full max-w-5xl flex flex-col items-center justify-center fade-in">
+            <h2 class="text-5xl font-bold mb-10 text-slate-800">3. The Rules</h2>
+            <div class="w-full bg-slate-800 text-white p-10 rounded-3xl shadow-2xl space-y-10">
+                
+                <div>
+                    <h3 class="text-3xl font-semibold mb-4 text-slate-300">A. Personal Purpose (Why I do something):</h3>
+                    <div class="bg-slate-700 p-6 rounded-xl text-4xl mb-4">
+                        Use <strong class="text-blue-400">TO</strong> + <span class="reveal-text px-4 cursor-pointer text-white" onclick="this.classList.add('revealed')">Verb (Base form)</span>
+                    </div>
+                    <div class="bg-slate-700 p-6 rounded-xl text-4xl">
+                        Use <strong class="text-emerald-400">FOR</strong> + <span class="reveal-text px-4 cursor-pointer text-white" onclick="this.classList.add('revealed')">Noun (A thing)</span>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-600 pt-8">
+                    <h3 class="text-3xl font-semibold mb-4 text-slate-300">B. Object Function (What a thing is used for):</h3>
+                    <div class="bg-slate-700 p-6 rounded-xl text-4xl">
+                        Use <strong class="text-purple-400">FOR</strong> + <span class="reveal-text px-4 cursor-pointer text-white" onclick="this.classList.add('revealed')">Verb-ING</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Diapositiva 5: Práctica Interactiva 1 -->
+        <section class="slide hidden-slide w-full max-w-5xl flex flex-col h-full justify-center fade-in">
+            <h2 class="text-5xl font-bold mb-4 text-center text-slate-800">Let's Practice! (To / For)</h2>
+            <p class="text-2xl text-center text-slate-500 mb-8">Shout the answer!</p>
+            
+            <div class="space-y-6" id="quiz-1-container">
+                <!-- Ejercicio 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-slate-100 flex items-center justify-between text-3xl">
+                    <p>1. I went to the travel agency <span class="quiz-blank inline-block w-24 border-b-4 border-slate-400 text-center text-blue-600 font-bold mx-2" id="q1-blank"></span> buy tickets.</p>
+                    <div class="flex gap-2">
+                        <button onclick="checkAnswer('q1', 'to', 'to', 'for')" class="px-6 py-2 bg-slate-200 hover:bg-blue-100 rounded-lg font-bold">TO</button>
+                        <button onclick="checkAnswer('q1', 'for', 'to', 'for')" class="px-6 py-2 bg-slate-200 hover:bg-emerald-100 rounded-lg font-bold">FOR</button>
+                    </div>
+                </div>
+                <!-- Ejercicio 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-slate-100 flex items-center justify-between text-3xl">
+                    <p>2. I am saving money <span class="quiz-blank inline-block w-24 border-b-4 border-slate-400 text-center text-emerald-600 font-bold mx-2" id="q2-blank"></span> a trip to Japan.</p>
+                    <div class="flex gap-2">
+                        <button onclick="checkAnswer('q2', 'to', 'for', 'to')" class="px-6 py-2 bg-slate-200 hover:bg-blue-100 rounded-lg font-bold">TO</button>
+                        <button onclick="checkAnswer('q2', 'for', 'for', 'to')" class="px-6 py-2 bg-slate-200 hover:bg-emerald-100 rounded-lg font-bold">FOR</button>
+                    </div>
+                </div>
+                <!-- Ejercicio 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-slate-100 flex items-center justify-between text-3xl">
+                    <p>3. He packed his best suit <span class="quiz-blank inline-block w-24 border-b-4 border-slate-400 text-center text-emerald-600 font-bold mx-2" id="q3-blank"></span> the formal dinner.</p>
+                    <div class="flex gap-2">
+                        <button onclick="checkAnswer('q3', 'to', 'for', 'to')" class="px-6 py-2 bg-slate-200 hover:bg-blue-100 rounded-lg font-bold">TO</button>
+                        <button onclick="checkAnswer('q3', 'for', 'for', 'to')" class="px-6 py-2 bg-slate-200 hover:bg-emerald-100 rounded-lg font-bold">FOR</button>
+                    </div>
+                </div>
+                 <!-- Ejercicio 4 -->
+                 <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-slate-100 flex items-center justify-between text-3xl">
+                    <p>4. She called the hotel <span class="quiz-blank inline-block w-24 border-b-4 border-slate-400 text-center text-blue-600 font-bold mx-2" id="q4-blank"></span> confirm it.</p>
+                    <div class="flex gap-2">
+                        <button onclick="checkAnswer('q4', 'to', 'to', 'for')" class="px-6 py-2 bg-slate-200 hover:bg-blue-100 rounded-lg font-bold">TO</button>
+                        <button onclick="checkAnswer('q4', 'for', 'to', 'for')" class="px-6 py-2 bg-slate-200 hover:bg-emerald-100 rounded-lg font-bold">FOR</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diapositiva 6: Práctica Interactiva 2 (-ing) -->
+        <section class="slide hidden-slide w-full max-w-5xl flex flex-col h-full justify-center fade-in">
+            <h2 class="text-5xl font-bold mb-4 text-center text-slate-800">What is it for? (-ing)</h2>
+            <p class="text-2xl text-center text-slate-500 mb-8">Choose the correct verb form.</p>
+            
+            <div class="space-y-8" id="quiz-2-container">
+                <!-- Ejercicio 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-slate-100 text-center">
+                    <p class="text-4xl mb-6">🔌 A power bank is for <span class="quiz-blank inline-block w-48 border-b-4 border-slate-400 text-center text-purple-600 font-bold mx-2" id="q5-blank"></span> your phone.</p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="checkAnswer('q5', 'charge', 'charging', 'wrong')" class="text-2xl px-6 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-medium">charge</button>
+                        <button onclick="checkAnswer('q5', 'charging', 'charging', 'wrong')" class="text-2xl px-6 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-medium">charging</button>
+                        <button onclick="checkAnswer('q5', 'to charge', 'charging', 'wrong')" class="text-2xl px-6 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-medium">to charge</button>
+                    </div>
+                </div>
+
+                <!-- Ejercicio 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-slate-100 text-center">
+                    <p class="text-4xl mb-6">🎧 Earplugs are for <span class="quiz-blank inline-block w-48 border-b-4 border-slate-400 text-center text-purple-600 font-bold mx-2" id="q6-blank"></span> airplane noise.</p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="checkAnswer('q6', 'blocking', 'blocking', 'wrong')" class="text-2xl px-6 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-medium">blocking</button>
+                        <button onclick="checkAnswer('q6', 'to block', 'blocking', 'wrong')" class="text-2xl px-6 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-medium">to block</button>
+                        <button onclick="checkAnswer('q6', 'block', 'blocking', 'wrong')" class="text-2xl px-6 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-medium">block</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diapositiva 7: Práctica Oral Libre -->
+        <section class="slide hidden-slide w-full max-w-5xl flex flex-col items-center justify-center fade-in text-center">
+            <h2 class="text-6xl font-bold mb-6 text-slate-800">🗣️ Your Turn!</h2>
+            <p class="text-3xl text-slate-600 mb-12">Complete the sentence out loud.</p>
+            
+            <div class="bg-white p-12 rounded-3xl shadow-2xl border-4 border-blue-500 w-full mb-10 min-h-[250px] flex items-center justify-center">
+                <p id="speaking-prompt" class="text-5xl font-semibold text-slate-800 leading-tight">I went to the airport...</p>
+            </div>
+
+            <button onclick="generatePrompt()" class="text-3xl bg-amber-500 hover:bg-amber-600 text-white font-bold px-10 py-5 rounded-full shadow-lg transition transform hover:scale-105 flex items-center gap-3">
+                <span>🔄</span> New Sentence
+            </button>
+        </section>
+
+    </main>
+
+    <!-- BARRA INFERIOR DE NAVEGACIÓN -->
+    <footer class="bg-white border-t border-slate-200 p-4 flex justify-between items-center z-10">
+        <button id="btn-prev" onclick="prevSlide()" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg transition disabled:opacity-30 disabled:cursor-not-allowed">
+            ⬅️ Previous
+        </button>
+        <div class="flex gap-2" id="slide-dots">
+            <!-- Puntos de navegación generados por JS -->
+        </div>
+        <button id="btn-next" onclick="nextSlide()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition">
+            Next ➡️
+        </button>
+    </footer>
+
+    <!-- LOGICA DE JAVASCRIPT -->
+    <script>
+        // --- Navegación de Diapositivas ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlidesNum = document.getElementById('total-slides-num');
+        const currentSlideNum = document.getElementById('current-slide-num');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const slideDots = document.getElementById('slide-dots');
+
+        // Inicializar
+        totalSlidesNum.textContent = slides.length;
+        createDots();
+        updateUI();
+
+        function createDots() {
+            for(let i=0; i<slides.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = `w-3 h-3 rounded-full ${i === 0 ? 'bg-blue-600' : 'bg-slate-300'}`;
+                slideDots.appendChild(dot);
+            }
+        }
+
+        function updateUI() {
+            // Mostrar/Ocultar slides
+            slides.forEach((slide, index) => {
+                if(index === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                } else {
+                    slide.classList.add('hidden-slide');
+                }
+            });
+
+            // Actualizar números y botones
+            currentSlideNum.textContent = currentSlide + 1;
+            btnPrev.disabled = currentSlide === 0;
+            
+            if(currentSlide === slides.length - 1) {
+                btnNext.classList.add('hidden');
+            } else {
+                btnNext.classList.remove('hidden');
+            }
+
+            // Actualizar puntos
+            Array.from(slideDots.children).forEach((dot, index) => {
+                dot.className = `w-3 h-3 rounded-full ${index === currentSlide ? 'bg-blue-600' : 'bg-slate-300'}`;
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Funciones Interactivas ---
+
+        // Revelar texto (Slide 3)
+        function revealText(id) {
+            const el = document.getElementById(id);
+            el.classList.add('revealed');
+        }
+
+        // Lógica del Quiz (Slide 5 y 6)
+        function checkAnswer(questionId, selectedValue, correctValue, _wrongValue) {
+            const container = document.getElementById(`${questionId}-blank`).parentElement;
+            const blankSpan = document.getElementById(`${questionId}-blank`);
+            
+            if (selectedValue.toLowerCase() === correctValue.toLowerCase()) {
+                // Respuesta Correcta
+                container.classList.remove('border-slate-100', 'border-red-500', 'shake');
+                container.classList.add('border-green-500', 'bg-green-50');
+                blankSpan.textContent = selectedValue.toUpperCase();
+                blankSpan.classList.remove('border-slate-400');
+                blankSpan.classList.add('border-transparent', 'text-green-700');
+            } else {
+                // Respuesta Incorrecta
+                container.classList.remove('border-slate-100', 'border-green-500', 'bg-green-50', 'shake');
+                // Truco para reiniciar la animación CSS
+                void container.offsetWidth; 
+                container.classList.add('border-red-500', 'shake');
+                blankSpan.textContent = "___";
+            }
+        }
+
+        // Lógica de la Ruleta de Speaking (Slide 7)
+        const prompts = [
+            "I packed my swimsuit...",
+            "A money belt is...",
+            "We went to the restaurant...",
+            "She bought a new dress...",
+            "A sleeping bag is...",
+            "I am studying English...",
+            "He needs a visa...",
+            "Earphones are..."
+        ];
+        
+        function generatePrompt() {
+            const promptEl = document.getElementById('speaking-prompt');
+            // Animar salida
+            promptEl.style.opacity = 0;
+            promptEl.style.transform = "scale(0.9)";
+            
+            setTimeout(() => {
+                // Elegir uno aleatorio que no sea el actual
+                let newPrompt;
+                do {
+                    newPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+                } while (newPrompt === promptEl.textContent);
+                
+                promptEl.textContent = newPrompt;
+                
+                // Animar entrada
+                promptEl.style.opacity = 1;
+                promptEl.style.transform = "scale(1)";
+            }, 300);
+        }
+
+        // Navegación con teclado (Flechas)
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if(e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+    </script>
+</body>
+</html>

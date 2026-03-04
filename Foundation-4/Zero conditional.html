@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Zero Conditional: If vs When</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animaciones personalizadas */
+        .fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .hidden-slide { display: none !important; }
+        
+        /* Cajas revelables */
+        .reveal-box {
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden; /* Mantiene el contenido dentro de la forma */
+        }
+        .reveal-box::after {
+            content: 'Click to reveal 👀';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0.5rem;
+            background-color: #cbd5e1; /* Fondo sólido gris que tapa el contenido */
+            color: #475569;
+            font-weight: bold;
+            font-size: 1.1rem;
+            line-height: 1.2;
+            transition: opacity 0.3s ease;
+            border-radius: inherit; /* Hereda las esquinas redondeadas o el círculo */
+            z-index: 10;
+        }
+        .reveal-box.revealed {
+            cursor: default;
+        }
+        .reveal-box.revealed::after {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Ocultar texto inline */
+        .reveal-text {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            user-select: none;
+            overflow: hidden;
+        }
+        .reveal-text::after {
+            content: 'Click 👀';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #cbd5e1; /* Tapa sólida para el texto */
+            color: #475569;
+            font-size: 1.25rem;
+            font-weight: bold;
+            border-radius: inherit;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        .reveal-text.revealed {
+            cursor: default;
+        }
+        .reveal-text.revealed::after {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-sky-50 text-slate-800 font-sans h-screen w-screen overflow-hidden flex flex-col">
+
+    <!-- BARRA SUPERIOR -->
+    <header class="bg-cyan-700 text-white p-4 shadow-md flex justify-between items-center z-10">
+        <h1 class="text-2xl font-bold flex items-center gap-2">
+            <span>✈️</span> Travel Grammar Rules
+        </h1>
+        <div class="text-sm font-medium bg-cyan-800 px-3 py-1 rounded-full border border-cyan-600">
+            Slide <span id="current-slide-num">1</span> / <span id="total-slides-num">6</span>
+        </div>
+    </header>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main class="flex-grow relative overflow-hidden flex justify-center items-center p-8">
+        
+        <!-- SLIDE 1: Título -->
+        <section class="slide w-full max-w-5xl flex flex-col items-center text-center fade-in">
+            <span class="text-9xl mb-6 drop-shadow-lg">🛂</span>
+            <h2 class="text-6xl font-extrabold text-cyan-900 mb-4 tracking-tight">The Zero Conditional</h2>
+            <p class="text-4xl text-slate-600 mb-12 font-light">Rules & Facts: <span class="font-bold text-sky-600">IF</span> vs <span class="font-bold text-amber-500">WHEN</span></p>
+            <button onclick="nextSlide()" class="text-2xl bg-cyan-600 hover:bg-cyan-700 text-white px-10 py-4 rounded-full shadow-xl transition transform hover:scale-105 font-semibold">
+                Start Journey ➔
+            </button>
+        </section>
+
+        <!-- SLIDE 2: Observación (Input) -->
+        <section class="slide hidden-slide w-full max-w-6xl flex flex-col h-full justify-center fade-in">
+            <h2 class="text-5xl font-bold mb-4 text-center text-slate-800">1. Look and Compare</h2>
+            <p class="text-2xl text-center text-slate-500 mb-10">What tense are the verbs in?</p>
+            
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Columna IF -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg border-t-8 border-sky-500 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-sky-100 text-sky-600 font-bold px-4 py-1 rounded-bl-xl">Possibility</div>
+                    <h3 class="text-4xl font-extrabold mb-8 text-sky-600 border-b-2 border-sky-100 pb-4">IF...</h3>
+                    <ul class="space-y-8 text-3xl leading-snug">
+                        <li><span class="font-bold text-sky-600">If</span> you <u class="decoration-sky-300 decoration-4">forget</u> your passport, you <u class="decoration-sky-300 decoration-4">miss</u> your flight.</li>
+                        <li><span class="font-bold text-sky-600">If</span> it <u class="decoration-sky-300 decoration-4">rains</u>, we <u class="decoration-sky-300 decoration-4">visit</u> the museum.</li>
+                    </ul>
+                </div>
+                <!-- Columna WHEN -->
+                <div class="bg-white p-8 rounded-3xl shadow-lg border-t-8 border-amber-500 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-amber-100 text-amber-600 font-bold px-4 py-1 rounded-bl-xl">Certainty</div>
+                    <h3 class="text-4xl font-extrabold mb-8 text-amber-500 border-b-2 border-amber-100 pb-4">WHEN...</h3>
+                    <ul class="space-y-8 text-3xl leading-snug">
+                        <li><span class="font-bold text-amber-500">When</span> the plane <u class="decoration-amber-300 decoration-4">lands</u>, you <u class="decoration-amber-300 decoration-4">unbuckle</u> your seatbelt.</li>
+                        <li><span class="font-bold text-amber-500">When</span> you <u class="decoration-amber-300 decoration-4">cross</u> the border, you <u class="decoration-amber-300 decoration-4">show</u> your ID.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Descubrimiento interactivo -->
+            <div class="mt-12 text-center">
+                <p class="text-2xl text-slate-600 mb-4">All verbs are in the...</p>
+                <div class="inline-block">
+                    <span class="reveal-text px-6 py-3 text-4xl font-black text-cyan-700 bg-cyan-100 rounded-xl" onclick="this.classList.add('revealed')">PRESENT SIMPLE</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: Visualizando la Regla (Descubrimiento) -->
+        <section class="slide hidden-slide w-full max-w-5xl flex flex-col h-full justify-center fade-in">
+            <h2 class="text-5xl font-bold mb-12 text-center text-slate-800">2. The Formula</h2>
+            
+            <div class="flex flex-col gap-6 w-full">
+                <!-- Pieza 1: Condición -->
+                <div class="reveal-box rounded-2xl border-4 border-slate-300 p-8 text-center" onclick="this.classList.add('revealed', 'border-cyan-500', 'bg-cyan-50')">
+                    <p class="text-2xl font-bold text-slate-400 mb-2 uppercase tracking-widest">The Condition</p>
+                    <p class="text-5xl font-extrabold text-cyan-700">IF / WHEN + Present Simple</p>
+                </div>
+                
+                <!-- Pieza 2: Coma -->
+                <div class="flex justify-center -my-2 z-10">
+                    <div class="reveal-box rounded-full border-4 border-slate-300 w-24 h-24 flex items-center justify-center bg-white" onclick="this.classList.add('revealed', 'border-slate-800')">
+                        <span class="text-7xl font-black text-slate-800 mb-4">,</span>
+                    </div>
+                </div>
+
+                <!-- Pieza 3: Resultado -->
+                <div class="reveal-box rounded-2xl border-4 border-slate-300 p-8 text-center" onclick="this.classList.add('revealed', 'border-emerald-500', 'bg-emerald-50')">
+                    <p class="text-2xl font-bold text-slate-400 mb-2 uppercase tracking-widest">The Result</p>
+                    <p class="text-5xl font-extrabold text-emerald-700">Present Simple</p>
+                </div>
+            </div>
+            <p class="text-center mt-10 text-slate-500 text-xl animate-pulse">👆 Click the boxes to reveal the grammar structure!</p>
+        </section>
+
+        <!-- SLIDE 4: El contraste visual (50% vs 100%) -->
+        <section class="slide hidden-slide w-full max-w-6xl flex flex-col justify-center items-center fade-in">
+            <h2 class="text-5xl font-bold mb-12 text-slate-800">3. The Difference</h2>
+            
+            <div class="grid grid-cols-2 gap-12 w-full">
+                <!-- IF -->
+                <div class="bg-white rounded-3xl p-10 shadow-xl flex flex-col items-center text-center border-t-[12px] border-sky-500 cursor-pointer transform transition hover:scale-105" onclick="document.getElementById('if-desc').classList.remove('opacity-0')">
+                    <h3 class="text-8xl font-black text-sky-600 mb-4">IF</h3>
+                    <div class="text-7xl font-bold text-slate-200 bg-sky-50 rounded-full w-48 h-48 flex items-center justify-center mb-6 border-8 border-sky-100">
+                        <span class="text-sky-500">50%</span>
+                    </div>
+                    <div id="if-desc" class="opacity-0 transition-opacity duration-500">
+                        <p class="text-3xl font-bold text-slate-700 mb-2">A Possibility</p>
+                        <p class="text-xl text-slate-500">It might happen. We use it for emergencies, bad luck, or alternatives.</p>
+                        <p class="mt-4 text-sky-600 font-medium italic">"If you lose your ticket..."</p>
+                    </div>
+                </div>
+
+                <!-- WHEN -->
+                <div class="bg-white rounded-3xl p-10 shadow-xl flex flex-col items-center text-center border-t-[12px] border-amber-500 cursor-pointer transform transition hover:scale-105" onclick="document.getElementById('when-desc').classList.remove('opacity-0')">
+                    <h3 class="text-8xl font-black text-amber-500 mb-4">WHEN</h3>
+                    <div class="text-7xl font-bold text-slate-200 bg-amber-50 rounded-full w-48 h-48 flex items-center justify-center mb-6 border-8 border-amber-100">
+                        <span class="text-amber-500">100%</span>
+                    </div>
+                    <div id="when-desc" class="opacity-0 transition-opacity duration-500">
+                        <p class="text-3xl font-bold text-slate-700 mb-2">A Certainty</p>
+                        <p class="text-xl text-slate-500">It is guaranteed to happen. It is just a matter of time during the trip.</p>
+                        <p class="mt-4 text-amber-600 font-medium italic">"When the flight ends..."</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center mt-8 text-slate-400 text-lg">Click the cards to reveal the explanation.</p>
+        </section>
+
+        <!-- SLIDE 5: Práctica Interactiva (Quiz) -->
+        <section class="slide hidden-slide w-full max-w-5xl flex flex-col h-full justify-center fade-in">
+            <h2 class="text-5xl font-bold mb-4 text-center text-slate-800">4. Let's Practice!</h2>
+            <p class="text-2xl text-center text-slate-500 mb-10">Is it a possibility (IF) or a guaranteed fact (WHEN)?</p>
+            
+            <div class="space-y-6 w-full" id="quiz-container">
+                <!-- Q1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border-2 border-slate-100 flex items-center justify-between text-3xl">
+                    <p>1. <span class="quiz-blank inline-block w-32 border-b-4 border-slate-300 text-center font-bold mx-2" id="q1-blank"></span> you get sick on vacation, you go to a doctor.</p>
+                    <div class="flex gap-3">
+                        <button onclick="checkAnswer('q1', 'If', 'If')" class="px-6 py-3 bg-slate-100 hover:bg-sky-100 text-sky-700 rounded-xl font-bold shadow-sm">IF</button>
+                        <button onclick="checkAnswer('q1', 'When', 'If')" class="px-6 py-3 bg-slate-100 hover:bg-amber-100 text-amber-700 rounded-xl font-bold shadow-sm">WHEN</button>
+                    </div>
+                </div>
+                <!-- Q2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border-2 border-slate-100 flex items-center justify-between text-3xl">
+                    <p>2. <span class="quiz-blank inline-block w-32 border-b-4 border-slate-300 text-center font-bold mx-2" id="q2-blank"></span> the airplane lands, you unbuckle your seatbelt.</p>
+                    <div class="flex gap-3">
+                        <button onclick="checkAnswer('q2', 'If', 'When')" class="px-6 py-3 bg-slate-100 hover:bg-sky-100 text-sky-700 rounded-xl font-bold shadow-sm">IF</button>
+                        <button onclick="checkAnswer('q2', 'When', 'When')" class="px-6 py-3 bg-slate-100 hover:bg-amber-100 text-amber-700 rounded-xl font-bold shadow-sm">WHEN</button>
+                    </div>
+                </div>
+                <!-- Q3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border-2 border-slate-100 flex items-center justify-between text-3xl">
+                    <p>3. <span class="quiz-blank inline-block w-32 border-b-4 border-slate-300 text-center font-bold mx-2" id="q3-blank"></span> it rains at the beach, we stay in the hotel.</p>
+                    <div class="flex gap-3">
+                        <button onclick="checkAnswer('q3', 'If', 'If')" class="px-6 py-3 bg-slate-100 hover:bg-sky-100 text-sky-700 rounded-xl font-bold shadow-sm">IF</button>
+                        <button onclick="checkAnswer('q3', 'When', 'If')" class="px-6 py-3 bg-slate-100 hover:bg-amber-100 text-amber-700 rounded-xl font-bold shadow-sm">WHEN</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: Práctica Oral Libre (Ruleta) -->
+        <section class="slide hidden-slide w-full max-w-5xl flex flex-col items-center justify-center fade-in text-center">
+            <h2 class="text-6xl font-bold mb-6 text-slate-800">🗣️ Finish the Sentence!</h2>
+            <p class="text-3xl text-slate-500 mb-12">Use the <strong class="text-emerald-500">Present Simple</strong> for the result.</p>
+            
+            <div class="bg-white p-12 rounded-3xl shadow-2xl border-b-8 border-cyan-500 w-full mb-10 min-h-[250px] flex items-center justify-center relative overflow-hidden">
+                <!-- Elemento decorativo -->
+                <div class="absolute -top-10 -right-10 text-9xl opacity-10">🌍</div>
+                
+                <p id="speaking-prompt" class="text-5xl font-semibold text-slate-800 leading-tight">If I lose my passport...</p>
+            </div>
+
+            <button onclick="generatePrompt()" class="text-3xl bg-amber-500 hover:bg-amber-600 text-white font-bold px-12 py-6 rounded-full shadow-xl transition transform hover:scale-105 flex items-center gap-4">
+                <span class="text-4xl">🎲</span> Spin the Wheel
+            </button>
+        </section>
+
+    </main>
+
+    <!-- BARRA INFERIOR DE NAVEGACIÓN -->
+    <footer class="bg-white border-t border-slate-200 p-4 flex justify-between items-center z-10">
+        <button id="btn-prev" onclick="prevSlide()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2">
+            <span>⬅️</span> Back
+        </button>
+        <div class="flex gap-3" id="slide-dots">
+            <!-- Puntos JS -->
+        </div>
+        <button id="btn-next" onclick="nextSlide()" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl transition flex items-center gap-2 shadow-md">
+            Next <span>➡️</span>
+        </button>
+    </footer>
+
+    <!-- LOGICA DE JAVASCRIPT -->
+    <script>
+        // --- NAVEGACIÓN DE DIAPOSITIVAS ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlidesNum = document.getElementById('total-slides-num');
+        const currentSlideNum = document.getElementById('current-slide-num');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const slideDots = document.getElementById('slide-dots');
+
+        totalSlidesNum.textContent = slides.length;
+        createDots();
+        updateUI();
+
+        function createDots() {
+            for(let i=0; i<slides.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = `w-4 h-4 rounded-full transition-colors duration-300 ${i === 0 ? 'bg-cyan-600' : 'bg-slate-200'}`;
+                slideDots.appendChild(dot);
+            }
+        }
+
+        function updateUI() {
+            slides.forEach((slide, index) => {
+                if(index === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                } else {
+                    slide.classList.add('hidden-slide');
+                }
+            });
+
+            currentSlideNum.textContent = currentSlide + 1;
+            btnPrev.disabled = currentSlide === 0;
+            
+            if(currentSlide === slides.length - 1) {
+                btnNext.classList.add('hidden');
+            } else {
+                btnNext.classList.remove('hidden');
+            }
+
+            Array.from(slideDots.children).forEach((dot, index) => {
+                dot.className = `w-4 h-4 rounded-full transition-colors duration-300 ${index === currentSlide ? 'bg-cyan-600 shadow-md' : 'bg-slate-200'}`;
+            });
+        }
+
+        function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateUI(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateUI(); } }
+
+        // --- LÓGICA DEL QUIZ (Slide 5) ---
+        function checkAnswer(questionId, selectedValue, correctValue) {
+            const container = document.getElementById(`${questionId}-blank`).parentElement;
+            const blankSpan = document.getElementById(`${questionId}-blank`);
+            
+            if (selectedValue === correctValue) {
+                // Correcto: Verde
+                container.classList.remove('border-slate-100', 'border-red-400', 'shake');
+                container.classList.add('border-emerald-500', 'bg-emerald-50');
+                blankSpan.textContent = selectedValue.toUpperCase();
+                blankSpan.className = `quiz-blank inline-block w-32 text-center font-bold mx-2 text-emerald-600 border-transparent`;
+            } else {
+                // Incorrecto: Rojo y temblor
+                container.classList.remove('border-slate-100', 'border-emerald-500', 'bg-emerald-50', 'shake');
+                void container.offsetWidth; // Restart animation
+                container.classList.add('border-red-400', 'shake');
+                blankSpan.textContent = "___";
+                blankSpan.className = `quiz-blank inline-block w-32 border-b-4 border-slate-300 text-center font-bold mx-2`;
+            }
+        }
+
+        // --- LÓGICA DE LA RULETA (Slide 6) ---
+        const prompts = [
+            "If I lose my passport...",
+            "When I go to the beach...",
+            "If it rains on my vacation...",
+            "When the flight takes off...",
+            "If I don't speak the language...",
+            "When I arrive at the hotel...",
+            "If I miss my flight...",
+            "When the sun sets in Cancun..."
+        ];
+        
+        function generatePrompt() {
+            const promptEl = document.getElementById('speaking-prompt');
+            promptEl.style.opacity = 0;
+            promptEl.style.transform = "scale(0.8)";
+            
+            setTimeout(() => {
+                let newPrompt;
+                do {
+                    newPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+                } while (newPrompt === promptEl.textContent);
+                
+                // Color formatting logic to reinforce the visual link
+                if(newPrompt.startsWith("If")) {
+                    promptEl.innerHTML = `<span class="text-sky-600 font-bold">If</span> ${newPrompt.substring(3)}`;
+                } else if (newPrompt.startsWith("When")) {
+                    promptEl.innerHTML = `<span class="text-amber-500 font-bold">When</span> ${newPrompt.substring(5)}`;
+                }
+                
+                promptEl.style.opacity = 1;
+                promptEl.style.transform = "scale(1)";
+            }, 300);
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            else if(e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
