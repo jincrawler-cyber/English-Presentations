@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outfit Builder - Comparatives Practice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for the cart */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Smooth animation */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header and Budget -->
+    <header class="bg-indigo-600 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold flex items-center gap-2">
+                    🛍️ Outfit Builder Challenge
+                </h1>
+                <p class="text-indigo-200 text-sm">Choose your outfit for work. Justify using comparatives!</p>
+            </div>
+            
+            <!-- Budget Section -->
+            <div class="flex items-center gap-3 bg-indigo-800 px-5 py-3 rounded-xl shadow-inner border border-indigo-500 min-w-[250px] justify-center">
+                <span class="font-medium text-indigo-200">Budget:</span>
+                
+                <!-- Roll Button -->
+                <button id="roll-btn" onclick="generateBudget()" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-1 px-4 rounded shadow transition-transform transform hover:scale-105 active:scale-95">
+                    🎲 Get Budget!
+                </button>
+
+                <!-- Budget Display (Hidden initially) -->
+                <span id="budget-display" class="text-2xl font-bold tracking-tight hidden">
+                    $<span id="current-total">0</span> <span class="text-lg text-indigo-300">/ $<span id="budget-limit-text">---</span></span>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 flex-1 flex flex-col lg:flex-row gap-6 mt-4">
+        
+        <!-- Catalog (Left) -->
+        <section class="w-full lg:w-2/3">
+            <div class="flex justify-between items-end mb-4">
+                <h2 class="text-xl font-bold text-slate-700">Product Catalog</h2>
+                <span class="text-sm text-slate-500">Build the best outfit using your budget.</span>
+            </div>
+            
+            <div id="catalog" class="grid grid-cols-1 sm:grid-cols-2 gap-5 opacity-50 pointer-events-none transition-opacity duration-500">
+                <!-- Products will be injected here -->
+            </div>
+        </section>
+
+        <!-- Cart and Practice (Right) -->
+        <section class="w-full lg:w-1/3">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 sticky top-28">
+                <h2 class="text-xl font-bold mb-4 text-slate-700 flex items-center justify-between">
+                    Your Outfit
+                    <span id="item-count" class="bg-indigo-100 text-indigo-700 text-sm py-1 px-3 rounded-full">0 items</span>
+                </h2>
+                
+                <!-- Cart List -->
+                <ul id="cart-items" class="space-y-3 mb-4 max-h-64 overflow-y-auto custom-scroll pr-2">
+                    <li id="empty-cart-msg" class="text-slate-400 italic text-center py-6 bg-slate-50 rounded-lg border border-dashed border-slate-200">
+                        You haven't selected any items yet.
+                    </li>
+                </ul>
+
+                <!-- Budget Warning -->
+                <div id="budget-warning" class="hidden flex items-center gap-2 text-red-700 font-medium mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    ⚠️ Budget exceeded! You must remove something.
+                </div>
+                
+                <!-- Conversation Practice Section -->
+                <div class="mt-6 border-t border-slate-100 pt-5">
+                    <h3 class="font-bold text-lg mb-2 text-slate-700 flex items-center gap-2">
+                        💬 Practice: Comparatives
+                    </h3>
+                    <p class="text-sm text-slate-600 mb-3">Discuss with your team why you chose these items and not the others. Use:</p>
+                    
+                    <div class="space-y-2 text-sm">
+                        <div class="bg-emerald-50 text-emerald-800 p-3 rounded-lg border border-emerald-100">
+                            <b>Short Adjectives (-er):</b><br>
+                            "Let's buy the H&M tie because it's <i>cheaper than</i> the Armani tie."
+                        </div>
+                        <div class="bg-blue-50 text-blue-800 p-3 rounded-lg border border-blue-100">
+                            <b>Long Adjectives (more ...):</b><br>
+                            "The Gucci belt is <i>more fashionable than</i> the Zara belt."
+                        </div>
+                        <div class="bg-amber-50 text-amber-800 p-3 rounded-lg border border-amber-100">
+                            <b>Irregular (better/worse):</b><br>
+                            "Sneakers are <i>better</i> for walking in the office."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Catalog data with prices adjusted for the 500-2000 budget range
+        const products = [
+            { id: 1, emoji: "👔", name: "Blue Tie", brand: "H&M", price: 75, occasion: "Formal Office", desc: "A classic, simple tie for everyday work.", type: "cheap" },
+            { id: 2, emoji: "👔", name: "Silk Tie", brand: "Armani", price: 350, occasion: "Important Meetings", desc: "100% pure silk. Very elegant.", type: "expensive" },
+            { id: 3, emoji: "👞", name: "Leather Shoes", brand: "Clarks", price: 450, occasion: "Formal Office", desc: "Traditional and professional.", type: "expensive" },
+            { id: 4, emoji: "👟", name: "White Sneakers", brand: "Nike", price: 250, occasion: "Casual Friday", desc: "Comfortable and modern for a relaxed office.", type: "cheap" },
+            { id: 5, emoji: "🕶️", name: "Classic Sunglasses", brand: "Ray-Ban", price: 550, occasion: "Sunny Commute", desc: "Protect your eyes with style.", type: "expensive" },
+            { id: 6, emoji: "🕶️", name: "Plastic Sunglasses", brand: "Generic", price: 65, occasion: "Casual", desc: "Basic protection, fun colors.", type: "cheap" },
+            { id: 7, emoji: "🧣", name: "Cashmere Scarf", brand: "Burberry", price: 650, occasion: "Winter Office", desc: "Extremely warm and luxurious.", type: "expensive" },
+            { id: 8, emoji: "🧣", name: "Wool Scarf", brand: "Zara", price: 120, occasion: "Winter", desc: "Warm and friendly for cold days.", type: "cheap" },
+            { id: 9, emoji: "⌚", name: "Smartwatch", brand: "Apple", price: 850, occasion: "Modern Office", desc: "Check your emails on your wrist.", type: "expensive" },
+            { id: 10, emoji: "⌚", name: "Classic Watch", brand: "Casio", price: 150, occasion: "Everyday Work", desc: "Simple, reliable, and tells the time.", type: "cheap" }
+        ];
+
+        let budgetLimit = 0;
+        let cart = [];
+        let hasRolledBudget = false;
+
+        // DOM References
+        const catalogEl = document.getElementById('catalog');
+        const cartItemsEl = document.getElementById('cart-items');
+        const currentTotalEl = document.getElementById('current-total');
+        const budgetWarningEl = document.getElementById('budget-warning');
+        const emptyCartMsg = document.getElementById('empty-cart-msg');
+        const itemCountEl = document.getElementById('item-count');
+        const rollBtn = document.getElementById('roll-btn');
+        const budgetDisplay = document.getElementById('budget-display');
+        const budgetLimitText = document.getElementById('budget-limit-text');
+
+        // Generate Random Budget (1000 - 4000)
+        function generateBudget() {
+            if (hasRolledBudget) return; // Prevent rolling again
+            
+            // Random number between 1000 and 4000 (rounded to nearest 10)
+            budgetLimit = Math.floor(Math.random() * (300 + 1)) * 10 + 1000;
+            
+            // Update UI
+            budgetLimitText.innerText = budgetLimit;
+            rollBtn.classList.add('hidden'); // Hide the button permanently
+            budgetDisplay.classList.remove('hidden'); // Show the budget tracker
+            
+            // Enable the catalog
+            catalogEl.classList.remove('opacity-50', 'pointer-events-none');
+            
+            hasRolledBudget = true;
+            updateCart();
+        }
+
+        // Render the catalog
+        function renderCatalog() {
+            catalogEl.innerHTML = '';
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow flex flex-col";
+                
+                const badgeColor = product.type === 'expensive' ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800';
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="text-4xl bg-slate-50 p-3 rounded-xl">${product.emoji}</div>
+                        <span class="font-bold text-xl text-indigo-600">$${product.price}</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">${product.name}</h3>
+                    <p class="text-sm text-slate-500 font-medium mb-1">Brand: <span class="text-slate-700">${product.brand}</span></p>
+                    <p class="text-sm text-slate-600 mb-3 flex-1">${product.desc}</p>
+                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                        <span class="text-xs font-semibold px-2 py-1 rounded ${badgeColor}">${product.occasion}</span>
+                        <button onclick="addToCart(${product.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors">
+                            Add
+                        </button>
+                    </div>
+                `;
+                catalogEl.appendChild(card);
+            });
+        }
+
+        // Add to cart
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push({...product, cartId: Math.random().toString(36).substr(2, 9)});
+            updateCart();
+        }
+
+        // Remove from cart
+        function removeFromCart(cartId) {
+            cart = cart.filter(item => item.cartId !== cartId);
+            updateCart();
+        }
+
+        // Update Cart UI and Budget Check
+        function updateCart() {
+            cartItemsEl.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItemsEl.appendChild(emptyCartMsg);
+                emptyCartMsg.style.display = 'block';
+            } else {
+                emptyCartMsg.style.display = 'none';
+                cart.forEach(item => {
+                    total += item.price;
+                    const li = document.createElement('li');
+                    li.className = "flex justify-between items-center p-3 bg-slate-50 border border-slate-100 rounded-lg fade-in";
+                    li.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">${item.emoji}</span>
+                            <div>
+                                <p class="font-bold text-sm text-slate-800">${item.name}</p>
+                                <p class="text-xs text-slate-500">${item.brand}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-bold text-indigo-600">$${item.price}</span>
+                            <button onclick="removeFromCart('${item.cartId}')" class="text-slate-400 hover:text-red-500 transition-colors" title="Remove">
+                                ✖
+                            </button>
+                        </div>
+                    `;
+                    cartItemsEl.appendChild(li);
+                });
+            }
+
+            // Update texts
+            currentTotalEl.innerText = total;
+            itemCountEl.innerText = `${cart.length} item${cart.length !== 1 ? 's' : ''}`;
+
+            // Budget logic (only check if budget has been rolled)
+            if (hasRolledBudget && total > budgetLimit) {
+                currentTotalEl.parentElement.parentElement.classList.remove('bg-indigo-800', 'border-indigo-500');
+                currentTotalEl.parentElement.parentElement.classList.add('bg-red-600', 'border-red-400', 'animate-pulse');
+                budgetWarningEl.classList.remove('hidden');
+                budgetWarningEl.classList.add('flex');
+            } else {
+                currentTotalEl.parentElement.parentElement.classList.add('bg-indigo-800', 'border-indigo-500');
+                currentTotalEl.parentElement.parentElement.classList.remove('bg-red-600', 'border-red-400', 'animate-pulse');
+                budgetWarningEl.classList.add('hidden');
+                budgetWarningEl.classList.remove('flex');
+            }
+        }
+
+        // Initialize
+        renderCatalog();
+    </script>
+</body>
+</html>
