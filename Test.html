@@ -1,95 +1,171 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Examen Final Evolve 2: Units 7-9</title>
+    <title>Final Exam Evolve 2: Units 7-9</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
+        /* Estilos Base y Anti-Copia Móvil */
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f8fafc; 
-            color: #1e293b; 
-            -webkit-touch-callout: none;
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #f3f4f6; 
+            color: #1f2937; 
+            -webkit-touch-callout: none; 
         }
-        .prevent-select { 
-            -webkit-user-select: none; 
-            user-select: none; 
-        }
-        .prevent-select input, .prevent-select textarea { 
-            -webkit-user-select: text !important; 
-            user-select: text !important; 
-        }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .prevent-select { -webkit-user-select: none; user-select: none; }
+        .prevent-select input, .prevent-select textarea { -webkit-user-select: text !important; user-select: text !important; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .match-item, .order-tag, .group-item { transition: all 0.2s; cursor: pointer; }
-        .match-selected { background-color: #dbeafe; border-color: #3b82f6; transform: scale(1.02); }
-        .group-item-selected { background-color: #4f46e5; color: white; border-color: #4338ca; z-index: 50; }
+        /* Interacciones y Grupos */
+        .match-item, .order-tag, .group-item { transition: all 0.2s; cursor: pointer; touch-action: manipulation; }
+        .match-item img { max-width: 100px; max-height: 100px; object-fit: contain; display: block; margin: 0 auto; border-radius: 4px; pointer-events: none; }
+        .match-item { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60px; }
+        .match-selected { background-color: #e0e7ff; border-color: #6366f1; transform: scale(1.02); box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2); }
+        .group-item-selected { background-color: #4f46e5; color: white; border-color: #4338ca; transform: scale(1.05); box-shadow: 0 4px 6px rgba(0,0,0,0.15); z-index: 50; }
+        .group-target { transition: all 0.2s; border: 2px dashed #cbd5e1; }
+        .group-target:active { background-color: #f1f5f9; border-color: #94a3b8; }
         
-        .reading-text { 
-            background: #fff; 
-            border-left: 4px solid #f59e0b; 
-            padding: 1.5rem; 
-            margin-bottom: 1.5rem; 
-            font-size: 0.95rem; 
-            line-height: 1.7; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .listening-banner { 
-            background: #f0f7ff; 
-            border: 2px solid #3b82f6; 
-            padding: 1rem; 
-            border-radius: 1rem; 
-            text-align: center; 
-            margin-bottom: 1.5rem; 
-            color: #1d4ed8; 
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-        }
+        /* Lectura y Escucha */
+        .reading-text { max-height: 200px; overflow-y: auto; background: #fffbeb; border-left: 4px solid #f59e0b; padding: 1rem; margin-bottom: 1.5rem; font-style: italic; color: #4b5563; font-size: 0.95rem; line-height: 1.6; }
+        .listening-banner { background: #eff6ff; border: 2px solid #bfdbfe; padding: 1rem; border-radius: 0.75rem; text-align: center; margin-bottom: 1.5rem; color: #1e40af; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        
+        /* Modales y Alertas */
+        #cheat-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(220, 38, 38, 0.98); z-index: 9999; color: white; text-align: center; padding-top: 25vh; backdrop-filter: blur(10px); }
+        #review-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 40; align-items: center; justify-content: center; }
+        #penalty-toast { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #991b1b; color: white; padding: 15px 25px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 200; font-weight: bold; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+        
+        @media print { body { display: none !important; } }
     </style>
 </head>
 <body class="prevent-select" oncontextmenu="return false;">
 
-    <div id="cheat-overlay" class="hidden fixed inset-0 bg-red-600 bg-opacity-95 z-[100] flex flex-col items-center justify-center text-white p-6 text-center">
-        <i class="ph ph-warning-octagon text-8xl mb-4"></i>
-        <h2 class="text-4xl font-bold mb-4">¡ATENCIÓN!</h2>
-        <p class="text-xl max-w-md">Has salido de la pantalla del examen. Esta acción ha sido registrada por el profesor.</p>
-        <button onclick="document.getElementById('cheat-overlay').classList.add('hidden')" class="mt-8 bg-white text-red-600 px-10 py-4 rounded-full font-bold shadow-xl hover:bg-gray-100 transition">Regresar al Examen</button>
+    <!-- Alerta de Salida de Pantalla -->
+    <div id="cheat-overlay">
+        <i class="ph ph-warning-octagon text-7xl mb-4"></i>
+        <h2 class="text-4xl font-bold mb-2">INFRACTION DETECTED!</h2>
+        <p class="text-xl font-medium" id="cheat-reason">You have left the exam window.</p>
+        <div class="mt-6 bg-red-800 text-red-100 p-4 inline-block rounded-xl border border-red-600 shadow-inner">
+            <p class="font-bold uppercase tracking-wider text-sm mb-1">Penalty Applied</p>
+            <p class="text-lg">The current question has been <strong class="text-white">VOIDED</strong> (0 points).</p>
+        </div><br>
+        <button onclick="window.dismissCheat()" class="mt-8 bg-white text-red-600 px-8 py-4 rounded-full font-bold shadow-2xl hover:bg-gray-100 hover:scale-105 transition transform">Accept and continue</button>
     </div>
 
-    <div id="penalty-toast" class="hidden fixed bottom-10 left-1/2 -translate-x-1/2 bg-red-800 text-white px-6 py-3 rounded-full shadow-2xl z-[200] font-bold">
-        <i class="ph ph-prohibit mr-2"></i> Respuesta anulada por seguridad
-    </div>
+    <!-- Toast de Penalización -->
+    <div id="penalty-toast"><i class="ph ph-prohibit"></i> Penalty applied</div>
 
-    <div id="review-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[40] flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl flex flex-col max-h-[90vh]">
-            <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-2xl">
-                <h3 class="font-bold text-xl">Revisión de Respuestas</h3>
-                <button onclick="document.getElementById('review-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 p-2"><i class="ph ph-x text-2xl"></i></button>
+    <!-- Modal de Revisión del Profesor -->
+    <div id="review-modal" class="hidden">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl m-4 flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-xl">
+                <h3 class="font-bold text-lg">Manual Review</h3>
+                <button onclick="document.getElementById('review-modal').style.display='none'" class="text-slate-400 hover:text-slate-600"><i class="ph ph-x text-xl"></i></button>
             </div>
-            <div id="review-content" class="p-6 overflow-y-auto"></div>
+            <div id="review-content" class="p-6 overflow-y-auto flex-1"></div>
         </div>
     </div>
 
+    <!-- Contenedor Principal de la App -->
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
         <div class="text-center">
-            <i class="ph ph-spinner animate-spin text-5xl text-indigo-600"></i>
-            <p class="mt-4 text-slate-500 font-medium">Iniciando sistema de evaluación...</p>
+            <i class="ph ph-spinner animate-spin text-4xl text-blue-600"></i>
+            <p class="mt-2 text-slate-500">Loading assessment engine...</p>
         </div>
     </div>
+
+    <!-- Datos del Examen -->
+    <script id="quiz-data" type="application/json">
+    [
+        { "id": 1, "type": "listening", "q": "Listen to the teacher: What meat does Tom normally eat for dinner?", "options": ["A lot of chicken or some pork.", "Some chicken or a little beef.", "A few fish or some beef.", "A little chicken or some insects."], "correct": 1 },
+        { "id": 2, "type": "listening", "q": "Listen to the teacher: Why does Sofia use onions and garlic with the chapulines?", "options": ["For a fresh taste.", "To make a salad.", "To give them a delicious flavor.", "For making them crunchy."], "correct": 2 },
+        { "id": 3, "type": "listening", "q": "Listen to the teacher: What does Sofia say happens WHEN you visit Mexico?", "options": ["You will see a lot of delicious food.", "You will get a surprise.", "Your brain gets confused.", "You will buy fresh fruit on the street."], "correct": 2 },
+        { "id": 4, "type": "listening", "q": "Listen to the teacher: According to Sofia, what do they use 'huitlacoche' to make?", "options": ["They use it to make chili powder.", "They use it to make apples and mangoes.", "They use it for a fresh taste.", "They use it to make quesadillas."], "correct": 3 },
+        { "id": 5, "type": "listening", "q": "Listen to the teacher: What happens IF you buy fresh fruit on the street in Mexico?", "options": ["You don't like eating bugs.", "The vendors put chili powder and lime on it.", "You will see a lot of cheese and a few tomatoes.", "The vendors fry it in a pan."], "correct": 1 },
+        { "id": 6, "type": "reading", "q": "According to the reading, why did Mark decide to travel to Thailand?", "text": "Mark loves to travel. Last summer, he decided to go to Thailand for a special vacation. He needed to buy a large backpack because he had a lot of equipment. When he arrived, the weather was very hot and sunny. He stayed in a small hotel near the coast. Mark enjoyed eating local food like spicy noodles and fresh fruit. He thinks Thai food is more delicious than food in his country. One day, he visited a waterfall. It was the most beautiful place he ever saw! He took many photos to share on social media. If you visit Thailand, you need to bring comfortable shoes for walking.", "options": ["Because he wanted to buy a backpack.", "For a special summer vacation.", "To work in a small hotel.", "To sell spicy noodles."], "correct": 1 },
+        { "id": 7, "type": "reading", "q": "According to the reading, what did Mark need for his trip because of his equipment?", "text": "Mark loves to travel. Last summer, he decided to go to Thailand for a special vacation. He needed to buy a large backpack because he had a lot of equipment. When he arrived, the weather was very hot and sunny. He stayed in a small hotel near the coast. Mark enjoyed eating local food like spicy noodles and fresh fruit. He thinks Thai food is more delicious than food in his country. One day, he visited a waterfall. It was the most beautiful place he ever saw! He took many photos to share on social media. If you visit Thailand, you need to bring comfortable shoes for walking.", "options": ["A new passport.", "A first-aid kit.", "A large backpack.", "A tent for the coast."], "correct": 2 },
+        { "id": 8, "type": "reading", "q": "According to the reading, how does Mark compare Thai food with the food in his country?", "text": "Mark loves to travel. Last summer, he decided to go to Thailand for a special vacation. He needed to buy a large backpack because he had a lot of equipment. When he arrived, the weather was very hot and sunny. He stayed in a small hotel near the coast. Mark enjoyed eating local food like spicy noodles and fresh fruit. He thinks Thai food is more delicious than food in his country. One day, he visited a waterfall. It was the most beautiful place he ever saw! He took many photos to share on social media. If you visit Thailand, you need to bring comfortable shoes for walking.", "options": ["He thinks it is less delicious.", "He thinks it is the same.", "He thinks Thai food is more delicious.", "He doesn't like spicy noodles."], "correct": 2 },
+        { "id": 9, "type": "reading", "q": "According to the reading, which place was 'the most beautiful' for Mark?", "text": "Mark loves to travel. Last summer, he decided to go to Thailand for a special vacation. He needed to buy a large backpack because he had a lot of equipment. When he arrived, the weather was very hot and sunny. He stayed in a small hotel near the coast. Mark enjoyed eating local food like spicy noodles and fresh fruit. He thinks Thai food is more delicious than food in his country. One day, he visited a waterfall. It was the most beautiful place he ever saw! He took many photos to share on social media. If you visit Thailand, you need to bring comfortable shoes for walking.", "options": ["The small hotel.", "The spicy noodles.", "The waterfall.", "The social media."], "correct": 2 },
+        { "id": 10, "type": "reading", "q": "According to the reading, what advice does the text give IF you visit Thailand?", "text": "Mark loves to travel. Last summer, he decided to go to Thailand for a special vacation. He needed to buy a large backpack because he had a lot of equipment. When he arrived, the weather was very hot and sunny. He stayed in a small hotel near the coast. Mark enjoyed eating local food like spicy noodles and fresh fruit. He thinks Thai food is more delicious than food in his country. One day, he visited a waterfall. It was the most beautiful place he ever saw! He took many photos to share on social media. If you visit Thailand, you need to bring comfortable shoes for walking.", "options": ["You need to stay in a large hotel.", "You need to bring comfortable shoes.", "You must take photos of everything.", "You shouldn't eat local food."], "correct": 1 },
+        { "id": 11, "type": "choice", "q": "Topic: Food. I'm making a sandwich. Is there ____ cheese in the fridge?", "options": ["any", "many", "a lot", "much"], "correct": 0 },
+        { "id": 12, "type": "fill-gap", "q": "Topic: Quantifiers. Fill in with the correct word.", "text": "I don't eat {many} strawberries because they are expensive this week." },
+        { "id": 13, "type": "choice", "q": "Topic: Verb Patterns. We decided ____ to a Japanese restaurant tonight.", "options": ["go", "going", "to go", "to going"], "correct": 2 },
+        { "id": 14, "type": "choice", "q": "Topic: Verb Patterns. I really enjoy ____ pasta with my family on Sundays.", "options": ["cooking", "to cook", "cook", "cooked"], "correct": 0 },
+        { "id": 15, "type": "fill-gap", "q": "Topic: Cooking. Fill in with the correct verb.", "text": "To make the water safe, you need to {boil} it for five minutes." },
+        { "id": 16, "type": "choice", "q": "Topic: Reasons. I went to the store ____ some peanut butter.", "options": ["for buy", "to buy", "for buying", "to buying"], "correct": 1 },
+        { "id": 17, "type": "choice", "q": "Topic: Reasons. He needs a backpack ____ his camping trip.", "options": ["to", "for", "to the", "for the"], "correct": 1 },
+        { "id": 18, "type": "choice", "q": "Topic: Comparatives. A suitcase is ____ than a carry-on bag.", "options": ["heavyer", "more heavy", "heavier", "the heaviest"], "correct": 2 },
+        { "id": 19, "type": "choice", "q": "Topic: Superlatives. This is ____ hotel in the whole city!", "options": ["the most expensive", "more expensive", "the expensivest", "expensive"], "correct": 0 },
+        { "id": 20, "type": "grouping", "q": "Topic: Food vs Trips. Categorize these items correctly.", "groups": ["Food/Kitchen", "Travel/Trips"], "items": [{"text": "Onion", "group": 0}, {"text": "Passport", "group": 1}, {"text": "Chop", "group": 0}, {"text": "Boarding pass", "group": 1}, {"text": "Fry", "group": 0}, {"text": "Suitcase", "group": 1}] },
+        { "id": 21, "type": "order", "q": "Topic: Zero Conditional. Order the following sentence.", "items": ["If", "you", "freeze", "water,", "it", "becomes", "ice."] },
+        { "id": 22, "type": "fill-gap", "q": "Topic: Appearance. Complete the physical description.", "text": "My grandfather has a long white {beard} and a small mustache." },
+        { "id": 23, "type": "matching", "q": "Topic: Opposites. Match the opposite adjectives.", "pairs": [{"left": "Light", "right": "Heavy"}, {"left": "Curly", "right": "Straight"}, {"left": "Bright", "right": "Dark"}, {"left": "Thick", "right": "Thin"}] },
+        { "id": 24, "type": "choice", "q": "Topic: Sequence. ____, chop the onions. Then, fry them in a pan.", "options": ["Finally", "First", "After that", "Next"], "correct": 1 },
+        { "id": 25, "type": "choice", "q": "Topic: Appearance. She has ____ hair that reaches her shoulders.", "options": ["bald", "curly", "tattoo", "mustache"], "correct": 1 },
+        { "id": 26, "type": "choice", "q": "Topic: Travel. What time does the plane ____ from the airport?", "options": ["take off", "board", "check in", "pick up"], "correct": 0 },
+        { "id": 27, "type": "fill-gap", "q": "Topic: Quantifiers. Fill in with the appropriate quantity phrase.", "text": "We have {a lot of} cereal, so we don't need to buy more for breakfast." },
+        { "id": 28, "type": "choice", "q": "Topic: Cooking. To make soup, you need to ____ the vegetables into small pieces.", "options": ["grill", "boil", "chop", "roast"], "correct": 2 },
+        { "id": 29, "type": "choice", "q": "Topic: Travel Verbs. Please ____ the bus at the next stop near the park.", "options": ["get off", "get into", "board", "land"], "correct": 0 },
+        { "id": 30, "type": "choice", "q": "Topic: Comparatives. Traveling by plane is ____ than traveling by bus.", "options": ["fast", "faster", "more fast", "the fastest"], "correct": 1 },
+        { "id": 31, "type": "essay", "q": "Topic: Food. Write a short paragraph describing your favorite meal. Mention at least two ingredients and one cooking verb.", "keywords": ["ingredients", "cook", "like"], "minWords": 15 },
+        { "id": 32, "type": "choice", "q": "Topic: Quantifiers. How ____ milk do you want in your coffee?", "options": ["many", "much", "any", "some"], "correct": 1 },
+        { "id": 33, "type": "fill-gap", "q": "Topic: Verb Patterns. Fill in with the correct form.", "text": "I can't stand {washing} the dishes after a big dinner." },
+        { "id": 34, "type": "choice", "q": "Topic: Zero Conditional. When I ____ a headache, I usually take an aspirin.", "options": ["has", "have", "had", "having"], "correct": 1 },
+        { "id": 35, "type": "choice", "q": "Topic: Travel. You need your ____ to enter another country.", "options": ["tent", "ticket", "passport", "map"], "correct": 2 },
+        { "id": 36, "type": "choice", "q": "Topic: Appearance. He has a very large ____ on his right arm.", "options": ["piercing", "beard", "mustache", "tattoo"], "correct": 3 },
+        { "id": 37, "type": "choice", "q": "Topic: Superlatives. Who is ____ person in your family?", "options": ["the tallest", "tallest", "more tall", "the most tall"], "correct": 0 },
+        { "id": 38, "type": "fill-gap", "q": "Topic: Reasons. Complete the sentence.", "text": "I am studying English {to} get a better job in the future." },
+        { "id": 39, "type": "choice", "q": "Topic: Sequence. Mix the salad. ____, serve it with some bread.", "options": ["First", "Then", "Finally", "Next"], "correct": 2 },
+        { "id": 40, "type": "grouping", "q": "Topic: Nouns. Classify these nouns correctly.", "groups": ["Countable", "Uncountable"], "items": [{"text": "Apple", "group": 0}, {"text": "Water", "group": 1}, {"text": "Burger", "group": 0}, {"text": "Sugar", "group": 1}, {"text": "Strawberry", "group": 0}, {"text": "Rice", "group": 1}] },
+        { "id": 41, "type": "choice", "q": "Topic: Food. Do we have ____ onions for the chili recipe?", "options": ["any", "much", "a lot", "little"], "correct": 0 },
+        { "id": 42, "type": "choice", "q": "Topic: Verb Patterns. She hopes ____ a famous chef one day.", "options": ["become", "becoming", "to become", "to becoming"], "correct": 2 },
+        { "id": 43, "type": "fill-gap", "q": "Topic: Travel. Fill in with the correct phrasal verb.", "text": "Don't forget to {check in} online before you go to the airport." },
+        { "id": 44, "type": "choice", "q": "Topic: Zero Conditional. If you ____ the vegetables, the soup tastes better.", "options": ["fry", "fries", "frying", "fried"], "correct": 0 },
+        { "id": 45, "type": "choice", "q": "Topic: Reasons. I bought this map ____ our trip to the mountains.", "options": ["to", "for", "for to", "to for"], "correct": 1 },
+        { "id": 46, "type": "choice", "q": "Topic: Comparatives. This book is ____ than the one I read last month.", "options": ["gooder", "better", "more good", "best"], "correct": 1 },
+        { "id": 47, "type": "choice", "q": "Topic: Superlatives. Summer is ____ season of the year in my city.", "options": ["the hottest", "hottest", "more hot", "the most hot"], "correct": 0 },
+        { "id": 48, "type": "fill-gap", "q": "Topic: Appearance. Fill in with the correct object.", "text": "He wears {glasses} because he can't see the screen very well." },
+        { "id": 50, "type": "order", "q": "Topic: Comparatives. Order the following sentence.", "items": ["My", "sister", "is", "older", "than", "my", "brother."] },
+        { "id": 51, "type": "choice", "q": "Topic: Food. I'd like ____ yogurt with my fruit, please.", "options": ["a", "an", "some", "many"], "correct": 2 },
+        { "id": 52, "type": "choice", "q": "Topic: Verb Patterns. They don't mind ____ for the bus.", "options": ["waiting", "to wait", "wait", "waited"], "correct": 0 },
+        { "id": 53, "type": "fill-gap", "q": "Topic: Travel. Fill in with the correct verb.", "text": "Mu father always {takes} the bus to go to work." },
+        { "id": 54, "type": "choice", "q": "Topic: Zero Conditional. When it rains, the grass ____ wet.", "options": ["get", "gets", "getting", "got"], "correct": 1 },
+        { "id": 55, "type": "choice", "q": "Topic: Reasons. We use a first-aid kit ____ emergencies.", "options": ["to", "for", "because", "so"], "correct": 1 },
+        { "id": 56, "type": "choice", "q": "Topic: Comparatives. This chair is ____ than the old sofa.", "options": ["uncomfortabler", "more uncomfortable", "uncomfortable", "the most uncomfortable"], "correct": 1 },
+        { "id": 57, "type": "choice", "q": "Topic: Superlatives. Gold is one of ____ metals in the world.", "options": ["the heaviest", "heavier", "the most heavy", "heavyest"], "correct": 0 },
+        { "id": 58, "type": "fill-gap", "q": "Topic: Appearance. Fill in with the correct hair adjective.", "text": "My cousin has {straight} hair, but mine is very curly." },
+        { "id": 59, "type": "choice", "q": "Topic: Cooking. Please ____ the soup frequently so it doesn't burn.", "options": ["bake", "fry", "stir", "roast"], "correct": 2 },
+        { "id": 60, "type": "choice", "q": "Topic: Travel. You should carry a ____ if you go hiking in the forest.", "options": ["tent", "backpack", "boarding pass", "suit"], "correct": 1 },
+        { "id": 61, "type": "choice", "q": "Topic: Food. There isn't ____ salt in this chili recipe.", "options": ["much", "many", "some", "a"], "correct": 0 },
+        { "id": 62, "type": "choice", "q": "Topic: Verb Patterns. I hate ____ in the morning when it's cold outside.", "options": ["running", "run", "to run", "Both A and C"], "correct": 3 },
+        { "id": 63, "type": "fill-gap", "q": "Topic: Travel. Fill in with the correct verb.", "text": "When you {depart} from the station, please say goodbye to everyone." },
+        { "id": 64, "type": "choice", "q": "Topic: Zero Conditional. If you don't eat all day, you ____ hungry.", "options": ["feel", "feels", "feeling", "felt"], "correct": 0 },
+        { "id": 65, "type": "choice", "q": "Topic: Reasons. I am going to the kitchen ____ a snack.", "options": ["to make", "for make", "to making", "for making"], "correct": 0 },
+        { "id": 66, "type": "choice", "q": "Topic: Comparatives. My new house is ____ than your old apartment.", "options": ["smaller", "more small", "smaller than", "the smallest"], "correct": 0 },
+        { "id": 67, "type": "choice", "q": "Topic: Superlatives. This is ____ movie I have ever watched in my life.", "options": ["the most boring", "more boring", "the boringest", "boring"], "correct": 0 },
+        { "id": 68, "type": "fill-gap", "q": "Topic: Appearance. Complete the physical description.", "text": "He has no hair at all; he is completely {bald}." },
+        { "id": 69, "type": "choice", "q": "Topic: Cooking. We usually ____ a chicken in the oven for dinner.", "options": ["boil", "fry", "roast", "chop"], "correct": 2 },
+        { "id": 70, "type": "choice", "q": "Topic: Travel. Do you have your ____ for the train to London?", "options": ["ticket", "passport", "backpack", "tent"], "correct": 0 },
+        { "id": 71, "type": "choice", "q": "Topic: Food. I have ____ friends who are vegetarians and don't eat meat.", "options": ["a lot of", "much", "any", "little"], "correct": 0 },
+        { "id": 72, "type": "choice", "q": "Topic: Verb Patterns. Do you want ____ lunch now in the cafeteria?", "options": ["to have", "having", "have", "to having"], "correct": 0 },
+        { "id": 73, "type": "fill-gap", "q": "Topic: Travel. Fill in with the correct verb.", "text": "It's a good idea to {book} your hotel months in advance to save money." },
+        { "id": 74, "type": "choice", "q": "Topic: Zero Conditional. When people exercise often, they ____ stronger.", "options": ["become", "becomes", "becoming", "became"], "correct": 0 },
+        { "id": 75, "type": "essay", "q": "Topic: Travel. Describe your last trip or a trip you want to take. Mention where you want to go and what you need to take.", "keywords": ["travel", "need", "go"], "minWords": 20 }
+    ]
+    </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, onSnapshot, deleteDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, updateProfile, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, deleteDoc, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // =================================================================
+        // CONFIGURACIÓN PRINCIPAL
+        // =================================================================
+        // Variables que el GEM reemplazará
         const MI_CONFIGURACION_FIREBASE = {
           apiKey: "AIzaSyAqb4tC4UrINdjgafqgKd4pIkgPCjvaqbA",
           authDomain: "english-results-f133a.firebaseapp.com",
@@ -98,427 +174,550 @@
           messagingSenderId: "946380288618",
           appId: "1:946380288618:web:4bd2ad0d1de8e5e5f6d013"
         };
+        const MODO_EXAMEN = true; 
+        const PASSWORD_ADMIN = "45556";
+        
+        let RAW_QUIZ_DATA = [];
+        try {
+            const dataStr = document.getElementById('quiz-data').textContent.trim();
+            if (!dataStr.includes('{{JSON_AQUI}}')) {
+                RAW_QUIZ_DATA = JSON.parse(dataStr);
+            }
+        } catch(e) {
+            console.warn("Template in edit mode. Exam data will be loaded when injected by GEM.");
+        }
 
-        const PASSWORD_ADMIN = "Roponji";
-        const APP_ID_UNICO = "evolve2-u789-exam-v1";
-
-        const READING_PASSAGE = "The Modern Traveler: Alex is a digital nomad who loves exploring the world. Currently, Alex is in Rome. He is a tall man with short dark hair and a small mustache. He thinks Rome is more exciting than his hometown, but it's also much noisier. For Alex, a perfect day starts at a local cafe. He usually learns to cook local dishes because he enjoys eating fresh food. Yesterday, he decided to visit a traditional market to buy some onions, chili, and a lot of pasta. He says that if you travel to Italy, you have to try the authentic 'gelato'. It is colder and thicker than regular ice cream. Tomorrow, Alex plans to depart for a small town in the north. He needs to check in at the train station early. He always carries a first-aid kit and a map in his backpack for safety. He believes traveling is the best way to learn about life.";
-
-        const RAW_QUIZ_DATA = [
-            // UNIDAD 7: FOOD & QUANTIFIERS
-            { id: 1, type: 'choice', q: "Topic: Food. Which of these is a typical breakfast food made from grain?", options: ["Burger", "Cereal", "Chili", "Salmon"], correct: 1 },
-            { id: 2, type: 'fill-gap', q: "Topic: Quantifiers. Fill with 'much' or 'many'.", text: "How {many} strawberries do we need for the yogurt?" },
-            { id: 3, type: 'fill-gap', q: "Topic: Quantifiers. Fill with 'much' or 'many'.", text: "I don't have {much} peanut butter left in the jar." },
-            { id: 4, type: 'order', q: "Unscramble: verb patterns.", items: ["I", "enjoy", "making", "dinner", "for", "my", "family"] },
-            { id: 5, type: 'matching', q: "Match the cooking verb with its definition.", pairs: [{left: "Boil", right: "Cook in very hot water"}, {left: "Fry", right: "Cook in hot oil"}, {left: "Chop", right: "Cut into small pieces"}, {left: "Bake", right: "Cook in the oven"}] },
-            { id: 6, type: 'choice', q: "Topic: Ordering. How do you ask for a burger politely?", options: ["I want a burger.", "Give me a burger.", "I'll have a burger, please.", "A burger now."], correct: 2 },
-            { id: 7, type: 'fill-gap', q: "Topic: Verb patterns. Complete the sentence.", text: "We decided {to go} to the new Italian restaurant tonight." },
-            { id: 8, type: 'fill-gap', q: "Topic: Verb patterns. Complete the sentence.", text: "I really hate {washing} the dishes after a big meal." },
-            { id: 9, type: 'grouping', q: "Classify into Countable or Non-count nouns.", groups: ["Countable", "Non-count"], items: [{text: "Onion", group: 0}, {text: "Pasta", group: 1}, {text: "Strawberry", group: 0}, {text: "Yogurt", group: 1}, {text: "Burger", group: 0}, {text: "Salt", group: 1}] },
-            { id: 10, type: 'choice', q: "Topic: Sequence words. Which word do you use for the last step?", options: ["First", "Then", "After that", "Finally"], correct: 3 },
-            { id: 11, type: 'fill-gap', q: "Topic: Quantifiers. Use 'a lot of' for positive.", text: "There is {a lot of} sugar in this soda." },
-            { id: 12, type: 'choice', q: "Topic: Food. What is a long, thin piece of pasta?", options: ["Noodle", "Corn", "Onion", "Jam"], correct: 0 },
-            { id: 13, type: 'fill-gap', q: "Topic: Verb patterns.", text: "Do you mind {opening} the window? It's hot in the kitchen." },
-            { id: 14, type: 'order', q: "Order the sequence.", items: ["First,", "chop", "the", "onions,", "then", "fry", "them"] },
-            { id: 15, type: 'choice', q: "Topic: Ordering. The server asks: 'Anything else?'. You respond:", options: ["Yes, I like it.", "No, I'm fine, thanks.", "I am happy.", "It is good."], correct: 1 },
-            { id: 16, type: 'fill-gap', q: "Topic: Cooking.", text: "To make a cake, you need to {bake} it in the oven for 30 minutes." },
-            { id: 17, type: 'fill-gap', q: "Topic: Food.", text: "I love putting {peanut butter} and jam on my bread." },
-            { id: 18, type: 'choice', q: "Which verb is followed ONLY by 'to + infinitive'?", options: ["Enjoy", "Plan", "Like", "Hate"], correct: 1 },
-            { id: 19, type: 'choice', q: "Which verb is followed ONLY by '-ing'?", options: ["Can't stand", "Want", "Need", "Learn"], correct: 0 },
-            { id: 20, type: 'fill-gap', q: "Topic: Food.", text: "A {burger} usually has meat, lettuce, and tomato inside a bun." },
-            { id: 21, type: 'choice', q: "Topic: Cooking. To cook something on a metal frame over a fire is to...", options: ["Boil", "Stir", "Grill", "Chop"], correct: 2 },
-            
-            // UNIDAD 8: TRIPS & CONDITIONALS
-            { id: 22, type: 'choice', q: "Topic: Travel. What document do you need to travel to another country?", options: ["Map", "Passport", "Tent", "Backpack"], correct: 1 },
-            { id: 23, type: 'fill-gap', q: "Topic: Zero Conditional. Use 'if' or 'when'.", text: "{If} you don't have a ticket, you can't board the plane." },
-            { id: 24, type: 'fill-gap', q: "Topic: Reasons. Use 'to' or 'for'.", text: "I went to the airport {to pick up} my sister." },
-            { id: 25, type: 'fill-gap', q: "Topic: Reasons. Use 'to' or 'for'.", text: "He bought a new backpack {for} his hiking trip." },
-            { id: 26, type: 'order', q: "Unscramble: Conditional.", items: ["If", "it", "rains,", "I", "take", "an", "umbrella"] },
-            { id: 27, type: 'matching', q: "Match the travel verb with its opposite.", pairs: [{left: "Depart", right: "Arrive"}, {left: "Get on", right: "Get off"}, {left: "Check in", right: "Check out"}, {left: "Pick up", right: "Drop off"}] },
-            { id: 28, type: 'choice', q: "Topic: Travel Items. You use this to sleep outside in nature.", options: ["Suitcase", "Boarding pass", "Tent", "First-aid kit"], correct: 2 },
-            { id: 29, type: 'fill-gap', q: "Topic: Travel Verbs.", text: "The plane will {land} at 5:00 PM if the weather is good." },
-            { id: 30, type: 'fill-gap', q: "Topic: Advice. Use 'should'.", text: "I think you {should} buy your tickets early to save money." },
-            { id: 31, type: 'grouping', q: "Classify Travel Items vs Travel Verbs.", groups: ["Items", "Verbs"], items: [{text: "Luggage", group: 0}, {text: "Depart", group: 1}, {text: "Sleeping bag", group: 0}, {text: "Board", group: 1}, {text: "Guide book", group: 0}, {text: "Miss", group: 1}] },
-            { id: 32, type: 'choice', q: "Topic: Travel. When the plane leaves the ground, it...", options: ["Lands", "Takes off", "Arrives", "Boards"], correct: 1 },
-            { id: 33, type: 'fill-gap', q: "Topic: Advice.", text: "It's a good idea {to pack} a first-aid kit when you go camping." },
-            { id: 34, type: 'fill-gap', q: "Topic: Conditional.", text: "When I {arrive} at the hotel, I always check in immediately." },
-            { id: 35, type: 'choice', q: "What do you call the bag you take inside the plane with you?", options: ["Suitcase", "Carry-on bag", "Tent", "Sleeping bag"], correct: 1 },
-            { id: 36, type: 'fill-gap', q: "Topic: Reasons.", text: "She's studying hard {to pass} her final exam." },
-            { id: 37, type: 'order', q: "Advice sentence.", items: ["Don't", "forget", "to", "bring", "your", "passport", "to", "the", "airport"] },
-            { id: 38, type: 'choice', q: "Topic: Travel. If you lose your way, you should look at a...", options: ["Tent", "Map", "Ticket", "Backpack"], correct: 1 },
-            { id: 39, type: 'fill-gap', q: "Topic: Travel Verbs.", text: "We need to {book} a hotel room before we go on vacation." },
-            { id: 40, type: 'fill-gap', q: "Topic: Conditional.", text: "If you {miss} the train, you have to wait for the next one." },
-            { id: 41, type: 'choice', q: "Which word means to get into a plane or ship?", options: ["Depart", "Arrive", "Board", "Land"], correct: 2 },
-            { id: 42, type: 'fill-gap', q: "Topic: Reasons.", text: "I'm going to the store {for} some milk." },
-
-            // UNIDAD 9: APPEARANCE & COMPARATIVES
-            { id: 43, type: 'choice', q: "Topic: Appearance. What is the hair above a man's mouth?", options: ["Beard", "Mustache", "Tattoo", "Piercing"], correct: 1 },
-            { id: 44, type: 'fill-gap', q: "Topic: Comparatives. (tall)", text: "My brother is {taller than} my father." },
-            { id: 45, type: 'fill-gap', q: "Topic: Superlatives. (large)", text: "Asia is the {largest} continent in the world." },
-            { id: 46, type: 'order', q: "Comparative sentence.", items: ["A", "laptop", "is", "more", "expensive", "than", "a", "smartphone"] },
-            { id: 47, type: 'matching', q: "Match the opposites.", pairs: [{left: "Curly", right: "Straight"}, {left: "Light", right: "Heavy"}, {left: "Thick", right: "Thin"}, {left: "Bright", right: "Dark"}] },
-            { id: 48, type: 'choice', q: "Topic: Appearance. If a person has no hair at all, they are...", options: ["Bald", "Curly", "Dark", "Gray"], correct: 0 },
-            { id: 49, type: 'fill-gap', q: "Topic: Comparatives. (good)", text: "This pizza is {better than} the one we had yesterday." },
-            { id: 50, type: 'fill-gap', q: "Topic: Superlatives. (exciting)", text: "That was the {most exciting} movie I've ever seen." },
-            { id: 51, type: 'grouping', q: "Classify Appearance vs Physical Objects.", groups: ["Appearance", "Object Adjectives"], items: [{text: "Beard", group: 0}, {text: "Colorful", group: 1}, {text: "Mustache", group: 0}, {text: "Thick", group: 1}, {text: "Bald", group: 0}, {text: "Plain", group: 1}] },
-            { id: 52, type: 'choice', q: "Topic: Adjectives. A bed that feels good to sleep in is...", options: ["Uncomfortable", "Hard", "Comfortable", "Thin"], correct: 2 },
-            { id: 53, type: 'fill-gap', q: "Topic: Appearance.", text: "He has a small {tattoo} of a bird on his arm." },
-            { id: 54, type: 'fill-gap', q: "Topic: Comparatives. (bad)", text: "The weather today is {worse than} it was on Monday." },
-            { id: 55, type: 'choice', q: "What do you call hair that has small circles or waves?", options: ["Straight", "Long", "Curly", "Bald"], correct: 2 },
-            { id: 56, type: 'fill-gap', q: "Topic: Superlatives. (happy)", text: "Today is the {happiest} day of my life!" },
-            { id: 57, type: 'order', q: "Superlative sentence.", items: ["She", "is", "the", "most", "intelligent", "student", "in", "class"] },
-            { id: 58, type: 'choice', q: "How do you ask for an opinion about a new shirt?", options: ["What do you think of this?", "Who are you?", "How is it?", "Do you have it?"], correct: 0 },
-            { id: 59, type: 'fill-gap', q: "Topic: Adjectives.", text: "A heavy suitcase is not {light}." },
-            { id: 60, type: 'fill-gap', q: "Topic: Appearance.", text: "Many old people have {gray} hair." },
-            { id: 61, type: 'choice', q: "Topic: Appearance. Small jewelry in the ear or nose is a...", options: ["Tattoo", "Piercing", "Beard", "Mustache"], correct: 1 },
-            { id: 62, type: 'fill-gap', q: "Topic: Comparatives. (comfortable)", text: "This sofa is {more comfortable than} the old one." },
-            { id: 63, type: 'fill-gap', q: "Topic: Superlatives. (thin)", text: "This is the {thinnest} book in the library." },
-            { id: 64, type: 'order', q: "Description.", items: ["He", "has", "dark", "hair", "and", "wears", "glasses"] },
-            { id: 65, type: 'choice', q: "Which adjective is the opposite of 'Bright'?", options: ["Colorful", "Dark", "Thin", "Large"], correct: 1 },
-
-            // READING SECTION (5 Questions)
-            { id: 66, type: 'reading', q: "According to the text, where is Alex right now?", text: READING_PASSAGE, options: ["Rome", "His hometown", "North Italy", "A market"], correct: 0 },
-            { id: 67, type: 'reading', q: "What does Alex think about Rome compared to his hometown?", text: READING_PASSAGE, options: ["It is quieter.", "It is more exciting but noisier.", "It is smaller.", "It is boring."], correct: 1 },
-            { id: 68, type: 'reading', q: "What did Alex decide to buy at the market?", text: READING_PASSAGE, options: ["Gelato and ice cream", "Onions, chili, and pasta", "A backpack and a map", "A first-aid kit"], correct: 1 },
-            { id: 69, type: 'reading', q: "What advice does Alex give about traveling to Italy?", text: READING_PASSAGE, options: ["You have to buy a map.", "You must learn to cook.", "You have to try authentic gelato.", "You need to walk a lot."], correct: 2 },
-            { id: 70, type: 'reading', q: "What are two items Alex always carries for safety?", text: READING_PASSAGE, options: ["Pasta and chili", "Gelato and ice cream", "A first-aid kit and a map", "A mustache and glasses"], correct: 2 },
-
-            // LISTENING SECTION (5 Questions - Provided by User)
-            { id: 71, type: 'listening', q: "What meat does Tom normally eat for dinner?", options: ["A lot of chicken or some pork.", "Some chicken or a little beef.", "A few fish or some beef.", "A little chicken or some insects."], correct: 1 },
-            { id: 72, type: 'listening', q: "Why does Sofia use onions and garlic with the chapulines?", options: ["For a fresh taste.", "To make a salad.", "To give them a delicious flavor.", "For making them crunchy."], correct: 2 },
-            { id: 73, type: 'listening', q: "What does Sofia say happens WHEN you visit Mexico?", options: ["You will see a lot of delicious food.", "You will get a surprise.", "You will buy fresh fruit on the street.", "Your brain gets confused."], correct: 0 },
-            { id: 74, type: 'listening', q: "According to Sofia, what do they use 'huitlacoche' to make?", options: ["They use it to make chili powder.", "They use it to make apples and mangoes.", "They use it for a fresh taste.", "They use it to make quesadillas."], correct: 3 },
-            { id: 75, type: 'listening', q: "What happens IF you buy fresh fruit on the street in Mexico?", options: ["You don't like eating bugs.", "The vendors put chili powder and lime on it.", "You will see a lot of cheese and a few tomatoes.", "The vendors fry it in a pan."], correct: 1 }
-        ];
-
+        // --- ESTADO GLOBAL ---
         let state = {
-            view: 'init', user: null, mode: 'cloud', studentName: '', studentKey: '', quizData: [],
-            qIndex: 0, score: 0, tempAnswer: null, isAnswered: false, selectedGroupingItem: null,
-            detailedAnswers: {}, results: [], studentsList: [], db: null, auth: null,
-            adminTab: 'results', appId: APP_ID_UNICO, warnings: 0, focusListenerAdded: false
+            view: 'init', user: null, mode: 'cloud',
+            studentName: '', studentKey: '', quizData: [],
+            qIndex: 0, score: 0, tempAnswer: null, isAnswered: false, 
+            selectedGroupingItem: null, detailedAnswers: {}, 
+            results: [], studentsList: [], db: null, auth: null,
+            adminTab: 'results', appId: 'evolve2-units-7-9-final',
+            warnings: 0, focusListenerAdded: false, firebaseError: null
         };
 
+        // --- HELPERS BÁSICOS ---
         const getColRef = (name) => collection(state.db, 'artifacts', state.appId, 'public', 'data', name);
         const getDocRef = (colName, docId) => doc(state.db, 'artifacts', state.appId, 'public', 'data', colName, docId);
         
         function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
-        function normalizeText(text) { return text ? text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : ""; }
+        function normalizeText(text) { 
+            if (!text) return "";
+            return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim(); 
+        }
 
+        const playAlarm = () => {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator(); const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(440, ctx.currentTime);
+                gain.gain.setValueAtTime(0.5, ctx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1);
+                osc.start(); osc.stop(ctx.currentTime + 1);
+            } catch(e) {}
+        };
+
+        // --- SISTEMA DE GUARDADO LOCAL (PERSISTENCIA) ---
         function saveState() {
             if (state.studentKey && state.studentKey !== 'Test1973') {
-                const d = { studentName: state.studentName, qIndex: state.qIndex, score: state.score, warnings: state.warnings, detailedAnswers: state.detailedAnswers, quizOrder: state.quizData.map(q => q.id), finished: state.view === 'finished', timestamp: new Date().toISOString() };
-                localStorage.setItem(`quiz_state_${state.studentKey.toUpperCase()}`, JSON.stringify(d));
+                const savedData = {
+                    studentName: state.studentName, qIndex: state.qIndex, score: state.score,
+                    warnings: state.warnings, detailedAnswers: state.detailedAnswers,
+                    quizOrder: state.quizData.map(q => q.id), finished: state.view === 'finished',
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem(`quiz_state_${state.studentKey.toUpperCase()}`, JSON.stringify(savedData));
             }
         }
 
         function restoreState(key) {
             const saved = localStorage.getItem(`quiz_state_${key.toUpperCase()}`);
             if (saved) {
-                const d = JSON.parse(saved);
-                state.studentName = d.studentName;
-                state.score = d.score;
-                state.warnings = d.warnings;
-                state.detailedAnswers = d.detailedAnswers;
-                state.quizData = d.quizOrder.map(id => RAW_QUIZ_DATA.find(x => x.id === id));
-                if (d.finished) { state.view = 'finished'; return true; }
-                state.qIndex = d.qIndex;
-                return false;
+                const data = JSON.parse(saved);
+                state.studentName = data.studentName || state.studentName;
+                if (data.finished) {
+                    state.score = data.score; state.warnings = data.warnings;
+                    state.detailedAnswers = data.detailedAnswers; state.quizData = restoreOrder(data.quizOrder); 
+                    state.view = 'finished'; return true;
+                } else {
+                    state.qIndex = data.qIndex; state.score = data.score; state.warnings = data.warnings;
+                    state.detailedAnswers = data.detailedAnswers; state.quizData = restoreOrder(data.quizOrder);
+                    return false; 
+                }
             }
-            return null;
+            return null; 
         }
 
+        function restoreOrder(orderIds) {
+            let ordered = [];
+            orderIds.forEach(id => { const q = RAW_QUIZ_DATA.find(x => x.id === id); if (q) ordered.push(q); });
+            return ordered;
+        }
+
+        // --- MANEJO GLOBAL DE ERRORES DE RED ---
+        window.addEventListener('unhandledrejection', (event) => {
+            console.warn("Falla de red detectada:", event.reason);
+            const appEl = document.getElementById('app');
+            if(appEl && appEl.innerHTML.includes('Loading')) {
+                state.firebaseError = "Connection error. Offline mode activated.";
+                initLocalMode();
+            }
+        });
+
+        // --- INICIALIZACIÓN ---
         async function init() {
             try {
-                const app = initializeApp(MI_CONFIGURACION_FIREBASE);
-                state.auth = getAuth(app); state.db = getFirestore(app);
-                await signInAnonymously(state.auth);
-                onAuthStateChanged(state.auth, (u) => { if (u) { state.user = u; state.view = 'login'; render(); } });
-            } catch (e) { state.mode = 'local'; state.view = 'login'; render(); }
+                if (typeof __app_id !== 'undefined') state.appId = __app_id;
+                let c = MI_CONFIGURACION_FIREBASE;
+                if (!c && typeof __firebase_config !== 'undefined') c = JSON.parse(__firebase_config);
+                if (c) { initFirebase(c); } else { state.view = 'login'; initLocalMode(); }
+            } catch (e) { state.view = 'login'; initLocalMode(); }
         }
 
-        function startAntiCheat() {
-            if (state.focusListenerAdded) return;
-            const handle = () => {
-                if (state.view === 'quiz' && state.studentKey !== 'Test1973') {
-                    state.warnings++;
-                    const q = state.quizData[state.qIndex];
-                    state.detailedAnswers[q.id] = { type: 'cheat', val: 'SALIDA DE PANTALLA', correct: false };
-                    const t = document.getElementById('penalty-toast');
-                    t.classList.remove('hidden'); setTimeout(() => t.classList.add('hidden'), 3000);
-                    window.next();
-                }
-            };
-            document.addEventListener("visibilitychange", () => { if (document.hidden) handle(); });
-            window.addEventListener('blur', handle);
-            state.focusListenerAdded = true;
-        }
-
-        async function verifyStudentKey(k) {
-            if (k === 'Test1973') return "Modo de Prueba";
+        async function initFirebase(config) {
             try {
-                const d = await getDoc(getDocRef('claves_alumnos', k.toUpperCase()));
-                return d.exists() ? d.data().nombre : null;
-            } catch(e) { return null; }
+                const app = initializeApp(config);
+                state.auth = getAuth(app); state.db = getFirestore(app);
+                
+                const authPromise = (typeof __initial_auth_token !== 'undefined' && __initial_auth_token && !MI_CONFIGURACION_FIREBASE)
+                    ? signInWithCustomToken(state.auth, __initial_auth_token)
+                    : signInAnonymously(state.auth);
+                
+                const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout connecting to server")), 8000));
+
+                Promise.race([authPromise, timeoutPromise]).then((userCred) => {
+                    state.user = userCred.user; state.view = 'login'; render();
+                    onAuthStateChanged(state.auth, (u) => { if (u) state.user = u; });
+                }).catch((e) => {
+                    state.firebaseError = e.message; initLocalMode();
+                });
+            } catch(e) { state.firebaseError = e.message; initLocalMode(); }
         }
+
+        function initLocalMode() { state.mode = 'local'; state.user = { uid: 'local-' + Date.now() }; state.view = 'login'; render(); }
+        
+        // --- SISTEMA ANTI-TRAMPAS ---
+        function startAntiCheat() { 
+            if (state.focusListenerAdded || state.studentKey === 'Test1973') return; 
+            
+            const triggerPenalty = (reason) => {
+                if (state.view !== 'quiz' || state.isAnswered) return;
+                playAlarm(); state.warnings++; 
+                const q = state.quizData[state.qIndex];
+                state.detailedAnswers[q.id] = { type: 'cheat', val: 'VOIDED: ' + reason, correct: false };
+                state.isAnswered = true; 
+                
+                document.getElementById('cheat-reason').innerText = "Reason: " + reason;
+                document.getElementById('cheat-overlay').style.display = 'block';
+                saveState(); 
+            };
+
+            window.addEventListener('blur', () => triggerPenalty("Window change / Using another App"));
+            document.addEventListener("visibilitychange", () => { if (document.hidden) triggerPenalty("Tab hidden"); });
+            document.addEventListener('keyup', (e) => {
+                if (e.key === 'PrintScreen' || e.code === 'PrintScreen' || (e.shiftKey && (e.metaKey || e.key === 'Meta'))) {
+                    triggerPenalty("Screenshot/Snipping attempt");
+                }
+            });
+            document.addEventListener('copy', (e) => { e.preventDefault(); if (e.clipboardData) e.clipboardData.setData('text/plain', 'COPY DENIED'); });
+            window.addEventListener('beforeunload', (e) => {
+                if (state.view === 'quiz' && !state.isAnswered) {
+                    state.warnings++; saveState(); 
+                }
+            });
+
+            state.focusListenerAdded = true; 
+        }
+
+        window.dismissCheat = () => { document.getElementById('cheat-overlay').style.display = 'none'; window.next(); };
+
+        // --- GESTIÓN DE BD ---
+        async function verifyStudentKey(key) { 
+            if (key === 'Test1973') return "Test User";
+            if (state.mode === 'local') {
+                const localKeys = JSON.parse(localStorage.getItem('quiz_keys_local') || '{}');
+                if (localKeys[key.toUpperCase()]) return localKeys[key.toUpperCase()].nombre;
+                return null;
+            }
+            try { const d = await getDoc(getDocRef('claves_alumnos', key.toUpperCase())); return d.exists() ? d.data().nombre : null; } catch(e) { return null; } 
+        }
+
+        async function createStudentKey(key, name) { 
+            if (state.mode === 'cloud') { await setDoc(getDocRef('claves_alumnos', key.toUpperCase()), { nombre: name }); }
+            else { const localKeys = JSON.parse(localStorage.getItem('quiz_keys_local') || '{}'); localKeys[key.toUpperCase()] = { nombre: name }; localStorage.setItem('quiz_keys_local', JSON.stringify(localKeys)); startAdmin(); }
+        }
+
+        async function deleteStudentKey(key) { 
+            if (state.mode === 'cloud') { await deleteDoc(getDocRef('claves_alumnos', key)); }
+            else { const localKeys = JSON.parse(localStorage.getItem('quiz_keys_local') || '{}'); delete localKeys[key]; localStorage.setItem('quiz_keys_local', JSON.stringify(localKeys)); startAdmin(); }
+        }
+
+        function listenToData(name, cb) { if (state.mode === 'cloud') onSnapshot(query(getColRef(name)), (s) => cb(s.docs.map(d => ({ id: d.id, ...d.data() })))); }
 
         function initQuestionData(q) {
             state.isAnswered = false; state.selectedGroupingItem = null;
-            if (['choice','reading','listening'].includes(q.type)) state.tempAnswer = null;
-            else if (['text','essay'].includes(q.type)) state.tempAnswer = '';
-            else if (q.type === 'matching') state.tempAnswer = { leftSelected: null, matches: {}, shuffledRight: shuffle(q.pairs.map((_, i) => i)) };
-            else if (q.type === 'order') state.tempAnswer = { pool: shuffle(q.items.map((t, i) => ({ id: i, text: t }))), answer: [] };
-            else if (q.type === 'fill-gap') {
-                const regex = /{([^}]+)}/g; let parts = [], correctAnswers = [], m, last = 0;
-                while ((m = regex.exec(q.text)) !== null) { parts.push(q.text.substring(last, m.index)); correctAnswers.push(m[1]); last = regex.lastIndex; }
-                parts.push(q.text.substring(last));
-                state.tempAnswer = { userInputs: Array(correctAnswers.length).fill(''), parts, correctAnswers };
-            } else if (q.type === 'grouping') state.tempAnswer = shuffle(q.items.map((it, i) => ({ ...it, originalIdx: i, currentGroup: null })));
+            if (q.type === 'choice' || q.type === 'reading' || q.type === 'listening') state.tempAnswer = null;
+            else if (q.type === 'text' || q.type === 'essay') state.tempAnswer = '';
+            else if (q.type === 'matching') { const indices = q.pairs.map((_, i) => i); state.tempAnswer = { leftSelected: null, matches: {}, shuffledRight: shuffle([...indices]) }; }
+            else if (q.type === 'order') { state.tempAnswer = { pool: shuffle(q.items.map((item, i) => ({ id: i, text: item }))), answer: [] }; }
+            else if (q.type === 'fill-gap') { const regex = /{([^}]+)}/g; let parts = [], correctAnswers = [], match, lastIndex = 0; while ((match = regex.exec(q.text)) !== null) { parts.push(q.text.substring(lastIndex, match.index)); correctAnswers.push(match[1]); lastIndex = regex.lastIndex; } parts.push(q.text.substring(lastIndex)); state.tempAnswer = { userInputs: Array(correctAnswers.length).fill(''), parts, correctAnswers }; }
+            else if (q.type === 'grouping') { state.tempAnswer = shuffle(q.items.map((item, i) => ({ ...item, originalIdx: i, currentGroup: null }))); }
         }
 
-        function render() {
-            const app = document.getElementById('app'); app.innerHTML = '';
-            if (state.view === 'login') renderLogin(app);
-            else if (state.view === 'quiz') renderQuiz(app);
-            else if (state.view === 'finished') renderFinished(app);
-            else if (state.view === 'admin_login') renderAdminLogin(app);
-            else if (state.view === 'admin_dashboard') renderAdminDashboard(app);
+        // =================================================================
+        // RENDERIZADO DE VISTAS
+        // =================================================================
+        function render() { 
+            const app = document.getElementById('app'); app.innerHTML = ''; 
+            const views = { 
+                'login': renderLogin, 
+                'waiting_listening': renderWaitingListening,
+                'quiz': renderQuiz, 
+                'finished': renderFinished, 
+                'admin_login': renderAdminLogin, 
+                'admin_dashboard': renderAdminDashboard 
+            }; 
+            if (views[state.view]) views[state.view](app); 
         }
 
-        function renderLogin(c) {
+        function renderLogin(c) { 
+            const isLocal = state.mode === 'local'; 
+            c.innerHTML = `<div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center fade-in">
+                <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i class="ph ph-student text-indigo-600 text-3xl"></i></div>
+                <h1 class="text-3xl font-bold text-slate-800 mb-2">Evolve 2: Units 7-9</h1>
+                <p class="text-slate-500 mb-6">Enter your access key</p>
+                ${state.firebaseError ? `<div class="text-xs bg-yellow-50 border border-yellow-200 text-yellow-700 p-3 mb-4 rounded-lg font-medium text-left"><b>Offline Notice:</b> ${state.firebaseError}</div>` : (isLocal?'<div class="text-xs bg-orange-100 text-orange-800 p-2 mb-4 rounded font-bold">Test Key: Test1973</div>':'')}
+                <input id="ki" placeholder="Your Key (e.g., A01)" class="w-full p-4 border-2 rounded-xl mb-4 text-center text-2xl uppercase focus:border-indigo-500 outline-none">
+                <div id="err" class="hidden text-red-500 font-bold mb-4">Invalid or unregistered key</div>
+                <button id="btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition shadow-lg">Enter Exam</button>
+                <button onclick="window.goAdmin()" class="mt-6 text-xs text-slate-400 hover:text-slate-600 font-bold uppercase">Teacher Portal</button>
+            </div>`; 
+            
+            const handle = async () => { 
+                const k = document.getElementById('ki').value.trim(); if(!k) return; 
+                try { 
+                    const name = await verifyStudentKey(k); 
+                    if(name) { 
+                        if(state.mode === 'cloud' && state.auth.currentUser) await updateProfile(state.auth.currentUser, { displayName: name }); 
+                        state.studentName = name; state.studentKey = k; 
+                        
+                        const restored = restoreState(k);
+                        if (restored === true) { renderFinished(document.getElementById('app')); return; } 
+                        else if (restored === false) { 
+                            initQuestionData(state.quizData[state.qIndex]); 
+                            state.view = 'quiz'; 
+                            startAntiCheat(); 
+                            render(); 
+                            return; 
+                        }
+                        
+                        if (RAW_QUIZ_DATA.length === 0) {
+                            alert("The exam doesn't contain any questions yet.");
+                            return;
+                        }
+                        
+                        const listening = RAW_QUIZ_DATA.filter(q => q.type === 'listening'); 
+                        const essays = RAW_QUIZ_DATA.filter(q => q.type === 'essay'); 
+                        const reading = RAW_QUIZ_DATA.filter(q => q.type === 'reading'); 
+                        const standard = RAW_QUIZ_DATA.filter(q => !['listening', 'reading', 'essay'].includes(q.type));
+                        
+                        state.quizData = [
+                            ...shuffle(standard), 
+                            ...shuffle(reading), 
+                            ...shuffle(essays), 
+                            ...shuffle(listening)
+                        ];
+                        
+                        state.qIndex = 0; 
+                        state.detailedAnswers = {}; 
+                        initQuestionData(state.quizData[0]); 
+                        
+                        if (state.quizData[0] && state.quizData[0].type === 'listening') {
+                            state.view = 'waiting_listening'; 
+                        } else {
+                            state.view = 'quiz'; 
+                        }
+                        
+                        startAntiCheat();
+                        render(); 
+                    } else throw new Error(); 
+                } catch(e) { document.getElementById('err').classList.remove('hidden'); } 
+            }; 
+            document.getElementById('btn').onclick = handle; document.getElementById('ki').onkeydown = (e) => { if(e.key === 'Enter') handle(); };
+            window.goAdmin = () => { state.view = 'admin_login'; render(); }; 
+        }
+
+        function renderWaitingListening(c) {
             c.innerHTML = `
-                <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md text-center fade-in">
-                    <div class="bg-indigo-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                        <i class="ph ph-graduation-cap text-white text-4xl"></i>
+                <div class="bg-white p-10 rounded-3xl shadow-xl max-w-md w-full text-center fade-in border-t-8 border-indigo-500">
+                    <i class="ph ph-headphones text-indigo-500 text-6xl mb-4 animate-pulse"></i>
+                    <h2 class="text-3xl font-bold mb-2 text-slate-800">Listening Section</h2>
+                    <p class="text-slate-500 mb-6 font-medium">You have reached the audio test.</p>
+                    <div class="bg-indigo-50 p-4 rounded-xl mb-8 border border-indigo-100">
+                        <p class="text-sm text-indigo-800 font-bold">Please wait for your teacher's instructions to begin.</p>
                     </div>
-                    <h1 class="text-3xl font-black text-slate-800 mb-2">Evolve 2 Exam</h1>
-                    <p class="text-slate-500 mb-8 font-medium italic">Units 7, 8 & 9 Assessment</p>
-                    <input id="ki" placeholder="Tu Clave de Alumno" class="w-full p-5 border-2 rounded-2xl mb-4 text-center text-xl uppercase font-bold focus:border-indigo-500 outline-none transition-all shadow-sm">
-                    <div id="err" class="hidden text-red-600 font-bold mb-4 text-sm"><i class="ph ph-x-circle"></i> Clave no válida</div>
-                    <button id="btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-5 rounded-2xl transition-all shadow-xl active:scale-95">COMENZAR EXAMEN</button>
-                    <button onclick="window.goAdmin()" class="mt-10 text-xs text-slate-400 hover:text-indigo-600 font-bold uppercase tracking-widest transition-colors">Panel del Profesor</button>
-                </div>`;
-            const h = async () => {
-                const k = document.getElementById('ki').value.trim(); if(!k) return;
-                const name = await verifyStudentKey(k);
-                if(name) {
-                    state.studentName = name; state.studentKey = k;
-                    const res = restoreState(k);
-                    if (res === true) { renderFinished(document.getElementById('app')); return; }
-                    if (res === false) { initQuestionData(state.quizData[state.qIndex]); state.view = 'quiz'; startAntiCheat(); render(); return; }
-                    state.quizData = shuffle(RAW_QUIZ_DATA); 
-                    state.qIndex = 0; state.detailedAnswers = {}; initQuestionData(state.quizData[0]);
-                    state.view = 'quiz'; startAntiCheat(); render();
-                } else { document.getElementById('err').classList.remove('hidden'); }
+                    <button onclick="window.startListening()" class="w-full bg-indigo-600 text-white px-6 py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition font-bold uppercase tracking-wide flex justify-center items-center gap-2">
+                        <i class="ph ph-play text-xl"></i> Start Audio
+                    </button>
+                </div>
+            `;
+            window.startListening = () => {
+                state.view = 'quiz';
+                render();
             };
-            document.getElementById('btn').onclick = h;
-            document.getElementById('ki').onkeydown = (e) => { if(e.key === 'Enter') h(); };
-            window.goAdmin = () => { state.view = 'admin_login'; render(); };
         }
 
         function renderQuiz(c) {
-            const q = state.quizData[state.qIndex];
-            const prog = (state.qIndex / state.quizData.length) * 100;
-            let content = '', canSub = false;
+            const q = state.quizData[state.qIndex]; const prog = ((state.qIndex) / state.quizData.length) * 100; let contentHtml = '', canSubmit = false;
 
-            if (['text','essay'].includes(q.type)) {
-                content = `<textarea id="ti" rows="4" class="w-full p-5 border-2 rounded-2xl text-lg focus:border-indigo-500 outline-none shadow-inner" placeholder="Escribe aquí..." oninput="window.upText(this.value)">${state.tempAnswer}</textarea>`;
-                canSub = state.tempAnswer.trim().length > 0;
-            } else if (q.type === 'grouping') {
+            let typeInstruction = "";
+            switch(q.type) {
+                case 'choice': typeInstruction = "Choose the correct option."; break;
+                case 'text': typeInstruction = "Write the exact short answer."; break;
+                case 'essay': typeInstruction = "Develop your answer in detail (Writing)."; break;
+                case 'matching': typeInstruction = "Match the elements from both columns."; break;
+                case 'order': typeInstruction = "Order the words correctly."; break;
+                case 'fill-gap': typeInstruction = "Fill in the blanks."; break;
+                case 'grouping': typeInstruction = "Classify the elements into the correct group."; break;
+                case 'reading': typeInstruction = "Read the text and answer."; break;
+                case 'listening': typeInstruction = "Listen to the teacher and answer."; break;
+            }
+            
+            const instructionBanner = `<div class="mb-5 inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border border-blue-200"><i class="ph ph-info text-base"></i> ${typeInstruction}</div>`;
+
+            if (q.type === 'text' || q.type === 'essay') {
+                const isEssay = q.type === 'essay';
+                contentHtml = isEssay 
+                    ? `<textarea id="ti" rows="6" class="w-full p-4 border-2 rounded-xl text-lg border-slate-200 focus:border-indigo-500 focus:outline-none resize-none" placeholder="Write your answer here..." oninput="window.updateTextState(this.value)" ${state.isAnswered?'disabled':''}>${state.tempAnswer}</textarea>` 
+                    : `<input id="ti" class="w-full p-4 border-2 rounded-xl text-lg border-slate-200 focus:border-indigo-500 outline-none" placeholder="Short answer..." value="${state.tempAnswer}" oninput="window.updateTextState(this.value)" ${state.isAnswered?'disabled':''}>`;
+                canSubmit = !state.isAnswered && state.tempAnswer.trim().length > 0;
+            }
+            else if (q.type === 'grouping') {
                 const poolItems = state.tempAnswer.filter(i => i.currentGroup === null);
-                const poolH = poolItems.length === 0 ? `<div class="text-slate-400 italic py-4">Todo clasificado</div>` : poolItems.map(it => {
-                    const rIdx = state.tempAnswer.findIndex(x => x.originalIdx === it.originalIdx);
-                    return `<div onclick="window.grpItem(${rIdx})" class="inline-block px-4 py-2 m-1 border-2 rounded-full font-bold group-item ${state.selectedGroupingItem === rIdx ? 'group-item-selected' : 'bg-white border-slate-200 text-slate-700 hover:border-indigo-300'}">${it.text}</div>`;
-                }).join('');
-                const groupsH = q.groups.map((gn, gi) => {
-                    const its = state.tempAnswer.filter(i => i.currentGroup === gi);
-                    return `<div onclick="window.grpGroup(${gi})" class="border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[120px] ${state.selectedGroupingItem !== null ? 'border-indigo-400 bg-indigo-50' : 'border-slate-200 bg-slate-50'}">
-                        <h4 class="text-xs font-black uppercase text-indigo-500 mb-3 text-center">${gn}</h4>
-                        <div class="flex flex-col gap-2">${its.map(it => `<div onclick="window.grpItem(${state.tempAnswer.findIndex(x => x.originalIdx === it.originalIdx)}); event.stopPropagation();" class="bg-white border border-slate-200 p-2 rounded-lg text-sm font-bold shadow-sm text-center cursor-pointer hover:text-red-500">${it.text}</div>`).join('')}</div>
-                    </div>`;
-                }).join('');
-                content = `<div class="bg-white p-6 rounded-2xl mb-6 shadow-sm border border-slate-100">${poolH}</div><div class="grid grid-cols-2 gap-4">${groupsH}</div>`;
-                canSub = state.tempAnswer.every(i => i.currentGroup !== null);
-            } else if (q.type === 'matching') {
+                const poolHtml = poolItems.length === 0 ? `<div class="text-slate-400 text-sm italic py-4">All classified</div>` : poolItems.map(item => { const realIdx = state.tempAnswer.findIndex(x => x.originalIdx === item.originalIdx); const isSel = state.selectedGroupingItem === realIdx; return `<div onclick="window.grpClickItem(${realIdx})" class="inline-block px-3 py-2 m-1 border-2 rounded-full font-medium group-item ${isSel ? 'group-item-selected' : 'bg-white border-slate-200 text-slate-700 hover:border-indigo-300'}">${item.text}</div>`; }).join('');
+                const groupsHtml = q.groups.map((gName, gIdx) => { const itemsInGroup = state.tempAnswer.filter(i => i.currentGroup === gIdx); const isTarget = state.selectedGroupingItem !== null; const itemsHtml = itemsInGroup.map(item => { const realIdx = state.tempAnswer.findIndex(x => x.originalIdx === item.originalIdx); return `<div onclick="window.grpClickItem(${realIdx}); event.stopPropagation();" class="bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded text-sm mb-1 text-center shadow-sm cursor-pointer hover:bg-red-50 hover:text-red-500" title="Return">${item.text}</div>`; }).join(''); return `<div onclick="window.grpClickGroup(${gIdx})" class="group-box border-2 border-dashed rounded-xl p-3 flex flex-col ${isTarget ? 'border-indigo-400 bg-indigo-50 cursor-pointer' : 'border-slate-300 bg-slate-50'}"><h4 class="text-xs font-bold uppercase text-slate-500 mb-2 text-center tracking-wide">${gName}</h4><div class="flex-1 flex flex-col gap-1 w-full">${itemsHtml}</div></div>`; }).join('');
+                contentHtml = `<div class="bg-slate-100 p-4 rounded-xl mb-6 flex flex-wrap justify-center min-h-[80px] content-center border border-slate-200">${poolHtml}</div><div class="grid grid-cols-${Math.min(q.groups.length, 2)} gap-4">${groupsHtml}</div>`; canSubmit = !state.isAnswered && state.tempAnswer.every(i => i.currentGroup !== null);
+            }
+            else if (q.type === 'matching') {
                 const { leftSelected, matches, shuffledRight } = state.tempAnswer;
-                let lC = q.pairs.map((p, i) => `<div onclick="window.matchL(${i})" class="p-4 border-2 rounded-xl mb-3 match-item font-bold ${matches[i] !== undefined ? 'bg-slate-100 text-slate-300 border-slate-100' : (leftSelected === i ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white border-slate-200')}">${p.left}</div>`).join('');
-                let rC = shuffledRight.map(oIdx => `<div onclick="window.matchR(${oIdx})" class="p-4 border-2 rounded-xl mb-3 match-item font-bold ${Object.values(matches).includes(oIdx) ? 'bg-slate-100 text-slate-300 border-slate-100' : 'bg-white border-slate-200'}">${q.pairs[oIdx].right}</div>`).join('');
-                content = `<div class="grid grid-cols-2 gap-6"><div>${lC}</div><div>${rC}</div></div>`;
-                canSub = Object.keys(matches).length === q.pairs.length;
-            } else if (['choice','reading','listening'].includes(q.type)) {
-                let eH = ''; if (q.type === 'reading') eH = `<div class="reading-text">${q.text}</div>`;
-                if (q.type === 'listening') eH = `<div class="listening-banner"><i class="ph ph-speaker-high text-3xl"></i> LISTEN TO THE TEACHER</div>`;
-                content = eH + q.options.map((opt, i) => `<button onclick="window.ansC(${i})" class="w-full p-5 mb-4 text-left border-2 rounded-2xl transition-all font-bold ${state.tempAnswer === i ? 'border-indigo-600 bg-indigo-50 ring-2 ring-indigo-500' : 'border-slate-100 bg-white hover:border-indigo-200'}">${opt}</button>`).join('');
-                canSub = state.tempAnswer !== null;
-            } else if (q.type === 'order') {
+                let leftCol = q.pairs.map((p, i) => { let style = matches[i]!==undefined ? "bg-slate-100 text-slate-400 border-slate-200" : (leftSelected===i ? "bg-indigo-600 text-white border-indigo-600 shadow-md" : "bg-white border-slate-200 hover:border-indigo-300"); return `<div onclick="window.matchLeft(${i})" class="p-3 border-2 rounded-lg mb-2 match-item font-medium ${style}">${p.left}</div>`; }).join('');
+                let rightCol = shuffledRight.map((oIdx) => { const isMatched = Object.values(matches).includes(oIdx); let style = isMatched ? "bg-slate-100 text-slate-400 border-slate-200" : "bg-white border-slate-200 hover:border-indigo-300"; return `<div onclick="window.matchRight(${oIdx})" class="p-3 border-2 rounded-lg mb-2 match-item font-medium ${style}">${q.pairs[oIdx].right}</div>`; }).join('');
+                contentHtml = `<div class="grid grid-cols-2 gap-4 mb-4"><div>${leftCol}</div><div>${rightCol}</div></div>`; canSubmit = !state.isAnswered && Object.keys(matches).length === q.pairs.length;
+            }
+            else if (q.type === 'choice' || q.type === 'reading' || q.type === 'listening') {
+                let extraHtml = ''; if(q.type === 'reading') extraHtml = `<div class="reading-text">${q.text}</div>`; if(q.type === 'listening') extraHtml = `<div class="listening-banner"><i class="ph ph-speaker-high text-2xl"></i> Pay attention to the audio!</div>`;
+                let optionsHtml = q.options.map((opt, idx) => { let style = "border-slate-100 hover:bg-slate-50"; if (state.isAnswered && idx === state.tempAnswer) style = "border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200"; return `<button onclick="window.ansChoice(${idx})" ${state.isAnswered ? 'disabled' : ''} class="w-full p-4 mb-3 text-left border-2 rounded-xl transition font-medium ${style}">${opt}</button>`; }).join('');
+                contentHtml = extraHtml + optionsHtml;
+            }
+            else if (q.type === 'order') {
                 const { pool, answer } = state.tempAnswer;
-                content = `<div class="bg-slate-50 p-6 rounded-2xl border-2 border-dashed mb-6 flex flex-wrap min-h-[80px] items-center shadow-inner">${answer.map((w,i) => `<span onclick="window.mvO(${i},'back')" class="bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold m-1 shadow-md cursor-pointer">${w.text}</span>`).join('') || '<p class="text-slate-400 italic text-sm w-full text-center">Toca las palabras para formar la frase...</p>'}</div>
-                           <div class="flex flex-wrap justify-center">${pool.map((w,i) => `<span onclick="window.mvO(${i},'to')" class="bg-white border-2 border-slate-200 px-4 py-2 rounded-xl m-1 font-bold hover:border-indigo-400 shadow-sm cursor-pointer transition-colors">${w.text}</span>`).join('')}</div>`;
-                canSub = pool.length === 0;
-            } else if (q.type === 'fill-gap') {
-                const { parts, userInputs } = state.tempAnswer; let h = '';
-                parts.forEach((p, i) => {
-                    h += `<span>${p.replace(/\n/g, '<br>')}</span>`;
-                    if (i < userInputs.length) h += `<input class="border-b-4 border-indigo-400 px-2 mx-1 w-32 sm:w-48 text-center bg-transparent text-indigo-700 font-black focus:outline-none focus:border-indigo-600 transition-all" value="${userInputs[i]}" oninput="window.fG(${i}, this.value)">`;
-                });
-                content = `<div class="leading-relaxed text-xl text-slate-700 font-medium">${h}</div>`;
-                canSub = userInputs.every(v => v.trim().length > 0);
+                let ansH = answer.length === 0 ? '<div class="text-slate-400 italic">Your phrase will appear here...</div>' : answer.map((w,i)=>`<span onclick="window.moveOrder(${i},'back')" class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-lg font-bold m-1 order-tag shadow-sm">${w.text}</span>`).join('');
+                let poolH = pool.map((w,i)=>`<span onclick="window.moveOrder(${i},'to')" class="bg-white border border-slate-300 px-3 py-1 rounded-lg m-1 order-tag hover:border-indigo-400 shadow-sm">${w.text}</span>`).join('');
+                contentHtml = `<div class="bg-slate-50 p-4 rounded-xl border-2 border-dashed border-slate-300 mb-4 flex flex-wrap min-h-[60px] items-center">${ansH}</div><div class="flex flex-wrap justify-center">${poolH}</div>`; canSubmit = !state.isAnswered && pool.length === 0;
+            }
+            else if (q.type === 'fill-gap') {
+                const { parts, userInputs } = state.tempAnswer; let html = '';
+                parts.forEach((p, i) => { html += `<span>${p}</span>`; if (i < userInputs.length) { html += `<input class="border-b-2 border-indigo-300 px-1 mx-1 w-24 sm:w-32 text-center focus:outline-none focus:border-indigo-600 bg-transparent text-indigo-700 font-bold transition-all" value="${userInputs[i]}" oninput="window.fillGap(${i}, this.value)" ${state.isAnswered?'disabled':''}>`; } });
+                contentHtml = `<div class="leading-loose text-lg text-slate-700 bg-slate-50 p-4 rounded-xl">${html}</div>`; canSubmit = !state.isAnswered && userInputs.every(v => v.trim().length > 0);
             }
 
+            let debugControls = ''; if (state.studentKey === 'Test1973') { const options = state.quizData.map((_, i) => `<option value="${i}" ${i===state.qIndex?'selected':''}>P ${i+1}</option>`).join(''); debugControls = `<div class="mt-6 pt-4 border-t border-slate-100"><div class="flex items-center justify-between text-xs text-indigo-400 font-bold mb-2 uppercase tracking-wider"><span>🛠️ TEST MODE</span></div><div class="flex gap-2"><select onchange="window.jumpTo(this.value)" class="flex-1 p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:border-indigo-300 transition">${options}</select><button onclick="window.next()" class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-200 transition">Skip ⏩</button></div></div>`; }
+
             c.innerHTML = `
-                <div class="w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden fade-in">
-                    <div class="h-3 bg-slate-100"><div class="h-full bg-indigo-600 transition-all duration-500" style="width:${prog}%"></div></div>
-                    <div class="p-10">
-                        <div class="flex justify-between items-center mb-8">
-                            <div class="flex items-center gap-2 bg-indigo-50 px-4 py-2 rounded-full"><i class="ph ph-user text-indigo-600 font-bold"></i><span class="font-black text-indigo-900 text-sm truncate max-w-[150px] uppercase">${state.studentName}</span></div>
-                            <span class="text-slate-400 font-black text-sm tracking-widest uppercase">Question ${state.qIndex+1} / ${state.quizData.length}</span>
+                <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden fade-in prevent-select">
+                    <div class="h-2 bg-slate-100"><div class="h-full bg-indigo-500 transition-all duration-300" style="width:${prog}%"></div></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-6 text-sm">
+                            <span class="font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-lg truncate max-w-[200px]">${state.studentName}</span>
+                            <span class="text-indigo-600 font-bold bg-indigo-50 px-3 py-1 rounded-lg">P. ${state.qIndex+1} / ${state.quizData.length}</span>
                         </div>
-                        <h2 class="text-2xl font-black mb-8 text-slate-800 leading-tight">${q.q}</h2>
-                        ${content}
-                        <div class="mt-12 flex gap-4">
-                            <button onclick="window.check()" class="flex-1 bg-indigo-600 text-white py-5 rounded-2xl font-black text-lg shadow-xl hover:bg-indigo-700 transition-all disabled:opacity-30 active:scale-95" ${canSub ? '' : 'disabled'}>SAVE ANSWER</button>
+                        ${instructionBanner}
+                        <h2 class="text-xl font-bold mb-6 text-slate-800 leading-snug">${q.q}</h2>
+                        ${contentHtml}
+                        <div class="mt-8">
+                            <button id="submit-btn" onclick="window.check()" class="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold hover:bg-indigo-700 transition transform active:scale-95 shadow-md disabled:opacity-50 disabled:cursor-not-allowed" ${canSubmit || ['choice','reading','listening'].includes(q.type) ? '' : 'disabled'}>
+                                ${MODO_EXAMEN ? 'Save and Continue' : 'Check Answer'}
+                            </button>
                         </div>
-                        ${state.studentKey === 'Test1973' ? `<div class="mt-8 pt-6 border-t border-slate-100 flex gap-2"><button onclick="window.next()" class="bg-slate-100 text-slate-400 px-4 py-2 rounded-lg text-xs font-bold uppercase hover:bg-slate-200">Saltar Question</button></div>` : ''}
+                        ${debugControls}
                     </div>
                 </div>`;
         }
 
-        window.upText = (v) => { state.tempAnswer = v; render(); };
-        window.fG = (i, v) => { state.tempAnswer.userInputs[i] = v; render(); };
-        window.grpItem = (i) => { if(state.tempAnswer[i].currentGroup !== null) { state.tempAnswer[i].currentGroup = null; state.selectedGroupingItem = null; } else { state.selectedGroupingItem = (state.selectedGroupingItem === i) ? null : i; } render(); };
-        window.grpGroup = (gi) => { if(state.selectedGroupingItem === null) return; state.tempAnswer[state.selectedGroupingItem].currentGroup = gi; state.selectedGroupingItem = null; render(); };
-        window.matchL = (i) => { if(state.tempAnswer.matches[i] !== undefined) return; state.tempAnswer.leftSelected = i; render(); };
-        window.matchR = (oi) => { if(state.tempAnswer.leftSelected === null) return; state.tempAnswer.matches[state.tempAnswer.leftSelected] = oi; state.tempAnswer.leftSelected = null; render(); };
-        window.ansC = (i) => { state.tempAnswer = i; render(); };
-        window.mvO = (i, d) => { const {pool, answer} = state.tempAnswer; if(d==='to') answer.push(pool.splice(i,1)[0]); else pool.push(answer.splice(i,1)[0]); render(); };
+        // --- HANDLERS INTERACTIVOS ---
+        window.updateTextState = (val) => { state.tempAnswer = val; const btn = document.getElementById('submit-btn'); if(btn) btn.disabled = val.trim().length === 0; };
+        window.fillGap = (idx, val) => { state.tempAnswer.userInputs[idx] = val; const btn = document.getElementById('submit-btn'); if(btn) btn.disabled = !state.tempAnswer.userInputs.every(v => v.trim().length > 0); };
+        window.grpClickItem = (idx) => { if(state.isAnswered) return; if(state.tempAnswer[idx].currentGroup !== null) { state.tempAnswer[idx].currentGroup = null; state.selectedGroupingItem = null; } else { state.selectedGroupingItem = (state.selectedGroupingItem === idx) ? null : idx; } render(); };
+        window.grpClickGroup = (gIdx) => { if(state.isAnswered || state.selectedGroupingItem === null) return; state.tempAnswer[state.selectedGroupingItem].currentGroup = gIdx; state.selectedGroupingItem = null; render(); };
+        window.ansChoice = (idx) => { state.tempAnswer = idx; state.isAnswered = true; window.check(); };
+        window.matchLeft = (i) => { if(state.isAnswered) return; state.tempAnswer.leftSelected = i; render(); };
+        window.matchRight = (i) => { if(state.isAnswered || state.tempAnswer.leftSelected===null) return; state.tempAnswer.matches[state.tempAnswer.leftSelected] = i; state.tempAnswer.leftSelected = null; render(); };
+        window.moveOrder = (i, dir) => { if(state.isAnswered) return; const {pool,answer} = state.tempAnswer; if(dir==='to') answer.push(pool.splice(i,1)[0]); else pool.push(answer.splice(i,1)[0]); render(); };
 
+        // --- VERIFICACIÓN DE RESPUESTAS ---
         window.check = () => {
-            const q = state.quizData[state.qIndex]; let isC = false;
-            if (q.type === 'text') isC = normalizeText(state.tempAnswer) === normalizeText(q.correct);
-            else if (q.type === 'matching') isC = Object.entries(state.tempAnswer.matches).every(([l,r]) => parseInt(l) === parseInt(r));
-            else if (q.type === 'order') isC = state.tempAnswer.answer.map(a => a.text).join(' ') === q.items.join(' ');
-            else if (q.type === 'fill-gap') isC = state.tempAnswer.userInputs.every((v,i) => normalizeText(v) === normalizeText(state.tempAnswer.correctAnswers[i]));
-            else if (q.type === 'grouping') isC = state.tempAnswer.every(i => i.currentGroup === i.group);
-            else if (['choice','reading','listening'].includes(q.type)) isC = state.tempAnswer === q.correct;
+            const q = state.quizData[state.qIndex]; 
+            state.isAnswered = true; 
+            let isCorrect = false;
             
-            if (isC) state.score++;
-            state.detailedAnswers[q.id] = { type: q.type, val: state.tempAnswer, correct: isC };
-            saveState(); window.next();
+            if (q.type === 'text') isCorrect = normalizeText(state.tempAnswer) === normalizeText(q.correct);
+            else if (q.type === 'matching') isCorrect = Object.entries(state.tempAnswer.matches).every(([l,r]) => parseInt(l) === parseInt(r));
+            else if (q.type === 'order') isCorrect = state.tempAnswer.answer.map(a => a.text).join(' ') === q.items.join(' ');
+            else if (q.type === 'fill-gap') isCorrect = state.tempAnswer.userInputs.every((v,i) => normalizeText(v) === normalizeText(state.tempAnswer.correctAnswers[i]));
+            else if (q.type === 'grouping') isCorrect = state.tempAnswer.every(i => i.currentGroup === i.group);
+            else if (q.type === 'choice' || q.type === 'reading' || q.type === 'listening') isCorrect = state.tempAnswer === q.correct;
+            else if (q.type === 'essay') { 
+                const t = normalizeText(state.tempAnswer);
+                const w = t.split(" ").filter(x => x.length > 0).length;
+                const k = q.keywords.filter(k => t.includes(normalizeText(k))).length; 
+                isCorrect = w >= (q.minWords || 5) && k >= (q.keywords.length / 2); 
+            }
+            
+            if (isCorrect) state.score++;
+            state.detailedAnswers[q.id] = { type: q.type, val: state.tempAnswer, correct: isCorrect };
+            saveState(); 
+            
+            const btn = document.getElementById('submit-btn'); 
+            if(btn) { btn.innerText = "Saved ✓"; btn.classList.add('bg-green-600', 'text-white'); btn.classList.remove('bg-indigo-600'); } 
+            setTimeout(() => { window.next(); }, 600);
         };
 
-        window.next = () => { if (state.qIndex + 1 < state.quizData.length) { state.qIndex++; initQuestionData(state.quizData[state.qIndex]); render(); } else { finishQuiz(); } };
+        window.next = () => { 
+            if (state.qIndex + 1 < state.quizData.length) { 
+                const currType = state.quizData[state.qIndex].type;
+                const nextType = state.quizData[state.qIndex + 1].type;
+                
+                state.qIndex++; 
+                initQuestionData(state.quizData[state.qIndex]); 
+                saveState(); 
+                
+                if (currType !== 'listening' && nextType === 'listening') {
+                    state.view = 'waiting_listening';
+                } else {
+                    state.view = 'quiz'; 
+                }
+                render(); 
+            } else { finishQuiz(); } 
+        };
 
-        async function finishQuiz() {
-            state.view = 'finished'; render(); saveState();
-            const n = ((state.score / state.quizData.length) * 10).toFixed(1);
-            if (state.mode === 'cloud') {
-                try {
-                    await addDoc(getColRef('resultados_quiz'), { studentName: state.studentName, studentKey: state.studentKey, score: state.score, grade10: n, totalQuestions: state.quizData.length, warnings: state.warnings, timestamp: new Date().toISOString(), answers: JSON.stringify(state.detailedAnswers) });
-                } catch(e) {}
-            }
+        // --- PANTALLA FINAL ---
+        async function finishQuiz() { 
+            state.view = 'finished'; render(); saveState(); 
+            const n = ((state.score / state.quizData.length) * 10).toFixed(1); 
+            if (state.mode === 'cloud') { 
+                try { 
+                    await addDoc(getColRef('resultados_quiz'), { 
+                        studentName: state.studentName, studentKey: state.studentKey, 
+                        score: state.score, grade10: n, totalQuestions: state.quizData.length, 
+                        timestamp: new Date().toISOString(), warnings: state.warnings, 
+                        answers: JSON.stringify(state.detailedAnswers) 
+                    }); 
+                } catch(e) {} 
+            } 
         }
 
-        function renderFinished(c) {
-            const n = ((state.score / state.quizData.length) * 10).toFixed(1);
+        function renderFinished(c) { 
+            const n = ((state.score / state.quizData.length) * 10).toFixed(1); 
             c.innerHTML = `
-                <div class="bg-white p-12 rounded-3xl shadow-2xl text-center fade-in max-w-md w-full">
-                    <div class="text-green-500 text-8xl mb-6"><i class="ph ph-check-circle-fill"></i></div>
-                    <h2 class="text-3xl font-black mb-2 text-slate-800">Exam Completed</h2>
-                    <p class="text-slate-500 mb-8 font-medium">Well done, ${state.studentName}!</p>
-                    <div class="bg-indigo-50 p-8 rounded-3xl mb-8 border-2 border-indigo-100">
-                        <div class="text-6xl font-black text-indigo-600 mb-2">${n}</div>
-                        <div class="text-xs text-indigo-400 font-black tracking-widest uppercase">Final Grade</div>
+                <div class="bg-white p-10 rounded-3xl shadow-2xl text-center fade-in max-w-md w-full prevent-select border-t-8 border-indigo-500">
+                    <i class="ph ph-check-circle text-green-500 text-6xl mb-2"></i>
+                    <h2 class="text-3xl font-bold mb-2 text-slate-800">Exam Finished!</h2>
+                    <p class="text-slate-500 mb-8 font-medium">Thank you, ${state.studentName}.</p>
+                    <div class="bg-slate-50 p-6 rounded-2xl mb-8 border border-slate-100">
+                        <div class="text-sm text-slate-400 mb-1 uppercase tracking-widest font-bold">Final Grade</div>
+                        <div class="text-6xl font-black text-indigo-600">${n}</div>
                     </div>
-                    <button onclick="location.reload()" class="w-full bg-slate-800 text-white py-5 rounded-2xl font-black shadow-xl hover:bg-slate-900 transition-all">EXIT SYSTEM</button>
-                </div>`;
+                    <button onclick="location.reload()" class="bg-slate-800 text-white px-6 py-4 rounded-xl w-full shadow-lg hover:bg-slate-900 transition font-bold uppercase tracking-wide">Exit System</button>
+                </div>`; 
         }
 
-        function renderAdminLogin(c) {
+        // --- DASHBOARD DE ADMINISTRADOR ---
+        function renderAdminLogin(c) { 
             c.innerHTML = `
-                <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-sm text-center fade-in">
-                    <h2 class="text-2xl font-black mb-6 text-slate-800 uppercase tracking-tight">Teacher Access</h2>
-                    <input type="password" id="ap" placeholder="Contraseña Admin" class="w-full p-5 border-2 rounded-2xl mb-4 text-center text-xl font-bold focus:border-indigo-500 outline-none shadow-sm">
-                    <div id="aerr" class="hidden text-red-600 font-bold mb-4 text-sm">Acceso denegado</div>
-                    <button id="abl" class="w-full bg-slate-800 text-white py-5 rounded-2xl font-black shadow-xl hover:bg-slate-900 transition-all">LOGIN</button>
-                    <button onclick="location.reload()" class="mt-8 text-xs text-slate-400 font-bold uppercase hover:text-indigo-600">Volver</button>
-                </div>`;
-            const att = () => { if (document.getElementById('ap').value === PASSWORD_ADMIN) { state.view = 'admin_dashboard'; startAdmin(); render(); } else { document.getElementById('aerr').classList.remove('hidden'); } };
-            document.getElementById('abl').onclick = att;
-            document.getElementById('ap').onkeydown = (e) => { if(e.key === 'Enter') att(); };
+                <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm text-center fade-in">
+                    <h2 class="text-xl font-bold mb-4 flex items-center justify-center gap-2"><i class="ph ph-chalkboard-teacher text-indigo-600"></i> Teacher Portal</h2>
+                    <div id="admin-err" class="hidden bg-red-100 text-red-600 p-2 rounded mb-4 text-sm font-bold">Incorrect password</div>
+                    <input type="password" id="ap" placeholder="Admin Password" class="w-full p-4 border-2 rounded-xl mb-4 text-center focus:border-indigo-500 outline-none">
+                    <button id="abl" class="bg-slate-800 text-white w-full py-4 rounded-xl font-bold shadow hover:bg-slate-700 transition">Log In</button>
+                    <button onclick="location.reload()" class="mt-6 text-xs text-slate-400 font-bold uppercase hover:text-slate-600 transition">Back to home</button>
+                </div>`; 
+            const attemptLogin = () => { const val = document.getElementById('ap').value; if (val === PASSWORD_ADMIN) { state.view = 'admin_dashboard'; startAdmin(); render(); } else { document.getElementById('admin-err').classList.remove('hidden'); } };
+            document.getElementById('abl').onclick = attemptLogin;
+            document.getElementById('ap').onkeydown = (e) => { if(e.key === 'Enter') attemptLogin(); };
         }
-
-        async function startAdmin() {
+        
+        function startAdmin() { 
             if (state.mode === 'cloud') {
-                onSnapshot(query(getColRef('resultados_quiz')), (s) => { state.results = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)); if(state.view === 'admin_dashboard') render(); });
-                onSnapshot(query(getColRef('claves_alumnos')), (s) => { state.studentsList = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => a.nombre.localeCompare(b.nombre)); if(state.view === 'admin_dashboard') render(); });
+                listenToData('resultados_quiz', d => { state.results = d.sort((a,b) => b.score - a.score); if(state.view === 'admin_dashboard') render(); }); 
+                listenToData('claves_alumnos', d => { state.studentsList = d.sort((a,b) => a.nombre.localeCompare(b.nombre)); if(state.view === 'admin_dashboard') render(); }); 
+            } else {
+                const localResults = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('quiz_state_')) {
+                        try {
+                            const data = JSON.parse(localStorage.getItem(key));
+                            if (data.studentName && (data.finished || data.score > 0)) {
+                                localResults.push({ id: key, studentName: data.studentName, studentKey: key.replace('quiz_state_', ''), score: data.score, grade10: ((data.score / (data.quizOrder ? data.quizOrder.length : 1)) * 10).toFixed(1), totalQuestions: data.quizOrder ? data.quizOrder.length : 0, warnings: data.warnings || 0, timestamp: data.timestamp || new Date().toISOString(), answers: JSON.stringify(data.detailedAnswers || {}) });
+                            }
+                        } catch(e) {}
+                    }
+                }
+                state.results = localResults.sort((a,b) => b.score - a.score);
+                const localKeysObj = JSON.parse(localStorage.getItem('quiz_keys_local') || '{}');
+                state.studentsList = Object.keys(localKeysObj).map(k => ({ id: k, nombre: localKeysObj[k].nombre })).sort((a,b) => a.nombre.localeCompare(b.nombre));
+                if(state.view === 'admin_dashboard') render();
             }
         }
 
         function renderAdminDashboard(c) {
-            const rows = state.adminTab === 'results' ? state.results.map((r, i) => `
-                <tr class="border-b text-sm hover:bg-slate-50 transition-colors">
-                    <td class="p-4 font-black text-slate-400">${i+1}</td>
-                    <td class="p-4 font-bold text-slate-700">${r.studentName}</td>
-                    <td class="p-4"><span class="bg-indigo-600 text-white px-3 py-1 rounded-lg font-black text-base shadow-sm">${r.grade10}</span></td>
-                    <td class="p-4 text-center">${r.warnings > 0 ? `<span class="bg-red-100 text-red-600 px-3 py-1 rounded-full font-black text-xs">⚠️ ${r.warnings}</span>` : `<i class="ph ph-check-circle text-green-500 text-xl"></i>`}</td>
-                    <td class="p-4 text-right">
-                        <button onclick="window.rev('${r.id}')" class="bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100 mr-2"><i class="ph ph-eye-bold"></i></button>
-                        <button onclick="window.delR('${r.id}')" class="bg-red-50 text-red-500 p-2 rounded-lg hover:bg-red-100"><i class="ph ph-trash-bold"></i></button>
-                    </td>
-                </tr>`).join('') : state.studentsList.map(s => `
-                <tr class="border-b text-sm">
-                    <td class="p-4 font-black text-indigo-600">${s.id}</td>
-                    <td class="p-4 font-bold">${s.nombre}</td>
-                    <td class="p-4 text-right"><button onclick="window.delK('${s.id}')" class="bg-red-50 text-red-500 p-2 rounded-lg hover:bg-red-100"><i class="ph ph-trash-bold"></i></button></td>
-                </tr>`).join('');
+            const rows = state.adminTab === 'results' ? state.results.map((r, i) => { const g = r.grade10 || ((r.score/r.totalQuestions)*10).toFixed(1); return `<tr class="border-b text-sm hover:bg-slate-50"><td class="p-3">${i+1}</td><td class="p-3 font-medium">${r.studentName}</td><td class="p-3 font-bold text-lg text-indigo-600">${g}</td><td class="p-3 text-center">${r.warnings>0?'<span class="text-red-600 bg-red-100 px-2 py-1 rounded font-bold">⚠️ '+r.warnings+'</span>':''}</td><td class="p-3 text-right"><button onclick="window.openReview('${r.id}')" class="bg-blue-100 text-blue-600 p-2 rounded hover:bg-blue-200 mr-2 transition"><i class="ph ph-eye"></i></button><button onclick="window.delRes('${r.id}', this)" class="bg-red-50 text-red-500 p-2 rounded hover:bg-red-100 transition"><i class="ph ph-trash"></i></button></td></tr>`; }).join('') : state.studentsList.map(s => `<tr class="border-b text-sm"><td class="p-3 font-bold text-indigo-600">${s.id}</td><td class="p-3">${s.nombre}</td><td class="p-3 text-right"><button onclick="window.delKey('${s.id}', this)" class="bg-red-50 text-red-500 p-2 rounded hover:bg-red-100"><i class="ph ph-trash"></i></button></td></tr>`).join('');
+            const content = state.adminTab === 'results' ? `<div class="flex justify-end mb-2"><button onclick="window.exportCSV()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-green-700 transition shadow-md"><i class="ph ph-file-csv text-lg"></i> Export to Excel</button></div><table class="w-full text-left bg-white rounded-xl shadow-sm text-sm overflow-hidden border border-slate-200"><thead class="bg-slate-50 border-b border-slate-200"><tr><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">#</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Student</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Grade</th><th class="p-3 text-center text-slate-500 font-bold uppercase tracking-wider text-xs">Alerts</th><th class="p-3"></th></tr></thead><tbody>${rows||'<tr><td colspan="5" class="p-8 text-center text-slate-400 italic">No exams registered yet</td></tr>'}</tbody></table>` : `<div class="mb-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex gap-2"><input id="nk" placeholder="Key (e.g., JOHN01)" class="p-3 border border-slate-200 rounded-lg w-1/3 outline-none focus:border-indigo-400 uppercase"><input id="nn" placeholder="Full Name" class="p-3 border border-slate-200 rounded-lg w-1/2 outline-none focus:border-indigo-400"><button onclick="window.addKey()" class="bg-indigo-600 text-white px-6 font-bold rounded-lg hover:bg-indigo-700 transition">Add Student</button></div><table class="w-full text-left bg-white rounded shadow text-sm border border-slate-200"><thead class="bg-slate-50 border-b"><tr><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Key</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Name</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+            c.innerHTML = `<div class="w-full max-w-4xl fade-in self-start mt-8"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold flex items-center gap-2 text-slate-800"><i class="ph ph-chalkboard-teacher text-indigo-600"></i> Teacher Portal</h2><button onclick="location.reload()" class="text-sm text-red-600 bg-red-50 px-4 py-2 rounded-lg font-bold hover:bg-red-100 transition shadow-sm border border-red-100">Log Out</button></div><div class="flex gap-2 mb-4 bg-slate-200 p-1 rounded-xl inline-flex shadow-inner"><button onclick="window.setTab('results')" class="px-6 py-2 rounded-lg text-sm font-bold transition ${state.adminTab==='results'?'bg-white shadow text-indigo-600':'text-slate-500 hover:text-slate-700'}">Completed Exams</button><button onclick="window.setTab('keys')" class="flex-1 py-2 rounded-lg text-sm font-bold transition ${state.adminTab==='keys'?'bg-white shadow text-indigo-600':'text-slate-500 hover:text-slate-700'}">Student Database (Keys)</button></div>${content}</div>`;
+            window.setTab = t => { state.adminTab = t; render(); }; 
+            window.exportCSV = () => { let csv = "\uFEFFName,Key,Grade (Base 10),Points,Cheat Alerts,Date and Time\n"; state.results.forEach(r => { const dateObj = new Date(r.timestamp); const formattedDate = isNaN(dateObj) ? r.timestamp : dateObj.toLocaleString(); csv += `"${r.studentName}","${r.studentKey}",${r.grade10},${r.score},${r.warnings},"${formattedDate}"\n`; }); const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Exam_Results.csv"; link.click(); };
+            window.delRes = async (id, btn) => { if (btn.dataset.confirm !== 'true') { btn.dataset.confirm = 'true'; btn.innerHTML = 'Are you sure?'; btn.classList.add('bg-red-600', 'text-white'); setTimeout(() => { btn.dataset.confirm = 'false'; btn.innerHTML = '<i class="ph ph-trash"></i>'; btn.classList.remove('bg-red-600', 'text-white'); }, 3000); return; } if (state.mode === 'cloud') { await deleteDoc(getDocRef('resultados_quiz', id)); } else { localStorage.removeItem(id); startAdmin(); } }; 
+            window.delKey = async (id, btn) => { if (btn.dataset.confirm !== 'true') { btn.dataset.confirm = 'true'; btn.innerHTML = 'Are you sure?'; btn.classList.add('bg-red-600', 'text-white'); setTimeout(() => { btn.dataset.confirm = 'false'; btn.innerHTML = '<i class="ph ph-trash"></i>'; btn.classList.remove('bg-red-600', 'text-white'); }, 3000); return; } await deleteStudentKey(id); }; 
+            window.addKey = async () => { const k=document.getElementById('nk').value.toUpperCase(), n=document.getElementById('nn').value; if(k&&n) { await createStudentKey(k,n); document.getElementById('nk').value=''; document.getElementById('nn').value=''; } };
+            window.openReview = (id) => { 
+                const r = state.results.find(x => x.id === id); if(!r) return; let ans = {}; try { ans = JSON.parse(r.answers || '{}'); } catch(e){} 
+                let h = `<div class="mb-6 bg-indigo-50 border border-indigo-100 p-6 rounded-xl flex justify-between items-center shadow-sm"><div><h4 class="font-black text-2xl text-indigo-900">${r.studentName}</h4><span class="text-indigo-500 font-mono text-sm mt-1 block">Key: ${r.studentKey}</span></div><div class="text-right bg-white p-3 rounded-xl shadow-sm border border-indigo-50"><p class="text-xs text-indigo-400 font-bold uppercase tracking-wider mb-1">Current Grade</p><p class="font-black text-4xl text-indigo-600 leading-none">${r.grade10}</p></div></div>`; 
+                let storedQuizData = RAW_QUIZ_DATA;
 
-            c.innerHTML = `
-                <div class="w-full max-w-5xl fade-in self-start mt-8">
-                    <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                        <h2 class="text-3xl font-black flex items-center gap-3"><i class="ph ph-shield-check text-indigo-600"></i> Control Panel</h2>
-                        <button onclick="location.reload()" class="bg-red-50 text-red-600 px-6 py-3 rounded-2xl font-black text-sm hover:bg-red-100 shadow-sm transition-all">LOGOUT</button>
-                    </div>
-                    <div class="flex gap-3 mb-6 bg-slate-200 p-2 rounded-2xl inline-flex shadow-inner">
-                        <button onclick="window.sT('results')" class="px-8 py-3 rounded-xl text-sm font-black transition-all ${state.adminTab==='results'?'bg-white shadow-lg text-indigo-600':'text-slate-500 hover:text-slate-700'}">STUDENT RESULTS</button>
-                        <button onclick="window.sT('keys')" class="px-8 py-3 rounded-xl text-sm font-black transition-all ${state.adminTab==='keys'?'bg-white shadow-lg text-indigo-600':'text-slate-500 hover:text-slate-700'}">STUDENT DATABASE</button>
-                    </div>
-                    ${state.adminTab === 'results' ? `<div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100"><table class="w-full text-left">
-                        <thead class="bg-slate-50 border-b border-slate-200"><tr class="text-xs text-slate-400 font-black uppercase tracking-widest"><th class="p-5">#</th><th class="p-5">Student</th><th class="p-5">Grade</th><th class="p-5 text-center">Security</th><th class="p-5"></th></tr></thead>
-                        <tbody>${rows || '<tr><td colspan="5" class="p-10 text-center text-slate-300 font-bold italic">No results yet</td></tr>'}</tbody>
-                    </table></div>` : `
-                    <div class="mb-6 bg-white p-6 rounded-3xl shadow-xl border border-slate-100 grid grid-cols-3 gap-4">
-                        <input id="nk" placeholder="Clave (Ej: JUAN01)" class="p-4 border-2 border-slate-100 rounded-2xl font-bold focus:border-indigo-400 outline-none bg-slate-50">
-                        <input id="nn" placeholder="Nombre Completo" class="p-4 border-2 border-slate-100 rounded-2xl font-bold focus:border-indigo-400 outline-none bg-slate-50">
-                        <button onclick="window.addK()" class="bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-700 shadow-lg transition-all active:scale-95">REGISTER STUDENT</button>
-                    </div>
-                    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100"><table class="w-full text-left">
-                        <thead class="bg-slate-50 border-b border-slate-200"><tr class="text-xs text-slate-400 font-black uppercase tracking-widest"><th class="p-5">Access Key</th><th class="p-5">Full Name</th><th class="p-5"></th></tr></thead>
-                        <tbody>${rows}</tbody>
-                    </table></div>`}
-                </div>`;
-            window.sT = t => { state.adminTab = t; render(); };
-            window.delR = async (id) => { if(confirm("¿Borrar resultado?")) await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'resultados_quiz', id)); };
-            window.delK = async (id) => { if(confirm("¿Borrar alumno?")) await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'claves_alumnos', id)); };
-            window.addK = async () => { const k=document.getElementById('nk').value.toUpperCase(), n=document.getElementById('nn').value; if(k&&n) { await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'claves_alumnos', k), { nombre: n }); document.getElementById('nk').value=''; document.getElementById('nn').value=''; } };
-            window.rev = (id) => {
-                const r = state.results.find(x => x.id === id); if(!r) return;
-                let ans = {}; try { ans = JSON.parse(r.answers || '{}'); } catch(e){}
-                let h = `<div class="mb-8 bg-indigo-600 p-8 rounded-3xl text-white shadow-xl flex justify-between items-center"><div><h4 class="font-black text-3xl mb-1">${r.studentName}</h4><p class="text-indigo-200 text-xs font-black uppercase tracking-widest">${r.studentKey}</p></div><div class="text-right"><p class="text-[10px] font-black uppercase opacity-60">Final Grade</p><p class="text-5xl font-black">${r.grade10}</p></div></div>`;
-                RAW_QUIZ_DATA.forEach((q, i) => {
-                    const a = ans[q.id]; let s = "No answer", c = false;
-                    if (a) {
-                        c = a.correct; if(a.type==='cheat') s=`<span class="text-red-600 font-black">SECURITY ALERT: EXIT DETECTED</span>`;
-                        else if (['choice','reading','listening'].includes(q.type)) s = q.options[a.val] || "Invalid index";
-                        else if (['text','essay'].includes(q.type)) s = a.val;
-                        else if (q.type === 'fill-gap') s = `Responses: ${a.val.userInputs.join(', ')}`;
-                        else s = "Completed via interaction";
+                storedQuizData.forEach((q, i) => { 
+                    if(!q) return;
+                    const a = ans[q.id]; let s = "The student didn't answer this question.", c = false; 
+                    if (a) { 
+                        c = a.correct; 
+                        if(a.type==='cheat') s=`<span class="text-red-600 font-bold"><i class="ph ph-warning"></i> ${a.val.replace('ANULADA:', 'VOIDED:')}</span>`; 
+                        else if (q.type === 'choice' || q.type === 'reading' || q.type==='listening') s = q.options[a.val] || "No option selected"; 
+                        else if (q.type === 'essay' || q.type === 'text') s = a.val; 
+                        else if (q.type === 'fill-gap') s = `Answers: ${a.val.userInputs.join(' | ')}`; 
+                        else s = "[Interactive Activity]"; 
+                    } 
+                    h += `<div class="mb-4 border-b border-slate-100 pb-5"><div class="flex justify-between items-center mb-2"><p class="font-bold text-xs text-slate-400 uppercase tracking-wider">Question ${q.id} <span class="lowercase bg-slate-100 px-2 py-0.5 rounded text-slate-500 ml-1">${q.type}</span></p>${c?'<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">CORRECT</span>':'<span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold border border-red-200">INCORRECT</span>'}</div><p class="mb-3 font-medium text-slate-800 text-base">${q.q}</p><div class="bg-slate-50 p-4 rounded-lg text-sm font-mono border-l-4 ${c?'border-green-400 text-slate-700':'border-red-400 text-red-700'} whitespace-pre-wrap">${s}</div></div>`; 
+                }); 
+                h += `<div class="mt-6 pt-6 border-t-2 border-slate-200 bg-slate-50 p-6 rounded-xl"><label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Modify Grade</label><div class="flex gap-3 items-center"><input type="number" id="new-grade" value="${r.grade10}" step="0.1" max="10" min="0" class="border-2 border-slate-300 p-3 rounded-xl w-32 text-2xl font-bold text-center focus:border-indigo-500 outline-none"><button onclick="window.updateGrade('${r.id}')" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-indigo-700 shadow-md transition">Update Grade</button></div></div>`;
+                document.getElementById('review-content').innerHTML = h; document.getElementById('review-modal').style.display = 'flex'; 
+            }; 
+
+            window.updateGrade = async (id) => {
+                const newGrade = document.getElementById('new-grade').value;
+                if(newGrade) {
+                    if(state.mode === 'cloud') {
+                        await updateDoc(getDocRef('resultados_quiz', id), { grade10: newGrade });
+                    } else {
+                        const localData = JSON.parse(localStorage.getItem(id));
+                        if(localData) {
+                            localData.grade10 = newGrade;
+                            localStorage.setItem(id, JSON.stringify(localData));
+                            startAdmin();
+                        }
                     }
-                    h += `<div class="mb-6 p-6 rounded-2xl border-2 ${c?'border-green-100 bg-green-50/30':'border-red-100 bg-red-50/30'}">
-                        <div class="flex justify-between items-center mb-4"><span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Q${i+1} (${q.type})</span><span class="px-3 py-1 rounded-full text-[10px] font-black ${c?'bg-green-500 text-white':'bg-red-500 text-white'}">${c?'PASS':'FAIL'}</span></div>
-                        <p class="font-bold text-slate-800 mb-4">${q.q}</p>
-                        <div class="p-4 rounded-xl bg-white border border-slate-100 text-sm font-bold text-slate-600 shadow-inner">${s}</div>
-                    </div>`;
-                });
-                document.getElementById('review-content').innerHTML = h; document.getElementById('review-modal').classList.remove('hidden');
+                    document.getElementById('review-modal').style.display='none';
+                }
             };
         }
 
