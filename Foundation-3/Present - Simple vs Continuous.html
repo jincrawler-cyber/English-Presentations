@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Present Simple vs Continuous</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animaciones base */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Ocultar elementos */
+        .hidden-slide { display: none !important; }
+        
+        /* Efecto Flip Card 3D */
+        .perspective-1000 { perspective: 1000px; }
+        .flip-card-inner { 
+            transition: transform 0.6s; 
+            transform-style: preserve-3d; 
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { 
+            backface-visibility: hidden; 
+            position: absolute;
+            top: 0; left: 0;
+        }
+        .flip-card-back { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]">
+        
+        <!-- Barra de Progreso -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-blue-600 h-2 transition-all duration-500" style="width: 12.5%"></div>
+        </div>
+
+        <!-- Área de Contenido (Diapositivas) -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center relative" id="slides-container">
+            
+            <!-- SLIDE 0: Intro -->
+            <div class="slide fade-in text-center w-full" id="slide-0">
+                <div class="mb-6 inline-block p-4 bg-blue-100 rounded-full text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h1 class="text-5xl font-extrabold text-slate-900 mb-4">Present Tenses</h1>
+                <p class="text-2xl text-slate-600 mb-8">Simple <br/><span class="text-sm italic">vs</span><br/> Continuous</p>
+                <button onclick="nextSlide()" class="px-8 py-4 bg-blue-600 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-blue-700 transform hover:scale-105 transition-all">
+                    Start Class
+                </button>
+            </div>
+
+            <!-- SLIDE 1: Observation -->
+            <div class="slide hidden-slide text-center w-full" id="slide-1">
+                <h2 class="text-3xl font-bold mb-8">Read these sentences. <br/><span class="text-blue-600">What is different?</span></h2>
+                <div class="grid md:grid-cols-2 gap-8 w-full text-left">
+                    <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-200">
+                        <h3 class="text-blue-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group A <span>⏱️ Every Day</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>wake up</strong> at 7:00 am.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>works</strong> in a hospital.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">We <strong>live</strong> in Aguascalientes.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-orange-50 p-6 rounded-xl border-2 border-orange-200">
+                        <h3 class="text-orange-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group B <span>👀 Right Now</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">Today, I <strong>am waking up</strong> late.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>is working</strong> from home today.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">We <strong>are visiting</strong> the San Marcos fair!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Analysis -->
+            <div class="slide hidden-slide text-center w-full" id="slide-2">
+                <h2 class="text-3xl font-bold mb-8">Let's analyze the pattern</h2>
+                <div class="flex flex-col md:flex-row gap-8 items-center mb-10 w-full justify-center">
+                    <!-- Box A -->
+                    <div class="flex flex-col items-center">
+                        <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center w-72 mb-4 h-32 flex flex-col justify-center">
+                            <p class="text-xl text-slate-700">"I <b>play</b> soccer on Sundays."</p>
+                        </div>
+                        <div id="reveal-box-1" class="p-4 border-2 rounded-xl text-center w-72 bg-slate-100 border-slate-200 transition-all duration-500 h-24 flex items-center justify-center">
+                            <p id="reveal-text-1" class="text-2xl font-bold text-blue-600 opacity-0 transition-opacity duration-500">Routine <br><span class="text-sm font-normal text-slate-600">(Present Simple)</span></p>
+                        </div>
+                    </div>
+                    <div class="text-4xl text-slate-300 font-bold hidden md:block">VS</div>
+                    <!-- Box B -->
+                    <div class="flex flex-col items-center">
+                        <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center w-72 mb-4 h-32 flex flex-col justify-center">
+                            <p class="text-xl text-slate-700">"Look! I <b>am playing</b> soccer."</p>
+                        </div>
+                        <div id="reveal-box-2" class="p-4 border-2 rounded-xl text-center w-72 bg-slate-100 border-slate-200 transition-all duration-500 h-24 flex items-center justify-center">
+                            <p id="reveal-text-2" class="text-2xl font-bold text-orange-600 opacity-0 transition-opacity duration-500">Right Now <br><span class="text-sm font-normal text-slate-600">(Present Continuous)</span></p>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="revealPattern()" class="px-6 py-3 bg-blue-600 text-white rounded-full font-bold shadow-lg hover:bg-blue-700 flex items-center gap-2 mx-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+                    Reveal Rule
+                </button>
+            </div>
+
+            <!-- SLIDE 3: Rule 1 -->
+            <div class="slide hidden-slide w-full text-left" id="slide-3">
+                <h2 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 p-2 rounded-lg text-lg">Rule #1</span> Present Simple
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">We use it for <b>routines</b>, <b>habits</b>, and permanent <b>facts</b>.</p>
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <div class="flex-1 bg-white border-2 border-blue-100 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-blue-800 text-lg mb-4 border-b-2 border-blue-100 pb-2">Structure</h3>
+                        <p class="text-xl mb-2">I / You / We / They <span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">work</span></p>
+                        <p class="text-xl">He / She / It <span class="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">works</span></p>
+                    </div>
+                    <div class="flex-1 bg-white border-2 border-blue-100 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-blue-800 text-lg mb-4 border-b-2 border-blue-100 pb-2">Signal Words 🚦</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">always</span>
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">usually</span>
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">sometimes</span>
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">every day</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500 italic text-blue-800 text-lg">
+                    "I <b>drink</b> coffee <b>every morning</b>."
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Rule 2 -->
+            <div class="slide hidden-slide w-full text-left" id="slide-4">
+                <h2 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                    <span class="bg-orange-100 text-orange-700 p-2 rounded-lg text-lg">Rule #2</span> Present Continuous
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">We use it for actions happening <b>right now</b> or <b>temporary</b> situations.</p>
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <div class="flex-1 bg-white border-2 border-orange-100 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-orange-800 text-lg mb-4 border-b-2 border-orange-100 pb-2">Structure (BE + ing)</h3>
+                        <p class="text-xl mb-1">I <span class="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">am eating</span></p>
+                        <p class="text-xl mb-1">He/She/It <span class="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">is eating</span></p>
+                        <p class="text-xl">We/You/They <span class="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">are eating</span></p>
+                    </div>
+                    <div class="flex-1 bg-white border-2 border-orange-100 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-orange-800 text-lg mb-4 border-b-2 border-orange-100 pb-2">Signal Words 🚦</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">now</span>
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">right now</span>
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">at the moment</span>
+                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">today</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-500 italic text-orange-800 text-lg">
+                    "Look! The cat <b>is drinking</b> your coffee <b>right now</b>!"
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Interactive Cards -->
+            <div class="slide hidden-slide w-full text-left" id="slide-5">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-purple-100 text-purple-700 p-2 rounded-lg">🎭</span> The Double Life
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Click on the cards to see what they <b>usually</b> do vs what they <b>are doing</b> today on vacation!</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-64">
+                    <!-- Card 1 -->
+                    <div class="flip-card cursor-pointer w-full h-full perspective-1000" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner w-full h-full">
+                            <div class="flip-card-front w-full h-full bg-blue-50 border-2 border-blue-200 rounded-xl p-6 flex flex-col justify-center items-center text-center shadow-md">
+                                <span class="text-sm font-bold text-blue-500 uppercase tracking-widest mb-2">Usually (Click me)</span>
+                                <p class="text-2xl text-slate-700">Mr. Smith <b>wears</b> a suit and <b>works</b> in a bank.</p>
+                            </div>
+                            <div class="flip-card-back w-full h-full bg-orange-50 border-2 border-orange-200 rounded-xl p-6 flex flex-col justify-center items-center text-center shadow-md">
+                                <span class="text-sm font-bold text-orange-500 uppercase tracking-widest mb-2">Today in Cancun</span>
+                                <p class="text-2xl text-slate-700">He <b>is wearing</b> shorts and <b>is swimming</b>!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="flip-card cursor-pointer w-full h-full perspective-1000" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner w-full h-full">
+                            <div class="flip-card-front w-full h-full bg-blue-50 border-2 border-blue-200 rounded-xl p-6 flex flex-col justify-center items-center text-center shadow-md">
+                                <span class="text-sm font-bold text-blue-500 uppercase tracking-widest mb-2">Usually (Click me)</span>
+                                <p class="text-2xl text-slate-700">Sarah <b>gets up</b> at 6:00 am and <b>studies</b> math.</p>
+                            </div>
+                            <div class="flip-card-back w-full h-full bg-orange-50 border-2 border-orange-200 rounded-xl p-6 flex flex-col justify-center items-center text-center shadow-md">
+                                <span class="text-sm font-bold text-orange-500 uppercase tracking-widest mb-2">Right Now</span>
+                                <p class="text-2xl text-slate-700">She <b>is sleeping</b> late because it's Sunday!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Roleplay -->
+            <div class="slide hidden-slide w-full text-left" id="slide-6">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-red-100 text-red-700 p-2 rounded-lg">🎤</span> Live News Reporter
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Work in pairs. You are a reporter. Read the script and fill in the blanks using <b>Simple</b> or <b>Continuous</b> present.</p>
+                <div class="bg-slate-100 p-8 rounded-xl border-2 border-slate-300 shadow-inner text-xl leading-loose font-serif relative">
+                    <span class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded animate-pulse">🔴 LIVE</span>
+                    <p>"Good evening! I am reporting live from downtown. Normally, people <span class="inline-block border-b-2 border-slate-400 w-32"></span> <i>(walk)</i> quietly here, and cars <span class="inline-block border-b-2 border-slate-400 w-32"></span> <i>(drive)</i> fast.</p>
+                    <p class="mt-4">BUT TODAY is different! Right now, look at that! The police officer <span class="inline-block border-b-2 border-slate-400 w-40"></span> <i>(dance)</i> salsa in the street! And over there, a dog <span class="inline-block border-b-2 border-slate-400 w-40"></span> <i>(eat)</i> a whole pizza!"</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-7">
+                
+                <!-- Active Quiz -->
+                <div id="quiz-active-area">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700" id="quiz-progress-text">Question 1/5</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600" id="quiz-score-text">Score: 0</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed" id="quiz-question-text">
+                            Loading question...
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="handleAnswer(0)" id="quiz-btn-0" class="p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-blue-400 hover:shadow-md text-slate-700">Option 1</button>
+                        <button onclick="handleAnswer(1)" id="quiz-btn-1" class="p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-blue-400 hover:shadow-md text-slate-700">Option 2</button>
+                    </div>
+                    <div id="quiz-feedback" class="mt-6 text-center font-bold text-xl opacity-0 transition-opacity">
+                        Feedback
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-result-area" class="hidden-slide text-center">
+                    <div class="text-yellow-400 mx-auto mb-6 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-2xl mb-8">You scored <span id="final-score" class="text-blue-600 font-bold">0</span> out of 5</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Try Again
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 8</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript Independiente -->
+    <script>
+        // --- Navigation Logic ---
+        let currentSlide = 0;
+        const totalSlides = 8;
+        
+        function updateUI() {
+            // Update Progress Bar & Counter
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update Buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            // Show/Hide Slides
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                    slide.classList.add('fade-in');
+                } else {
+                    slide.classList.add('hidden-slide');
+                    slide.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Reveal Rule Logic (Slide 2) ---
+        function revealPattern() {
+            const box1 = document.getElementById('reveal-box-1');
+            const text1 = document.getElementById('reveal-text-1');
+            const box2 = document.getElementById('reveal-box-2');
+            const text2 = document.getElementById('reveal-text-2');
+
+            box1.className = "p-4 border-2 rounded-xl text-center w-72 bg-blue-100 border-blue-500 scale-105 transition-all duration-500 h-24 flex items-center justify-center shadow-lg";
+            text1.classList.remove('opacity-0');
+            
+            box2.className = "p-4 border-2 rounded-xl text-center w-72 bg-orange-100 border-orange-500 scale-105 transition-all duration-500 h-24 flex items-center justify-center shadow-lg";
+            text2.classList.remove('opacity-0');
+        }
+
+        // --- Quiz Logic (Slide 7) ---
+        const quizQuestions = [
+            { text: "Shh! Be quiet. The baby _____.", options: ["sleeps", "is sleeping"], correct: 1 },
+            { text: "I usually _____ coffee in the morning.", options: ["drink", "am drinking"], correct: 0 },
+            { text: "Look outside! It _____ right now.", options: ["rains", "is raining"], correct: 1 },
+            { text: "She _____ to the gym every Tuesday.", options: ["goes", "is going"], correct: 0 },
+            { text: "We _____ English at the moment.", options: ["study", "are studying"], correct: 1 },
+        ];
+        
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let isAnswering = false; // Prevent multiple clicks
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizQ];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizQ + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-score-text').innerText = `Score: ${quizScore}`;
+            
+            // Format question text with blank space
+            const parts = q.text.split('_____');
+            document.getElementById('quiz-question-text').innerHTML = `${parts[0]} <span id="quiz-blank" class="inline-block border-b-4 px-2 min-w-[100px] text-center border-slate-300 text-transparent">_____</span> ${parts[1] || ''}`;
+            
+            // Reset buttons
+            const btn0 = document.getElementById('quiz-btn-0');
+            const btn1 = document.getElementById('quiz-btn-1');
+            
+            btn0.innerText = q.options[0];
+            btn1.innerText = q.options[1];
+            
+            btn0.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-blue-400 hover:shadow-md text-slate-700";
+            btn1.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-blue-400 hover:shadow-md text-slate-700";
+            
+            // Hide feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('opacity-0');
+            feedback.classList.remove('animate-bounce', 'text-green-600', 'text-red-600');
+            
+            isAnswering = false;
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = quizQuestions[currentQuizQ];
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) quizScore++;
+            
+            // Update Blank
+            const blank = document.getElementById('quiz-blank');
+            blank.innerText = q.options[selectedIndex];
+            blank.classList.remove('text-transparent', 'border-slate-300');
+            blank.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', isCorrect ? 'border-green-500' : 'border-red-500');
+            
+            // Update Buttons visually
+            const btn0 = document.getElementById('quiz-btn-0');
+            const btn1 = document.getElementById('quiz-btn-1');
+            
+            if (selectedIndex === 0) {
+                btn0.className = isCorrect ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg" : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50";
+                btn1.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50";
+            } else {
+                btn1.className = isCorrect ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg" : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50";
+                btn0.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50";
+            }
+
+            // Show feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerText = isCorrect ? 'Correct! 🎉' : 'Oops! Look for the signal words (usually vs right now).';
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('animate-bounce', isCorrect ? 'text-green-600' : 'text-red-600');
+
+            // Wait and go to next question or results
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    loadQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 2000);
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-area').classList.add('hidden-slide');
+            document.getElementById('quiz-result-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('fade-in');
+            document.getElementById('final-score').innerText = quizScore;
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            document.getElementById('quiz-active-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('hidden-slide');
+            loadQuizQuestion();
+        }
+
+        // Initialize first slide and quiz
+        updateUI();
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>
+```
