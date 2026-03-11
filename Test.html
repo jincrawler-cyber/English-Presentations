@@ -118,7 +118,7 @@
         { "id": 36, "type": "choice", "q": "Topic: Appearance. He has a very large ____ on his right arm.", "options": ["piercing", "beard", "mustache", "tattoo"], "correct": 3 },
         { "id": 37, "type": "choice", "q": "Topic: Superlatives. Who is ____ person in your family?", "options": ["the tallest", "tallest", "more tall", "the most tall"], "correct": 0 },
         { "id": 38, "type": "fill-gap", "q": "Topic: Reasons. Complete the sentence.", "text": "I am studying English {to} get a better job in the future." },
-        { "id": 39, "type": "choice", "q": "Topic: Sequence. First, cut the vegetables. Then, mix the salad. ____, serve it with some bread.", "options": ["First", "Then", "Finally", "Next"], "correct": 2 },
+        { "id": 39, "type": "choice", "q": "Topic: Sequence. Mix the salad. ____, serve it with some bread.", "options": ["First", "Then", "Finally", "Next"], "correct": 2 },
         { "id": 40, "type": "grouping", "q": "Topic: Nouns. Classify these nouns correctly.", "groups": ["Countable", "Uncountable"], "items": [{"text": "Apple", "group": 0}, {"text": "Water", "group": 1}, {"text": "Burger", "group": 0}, {"text": "Sugar", "group": 1}, {"text": "Strawberry", "group": 0}, {"text": "Rice", "group": 1}] },
         { "id": 41, "type": "choice", "q": "Topic: Food. Do we have ____ onions for the chili recipe?", "options": ["any", "much", "a lot", "little"], "correct": 0 },
         { "id": 42, "type": "choice", "q": "Topic: Verb Patterns. She hopes ____ a famous chef one day.", "options": ["become", "becoming", "to become", "to becoming"], "correct": 2 },
@@ -131,7 +131,7 @@
         { "id": 50, "type": "order", "q": "Topic: Comparatives. Order the following sentence.", "items": ["My", "sister", "is", "older", "than", "my", "brother."] },
         { "id": 51, "type": "choice", "q": "Topic: Food. I'd like ____ yogurt with my fruit, please.", "options": ["a", "an", "some", "many"], "correct": 2 },
         { "id": 52, "type": "choice", "q": "Topic: Verb Patterns. They don't mind ____ for the bus.", "options": ["waiting", "to wait", "wait", "waited"], "correct": 0 },
-        { "id": 53, "type": "fill-gap", "q": "Topic: Travel. Fill in with the correct verb.", "text": "Mu father always {takes} the bus to go to work." },
+        { "id": 53, "type": "fill-gap", "q": "Topic: Travel. Fill in with the correct verb.", "text": "Make sure you {board} the plane ten minutes before it leaves." },
         { "id": 54, "type": "choice", "q": "Topic: Zero Conditional. When it rains, the grass ____ wet.", "options": ["get", "gets", "getting", "got"], "correct": 1 },
         { "id": 55, "type": "choice", "q": "Topic: Reasons. We use a first-aid kit ____ emergencies.", "options": ["to", "for", "because", "so"], "correct": 1 },
         { "id": 56, "type": "choice", "q": "Topic: Comparatives. This chair is ____ than the old sofa.", "options": ["uncomfortabler", "more uncomfortable", "uncomfortable", "the most uncomfortable"], "correct": 1 },
@@ -547,6 +547,7 @@
         }
 
         // --- HANDLERS INTERACTIVOS ---
+        window.jumpTo = (idx) => { state.qIndex = parseInt(idx); state.detailedAnswers = {}; initQuestionData(state.quizData[state.qIndex]); render(); };
         window.updateTextState = (val) => { state.tempAnswer = val; const btn = document.getElementById('submit-btn'); if(btn) btn.disabled = val.trim().length === 0; };
         window.fillGap = (idx, val) => { state.tempAnswer.userInputs[idx] = val; const btn = document.getElementById('submit-btn'); if(btn) btn.disabled = !state.tempAnswer.userInputs.every(v => v.trim().length > 0); };
         window.grpClickItem = (idx) => { if(state.isAnswered) return; if(state.tempAnswer[idx].currentGroup !== null) { state.tempAnswer[idx].currentGroup = null; state.selectedGroupingItem = null; } else { state.selectedGroupingItem = (state.selectedGroupingItem === idx) ? null : idx; } render(); };
@@ -725,4 +726,3 @@
     </script>
 </body>
 </html>
-
