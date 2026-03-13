@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Foundation 4 Exam</title>
+    <title>Foundation 3 Exam</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
@@ -79,83 +79,712 @@
 
     <!-- Datos del Examen -->
     <script id="quiz-data" type="application/json">
-    [
-            { "id": 1, "type": "reading", "q": "Based on the text, what is Roberto's job?", "text": "Hello! My name is Roberto and I am from Monterrey, Mexico. I am twenty-two years old and I am a student at a college. This is my friend, Sarah. She is from the UK, so she is British. She is a teacher in my class. We are in the classroom now. My bag is on the chair, and my keys are in the bag. Sarah's laptop is on the table. Today is my sister's birthday! Her name is Elena and she is twenty-five today. My parents are at home with Elena and my grandfather.", "options": ["Doctor", "Teacher", "Student", "Manager"], "correct": 2 },
-            { "id": 2, "type": "reading", "q": "Where is Roberto's bag located in the classroom?", "text": "Hello! My name is Roberto and I am from Monterrey, Mexico. I am twenty-two years old and I am a student at a college. This is my friend, Sarah. She is from the UK, so she is British. She is a teacher in my class. We are in the classroom now. My bag is on the chair, and my keys are in the bag. Sarah's laptop is on the table. Today is my sister's birthday! Her name is Elena and she is twenty-five today. My parents are at home with Elena and my grandfather.", "options": ["On the table", "On the chair", "At home", "In his pocket"], "correct": 1 },
-            { "id": 3, "type": "reading", "q": "What is Sarah's nationality according to the text?", "text": "Hello! My name is Roberto and I am from Monterrey, Mexico. I am twenty-two years old and I am a student at a college. This is my friend, Sarah. She is from the UK, so she is British. She is a teacher in my class. We are in the classroom now. My bag is on the chair, and my keys are in the bag. Sarah's laptop is on the table. Today is my sister's birthday! Her name is Elena and she is twenty-five today. My parents are at home with Elena and my grandfather.", "options": ["Mexican", "American", "British", "French"], "correct": 2 },
-            { "id": 4, "type": "reading", "q": "Who is Elena in the story?", "text": "Hello! My name is Roberto and I am from Monterrey, Mexico. I am twenty-two years old and I am a student at a college. This is my friend, Sarah. She is from the UK, so she is British. She is a teacher in my class. We are in the classroom now. My bag is on the chair, and my keys are in the bag. Sarah's laptop is on the table. Today is my sister's birthday! Her name is Elena and she is twenty-five today. My parents are at home with Elena and my grandfather.", "options": ["His friend", "His teacher", "His mother", "His sister"], "correct": 3 },
-            { "id": 5, "type": "reading", "q": "How old is Roberto's sister today?", "text": "Hello! My name is Roberto and I am from Monterrey, Mexico. I am twenty-two years old and I am a student at a college. This is my friend, Sarah. She is from the UK, so she is British. She is a teacher in my class. We are in the classroom now. My bag is on the chair, and my keys are in the bag. Sarah's laptop is on the table. Today is my sister's birthday! Her name is Elena and she is twenty-five today. My parents are at home with Elena and my grandfather.", "options": ["22", "25", "21", "20"], "correct": 1 },
-            { "id": 6, "type": "listening", "q": "Where is Carlos from?", "options": ["He's from the US.", "He's from Mexico.", "He's American."], "correct": 1 },
-            { "id": 7, "type": "listening", "q": "Who is Luis?", "options": ["He's Anna's brother.", "He's Carlos's brother.", "He's a student."], "correct": 1 },
-            { "id": 8, "type": "listening", "q": "How old is Luis?", "options": ["He is twenty years old.", "He is twelve years old.", "He is twenty-one years old."], "correct": 0 },
-            { "id": 9, "type": "listening", "q": "Is Luis an engineer?", "options": ["Yes, he is.", "No, he isn't. He's a doctor.", "No, he isn't. He's a student."], "correct": 1 },
-            { "id": 10, "type": "listening", "q": "Where is Anna's cell phone?", "options": ["It's in her bag.", "It's Carlos's cell phone.", "It's on the table."], "correct": 2 },
-            { "id": 11, "type": "choice", "q": "What is the correct response to 'Nice to meet you'?", "options": ["I'm fine, thanks.", "Nice to meet you, too.", "Good morning.", "See you tomorrow."], "correct": 1 },
-            { "id": 12, "type": "fill-gap", "q": "Fill in the correct 'to be' form.", "text": "I {am} from Mexico and my friend {is} from Brazil." },
-            { "id": 13, "type": "choice", "q": "If a person is from 'the US', their nationality is...", "options": ["USian", "American", "British", "Mexican"], "correct": 1 },
-            { "id": 14, "type": "matching", "q": "Match the Country with the correct Nationality.", "pairs": [{"left": "Peru", "right": "Peruvian"}, {"left": "China", "right": "Chinese"}, {"left": "Japan", "right": "Japanese"}, {"left": "France", "right": "French"}] },
-            { "id": 15, "type": "fill-gap", "q": "A person who works in a hospital and helps sick people is a _______.", "text": "She is a {doctor} at the city hospital." },
-            { "id": 16, "type": "order", "q": "Order the question about someone's origin.", "items": ["Where", "are", "you", "from", "?"] },
-            { "id": 17, "type": "choice", "q": "In the email address 'test@google.com', the symbol '@' is called...", "options": ["dot", "at", "slash", "dash"], "correct": 1 },
-            { "id": 18, "type": "text", "q": "Write the number 8 in letters.", "correct": "eight" },
-            { "id": 19, "type": "choice", "q": "What do you say to your teacher at 8:00 AM?", "options": ["Good afternoon", "Good night", "Good morning", "Good evening"], "correct": 2 },
-            { "id": 20, "type": "fill-gap", "q": "He is not a doctor. Use the contraction.", "text": "He {isn't} a doctor." },
-            { "id": 21, "type": "choice", "q": "My father's sister is my...", "options": ["Aunt", "Uncle", "Cousin", "Niece"], "correct": 0 },
-            { "id": 22, "type": "fill-gap", "q": "To ask for someone's age, you say:", "text": "{How old} are you?" },
-            { "id": 23, "type": "choice", "q": "Which number comes after 'nineteen'?", "options": ["Nine", "Twelve", "Twenty", "Ten"], "correct": 2 },
-            { "id": 24, "type": "matching", "q": "Match the family male member with the female member.", "pairs": [{"left": "Husband", "right": "Wife"}, {"left": "Son", "right": "Daughter"}, {"left": "Brother", "right": "Sister"}, {"left": "Father", "right": "Mother"}] },
-            { "id": 25, "type": "choice", "q": "The first month of the year is...", "options": ["February", "January", "March", "December"], "correct": 1 },
-            { "id": 26, "type": "text", "q": "Write the ordinal word for '3rd'.", "correct": "third" },
-            { "id": 27, "type": "fill-gap", "q": "Write the correct preposition.", "text": "My keys are {in} my bag." },
-            { "id": 28, "type": "choice", "q": "My mother's father is my...", "options": ["Grandmother", "Grandfather", "Uncle", "Cousin"], "correct": 1 },
-            { "id": 29, "type": "order", "q": "Order the sentence about birthday date.", "items": ["My", "birthday", "is", "in", "May", "."] },
-            { "id": 30, "type": "fill-gap", "q": "Write the correct number.", "text": "10 + 20 = {thirty}." },
-            { "id": 31, "type": "choice", "q": "I have a tablet. ____ tablet is new.", "options": ["Your", "My", "His", "Her"], "correct": 1 },
-            { "id": 32, "type": "fill-gap", "q": "Write the correct possessive: 'This is Sarah's book'", "text": "That is {her} laptop." },
-            { "id": 33, "type": "choice", "q": "You use this to sit down.", "options": ["Wallet", "ID card", "Chair", "Keys"], "correct": 2 },
-            { "id": 34, "type": "matching", "q": "Match the pronoun with the possessive adjective.", "pairs": [{"left": "I", "right": "My"}, {"left": "You", "right": "Your"}, {"left": "He", "right": "His"}, {"left": "They", "right": "Their"}] },
-            { "id": 35, "type": "choice", "q": "___________ sisters do you have? I have two.", "options": ["Who", "What", "How many", "When"], "correct": 2 },
-            { "id": 36, "type": "text", "q": "What is the name of the object you use to watch movies?", "correct": "Television" },
-            { "id": 37, "type": "fill-gap", "q": "Write the correct word.", "text": "{Where} are the keys? On the desk." },
-            { "id": 38, "type": "order", "q": "Order the question about quantity.", "items": ["How", "many", "people", "are", "in", "the", "house", "?"] },
-            { "id": 39, "type": "choice", "q": "You sleep on this object.", "options": ["Lamp", "Bed", "Bookcase", "Sink"], "correct": 1 },
-            { "id": 40, "type": "grouping", "q": "Classify these items into 'Electronics' or 'Personal'.", "groups": ["Electronics", "Personal"], "items": [{"text": "Laptop", "group": 0}, {"text": "Tablet", "group": 0}, {"text": "Keys", "group": 1}, {"text": "Wallet", "group": 1}, {"text": "Smartphone", "group": 0}, {"text": "Umbrella", "group": 1}] },
-            { "id": 41, "type": "choice", "q": "We ____ students at Evolve College.", "options": ["am", "is", "are", "be"], "correct": 2 },
-            { "id": 42, "type": "fill-gap", "q": "Lima is the capital city of______.", "text": "{Peru}" },
-            { "id": 43, "type": "choice", "q": "A person who works in a restaurant kitchen is a...", "options": ["Chef", "Pilot", "Engineer", "Manager"], "correct": 0 },
-            { "id": 44, "type": "text", "q": "Name the country where people are called 'Japanese'.", "correct": "Japan" },
-            { "id": 45, "type": "matching", "q": "Match the greeting with the time context.", "pairs": [{"left": "7 AM", "right": "Good morning"}, {"left": "2 PM", "right": "Good afternoon"}, {"left": "8 PM", "right": "Good evening"}, {"left": "11 PM", "right": "Good night"}] },
-            { "id": 46, "type": "choice", "q": "_____ they from Colombia? No, they aren't.", "options": ["Is", "Am", "Are", "Be"], "correct": 2 },
-            { "id": 47, "type": "fill-gap", "q": "Eleven, twelve, ________, fourteen...", "text": "11, 12, {thirteen|13}, 14." },
-            { "id": 48, "type": "choice", "q": "Topic: Family. My son's daughter is my...", "options": ["Grandson", "Niece", "Granddaughter", "Nephew"], "correct": 2 },
-            { "id": 49, "type": "order", "q": "Order the negative sentence correctly.", "items": ["She", "is", "not", "my", "mother", "."] },
-            { "id": 50, "type": "choice", "q": "January is the ______ month of the year.", "options": ["one", "first", "once", "1"], "correct": 1 },
-            { "id": 51, "type": "fill-gap", "q": "Write the correct preposition", "text": "The keys are {in} my bag." },
-            { "id": 52, "type": "text", "q": "What is the month after August?", "correct": "September" },
-            { "id": 53, "type": "choice", "q": "She is my teacher. ______ name is Ms. Bañuelos", "options": ["His", "Her", "Its", "Our"], "correct": 1 },
-            { "id": 54, "type": "matching", "q": "Match the number word with the digit.", "pairs": [{"left": "Fifteen", "right": "15"}, {"left": "Fifty", "right": "50"}, {"left": "Fourteen", "right": "14"}, {"left": "Forty", "right": "40"}] },
-            { "id": 55, "type": "choice", "q": "______ is that man? He is my grandfather.", "options": ["What", "Where", "Who", "When"], "correct": 2 },
-            { "id": 56, "type": "fill-gap", "q": "Write the correct 'to be' form", "text": "We {are} in class now." },
-            { "id": 57, "type": "order", "q": "Order the introduction sentence.", "items": ["This", "is", "my", "cousin", ",", "Luis", "."] },
-            { "id": 58, "type": "choice", "q": "You carry your laptop and books in a...", "options": ["Wallet", "Bag", "Key", "Umbrella"], "correct": 1 },
-            { "id": 59, "type": "fill-gap", "q": "Write the correct nationality", "text": "She is from Spain. She is {Spanish}." },
-            { "id": 60, "type": "grouping", "q": "Classify these family members.", "groups": ["Male", "Female"], "items": [{"text": "Son", "group": 0}, {"text": "Uncle", "group": 0}, {"text": "Grandmother", "group": 1}, {"text": "Aunt", "group": 1}, {"text": "Grandfather", "group": 0}, {"text": "Niece", "group": 1}] },
-            { "id": 61, "type": "choice", "q": "A person who works in an office helping people is a...", "options": ["Pilot", "Receptionist", "Chef", "Police officer"], "correct": 1 },
-            { "id": 62, "type": "text", "q": "Paris is the capital city of______.", "correct": "France" },
-            { "id": 63, "type": "fill-gap", "q": "Write the correct preposition.", "text": "The tablet is {on} the table." },
-            { "id": 64, "type": "choice", "q": "_______ are you from? I'm from Peru.", "options": ["What", "Who", "Where", "How"], "correct": 2 },
-            { "id": 65, "type": "matching", "q": "Match the email symbols.", "pairs": [{"left": "@", "right": "at"}, {"left": ".", "right": "dot"}] },
-            { "id": 66, "type": "choice", "q": " Are they pilots? No, they ______.", "options": ["am not", "isn't", "aren't", "not are"], "correct": 2 },
-            { "id": 67, "type": "fill-gap", "q": "My mother and father are my parents.", "text": "My grandmother and grandfather are my {grandparents}." },
-            { "id": 68, "type": "choice", "q": "How many months are in a year?", "options": ["Ten", "Twelve", "Eleven", "Twenty"], "correct": 1 },
-            { "id": 69, "type": "order", "q": "Order the email address question.", "items": ["What", "is", "your", "email", "address", "?"] },
-            { "id": 70, "type": "choice", "q": "My mother's brother is my...", "options": ["Uncle", "Brother", "Husband", "Cousin"], "correct": 0 },
-            { "id": 71, "type": "fill-gap", "q": "He acts in movies. He is an actor.", "text": "She paints pictures. She is an {artist}." },
-            { "id": 72, "type": "choice", "q": "The students have books. These are ______ books.", "options": ["our", "your", "their", "his"], "correct": 2 },
-            { "id": 73, "type": "matching", "q": "Match the country with the language.", "pairs": [{"left": "Mexico", "right": "Spanish"}, {"left": "China", "right": "Chinese"}, {"left": "France", "right": "French"}, {"left": "Japan", "right": "Japanese"}] },
-            { "id": 74, "type": "text", "q": "Write the number 100 in words.", "correct": "one hundred" },
-            { "id": 75, "type": "essay", "q": "Write a short paragraph (at least 30 words) introducing yourself. Include: your name, your country, your city of origin, your age, your occupation, your favorite color and your favorite family member.", "keywords": ["name", "from", "am", "student", "teacher", "years old", "color", "is", "favorite","family"], "minWords": 30 }
-        ]
+[
+  {
+    "id": 1,
+    "type": "reading",
+    "q": "What does Laura usually do every morning?",
+    "text": "Hi, my name is Laura. I usually work in an office, but today I am working from home. My desk is near the window. I always have my calendar and my water bottle here. Right now, I am having a video call with my boss, Mark, and my co-worker, David. However, the Wi-Fi is slow. 'David, you're frozen,' I say. 'And Laura, you are breaking up,' says Mark. After work, I always go to the gym. Right now, my brother is lifting weights and I am stretching. Whose gym bag is this? It's mine. I like sports, so I exercise every day.",
+    "options": [
+      "She goes to the gym.",
+      "She works in an office.",
+      "She lifts weights."
+    ],
+    "correct": 1
+  },
+  {
+    "id": 2,
+    "type": "reading",
+    "q": "What items are always near Laura when she works?",
+    "text": "Hi, my name is Laura. I usually work in an office, but today I am working from home. My desk is near the window. I always have my calendar and my water bottle here. Right now, I am having a video call with my boss, Mark, and my co-worker, David. However, the Wi-Fi is slow. 'David, you're frozen,' I say. 'And Laura, you are breaking up,' says Mark. After work, I always go to the gym. Right now, my brother is lifting weights and I am stretching. Whose gym bag is this? It's mine. I like sports, so I exercise every day.",
+    "options": [
+      "A comb and a mirror.",
+      "A keyboard and a mouse.",
+      "A calendar and a water bottle."
+    ],
+    "correct": 2
+  },
+  {
+    "id": 3,
+    "type": "reading",
+    "q": "Why is Mark having problems understanding Laura?",
+    "text": "Hi, my name is Laura. I usually work in an office, but today I am working from home. My desk is near the window. I always have my calendar and my water bottle here. Right now, I am having a video call with my boss, Mark, and my co-worker, David. However, the Wi-Fi is slow. 'David, you're frozen,' I say. 'And Laura, you are breaking up,' says Mark. After work, I always go to the gym. Right now, my brother is lifting weights and I am stretching. Whose gym bag is this? It's mine. I like sports, so I exercise every day.",
+    "options": [
+      "Because Laura is on mute.",
+      "Because Laura is breaking up.",
+      "Because there is an echo."
+    ],
+    "correct": 1
+  },
+  {
+    "id": 4,
+    "type": "reading",
+    "q": "What is Laura's brother doing at the gym right now?",
+    "text": "Hi, my name is Laura. I usually work in an office, but today I am working from home. My desk is near the window. I always have my calendar and my water bottle here. Right now, I am having a video call with my boss, Mark, and my co-worker, David. However, the Wi-Fi is slow. 'David, you're frozen,' I say. 'And Laura, you are breaking up,' says Mark. After work, I always go to the gym. Right now, my brother is lifting weights and I am stretching. Whose gym bag is this? It's mine. I like sports, so I exercise every day.",
+    "options": [
+      "He is stretching.",
+      "He is lifting weights.",
+      "He is lying down."
+    ],
+    "correct": 1
+  },
+  {
+    "id": 5,
+    "type": "reading",
+    "q": "To whom does the gym bag belong?",
+    "text": "Hi, my name is Laura. I usually work in an office, but today I am working from home. My desk is near the window. I always have my calendar and my water bottle here. Right now, I am having a video call with my boss, Mark, and my co-worker, David. However, the Wi-Fi is slow. 'David, you're frozen,' I say. 'And Laura, you are breaking up,' says Mark. After work, I always go to the gym. Right now, my brother is lifting weights and I am stretching. Whose gym bag is this? It's mine. I like sports, so I exercise every day.",
+    "options": [
+      "It is Laura's bag.",
+      "It is Mark's bag.",
+      "It is David's bag."
+    ],
+    "correct": 0
+  },
+  {
+    "id": 6,
+    "type": "listening",
+    "q": "Listen to the audio. Who is Chloe?",
+    "options": [
+      "She is Alex's sister.",
+      "She is Alex and Ben's co-worker.",
+      "She is Ben's girlfriend."
+    ],
+    "correct": 1
+  },
+  {
+    "id": 7,
+    "type": "listening",
+    "q": "Listen to the audio. What is Chloe's communication problem at the beginning?",
+    "options": [
+      "She is on mute.",
+      "There is an echo.",
+      "She is breaking up and the Wi-Fi is slow."
+    ],
+    "correct": 2
+  },
+  {
+    "id": 8,
+    "type": "listening",
+    "q": "Listen to the audio. What are the athletes doing right now?",
+    "options": [
+      "They are lifting weights.",
+      "They are stretching and jumping.",
+      "They are lying down."
+    ],
+    "correct": 1
+  },
+  {
+    "id": 9,
+    "type": "listening",
+    "q": "Listen to the audio. Whose brother wins the race?",
+    "options": [
+      "Ben's brother.",
+      "Alex's brother.",
+      "Chloe's classmate's brother."
+    ],
+    "correct": 2
+  },
+  {
+    "id": 10,
+    "type": "listening",
+    "q": "Listen to the audio. How often does Ben go to the pool?",
+    "options": [
+      "He hardly ever goes to the pool.",
+      "He usually goes to the pool.",
+      "He always goes to the pool."
+    ],
+    "correct": 0
+  },
+  {
+    "id": 11,
+    "type": "choice",
+    "q": "I ___ a student and my roommate ___ a teacher.",
+    "options": [
+      "am / are",
+      "am / is",
+      "are / is",
+      "is / am"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 12,
+    "type": "choice",
+    "q": "Topic: Grammar (Frequency Adverbs). I really love sports, so I ___ play basketball.",
+    "options": [
+      "always",
+      "usually",
+      "hardly ever",
+      "often"
+    ],
+    "correct": 0
+  },
+  {
+    "id": 13,
+    "type": "fill-gap",
+    "q": "Complete the sentence.",
+    "text": "My sister is very nice. {Her} name is Jessica."
+  },
+  {
+    "id": 14,
+    "type": "fill-gap",
+    "q": "Complete the sentence.",
+    "text": "This umbrella is not mine. Is it {yours}? (You)"
+  },
+  {
+    "id": 15,
+    "type": "choice",
+    "q": "I am going to my ___ house.",
+    "options": [
+      "parents",
+      "parents's",
+      "parents'",
+      "parent's"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 16,
+    "type": "choice",
+    "q": " ___ driver's license is this?",
+    "options": [
+      "Who",
+      "Whose",
+      "Who's",
+      "What"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 17,
+    "type": "order",
+    "q": "Order the sentence to form a common greeting.",
+    "items": [
+      "How",
+      "have",
+      "you",
+      "been?"
+    ]
+  },
+  {
+    "id": 18,
+    "type": "matching",
+    "q": "Match the greeting with its response or logical continuation.",
+    "pairs": [
+      {
+        "left": "It's been a long time.",
+        "right": "Long time no see!"
+      },
+      {
+        "left": "What have you been up to?",
+        "right": "Not much, just working."
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "type": "choice",
+    "q": "Your mother's mother is your ___.",
+    "options": [
+      "couple",
+      "boss",
+      "grandparent",
+      "roommate"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 20,
+    "type": "choice",
+    "q": "You use a ___ to fix your hair.",
+    "options": [
+      "keychain",
+      "hairbrush",
+      "receipt",
+      "water bottle"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 21,
+    "type": "text",
+    "q": "Type the missing word: I need my driver's _______ to drive a car.",
+    "correct": "license"
+  },
+  {
+    "id": 22,
+    "type": "fill-gap",
+    "q": "Complete the sentence.",
+    "text": "It's sunny outside. I need my {sunglasses} to see well."
+  },
+  {
+    "id": 23,
+    "type": "grouping",
+    "q": "Classify the words into People and Possessions.",
+    "groups": [
+      "People",
+      "Possessions"
+    ],
+    "items": [
+      {
+        "text": "Boyfriend",
+        "group": 0
+      },
+      {
+        "text": "Co-worker",
+        "group": 0
+      },
+      {
+        "text": "Boss",
+        "group": 0
+      },
+      {
+        "text": "Situationship",
+        "group": 0
+      },
+      {
+        "text": "Hand lotion",
+        "group": 1
+      },
+      {
+        "text": "Cash",
+        "group": 1
+      },
+      {
+        "text": "Tissues",
+        "group": 1
+      },
+      {
+        "text": "Gum",
+        "group": 1
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "type": "choice",
+    "q": "How do you show interest when someone tells you something surprising?",
+    "options": [
+      "What have you been up to?",
+      "Yeah? Really?",
+      "Long time no see.",
+      "How have you been?"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 25,
+    "type": "order",
+    "q": "Order the sentence correctly.",
+    "items": [
+      "I",
+      "usually",
+      "work",
+      "with",
+      "my",
+      "boss."
+    ]
+  },
+  {
+    "id": 26,
+    "type": "essay",
+    "q": "Introduce yourself and write about two people in your life (e.g., a close friend or a co-worker).",
+    "keywords": [
+      "friend",
+      "co-worker"
+    ],
+    "minWords": 15
+  },
+  {
+    "id": 27,
+    "type": "choice",
+    "q": "My boss always ___ early to the office.",
+    "options": [
+      "arrive",
+      "arriving",
+      "arrives",
+      "is arriving"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 28,
+    "type": "choice",
+    "q": "We ___ work on weekends.",
+    "options": [
+      "doesn't",
+      "don't",
+      "aren't",
+      "isn't"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 29,
+    "type": "text",
+    "q": "Type the missing auxiliary verb: ______ your classmate live near the school?",
+    "correct": "Does"
+  },
+  {
+    "id": 30,
+    "type": "choice",
+    "q": "I don't like this desk. I prefer that ___.",
+    "options": [
+      "ones",
+      "one",
+      "desk's",
+      "those"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 31,
+    "type": "fill-gap",
+    "q": "Complete the sentence.",
+    "text": "These documents are old. We need new {ones}."
+  },
+  {
+    "id": 32,
+    "type": "matching",
+    "q": "Match the verb with the correct expression.",
+    "pairs": [
+      {
+        "left": "do",
+        "right": "the laundry"
+      },
+      {
+        "left": "make",
+        "right": "the bed"
+      },
+      {
+        "left": "have",
+        "right": "a snack"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "type": "choice",
+    "q": "It's time to ___ some work.",
+    "options": [
+      "make",
+      "do",
+      "have",
+      "take"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 34,
+    "type": "choice",
+    "q": "I want to ___ a party this weekend.",
+    "options": [
+      "do",
+      "make",
+      "have",
+      "put"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 35,
+    "type": "fill-gap",
+    "q": "Complete the sentence.",
+    "text": "After dinner, I always {do} the dishes."
+  },
+  {
+    "id": 36,
+    "type": "text",
+    "q": "Type the correct word: I plug my laptop into the electrical ________.",
+    "correct": "outlet"
+  },
+  {
+    "id": 37,
+    "type": "choice",
+    "q": "You use a ___ to type on your computer.",
+    "options": [
+      "screen",
+      "keyboard",
+      "mouse",
+      "calendar"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 38,
+    "type": "choice",
+    "q": "I can't hear you. I think you are on ___.",
+    "options": [
+      "frozen",
+      "echo",
+      "mute",
+      "breaking"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 39,
+    "type": "text",
+    "q": "Type the missing word: My phone is off. The ________ doesn't have charge.",
+    "correct": "battery"
+  },
+  {
+    "id": 40,
+    "type": "order",
+    "q": "Order the words to form a sentence.",
+    "items": [
+      "The",
+      "connection",
+      "is",
+      "bad."
+    ]
+  },
+  {
+    "id": 41,
+    "type": "grouping",
+    "q": "Classify the expressions.",
+    "groups": [
+      "Expressions with DO",
+      "Expressions with MAKE"
+    ],
+    "items": [
+      {
+        "text": "the dishes",
+        "group": 0
+      },
+      {
+        "text": "housework",
+        "group": 0
+      },
+      {
+        "text": "plans",
+        "group": 1
+      },
+      {
+        "text": "breakfast",
+        "group": 1
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "type": "essay",
+    "q": "Describe your morning routine using at least three expressions with do, make, or have.",
+    "keywords": [
+      "make",
+      "do",
+      "have"
+    ],
+    "minWords": 20
+  },
+  {
+    "id": 43,
+    "type": "choice",
+    "q": " ___ me, working from home is better than working in the office.",
+    "options": [
+      "Like",
+      "Also",
+      "For",
+      "But"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 44,
+    "type": "choice",
+    "q": "Look at the field! The athlete ___ very fast.",
+    "options": [
+      "runs",
+      "is running",
+      "are running",
+      "run"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 45,
+    "type": "fill-gap",
+    "q": "Complete the sentence with the correct verb 'to be'.",
+    "text": "They {are} stretching in the gym right now."
+  },
+  {
+    "id": 46,
+    "type": "choice",
+    "q": "I usually ___ coffee, but today I ___ tea.",
+    "options": [
+      "drink / drink",
+      "am drinking / drink",
+      "drink / am drinking",
+      "am drinking / am drinking"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 47,
+    "type": "choice",
+    "q": "I want to play basketball, ___ I don't have a ball.",
+    "options": [
+      "and",
+      "but",
+      "so",
+      "also"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 48,
+    "type": "fill-gap",
+    "q": "Complete the sentence with and, so, or but.",
+    "text": "It is raining, {so} we can't play on the court."
+  },
+  {
+    "id": 49,
+    "type": "choice",
+    "q": "She likes to swim, ___ she also likes to run.",
+    "options": [
+      "and",
+      "so",
+      "but",
+      "for"
+    ],
+    "correct": 0
+  },
+  {
+    "id": 50,
+    "type": "choice",
+    "q": "The players try to score a ___ to win the game.",
+    "options": [
+      "race",
+      "pool",
+      "goal",
+      "fan"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 51,
+    "type": "text",
+    "q": "Type the correct word: A person who supports a team is a _______.",
+    "correct": "fan"
+  },
+  {
+    "id": 52,
+    "type": "matching",
+    "q": "Match the verbs to form the correct exercise action.",
+    "pairs": [
+      {
+        "left": "lie",
+        "right": "down"
+      },
+      {
+        "left": "stand",
+        "right": "up"
+      },
+      {
+        "left": "lift",
+        "right": "weights"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "type": "fill-gap",
+    "q": "Complete the sentence.",
+    "text": "Before you run, you need to {stretch} your muscles."
+  },
+  {
+    "id": 54,
+    "type": "choice",
+    "q": "___ you tell me where the gym is?",
+    "options": [
+      "Are",
+      "Do",
+      "Can",
+      "What"
+    ],
+    "correct": 2
+  },
+  {
+    "id": 55,
+    "type": "text",
+    "q": "Type the missing word: Could you ____ me the price of this ticket.",
+    "correct": "tell"
+  },
+  {
+    "id": 56,
+    "type": "grouping",
+    "q": "Classify the words into Sports and Workspace.",
+    "groups": [
+      "Sports",
+      "Workspace"
+    ],
+    "items": [
+      {
+        "text": "Court",
+        "group": 0
+      },
+      {
+        "text": "Team",
+        "group": 0
+      },
+      {
+        "text": "Screen",
+        "group": 1
+      },
+      {
+        "text": "Mouse",
+        "group": 1
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "type": "order",
+    "q": "Order the words.",
+    "items": [
+      "What",
+      "time",
+      "does",
+      "it",
+      "start?"
+    ]
+  },
+  {
+    "id": 58,
+    "type": "choice",
+    "q": "What ___ the team doing right now?",
+    "options": [
+      "is",
+      "are",
+      "do",
+      "does"
+    ],
+    "correct": 0
+  },
+  {
+    "id": 59,
+    "type": "choice",
+    "q": "If you run faster than everyone else, you ___ the race.",
+    "options": [
+      "lose",
+      "win",
+      "throw",
+      "climb"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 60,
+    "type": "essay",
+    "q": "Write a short paragraph describing what athletes are doing in a gym right now. Use the Present Continuous.",
+    "keywords": [
+      "are",
+      "ing",
+      "gym"
+    ],
+    "minWords": 20
+  }
+]
     </script>
 
     <script type="module">
@@ -195,7 +824,7 @@
             qIndex: 0, score: 0, tempAnswer: null, isAnswered: false, 
             selectedGroupingItem: null, detailedAnswers: {}, 
             results: [], studentsList: [], db: null, auth: null,
-            adminTab: 'results', appId: 'foundation4-1st-exam',
+            adminTab: 'results', appId: 'foundation3-1st-exam',
             warnings: 0, focusListenerAdded: false, firebaseError: null
         };
 
@@ -393,7 +1022,7 @@
             const isLocal = state.mode === 'local'; 
             c.innerHTML = `<div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center fade-in">
                 <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i class="ph ph-student text-indigo-600 text-3xl"></i></div>
-                <h1 class="text-3xl font-bold text-slate-800 mb-2">Foundation 4 Exam</h1>
+                <h1 class="text-3xl font-bold text-slate-800 mb-2">Foundation 3 Exam</h1>
                 <p class="text-slate-500 mb-6">Ingresa tu clave de acceso</p>
                 ${state.firebaseError ? `<div class="text-xs bg-yellow-50 border border-yellow-200 text-yellow-700 p-3 mb-4 rounded-lg font-medium text-left"><b>Aviso Offline:</b> ${state.firebaseError}</div>` : (isLocal?'<div class="text-xs bg-orange-100 text-orange-800 p-2 mb-4 rounded font-bold">Clave Prueba: Test1973</div>':'')}
                 <input id="ki" placeholder="Tu Clave (Ej: A01)" class="w-full p-4 border-2 rounded-xl mb-4 text-center text-2xl uppercase focus:border-indigo-500 outline-none">
