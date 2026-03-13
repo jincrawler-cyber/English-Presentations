@@ -686,15 +686,75 @@
             }
         }
 
-        function renderAdminDashboard(c) {
+function renderAdminDashboard(c) {
             const rows = state.adminTab === 'results' ? state.results.map((r, i) => { const g = r.grade10 || ((r.score/r.totalQuestions)*10).toFixed(1); return `<tr class="border-b text-sm hover:bg-slate-50"><td class="p-3">${i+1}</td><td class="p-3 font-medium">${r.studentName}</td><td class="p-3 font-bold text-lg text-indigo-600">${g}</td><td class="p-3 text-center">${r.warnings>0?'<span class="text-red-600 bg-red-100 px-2 py-1 rounded font-bold">⚠️ '+r.warnings+'</span>':''}</td><td class="p-3 text-right"><button onclick="window.openReview('${r.id}')" class="bg-blue-100 text-blue-600 p-2 rounded hover:bg-blue-200 mr-2 transition"><i class="ph ph-eye"></i></button><button onclick="window.delRes('${r.id}', this)" class="bg-red-50 text-red-500 p-2 rounded hover:bg-red-100 transition"><i class="ph ph-trash"></i></button></td></tr>`; }).join('') : state.studentsList.map(s => `<tr class="border-b text-sm"><td class="p-3 font-bold text-indigo-600">${s.id}</td><td class="p-3">${s.nombre}</td><td class="p-3 text-right"><button onclick="window.delKey('${s.id}', this)" class="bg-red-50 text-red-500 p-2 rounded hover:bg-red-100"><i class="ph ph-trash"></i></button></td></tr>`).join('');
-            const content = state.adminTab === 'results' ? `<div class="flex justify-end mb-2"><button onclick="window.exportCSV()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-green-700 transition shadow-md"><i class="ph ph-file-csv text-lg"></i> Exportar a Excel</button></div><table class="w-full text-left bg-white rounded-xl shadow-sm text-sm overflow-hidden border border-slate-200"><thead class="bg-slate-50 border-b border-slate-200"><tr><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">#</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Alumno</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Nota</th><th class="p-3 text-center text-slate-500 font-bold uppercase tracking-wider text-xs">Alertas</th><th class="p-3"></th></tr></thead><tbody>${rows||'<tr><td colspan="5" class="p-8 text-center text-slate-400 italic">No hay exámenes registrados aún</td></tr>'}</tbody></table>` : `<div class="mb-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex gap-2"><input id="nk" placeholder="Clave (Ej: JUAN01)" class="p-3 border border-slate-200 rounded-lg w-1/3 outline-none focus:border-indigo-400 uppercase"><input id="nn" placeholder="Nombre Completo" class="p-3 border border-slate-200 rounded-lg w-1/2 outline-none focus:border-indigo-400"><button onclick="window.addKey()" class="bg-indigo-600 text-white px-6 font-bold rounded-lg hover:bg-indigo-700 transition">Agregar Alumno</button></div><table class="w-full text-left bg-white rounded shadow text-sm border border-slate-200"><thead class="bg-slate-50 border-b"><tr><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Clave</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Nombre</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+            
+            // ---> AQUÍ SE AÑADIÓ EL CÓDIGO HTML PARA SUBIR EL CSV EN LA PESTAÑA "KEYS" <---
+            const content = state.adminTab === 'results' 
+                ? `<div class="flex justify-end mb-2"><button onclick="window.exportCSV()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-green-700 transition shadow-md"><i class="ph ph-file-csv text-lg"></i> Exportar a Excel</button></div><table class="w-full text-left bg-white rounded-xl shadow-sm text-sm overflow-hidden border border-slate-200"><thead class="bg-slate-50 border-b border-slate-200"><tr><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">#</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Alumno</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Nota</th><th class="p-3 text-center text-slate-500 font-bold uppercase tracking-wider text-xs">Alertas</th><th class="p-3"></th></tr></thead><tbody>${rows||'<tr><td colspan="5" class="p-8 text-center text-slate-400 italic">No hay exámenes registrados aún</td></tr>'}</tbody></table>` 
+                : `<div class="mb-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col gap-4">
+                    <div class="flex gap-2">
+                        <input id="nk" placeholder="Clave (Ej: JUAN01)" class="p-3 border border-slate-200 rounded-lg w-1/3 outline-none focus:border-indigo-400 uppercase">
+                        <input id="nn" placeholder="Nombre Completo" class="p-3 border border-slate-200 rounded-lg w-1/2 outline-none focus:border-indigo-400">
+                        <button onclick="window.addKey()" class="bg-indigo-600 text-white px-6 font-bold rounded-lg hover:bg-indigo-700 transition">Agregar Manual</button>
+                    </div>
+                    <div class="border-t border-slate-100 pt-4 flex justify-between items-center">
+                        <span class="text-xs text-slate-500 font-bold uppercase tracking-widest">O Importar desde Excel (.CSV):</span>
+                        <div class="flex gap-2 items-center">
+                            <input type="file" id="csvFileInput" accept=".csv" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 cursor-pointer">
+                            <button onclick="window.importStudentCSV()" class="bg-green-600 text-white px-4 py-2 font-bold rounded-lg hover:bg-green-700 transition shadow-sm flex items-center gap-2"><i class="ph ph-upload-simple"></i> Cargar</button>
+                        </div>
+                    </div>
+                   </div>
+                   <table class="w-full text-left bg-white rounded shadow text-sm border border-slate-200"><thead class="bg-slate-50 border-b"><tr><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Clave</th><th class="p-3 text-slate-500 font-bold uppercase tracking-wider text-xs">Nombre</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+            
             c.innerHTML = `<div class="w-full max-w-4xl fade-in self-start mt-8"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold flex items-center gap-2 text-slate-800"><i class="ph ph-chalkboard-teacher text-indigo-600"></i> Panel de Control</h2><button onclick="location.reload()" class="text-sm text-red-600 bg-red-50 px-4 py-2 rounded-lg font-bold hover:bg-red-100 transition shadow-sm border border-red-100">Cerrar Sesión</button></div><div class="flex gap-2 mb-4 bg-slate-200 p-1 rounded-xl inline-flex shadow-inner"><button onclick="window.setTab('results')" class="px-6 py-2 rounded-lg text-sm font-bold transition ${state.adminTab==='results'?'bg-white shadow text-indigo-600':'text-slate-500 hover:text-slate-700'}">Exámenes Completados</button><button onclick="window.setTab('keys')" class="flex-1 py-2 rounded-lg text-sm font-bold transition ${state.adminTab==='keys'?'bg-white shadow text-indigo-600':'text-slate-500 hover:text-slate-700'}">Base de Alumnos (Claves)</button></div>${content}</div>`;
             window.setTab = t => { state.adminTab = t; render(); }; 
             window.exportCSV = () => { let csv = "Nombre,Clave,Nota (Base 10),Puntos,Alertas de Trampa,Fecha y Hora\n"; state.results.forEach(r => { const dateObj = new Date(r.timestamp); const formattedDate = isNaN(dateObj) ? r.timestamp : dateObj.toLocaleString(); csv += `"${r.studentName}","${r.studentKey}",${r.grade10},${r.score},${r.warnings},"${formattedDate}"\n`; }); const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Resultados_Examen.csv"; link.click(); };
             window.delRes = async (id, btn) => { if (btn.dataset.confirm !== 'true') { btn.dataset.confirm = 'true'; btn.innerHTML = '¿Seguro?'; btn.classList.add('bg-red-600', 'text-white'); setTimeout(() => { btn.dataset.confirm = 'false'; btn.innerHTML = '<i class="ph ph-trash"></i>'; btn.classList.remove('bg-red-600', 'text-white'); }, 3000); return; } if (state.mode === 'cloud') { await deleteDoc(getDocRef('resultados_quiz', id)); } else { localStorage.removeItem(id); startAdmin(); } }; 
             window.delKey = async (id, btn) => { if (btn.dataset.confirm !== 'true') { btn.dataset.confirm = 'true'; btn.innerHTML = '¿Seguro?'; btn.classList.add('bg-red-600', 'text-white'); setTimeout(() => { btn.dataset.confirm = 'false'; btn.innerHTML = '<i class="ph ph-trash"></i>'; btn.classList.remove('bg-red-600', 'text-white'); }, 3000); return; } await deleteStudentKey(id); }; 
             window.addKey = async () => { const k=document.getElementById('nk').value.toUpperCase(), n=document.getElementById('nn').value; if(k&&n) { await createStudentKey(k,n); document.getElementById('nk').value=''; document.getElementById('nn').value=''; } };
+            
+            // ---> AQUÍ SE AÑADIÓ LA LÓGICA JAVASCRIPT PARA LEER EL CSV <---
+            window.importStudentCSV = () => {
+                const fileInput = document.getElementById('csvFileInput');
+                const file = fileInput.files[0];
+                if (!file) { 
+                    alert("Por favor, selecciona un archivo .csv primero."); 
+                    return; 
+                }
+
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const text = e.target.result;
+                    const rows = text.split('\n');
+                    let count = 0;
+                    
+                    for (let i = 0; i < rows.length; i++) {
+                        const row = rows[i].trim();
+                        if (!row) continue;
+                        
+                        const cols = row.split(',');
+                        if (cols.length >= 2) {
+                            const key = cols[0].trim().toUpperCase();
+                            const name = cols[1].trim();
+                            
+                            // Ignora si la primera fila es un encabezado que dice "Clave" y "Nombre"
+                            if (key.toLowerCase() === 'clave' || name.toLowerCase() === 'nombre') continue;
+                            
+                            if (key && name) {
+                                await createStudentKey(key, name);
+                                count++;
+                            }
+                        }
+                    }
+                    alert(`¡Se importaron ${count} alumnos exitosamente!`);
+                    fileInput.value = '';
+                    if (state.mode === 'local') startAdmin(); // Refresca los cambios si usas local
+                };
+                reader.readAsText(file);
+            };
+
             window.openReview = (id) => { 
                 const r = state.results.find(x => x.id === id); if(!r) return; let ans = {}; try { ans = JSON.parse(r.answers || '{}'); } catch(e){} 
                 let h = `<div class="mb-6 bg-indigo-50 border border-indigo-100 p-6 rounded-xl flex justify-between items-center shadow-sm"><div><h4 class="font-black text-2xl text-indigo-900">${r.studentName}</h4><span class="text-indigo-500 font-mono text-sm mt-1 block">Clave: ${r.studentKey}</span></div><div class="text-right bg-white p-3 rounded-xl shadow-sm border border-indigo-50"><p class="text-xs text-indigo-400 font-bold uppercase tracking-wider mb-1">Nota Actual</p><p class="font-black text-4xl text-indigo-600 leading-none">${r.grade10}</p></div></div>`; 
@@ -703,7 +763,7 @@
                      if (state.mode === 'local') {
                          storedQuizData = JSON.parse(localStorage.getItem(r.id)).quizOrder.map(id => RAW_QUIZ_DATA.find(q => q.id === id));
                      } else {
-                         storedQuizData = RAW_QUIZ_DATA; // Fallback for cloud if not storing order
+                         storedQuizData = RAW_QUIZ_DATA; 
                      }
                 } catch(e) { storedQuizData = RAW_QUIZ_DATA; }
 
