@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Present Continuous for Future</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animaciones base */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Ocultar elementos */
+        .hidden-slide { display: none !important; }
+        
+        /* Animación para el calendario */
+        .pop-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]">
+        
+        <!-- Barra de Progreso -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-teal-500 h-2 transition-all duration-500" style="width: 14.2%"></div>
+        </div>
+
+        <!-- Área de Contenido (Diapositivas) -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center relative" id="slides-container">
+            
+            <!-- SLIDE 0: Intro -->
+            <div class="slide fade-in text-center w-full" id="slide-0">
+                <div class="mb-6 inline-block p-4 bg-teal-100 rounded-full text-teal-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+                </div>
+                <h1 class="text-5xl font-extrabold text-slate-900 mb-4">Future Plans</h1>
+                <p class="text-2xl text-slate-600 mb-8">Using the <b>Present Continuous</b> <br/> to talk about the future!</p>
+                <button onclick="nextSlide()" class="px-8 py-4 bg-teal-500 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-teal-600 transform hover:scale-105 transition-all">
+                    Start Class
+                </button>
+            </div>
+
+            <!-- SLIDE 1: Observation -->
+            <div class="slide hidden-slide text-center w-full" id="slide-1">
+                <h2 class="text-3xl font-bold mb-8">Read these sentences. <br/><span class="text-teal-600">What is different?</span></h2>
+                <div class="grid md:grid-cols-2 gap-8 w-full text-left">
+                    <div class="bg-slate-100 p-6 rounded-xl border-2 border-slate-300">
+                        <h3 class="text-slate-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group A <span>👇 Right Now</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>am studying</strong> English right now.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">Look! She <strong>is playing</strong> tennis.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">We <strong>are having</strong> dinner.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-teal-50 p-6 rounded-xl border-2 border-teal-200">
+                        <h3 class="text-teal-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group B <span>🗓️ The Future</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>am studying</strong> with Sarah <span class="text-teal-600 font-bold underline">tonight</span>.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>is playing</strong> tennis <span class="text-teal-600 font-bold underline">tomorrow</span>.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">We <strong>are having</strong> dinner at a restaurant <span class="text-teal-600 font-bold underline">on Friday</span>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Analysis -->
+            <div class="slide hidden-slide text-center w-full" id="slide-2">
+                <h2 class="text-3xl font-bold mb-8">The Magic Ingredient ✨</h2>
+                <p class="text-xl text-slate-600 mb-8">How do we know Group B is in the future?</p>
+                
+                <div class="flex flex-col items-center justify-center gap-6 mb-10 w-full">
+                    <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center text-2xl w-full max-w-2xl">
+                        "I <b>am traveling</b> to Mexico..."
+                    </div>
+                    
+                    <div class="text-4xl text-slate-300 font-bold">+</div>
+                    
+                    <div id="reveal-box-future" class="p-6 border-2 rounded-xl text-center w-full max-w-2xl bg-slate-100 border-slate-200 transition-all duration-500 h-28 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-200" onclick="revealFutureRule()">
+                        <p id="reveal-text-initial" class="text-xl text-slate-500">Click to reveal the secret</p>
+                        <p id="reveal-text-future" class="text-3xl font-bold text-teal-600 hidden">...NEXT WEEK</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: Rule -->
+            <div class="slide hidden-slide w-full text-left" id="slide-3">
+                <h2 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                    <span class="bg-teal-100 text-teal-700 p-2 rounded-lg text-lg">The Rule</span> Fixed Arrangements
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">We can use the Present Continuous for <b>100% confirmed future plans</b> (arrangements). You <span class="underline">must</span> include a future time word!</p>
+                
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <div class="flex-1 bg-white border-2 border-teal-100 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-teal-800 text-lg mb-4 border-b-2 border-teal-100 pb-2">1. The Grammar (Same as always)</h3>
+                        <p class="text-xl mb-2">Subject + <span class="font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded">am/is/are + verb-ing</span></p>
+                        <p class="text-slate-500 italic mt-2">Example: They are flying...</p>
+                    </div>
+                    <div class="flex-1 bg-white border-2 border-teal-100 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-teal-800 text-lg mb-4 border-b-2 border-teal-100 pb-2">2. Future Time Expressions ⏰</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-md font-bold">tonight</span>
+                            <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-md font-bold">tomorrow</span>
+                            <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-md font-bold">next weekend</span>
+                            <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-md font-bold">on Saturday</span>
+                            <span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-md font-bold">in December</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-teal-50 p-4 rounded-lg border-l-4 border-teal-500 italic text-teal-800 text-lg flex items-center gap-3">
+                    <span class="text-2xl">💡</span>
+                    <p>Usually, these plans involve <b>other people</b>, buying <b>tickets</b>, or making <b>reservations</b>.</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Interactive Calendar -->
+            <div class="slide hidden-slide w-full text-left" id="slide-4">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-purple-100 text-purple-700 p-2 rounded-lg">📱</span> Emma's Weekend Diary
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Click on the days to discover what Emma's fixed plans are for this weekend!</p>
+                
+                <div class="flex flex-col md:flex-row gap-4 h-64">
+                    <!-- Friday -->
+                    <div class="flex-1 border-2 border-slate-200 rounded-xl overflow-hidden cursor-pointer hover:border-teal-400 transition-colors flex flex-col" onclick="revealDiary('friday')">
+                        <div class="bg-slate-100 py-3 text-center font-bold text-slate-700 border-b-2 border-slate-200">FRIDAY</div>
+                        <div class="flex-1 flex items-center justify-center p-4 bg-white relative">
+                            <span id="friday-tap" class="text-slate-400 font-medium">Tap to open</span>
+                            <div id="friday-content" class="hidden flex-col items-center text-center pop-in">
+                                <span class="text-4xl mb-2">🍿</span>
+                                <p class="text-lg font-bold text-slate-800">She <span class="text-teal-600">is going</span> to the cinema with Tom.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saturday -->
+                    <div class="flex-1 border-2 border-slate-200 rounded-xl overflow-hidden cursor-pointer hover:border-teal-400 transition-colors flex flex-col" onclick="revealDiary('saturday')">
+                        <div class="bg-slate-100 py-3 text-center font-bold text-slate-700 border-b-2 border-slate-200">SATURDAY</div>
+                        <div class="flex-1 flex items-center justify-center p-4 bg-white relative">
+                            <span id="saturday-tap" class="text-slate-400 font-medium">Tap to open</span>
+                            <div id="saturday-content" class="hidden flex-col items-center text-center pop-in">
+                                <span class="text-4xl mb-2">✈️</span>
+                                <p class="text-lg font-bold text-slate-800">She <span class="text-teal-600">is flying</span> to Cancun.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sunday -->
+                    <div class="flex-1 border-2 border-slate-200 rounded-xl overflow-hidden cursor-pointer hover:border-teal-400 transition-colors flex flex-col" onclick="revealDiary('sunday')">
+                        <div class="bg-slate-100 py-3 text-center font-bold text-slate-700 border-b-2 border-slate-200">SUNDAY</div>
+                        <div class="flex-1 flex items-center justify-center p-4 bg-white relative">
+                            <span id="sunday-tap" class="text-slate-400 font-medium">Tap to open</span>
+                            <div id="sunday-content" class="hidden flex-col items-center text-center pop-in">
+                                <span class="text-4xl mb-2">🎂</span>
+                                <p class="text-lg font-bold text-slate-800">She <span class="text-teal-600">is having</span> lunch at her mom's house.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Speaking Practice -->
+            <div class="slide hidden-slide w-full text-left" id="slide-5">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">🗣️</span> Let's Talk!
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Work in pairs. Ask your partner about their real plans for the future. Use the formula: <b>"What are you doing...?"</b></p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Questions -->
+                    <div class="bg-white p-6 rounded-xl border-2 border-orange-200 shadow-sm">
+                        <h3 class="font-bold text-orange-800 text-xl mb-4">Student A asks:</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li class="flex items-center gap-2">👉 What are you doing <b>tonight</b>?</li>
+                            <li class="flex items-center gap-2">👉 What are you doing <b>tomorrow morning</b>?</li>
+                            <li class="flex items-center gap-2">👉 What are you doing <b>this weekend</b>?</li>
+                            <li class="flex items-center gap-2">👉 What are you doing <b>next summer</b>?</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Answers -->
+                    <div class="bg-slate-800 text-white p-6 rounded-xl shadow-md">
+                        <h3 class="font-bold text-teal-400 text-xl mb-4">Student B answers:</h3>
+                        <p class="text-lg mb-2 text-slate-300"><i>Use your real plans!</i></p>
+                        <ul class="space-y-3 text-lg font-mono">
+                            <li>> I <b>am watching</b> a movie tonight.</li>
+                            <li>> I <b>am staying</b> at home.</li>
+                            <li>> I <b>am playing</b> videogames.</li>
+                            <li>> I don't have plans yet! <span class="text-sm text-slate-400">(Si no hay plan)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-6">
+                
+                <!-- Active Quiz -->
+                <div id="quiz-active-area">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700" id="quiz-progress-text">Question 1/5</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600" id="quiz-score-text">Score: 0</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed" id="quiz-question-text">
+                            Loading question...
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4" id="quiz-options-container">
+                        <!-- Botones generados por JS -->
+                    </div>
+                    <div id="quiz-feedback" class="mt-6 text-center font-bold text-xl opacity-0 transition-opacity">
+                        Feedback
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-result-area" class="hidden-slide text-center">
+                    <div class="text-yellow-400 mx-auto mb-6 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-2xl mb-8">You scored <span id="final-score" class="text-teal-600 font-bold">0</span> out of 5</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-teal-500 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-teal-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Try Again
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 7</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-teal-500 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        // --- Navigation Logic ---
+        let currentSlide = 0;
+        const totalSlides = 7;
+        
+        function updateUI() {
+            // Update Progress Bar & Counter
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update Buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            // Show/Hide Slides
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                    slide.classList.add('fade-in');
+                } else {
+                    slide.classList.add('hidden-slide');
+                    slide.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Reveal Future Rule Logic (Slide 2) ---
+        function revealFutureRule() {
+            const box = document.getElementById('reveal-box-future');
+            const textInitial = document.getElementById('reveal-text-initial');
+            const textFuture = document.getElementById('reveal-text-future');
+
+            box.className = "p-6 border-2 rounded-xl text-center w-full max-w-2xl bg-teal-100 border-teal-500 shadow-lg h-28 flex flex-col items-center justify-center transition-all duration-500 scale-105";
+            textInitial.classList.add('hidden');
+            textFuture.classList.remove('hidden');
+            textFuture.classList.add('pop-in');
+        }
+
+        // --- Reveal Diary Logic (Slide 4) ---
+        function revealDiary(day) {
+            const tapText = document.getElementById(`${day}-tap`);
+            const contentBox = document.getElementById(`${day}-content`);
+            
+            if (tapText && contentBox) {
+                tapText.classList.add('hidden');
+                contentBox.classList.remove('hidden');
+                contentBox.classList.add('flex');
+            }
+        }
+
+        // --- Quiz Logic (Slide 6) ---
+        const quizQuestions = [
+            { text: "I _____ my grandparents on Sunday.", options: ["visit", "am visiting"], correct: 1, feedback: "We use Present Continuous for future fixed arrangements." },
+            { text: "Are you _____ to the party tonight?", options: ["go", "going"], correct: 1, feedback: "The verb must end in -ing after the verb TO BE." },
+            { text: "We are playing basketball _____.", options: ["yesterday", "tomorrow morning"], correct: 1, feedback: "You need a FUTURE time expression for future plans!" },
+            { text: "She _____ lunch with her boss next week.", options: ["is having", "having"], correct: 0, feedback: "Don't forget the verb TO BE (am/is/are)!" },
+            { text: "What _____ doing this weekend?", options: ["are you", "do you"], correct: 0, feedback: "For future plans, use 'are you doing'." }
+        ];
+        
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let isAnswering = false;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizQ];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizQ + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-score-text').innerText = `Score: ${quizScore}`;
+            
+            // Set question text
+            const parts = q.text.split('_____');
+            document.getElementById('quiz-question-text').innerHTML = `${parts[0]} <span id="quiz-blank" class="inline-block border-b-4 px-2 min-w-[80px] text-center border-slate-300 text-transparent">_____</span> ${parts[1] || ''}`;
+            
+            // Build options dynamically
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = ''; // Clear previous
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.id = `quiz-btn-${index}`;
+                btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-teal-400 hover:shadow-md text-slate-700 w-full";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // Hide feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('opacity-0');
+            feedback.classList.remove('animate-bounce', 'text-green-600', 'text-red-600');
+            
+            isAnswering = false;
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = quizQuestions[currentQuizQ];
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) quizScore++;
+            
+            // Fill in the blank
+            const blank = document.getElementById('quiz-blank');
+            blank.innerText = q.options[selectedIndex];
+            blank.classList.remove('text-transparent', 'border-slate-300');
+            blank.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', isCorrect ? 'border-green-500' : 'border-red-500');
+            
+            // Update all buttons
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-btn-${idx}`);
+                if (idx === selectedIndex) {
+                    btn.className = isCorrect 
+                        ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg w-full" 
+                        : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50 w-full";
+                } else {
+                    btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50 w-full";
+                }
+            });
+
+            // Show feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = isCorrect ? 'Correct! 🎉' : `Oops! ${q.feedback}`;
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('animate-bounce', isCorrect ? 'text-green-600' : 'text-red-600');
+
+            // Wait and go to next
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    loadQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 2500);
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-area').classList.add('hidden-slide');
+            document.getElementById('quiz-result-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('fade-in');
+            document.getElementById('final-score').innerText = quizScore;
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            document.getElementById('quiz-active-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('hidden-slide');
+            
+            // Reset diary for a fresh start if they go back
+            ['friday', 'saturday', 'sunday'].forEach(day => {
+                const tapText = document.getElementById(`${day}-tap`);
+                const contentBox = document.getElementById(`${day}-content`);
+                if(tapText && contentBox) {
+                    tapText.classList.remove('hidden');
+                    contentBox.classList.add('hidden');
+                    contentBox.classList.remove('flex');
+                }
+            });
+
+            loadQuizQuestion();
+        }
+
+        // Initialize first slide and quiz
+        updateUI();
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>
