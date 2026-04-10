@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relative Pronouns: Who, Which, That</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animaciones base */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Ocultar elementos */
+        .hidden-slide { display: none !important; }
+        
+        /* Animación para revelar */
+        .pop-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Efecto flotante */
+        .float { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]">
+        
+        <!-- Barra de Progreso -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-amber-500 h-2 transition-all duration-500" style="width: 14.2%"></div>
+        </div>
+
+        <!-- Área de Contenido (Diapositivas) -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center relative" id="slides-container">
+            
+            <!-- SLIDE 0: Intro -->
+            <div class="slide fade-in text-center w-full" id="slide-0">
+                <div class="mb-6 inline-block p-4 bg-amber-100 rounded-full text-amber-600 float">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                </div>
+                <h1 class="text-5xl font-extrabold text-slate-900 mb-4">Connecting Ideas</h1>
+                <p class="text-2xl text-slate-600 mb-8">Relative Pronouns: <b>Who, Which, That</b></p>
+                <button onclick="nextSlide()" class="px-8 py-4 bg-amber-500 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-amber-600 transform hover:scale-105 transition-all">
+                    Start Class
+                </button>
+            </div>
+
+            <!-- SLIDE 1: Observation -->
+            <div class="slide hidden-slide text-center w-full" id="slide-1">
+                <h2 class="text-3xl font-bold mb-8">Read these sentences. <br/><span class="text-amber-600">How do we connect them?</span></h2>
+                <div class="grid md:grid-cols-2 gap-8 w-full text-left">
+                    <!-- Group A -->
+                    <div class="bg-slate-100 p-6 rounded-xl border-2 border-slate-300 shadow-sm relative">
+                        <h3 class="text-slate-800 font-bold mb-4 uppercase tracking-wider text-sm flex items-center gap-2"><span>🤖</span> Robotic (2 sentences)</h3>
+                        <div class="space-y-6">
+                            <div class="bg-white p-3 rounded-lg shadow-sm border-l-4 border-slate-400">
+                                <p class="text-lg">I know a man. The man makes the best chascas.</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg shadow-sm border-l-4 border-slate-400">
+                                <p class="text-lg">Look at the dog. The dog is running fast.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Group B -->
+                    <div class="bg-amber-50 p-6 rounded-xl border-2 border-amber-200 shadow-sm relative">
+                        <h3 class="text-amber-800 font-bold mb-4 uppercase tracking-wider text-sm flex items-center gap-2"><span>🗣️</span> Natural (1 sentence)</h3>
+                        <div class="space-y-6">
+                            <div class="bg-white p-3 rounded-lg shadow-sm border-l-4 border-amber-500">
+                                <p class="text-lg">I know a man <span class="font-bold text-amber-600 bg-amber-100 px-1 rounded">who</span> makes the best chascas.</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg shadow-sm border-l-4 border-amber-500">
+                                <p class="text-lg">Look at the dog <span class="font-bold text-amber-600 bg-amber-100 px-1 rounded">which</span> is running fast.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Analysis & Rule -->
+            <div class="slide hidden-slide w-full text-left" id="slide-2">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-amber-100 text-amber-700 p-2 rounded-lg text-lg">The Rule</span> The Magic Glue
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">Relative pronouns are like glue. They connect a noun to new information.</p>
+
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <!-- WHO -->
+                    <div class="flex-1 bg-white border-2 border-orange-200 p-6 rounded-xl shadow-sm text-center">
+                        <div class="text-5xl mb-4">🧍‍♂️🧍‍♀️</div>
+                        <h3 class="font-bold text-orange-700 text-2xl mb-2">WHO</h3>
+                        <p class="text-slate-600 mb-4 font-medium uppercase tracking-widest text-sm">For People</p>
+                        <div class="bg-orange-50 p-4 rounded-lg text-slate-700 text-lg">
+                            "I know the people <span class="font-bold text-orange-600">who</span> live there."
+                        </div>
+                    </div>
+                    
+                    <!-- WHICH -->
+                    <div class="flex-1 bg-white border-2 border-emerald-200 p-6 rounded-xl shadow-sm text-center">
+                        <div class="text-5xl mb-4">🐶🍔📱</div>
+                        <h3 class="font-bold text-emerald-700 text-2xl mb-2">WHICH</h3>
+                        <p class="text-slate-600 mb-4 font-medium uppercase tracking-widest text-sm">For Things & Animals</p>
+                        <div class="bg-emerald-50 p-4 rounded-lg text-slate-700 text-lg">
+                            "I like the plants <span class="font-bold text-emerald-600">which</span> grow there."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: The Joker Card -->
+            <div class="slide hidden-slide w-full text-center" id="slide-3">
+                <h2 class="text-3xl font-bold mb-6">The Joker Card 🃏</h2>
+                <p class="text-xl text-slate-600 mb-8">Can't remember if it's <b>who</b> or <b>which</b>? There is a magic word that works for BOTH!</p>
+                
+                <div class="w-full max-w-2xl mx-auto bg-purple-50 border-4 border-purple-300 rounded-3xl p-8 shadow-lg relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 opacity-20 text-9xl transform rotate-12">🃏</div>
+                    <h3 class="text-6xl font-extrabold text-purple-700 mb-6 relative z-10 tracking-widest">THAT</h3>
+                    
+                    <div class="space-y-4 text-left relative z-10">
+                        <div class="bg-white p-4 rounded-xl border border-purple-200 text-xl shadow-sm flex items-center gap-4">
+                            <span class="text-3xl">🧍</span>
+                            <p>I know the people <span class="font-bold text-purple-600">that</span> live there.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-purple-200 text-xl shadow-sm flex items-center gap-4">
+                            <span class="text-3xl">🪴</span>
+                            <p>I like the plants <span class="font-bold text-purple-600">that</span> grow there.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Position In the Middle -->
+            <div class="slide hidden-slide w-full text-left" id="slide-4">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg text-lg">Position</span> In the Middle!
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">The "glue" doesn't always go at the end. Sometimes it goes in the <b>middle</b> to describe the subject!</p>
+
+                <div class="bg-white border-2 border-indigo-200 p-8 rounded-xl shadow-sm mb-6">
+                    <p class="text-slate-500 mb-2 font-bold uppercase tracking-widest text-sm">Example 1: Person</p>
+                    <div class="text-2xl text-slate-700 mb-6 flex flex-wrap items-center gap-2">
+                        <span>My brother,</span>
+                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-lg border border-orange-300 font-bold shadow-sm">who is a doctor,</span>
+                        <span>lives in Mazatlan. 🏖️</span>
+                    </div>
+
+                    <p class="text-slate-500 mb-2 font-bold uppercase tracking-widest text-sm">Example 2: Thing</p>
+                    <div class="text-2xl text-slate-700 flex flex-wrap items-center gap-2">
+                        <span>The car</span>
+                        <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-lg border border-emerald-300 font-bold shadow-sm">which is red</span>
+                        <span>is very fast. 🏎️</span>
+                    </div>
+                </div>
+                
+                <div class="bg-indigo-50 p-4 rounded-lg border-l-4 border-indigo-500 text-indigo-800 text-lg flex items-center gap-4">
+                    <span class="text-4xl">🥪</span>
+                    <p><b>Tip:</b> Think of it like a sandwich. The main sentence is the bread, and the relative pronoun is the delicious filling inside!</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Interactive Discovery -->
+            <div class="slide hidden-slide w-full text-center" id="slide-5">
+                <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 p-2 rounded-lg">🧩</span> Choose the Glue
+                </h2>
+                <p class="text-lg text-slate-600 mb-8">Read the sentence. Click the box to reveal the correct relative pronoun!</p>
+                
+                <div class="grid grid-cols-1 gap-4 w-full max-w-3xl mx-auto">
+                    <!-- Box 1 -->
+                    <div class="border-2 border-slate-200 p-4 rounded-xl cursor-pointer hover:border-amber-300 hover:bg-slate-50 transition-all group flex items-center justify-between" onclick="revealBox(this, `which`)">
+                        <p class="text-xl text-slate-700 font-medium text-left">1. The San Marcos Fair is an event <span class="description-box inline-block bg-slate-200 text-slate-500 px-4 py-1 rounded-md font-bold mx-2">???</span> happens in April.</p>
+                    </div>
+                    <!-- Box 2 -->
+                    <div class="border-2 border-slate-200 p-4 rounded-xl cursor-pointer hover:border-amber-300 hover:bg-slate-50 transition-all group flex items-center justify-between" onclick="revealBox(this, `who`)">
+                        <p class="text-xl text-slate-700 font-medium text-left">2. A mechanic is a person <span class="description-box inline-block bg-slate-200 text-slate-500 px-4 py-1 rounded-md font-bold mx-2">???</span> fixes cars.</p>
+                    </div>
+                    <!-- Box 3 -->
+                    <div class="border-2 border-slate-200 p-4 rounded-xl cursor-pointer hover:border-amber-300 hover:bg-slate-50 transition-all group flex items-center justify-between" onclick="revealBox(this, `which`)">
+                        <p class="text-xl text-slate-700 font-medium text-left">3. Look at the dog <span class="description-box inline-block bg-slate-200 text-slate-500 px-4 py-1 rounded-md font-bold mx-2">???</span> is sleeping on the sofa.</p>
+                    </div>
+                    <!-- Box 4 -->
+                    <div class="border-2 border-slate-200 p-4 rounded-xl cursor-pointer hover:border-amber-300 hover:bg-slate-50 transition-all group flex items-center justify-between" onclick="revealBox(this, `that`)">
+                        <p class="text-xl text-slate-700 font-medium text-left">4. I want a phone <span class="description-box inline-block bg-slate-200 text-slate-500 px-4 py-1 rounded-md font-bold mx-2">???</span> has a great camera.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Speaking Practice -->
+            <div class="slide hidden-slide w-full text-left" id="slide-6">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">🗣️</span> The Dictionary Game
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Work in pairs. Define the word using <b>who</b> or <b>which</b>. Your partner has to guess the word!</p>
+                
+                <div class="bg-slate-800 p-8 rounded-xl text-white shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 opacity-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-amber-400 mb-4 border-b border-slate-600 pb-2">Student A: Describe these without saying the word!</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6 relative z-10">
+                        <div class="bg-slate-700 p-3 rounded-lg text-center font-bold text-xl">A Teacher 👩‍🏫</div>
+                        <div class="bg-slate-700 p-3 rounded-lg text-center font-bold text-xl">A Fridge 🧊</div>
+                        <div class="bg-slate-700 p-3 rounded-lg text-center font-bold text-xl">A Chasca 🌽</div>
+                        <div class="bg-slate-700 p-3 rounded-lg text-center font-bold text-xl">A Doctor 🩺</div>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-lg border-l-4 border-amber-500 font-mono text-amber-100 relative z-10">
+                        <p class="text-slate-400 mb-1">Example:</p>
+                        <p><b>Student A:</b> "It is an animal <span class="text-emerald-400">which</span> has a very long neck."</p>
+                        <p><b>Student B:</b> "A giraffe!"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-7">
+                <!-- Active Quiz -->
+                <div id="quiz-active-area">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700" id="quiz-progress-text">Question 1/5</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600" id="quiz-score-text">Score: 0</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed" id="quiz-question-text">
+                            Loading question...
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4" id="quiz-options-container">
+                        <!-- Botones generados por JS -->
+                    </div>
+                    <div id="quiz-feedback" class="mt-6 text-center font-bold text-xl opacity-0 transition-opacity">
+                        Feedback
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-result-area" class="hidden-slide text-center">
+                    <div class="text-yellow-400 mx-auto mb-6 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-2xl mb-8">You scored <span id="final-score" class="text-amber-600 font-bold">0</span> out of 5</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-amber-500 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Try Again
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 8</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-amber-500 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-amber-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        // --- Navigation Logic ---
+        let currentSlide = 0;
+        const totalSlides = 8;
+        
+        function updateUI() {
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                    slide.classList.add('fade-in');
+                } else {
+                    slide.classList.add('hidden-slide');
+                    slide.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Interactive Box Logic (Slide 5) ---
+        function revealBox(element, correctWord) {
+            const descBox = element.querySelector('.description-box');
+            if (descBox) {
+                descBox.innerHTML = correctWord;
+                descBox.classList.remove('bg-slate-200', 'text-slate-500');
+                
+                // Color code based on word
+                if(correctWord === 'who') {
+                    descBox.classList.add('bg-orange-100', 'text-orange-700', 'border', 'border-orange-300', 'pop-in');
+                } else if(correctWord === 'which') {
+                    descBox.classList.add('bg-emerald-100', 'text-emerald-700', 'border', 'border-emerald-300', 'pop-in');
+                } else {
+                    descBox.classList.add('bg-purple-100', 'text-purple-700', 'border', 'border-purple-300', 'pop-in');
+                }
+            }
+        }
+
+        // --- Quiz Logic (Slide 7) ---
+        const quizQuestions = [
+            { text: "The man _____ lives next door is very friendly.", options: ["who", "which"], correct: 0, feedback: "'Man' is a person, so we use 'who' (or 'that')." },
+            { text: "I bought a phone _____ has an amazing camera.", options: ["who", "which"], correct: 1, feedback: "'Phone' is a thing, so we use 'which' (or 'that')." },
+            { text: "The people _____ work here are nice.", options: ["which", "that"], correct: 1, feedback: "You can't use 'which' for people. But 'that' is the Joker, it works!" },
+            { text: "A chasca is a delicious food _____ is from Aguascalientes.", options: ["who", "which"], correct: 1, feedback: "'Food' is a thing, so we use 'which'." },
+            { text: "Which word is the 'Joker' (it works for people AND things)?", options: ["that", "who"], correct: 0, feedback: "'That' can replace both 'who' and 'which' in these sentences!" }
+        ];
+        
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let isAnswering = false;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizQ];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizQ + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-score-text').innerText = `Score: ${quizScore}`;
+            
+            // Set question text
+            if (q.text.includes("_____")) {
+                const parts = q.text.split('_____');
+                document.getElementById('quiz-question-text').innerHTML = `${parts[0]} <span id="quiz-blank" class="inline-block border-b-4 px-2 min-w-[80px] text-center border-slate-300 text-transparent">_____</span> ${parts[1]}`;
+            } else {
+                document.getElementById('quiz-question-text').innerHTML = q.text; 
+            }
+            
+            // Build options dynamically
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = ''; 
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.id = `quiz-btn-${index}`;
+                btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-amber-400 hover:shadow-md text-slate-700 w-full";
+                btn.innerHTML = opt;
+                btn.onclick = () => handleAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('opacity-0');
+            feedback.classList.remove('animate-bounce', 'text-green-600', 'text-red-600');
+            
+            isAnswering = false;
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = quizQuestions[currentQuizQ];
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) quizScore++;
+            
+            // Fill in the blanks
+            const singleBlank = document.getElementById('quiz-blank');
+            if (singleBlank) {
+                singleBlank.innerText = q.options[selectedIndex];
+                singleBlank.classList.remove('text-transparent', 'border-slate-300');
+                singleBlank.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', isCorrect ? 'border-green-500' : 'border-red-500');
+            } 
+            
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-btn-${idx}`);
+                if (idx === selectedIndex) {
+                    btn.className = isCorrect 
+                        ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg w-full" 
+                        : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50 w-full";
+                } else {
+                    btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50 w-full";
+                }
+            });
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = isCorrect ? 'Correct! 🎉' : `Oops! ${q.feedback}`;
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('animate-bounce', isCorrect ? 'text-green-600' : 'text-red-600');
+
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    loadQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 3000); 
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-area').classList.add('hidden-slide');
+            document.getElementById('quiz-result-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('fade-in');
+            document.getElementById('final-score').innerText = quizScore;
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            document.getElementById('quiz-active-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('hidden-slide');
+            
+            // Reset Reveal Boxes (Slide 4)
+            const descBoxes = document.querySelectorAll('.description-box');
+            descBoxes.forEach(box => {
+                box.innerHTML = "???";
+                box.className = "description-box inline-block bg-slate-200 text-slate-500 px-4 py-1 rounded-md font-bold mx-2";
+            });
+
+            loadQuizQuestion();
+        }
+
+        // Initialize first slide and quiz
+        updateUI();
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>
