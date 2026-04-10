@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Present Perfect: Experiences</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animaciones base */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Ocultar elementos */
+        .hidden-slide { display: none !important; }
+        
+        /* Animación para revelar */
+        .pop-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Efecto flotante para el globo terráqueo */
+        .float { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]">
+        
+        <!-- Barra de Progreso -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-emerald-500 h-2 transition-all duration-500" style="width: 12.5%"></div>
+        </div>
+
+        <!-- Área de Contenido (Diapositivas) -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center relative" id="slides-container">
+            
+            <!-- SLIDE 0: Intro -->
+            <div class="slide fade-in text-center w-full" id="slide-0">
+                <div class="mb-6 inline-block p-4 bg-emerald-100 rounded-full text-emerald-600 float">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        <path d="M2 12h20"/>
+                    </svg>
+                </div>
+                <h1 class="text-5xl font-extrabold text-slate-900 mb-4">Life Experiences</h1>
+                <p class="text-2xl text-slate-600 mb-8">Using the <b>Present Perfect</b></p>
+                <button onclick="nextSlide()" class="px-8 py-4 bg-emerald-500 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-emerald-600 transform hover:scale-105 transition-all">
+                    Start Class
+                </button>
+            </div>
+
+            <!-- SLIDE 1: Observation -->
+            <div class="slide hidden-slide text-center w-full" id="slide-1">
+                <h2 class="text-3xl font-bold mb-8">Read these sentences. <br/><span class="text-emerald-600">What is different?</span></h2>
+                <div class="grid md:grid-cols-2 gap-8 w-full text-left">
+                    <div class="bg-slate-100 p-6 rounded-xl border-2 border-slate-300">
+                        <h3 class="text-slate-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group A <span>📅 Specific Time</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>visited</strong> London <span class="text-slate-500 underline font-bold">in 2019</span>.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>ate</strong> sushi <span class="text-slate-500 underline font-bold">yesterday</span>.</li>
+                        </ul>
+                        <div class="mt-4 text-sm text-slate-500 font-bold italic text-center">Past Simple</div>
+                    </div>
+                    <div class="bg-emerald-50 p-6 rounded-xl border-2 border-emerald-200">
+                        <h3 class="text-emerald-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group B <span>🌍 Life Experience</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>have visited</strong> London.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>has eaten</strong> sushi.</li>
+                        </ul>
+                        <div class="mt-4 text-sm text-emerald-600 font-bold italic text-center">Present Perfect (When? It doesn't matter!)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Grammar -->
+            <div class="slide hidden-slide w-full text-left" id="slide-2">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-emerald-100 text-emerald-700 p-2 rounded-lg text-lg">Structure</span> The Formula
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">We use the auxiliary <b>Have/Has</b> + The <b>Past Participle</b> (V3) of the verb.</p>
+                
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <div class="flex-1 bg-white border-2 border-emerald-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-emerald-800 text-xl mb-4">The Auxiliary</h3>
+                        <div class="space-y-4 text-lg">
+                            <div class="bg-emerald-50 p-3 rounded-lg border-l-4 border-emerald-400">
+                                <b>I / You / We / They</b> <span class="text-emerald-600 font-bold ml-2">have</span> ('ve)
+                            </div>
+                            <div class="bg-emerald-100 p-3 rounded-lg border-l-4 border-emerald-600">
+                                <b>He / She / It</b> <span class="text-emerald-700 font-bold ml-2">has</span> ('s)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 bg-white border-2 border-emerald-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-emerald-800 text-xl mb-4">The Verb (V3)</h3>
+                        <ul class="space-y-2 text-lg font-mono">
+                            <li class="flex justify-between border-b pb-1"><span>visit</span> <span>➔</span> <span class="font-bold text-emerald-600">visited</span></li>
+                            <li class="flex justify-between border-b pb-1"><span>eat</span> <span>➔</span> <span class="font-bold text-emerald-600">eaten</span></li>
+                            <li class="flex justify-between border-b pb-1"><span>see</span> <span>➔</span> <span class="font-bold text-emerald-600">seen</span></li>
+                            <li class="flex justify-between"><span>go</span> <span>➔</span> <span class="font-bold text-emerald-600">been / gone</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: EVER in Questions -->
+            <div class="slide hidden-slide w-full text-left" id="slide-3">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 p-2 rounded-lg text-lg">Questions</span> Using "Ever"
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">When we ask about life experiences, we often use the word <b>EVER</b> (at any time in your life).</p>
+
+                <div class="bg-white border-2 border-blue-200 p-8 rounded-xl shadow-sm mb-6 flex flex-col items-center">
+                    <div class="text-2xl font-mono mb-6 bg-blue-50 p-4 rounded-xl border border-blue-200 text-center w-full max-w-2xl">
+                        <span class="text-blue-600 font-bold">Have/Has</span> + subject + <span class="text-orange-500 font-bold">ever</span> + Past Participle ?
+                    </div>
+                    
+                    <div class="text-3xl text-slate-700 mb-4 text-center">
+                        "<span class="font-bold text-blue-600">Have</span> you <span class="font-bold text-orange-500">ever</span> <span class="font-bold text-emerald-500">eaten</span> octopus?"
+                    </div>
+                </div>
+
+                <div class="flex justify-around text-xl">
+                    <div class="bg-green-100 p-4 rounded-lg text-center border border-green-300 w-64">
+                        ✅ Yes, I <b>have</b>.
+                    </div>
+                    <div class="bg-red-100 p-4 rounded-lg text-center border border-red-300 w-64">
+                        ❌ No, I <b>haven't</b>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: NEVER -->
+            <div class="slide hidden-slide w-full text-left" id="slide-4">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-red-100 text-red-700 p-2 rounded-lg text-lg">Negatives</span> Using "Never"
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">If you want to say "No" to an experience, you can use <b>NEVER</b>. But be careful with the grammar!</p>
+
+                <div class="flex flex-col items-center gap-6 w-full max-w-2xl mx-auto">
+                    <!-- Correct -->
+                    <div class="bg-white border-l-8 border-green-500 p-6 rounded-r-xl shadow-md w-full">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-2xl">✅</span> <span class="font-bold text-slate-700 text-xl">The Correct Way</span>
+                        </div>
+                        <p class="text-2xl">"I <b>have</b> <span class="text-red-500 font-bold underline">never</span> <b>seen</b> a ghost."</p>
+                        <p class="text-slate-500 mt-2 text-sm italic">*The auxiliary 'have' is positive, but 'never' makes the sentence negative.</p>
+                    </div>
+
+                    <!-- Incorrect -->
+                    <div class="bg-white border-l-8 border-red-500 p-6 rounded-r-xl shadow-md w-full opacity-80 relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-10">
+                            <span class="text-9xl">❌</span>
+                        </div>
+                        <div class="flex items-center gap-3 mb-2 relative z-10">
+                            <span class="text-2xl">❌</span> <span class="font-bold text-slate-700 text-xl">The Wrong Way</span>
+                        </div>
+                        <p class="text-2xl line-through decoration-red-500 decoration-4 relative z-10">"I haven't never seen a ghost."</p>
+                        <p class="text-red-600 mt-2 text-sm font-bold relative z-10">Don't use double negatives!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Interactive Activity -->
+            <div class="slide hidden-slide w-full text-left" id="slide-5">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-purple-100 text-purple-700 p-2 rounded-lg">🕵️‍♂️</span> Secret Experiences
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Has your teacher done these things? Guess! Then tap to reveal the truth using <b>has</b> or <b>has never</b>.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Exp 1 -->
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `He/She <b>has never</b> tried skydiving!`)">
+                        <p class="text-lg font-bold text-purple-800 mb-2">✈️ Skydive (jump from a plane)</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Tap to reveal...</div>
+                    </div>
+                    <!-- Exp 2 -->
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `Yes! He/She <b>has met</b> someone famous.`)">
+                        <p class="text-lg font-bold text-purple-800 mb-2">⭐ Meet a famous person</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Tap to reveal...</div>
+                    </div>
+                    <!-- Exp 3 -->
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `No, he/she <b>has never broken</b> a bone.`)">
+                        <p class="text-lg font-bold text-purple-800 mb-2">🦴 Break a bone</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Tap to reveal...</div>
+                    </div>
+                    <!-- Exp 4 -->
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `Yes! He/She <b>has eaten</b> very spicy food.`)">
+                        <p class="text-lg font-bold text-purple-800 mb-2">🌶️ Eat extremely spicy food</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Tap to reveal...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Find Someone Who -->
+            <div class="slide hidden-slide w-full text-left" id="slide-6">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">🗣️</span> Find Someone Who...
+                </h2>
+                <p class="text-lg text-slate-600 mb-4">Stand up! Ask your classmates questions: <b>"Have you ever...?"</b>. If they say YES, tap the box to turn it green and write their name!</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <!-- Cards generadas dinámicamente o estáticas -->
+                    <div class="border-2 border-slate-300 rounded-lg p-3 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-28" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...ridden a horse</span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-3 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-28" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...lost their phone</span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-3 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-28" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...swum in the ocean</span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-3 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-28" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...sung karaoke</span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-3 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-28" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...flown in a helicopter</span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-3 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-28" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...eaten unusual food</span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-7">
+                <!-- Active Quiz -->
+                <div id="quiz-active-area">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700" id="quiz-progress-text">Question 1/5</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600" id="quiz-score-text">Score: 0</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed" id="quiz-question-text">
+                            Loading question...
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4" id="quiz-options-container">
+                        <!-- Botones generados por JS -->
+                    </div>
+                    <div id="quiz-feedback" class="mt-6 text-center font-bold text-xl opacity-0 transition-opacity">
+                        Feedback
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-result-area" class="hidden-slide text-center">
+                    <div class="text-yellow-400 mx-auto mb-6 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-2xl mb-8">You scored <span id="final-score" class="text-emerald-600 font-bold">0</span> out of 5</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-emerald-500 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-emerald-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Try Again
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 8</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-emerald-500 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-emerald-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        // --- Navigation Logic ---
+        let currentSlide = 0;
+        const totalSlides = 8;
+        
+        function updateUI() {
+            // Update Progress Bar & Counter
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update Buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            // Show/Hide Slides
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                    slide.classList.add('fade-in');
+                } else {
+                    slide.classList.add('hidden-slide');
+                    slide.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Interactive Box Logic (Slide 5) ---
+        function revealRule(element, htmlContent) {
+            const ruleBox = element.querySelector('.rule-box');
+            if (ruleBox) {
+                ruleBox.innerHTML = htmlContent;
+                ruleBox.classList.remove('bg-slate-200', 'text-slate-500');
+                ruleBox.classList.add('bg-purple-200', 'text-purple-900', 'border', 'border-purple-400', 'pop-in');
+            }
+        }
+
+        // --- Find Someone Who Logic (Slide 6) ---
+        function toggleFound(element) {
+            element.classList.toggle('bg-green-100');
+            element.classList.toggle('border-green-400');
+            element.classList.toggle('border-slate-300');
+            
+            // Add a checkmark visual
+            const span = element.querySelector('span');
+            if (element.classList.contains('bg-green-100')) {
+                if (!span.innerText.startsWith('✅')) {
+                    span.innerText = '✅ ' + span.innerText;
+                }
+            } else {
+                span.innerText = span.innerText.replace('✅ ', '');
+            }
+        }
+
+        // --- Quiz Logic (Slide 7) ---
+        const quizQuestions = [
+            { text: "I _____ never visited Japan.", options: ["have", "has"], correct: 0, feedback: "Use 'have' with I, You, We, They." },
+            { text: "Have you _____ eaten octopus?", options: ["ever", "never"], correct: 0, feedback: "Use 'ever' in questions to ask about life experiences." },
+            { text: "She _____ seen that movie. Let's watch it!", options: ["hasn't never", "has never"], correct: 1, feedback: "Don't use double negatives. Use 'has never'." },
+            { text: "What is the past participle of 'eat'?", options: ["ate", "eaten"], correct: 1, feedback: "'Ate' is Past Simple. 'Eaten' is the Past Participle." },
+            { text: "_____ they ever flown in a helicopter?", options: ["Have", "Do"], correct: 0, feedback: "Questions in Present Perfect always start with Have or Has." }
+        ];
+        
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let isAnswering = false;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizQ];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizQ + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-score-text').innerText = `Score: ${quizScore}`;
+            
+            // Set question text
+            const parts = q.text.split('_____');
+            if(parts.length > 1) {
+                document.getElementById('quiz-question-text').innerHTML = `${parts[0]} <span id="quiz-blank" class="inline-block border-b-4 px-2 min-w-[100px] text-center border-slate-300 text-transparent">_____</span> ${parts[1] || ''}`;
+            } else {
+                document.getElementById('quiz-question-text').innerHTML = q.text; 
+            }
+            
+            // Build options dynamically
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = ''; // Clear previous
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.id = `quiz-btn-${index}`;
+                btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-emerald-400 hover:shadow-md text-slate-700 w-full";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // Hide feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('opacity-0');
+            feedback.classList.remove('animate-bounce', 'text-green-600', 'text-red-600');
+            
+            isAnswering = false;
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = quizQuestions[currentQuizQ];
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) quizScore++;
+            
+            // Fill in the blank (if there is one)
+            const blank = document.getElementById('quiz-blank');
+            if (blank) {
+                blank.innerText = q.options[selectedIndex];
+                blank.classList.remove('text-transparent', 'border-slate-300');
+                blank.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', isCorrect ? 'border-green-500' : 'border-red-500');
+            }
+            
+            // Update all buttons
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-btn-${idx}`);
+                if (idx === selectedIndex) {
+                    btn.className = isCorrect 
+                        ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg w-full" 
+                        : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50 w-full";
+                } else {
+                    btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50 w-full";
+                }
+            });
+
+            // Show feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = isCorrect ? 'Correct! 🎉' : `Oops! ${q.feedback}`;
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('animate-bounce', isCorrect ? 'text-green-600' : 'text-red-600');
+
+            // Wait and go to next
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    loadQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 3000); // 3 seconds to read feedback
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-area').classList.add('hidden-slide');
+            document.getElementById('quiz-result-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('fade-in');
+            document.getElementById('final-score').innerText = quizScore;
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            document.getElementById('quiz-active-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('hidden-slide');
+            
+            // Reset Mini-game 
+            const ruleBoxes = document.querySelectorAll('.rule-box');
+            ruleBoxes.forEach(box => {
+                box.innerHTML = "Tap to reveal...";
+                box.className = "bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box";
+            });
+
+            // Reset Find Someone Who
+            const fswCards = document.querySelectorAll('#slide-6 .cursor-pointer');
+            fswCards.forEach(card => {
+                card.classList.remove('bg-green-100', 'border-green-400');
+                card.classList.add('border-slate-300');
+                const span = card.querySelector('span');
+                span.innerText = span.innerText.replace('✅ ', '');
+            });
+
+            loadQuizQuestion();
+        }
+
+        // Initialize first slide and quiz
+        updateUI();
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>

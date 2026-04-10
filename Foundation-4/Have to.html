@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obligations: Have to</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animaciones base */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Ocultar elementos */
+        .hidden-slide { display: none !important; }
+        
+        /* Animación para revelar */
+        .pop-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]">
+        
+        <!-- Barra de Progreso -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-violet-600 h-2 transition-all duration-500" style="width: 12.5%"></div>
+        </div>
+
+        <!-- Área de Contenido (Diapositivas) -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center relative" id="slides-container">
+            
+            <!-- SLIDE 0: Intro -->
+            <div class="slide fade-in text-center w-full" id="slide-0">
+                <div class="mb-6 inline-block p-4 bg-violet-100 rounded-full text-violet-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <h1 class="text-5xl font-extrabold text-slate-900 mb-4">Obligations & Necessities</h1>
+                <p class="text-2xl text-slate-600 mb-8">Using <b>Have to</b> / <b>Has to</b></p>
+                <button onclick="nextSlide()" class="px-8 py-4 bg-violet-600 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-violet-700 transform hover:scale-105 transition-all">
+                    Start Class
+                </button>
+            </div>
+
+            <!-- SLIDE 1: Observation -->
+            <div class="slide hidden-slide text-center w-full" id="slide-1">
+                <h2 class="text-3xl font-bold mb-8">Read these sentences. <br/><span class="text-violet-600">What is different?</span></h2>
+                <div class="grid md:grid-cols-2 gap-8 w-full text-left">
+                    <div class="bg-violet-50 p-6 rounded-xl border-2 border-violet-200">
+                        <h3 class="text-violet-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group A <span>✅ Yes</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>have to</strong> wake up at 6:00 am.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>has to</strong> wear a uniform at work.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">Doctors <strong>have to</strong> study a lot.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-fuchsia-50 p-6 rounded-xl border-2 border-fuchsia-200">
+                        <h3 class="text-fuchsia-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group B <span>❌ No</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">Today is Sunday! I <strong>don't have to</strong> work.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">He <strong>doesn't have to</strong> cook today.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">You <strong>don't have to</strong> pay, it's free!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Analysis -->
+            <div class="slide hidden-slide text-center w-full" id="slide-2">
+                <h2 class="text-3xl font-bold mb-8">What does it mean? 🤔</h2>
+                <div class="flex flex-col md:flex-row gap-8 items-center mb-10 w-full justify-center">
+                    <!-- Box A -->
+                    <div class="flex flex-col items-center">
+                        <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center w-72 mb-4 h-32 flex flex-col justify-center">
+                            <p class="text-xl text-slate-700">"I <b>have to</b> pay the rent."</p>
+                        </div>
+                        <div id="reveal-box-1" class="p-4 border-2 rounded-xl text-center w-72 bg-slate-100 border-slate-200 transition-all duration-500 h-24 flex items-center justify-center cursor-pointer hover:bg-slate-200" onclick="revealMeaning(1)">
+                            <p id="reveal-text-1" class="text-xl font-bold text-slate-400">Tap to reveal meaning</p>
+                            <p id="reveal-result-1" class="text-2xl font-bold text-violet-600 hidden">It's 100% Necessary <br><span class="text-sm font-normal text-slate-600">(Obligation)</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-4xl text-slate-300 font-bold hidden md:block">VS</div>
+                    
+                    <!-- Box B -->
+                    <div class="flex flex-col items-center">
+                        <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center w-72 mb-4 h-32 flex flex-col justify-center">
+                            <p class="text-xl text-slate-700">"I <b>don't have to</b> cook today."</p>
+                        </div>
+                        <div id="reveal-box-2" class="p-4 border-2 rounded-xl text-center w-72 bg-slate-100 border-slate-200 transition-all duration-500 h-24 flex items-center justify-center cursor-pointer hover:bg-slate-200" onclick="revealMeaning(2)">
+                            <p id="reveal-text-2" class="text-xl font-bold text-slate-400">Tap to reveal meaning</p>
+                            <p id="reveal-result-2" class="text-2xl font-bold text-fuchsia-600 hidden">It's NOT Necessary <br><span class="text-sm font-normal text-slate-600">(You choose / No obligation)</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: Rule Affirmative & Negative -->
+            <div class="slide hidden-slide w-full text-left" id="slide-3">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-violet-100 text-violet-700 p-2 rounded-lg text-lg">Grammar</span> (+) and (-)
+                </h2>
+                
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <!-- Affirmative -->
+                    <div class="flex-1 bg-white border-2 border-violet-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-violet-800 text-xl mb-4 flex items-center gap-2"><span class="text-2xl">✅</span> Affirmative</h3>
+                        <div class="space-y-4">
+                            <div class="bg-violet-50 p-3 rounded-lg">
+                                <span class="font-bold w-24 inline-block">I/You/We/They</span> 
+                                <span class="text-violet-600 font-bold text-lg">have to</span> + verb
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-lg border-l-4 border-violet-500">
+                                <span class="font-bold w-24 inline-block">He/She/It</span> 
+                                <span class="text-violet-700 font-bold text-lg">has to</span> + verb
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Negative -->
+                    <div class="flex-1 bg-white border-2 border-fuchsia-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-fuchsia-800 text-xl mb-4 flex items-center gap-2"><span class="text-2xl">❌</span> Negative</h3>
+                        <div class="space-y-4">
+                            <div class="bg-fuchsia-50 p-3 rounded-lg">
+                                <span class="font-bold w-24 inline-block">I/You/We/They</span> 
+                                <span class="text-fuchsia-600 font-bold text-lg">don't have to</span> + verb
+                            </div>
+                            <div class="bg-fuchsia-100 p-3 rounded-lg border-l-4 border-fuchsia-500">
+                                <span class="font-bold w-24 inline-block">He/She/It</span> 
+                                <span class="text-fuchsia-700 font-bold text-lg">doesn't have to</span> + verb
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Questions -->
+            <div class="slide hidden-slide w-full text-left" id="slide-4">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-amber-100 text-amber-700 p-2 rounded-lg text-lg">Questions</span> (?)
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">We use the auxiliaries <b>Do</b> and <b>Does</b> to make questions, just like in the Present Simple!</p>
+
+                <div class="bg-white border-2 border-amber-200 p-6 rounded-xl shadow-sm mb-6">
+                    <div class="flex flex-col md:flex-row justify-around items-center gap-4 text-xl">
+                        <div class="text-center">
+                            <span class="block text-amber-600 font-bold text-2xl mb-2">Do</span>
+                            <span>you / they</span><br>
+                            <span class="font-bold">have to</span> work?
+                        </div>
+                        <div class="text-center bg-amber-50 p-4 rounded-xl border border-amber-200">
+                            <span class="block text-amber-600 font-bold text-2xl mb-2">Does</span>
+                            <span>he / she</span><br>
+                            <span class="font-bold">have to</span> work? <br>
+                            <span class="text-sm text-amber-800">*(Not "has to" in questions!)*</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-100 p-4 rounded-lg flex justify-around text-lg">
+                    <span>✅ Yes, I <b>do</b>. / No, I <b>don't</b>.</span>
+                    <span>✅ Yes, she <b>does</b>. / No, she <b>doesn't</b>.</span>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Interactive Activity -->
+            <div class="slide hidden-slide w-full text-left" id="slide-5">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg">🎓</span> University Life
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">You are a new student at the university. Read the situations and decide: <b>Have to</b> or <b>Don't have to</b>?</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Rule 1 -->
+                    <div class="border-2 border-slate-200 p-4 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors" onclick="revealRule(this, `You <b>have to</b> arrive on time for the exams!`)">
+                        <p class="text-lg font-bold text-slate-700 mb-2">1. Final Exams</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Tap to reveal rule</div>
+                    </div>
+                    <!-- Rule 2 -->
+                    <div class="border-2 border-slate-200 p-4 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors" onclick="revealRule(this, `You <b>don't have to</b> wear a uniform. Wear normal clothes!`)">
+                        <p class="text-lg font-bold text-slate-700 mb-2">2. Dress Code</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Tap to reveal rule</div>
+                    </div>
+                    <!-- Rule 3 -->
+                    <div class="border-2 border-slate-200 p-4 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors" onclick="revealRule(this, `You <b>have to</b> submit your projects before Friday!`)">
+                        <p class="text-lg font-bold text-slate-700 mb-2">3. Homework & Projects</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Tap to reveal rule</div>
+                    </div>
+                    <!-- Rule 4 -->
+                    <div class="border-2 border-slate-200 p-4 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors" onclick="revealRule(this, `You <b>don't have to</b> buy food at the cafeteria. Bring your own!`)">
+                        <p class="text-lg font-bold text-slate-700 mb-2">4. Lunch at the Cafeteria</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Tap to reveal rule</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Speaking Practice -->
+            <div class="slide hidden-slide w-full text-left" id="slide-6">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">🎤</span> Lifestyle Interview
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Work in pairs. Interview your partner about their life using <b>"Do you have to...?"</b></p>
+                
+                <div class="bg-slate-800 p-8 rounded-xl text-white shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-20">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-violet-400 mb-6 border-b border-slate-600 pb-2">Questions for Student A & B:</h3>
+                    
+                    <ul class="space-y-4 text-xl font-medium relative z-10">
+                        <li class="flex items-center gap-3"><span class="text-violet-500">1.</span> <span class="bg-slate-700 px-3 py-1 rounded">Do you have to</span> wake up before 7:00 am?</li>
+                        <li class="flex items-center gap-3"><span class="text-violet-500">2.</span> <span class="bg-slate-700 px-3 py-1 rounded">Do you have to</span> wear a uniform or special clothes?</li>
+                        <li class="flex items-center gap-3"><span class="text-violet-500">3.</span> <span class="bg-slate-700 px-3 py-1 rounded">Do you have to</span> clean the house on weekends?</li>
+                        <li class="flex items-center gap-3"><span class="text-violet-500">4.</span> <span class="bg-slate-700 px-3 py-1 rounded">Do you have to</span> cook your own dinner?</li>
+                    </ul>
+
+                    <div class="mt-8 bg-slate-700 p-4 rounded-lg flex justify-between items-center relative z-10">
+                        <span class="text-green-400 font-bold">"Yes, I do!"</span>
+                        <span class="text-slate-400">--- OR ---</span>
+                        <span class="text-red-400 font-bold">"No, I don't!"</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-7">
+                
+                <!-- Active Quiz -->
+                <div id="quiz-active-area">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700" id="quiz-progress-text">Question 1/5</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600" id="quiz-score-text">Score: 0</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed" id="quiz-question-text">
+                            Loading question...
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4" id="quiz-options-container">
+                        <!-- Botones generados por JS -->
+                    </div>
+                    <div id="quiz-feedback" class="mt-6 text-center font-bold text-xl opacity-0 transition-opacity">
+                        Feedback
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-result-area" class="hidden-slide text-center">
+                    <div class="text-yellow-400 mx-auto mb-6 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-2xl mb-8">You scored <span id="final-score" class="text-violet-600 font-bold">0</span> out of 5</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-violet-600 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-violet-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Try Again
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 8</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-violet-600 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-violet-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        // --- Navigation Logic ---
+        let currentSlide = 0;
+        const totalSlides = 8;
+        
+        function updateUI() {
+            // Update Progress Bar & Counter
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update Buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            // Show/Hide Slides
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                    slide.classList.add('fade-in');
+                } else {
+                    slide.classList.add('hidden-slide');
+                    slide.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Reveal Meaning Logic (Slide 2) ---
+        function revealMeaning(boxNum) {
+            const box = document.getElementById(`reveal-box-${boxNum}`);
+            const textInitial = document.getElementById(`reveal-text-${boxNum}`);
+            const textResult = document.getElementById(`reveal-result-${boxNum}`);
+
+            if(boxNum === 1) {
+                box.className = "p-4 border-2 rounded-xl text-center w-72 bg-violet-100 border-violet-500 shadow-lg h-24 flex items-center justify-center transition-all duration-500 scale-105";
+            } else {
+                box.className = "p-4 border-2 rounded-xl text-center w-72 bg-fuchsia-100 border-fuchsia-500 shadow-lg h-24 flex items-center justify-center transition-all duration-500 scale-105";
+            }
+            
+            textInitial.classList.add('hidden');
+            textResult.classList.remove('hidden');
+            textResult.classList.add('pop-in');
+        }
+
+        // --- Reveal Rule Logic (Slide 5) ---
+        function revealRule(element, htmlContent) {
+            const ruleBox = element.querySelector('.rule-box');
+            if (ruleBox) {
+                ruleBox.innerHTML = htmlContent;
+                ruleBox.classList.remove('bg-slate-200', 'text-slate-500');
+                ruleBox.classList.add('bg-indigo-100', 'text-indigo-900', 'border', 'border-indigo-300', 'pop-in');
+            }
+        }
+
+        // --- Quiz Logic (Slide 7) ---
+        const quizQuestions = [
+            { text: "She _____ wear a uniform to school.", options: ["have to", "has to"], correct: 1, feedback: "Remember: He/She/It uses 'has to'." },
+            { text: "I _____ work tomorrow, it's Sunday! 🎉", options: ["don't have to", "doesn't have to"], correct: 0, feedback: "Use 'don't' with I/You/We/They." },
+            { text: "_____ you have to study tonight?", options: ["Do", "Are"], correct: 0, feedback: "We use 'Do' or 'Does' for questions with 'have to'." },
+            { text: "He _____ cook dinner because we ordered pizza.", options: ["don't have to", "doesn't have to"], correct: 1, feedback: "Use 'doesn't' with He/She/It." },
+            { text: "Does she have to go? Yes, she _____.", options: ["does", "has"], correct: 0, feedback: "Short answers use the auxiliary DO/DOES, not 'has'." }
+        ];
+        
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let isAnswering = false;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizQ];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizQ + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-score-text').innerText = `Score: ${quizScore}`;
+            
+            // Set question text
+            const parts = q.text.split('_____');
+            document.getElementById('quiz-question-text').innerHTML = `${parts[0]} <span id="quiz-blank" class="inline-block border-b-4 px-2 min-w-[120px] text-center border-slate-300 text-transparent">_____</span> ${parts[1] || ''}`;
+            
+            // Build options dynamically
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = ''; // Clear previous
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.id = `quiz-btn-${index}`;
+                btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-violet-400 hover:shadow-md text-slate-700 w-full";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // Hide feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('opacity-0');
+            feedback.classList.remove('animate-bounce', 'text-green-600', 'text-red-600');
+            
+            isAnswering = false;
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = quizQuestions[currentQuizQ];
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) quizScore++;
+            
+            // Fill in the blank
+            const blank = document.getElementById('quiz-blank');
+            blank.innerText = q.options[selectedIndex];
+            blank.classList.remove('text-transparent', 'border-slate-300');
+            blank.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', isCorrect ? 'border-green-500' : 'border-red-500');
+            
+            // Update all buttons
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-btn-${idx}`);
+                if (idx === selectedIndex) {
+                    btn.className = isCorrect 
+                        ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg w-full" 
+                        : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50 w-full";
+                } else {
+                    btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50 w-full";
+                }
+            });
+
+            // Show feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = isCorrect ? 'Correct! 🎉' : `Oops! ${q.feedback}`;
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('animate-bounce', isCorrect ? 'text-green-600' : 'text-red-600');
+
+            // Wait and go to next
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    loadQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 2500);
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-area').classList.add('hidden-slide');
+            document.getElementById('quiz-result-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('fade-in');
+            document.getElementById('final-score').innerText = quizScore;
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            document.getElementById('quiz-active-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('hidden-slide');
+            
+            // Reset The University game for a fresh start if they go back
+            const ruleBoxes = document.querySelectorAll('.rule-box');
+            ruleBoxes.forEach(box => {
+                box.innerHTML = "Tap to reveal rule";
+                box.className = "bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box";
+            });
+
+            loadQuizQuestion();
+        }
+
+        // Initialize first slide and quiz
+        updateUI();
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>

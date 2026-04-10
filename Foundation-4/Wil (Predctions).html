@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Predictions: Will</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animaciones base */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Ocultar elementos */
+        .hidden-slide { display: none !important; }
+        
+        /* Animación para revelar */
+        .pop-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Efecto flotante para iconos del futuro */
+        .float { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]">
+        
+        <!-- Barra de Progreso -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-cyan-500 h-2 transition-all duration-500" style="width: 11.1%"></div>
+        </div>
+
+        <!-- Área de Contenido (Diapositivas) -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center relative" id="slides-container">
+            
+            <!-- SLIDE 0: Intro -->
+            <div class="slide fade-in text-center w-full" id="slide-0">
+                <div class="mb-6 inline-block p-4 bg-cyan-100 rounded-full text-cyan-600 float">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 3.82-13.04l.05-.1a2.11 2.11 0 0 1 3.19-.1c.36.36.72.76 1.05 1.15A2.1 2.1 0 0 1 17.5 5.5c-.75 1.15-1.42 2.37-2.01 3.65"/><path d="M15 12c-1.14-.85-2.07-1.92-2.73-3.12A18.81 18.81 0 0 1 9.68 3.51a2.1 2.1 0 0 0-3.19.1l-.05.1A22 22 0 0 0 3.04 15.5l.39.38a2.1 2.1 0 0 0 2.91.09l.66-.66"/><path d="m10 13 4 4c.66.66 1.6.85 2.41.48a19 19 0 0 0 5.42-6.66 2.11 2.11 0 0 0-.1-3.19l-.38-.39a2.1 2.1 0 0 0-2.91-.09l-.66.66"/></svg>
+                </div>
+                <h1 class="text-5xl font-extrabold text-slate-900 mb-4">Future Predictions</h1>
+                <p class="text-2xl text-slate-600 mb-8">Using <b>Will</b> and <b>Won't</b></p>
+                <button onclick="nextSlide()" class="px-8 py-4 bg-cyan-500 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-cyan-600 transform hover:scale-105 transition-all">
+                    Start Class
+                </button>
+            </div>
+
+            <!-- SLIDE 1: Observation -->
+            <div class="slide hidden-slide text-center w-full" id="slide-1">
+                <h2 class="text-3xl font-bold mb-8">Read these sentences. <br/><span class="text-cyan-600">What is different?</span></h2>
+                <div class="grid md:grid-cols-2 gap-8 w-full text-left">
+                    <div class="bg-slate-100 p-6 rounded-xl border-2 border-slate-300">
+                        <h3 class="text-slate-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group A <span>🌍 Present (Fact)</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">People <strong>drive</strong> cars.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">Students <strong>go</strong> to physical schools.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">We <strong>don't live</strong> on Mars.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-cyan-50 p-6 rounded-xl border-2 border-cyan-200">
+                        <h3 class="text-cyan-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group B <span>🚀 The Year 2050 (Prediction)</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">People <strong>will fly</strong> cars.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">Robots <strong>will teach</strong> students.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">We <strong>won't live</strong> on Earth.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Analysis -->
+            <div class="slide hidden-slide text-center w-full" id="slide-2">
+                <h2 class="text-3xl font-bold mb-8">The Time Machine ⏱️</h2>
+                <div class="flex flex-col md:flex-row gap-8 items-center mb-10 w-full justify-center">
+                    <!-- Box A -->
+                    <div class="flex flex-col items-center">
+                        <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center w-72 mb-4 h-32 flex flex-col justify-center">
+                            <p class="text-lg text-slate-500 mb-2">Present</p>
+                            <p class="text-2xl text-slate-700">"I <b>am</b> rich."</p>
+                        </div>
+                        <div id="reveal-box-1" class="p-4 border-2 rounded-xl text-center w-72 bg-slate-100 border-slate-200 transition-all duration-500 h-24 flex items-center justify-center cursor-pointer hover:bg-slate-200" onclick="revealAnalysis()">
+                            <p id="reveal-text-1" class="text-xl font-bold text-slate-400">Tap to travel to the future</p>
+                            <p id="reveal-result-1" class="text-2xl font-bold text-cyan-600 hidden">"I <b>will be</b> rich!"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-4xl text-slate-300 font-bold hidden md:block">VS</div>
+                    
+                    <!-- Box B -->
+                    <div class="flex flex-col items-center">
+                        <div class="p-6 bg-white border-2 border-slate-200 rounded-xl shadow-md text-center w-72 mb-4 h-32 flex flex-col justify-center">
+                            <p class="text-lg text-slate-500 mb-2">Present</p>
+                            <p class="text-2xl text-slate-700">"It <b>doesn't</b> rain."</p>
+                        </div>
+                        <div id="reveal-box-2" class="p-4 border-2 rounded-xl text-center w-72 bg-slate-100 border-slate-200 transition-all duration-500 h-24 flex items-center justify-center cursor-pointer hover:bg-slate-200" onclick="revealAnalysis()">
+                            <p id="reveal-text-2" class="text-xl font-bold text-slate-400">Tap to travel to the future</p>
+                            <p id="reveal-result-2" class="text-2xl font-bold text-red-500 hidden">"It <b>won't</b> rain."</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-lg text-slate-600 italic">Notice that the verb after will/won't is ALWAYS in the base form!</p>
+            </div>
+
+            <!-- SLIDE 3: Grammar (+ and -) -->
+            <div class="slide hidden-slide w-full text-left" id="slide-3">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-cyan-100 text-cyan-700 p-2 rounded-lg text-lg">Grammar</span> (+) and (-)
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">We use <b>will</b> to talk about what we <i>think</i> or <i>guess</i> will happen in the future.</p>
+                
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <!-- Affirmative -->
+                    <div class="flex-1 bg-white border-2 border-cyan-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-cyan-800 text-xl mb-4 flex items-center gap-2"><span class="text-2xl">✅</span> Affirmative</h3>
+                        <div class="bg-cyan-50 p-4 rounded-lg text-xl font-mono text-center mb-4">
+                            Subject + <span class="text-cyan-600 font-bold">will</span> + base verb
+                        </div>
+                        <ul class="space-y-2 text-lg">
+                            <li>• I <b>will</b> pass the exam.</li>
+                            <li>• She <b>will</b> be a doctor.</li>
+                            <li class="text-sm text-slate-500 italic mt-2">Contraction: I'll, She'll, We'll</li>
+                        </ul>
+                    </div>
+                    <!-- Negative -->
+                    <div class="flex-1 bg-white border-2 border-red-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-red-800 text-xl mb-4 flex items-center gap-2"><span class="text-2xl">❌</span> Negative</h3>
+                        <div class="bg-red-50 p-4 rounded-lg text-xl font-mono text-center mb-4">
+                            Subject + <span class="text-red-500 font-bold">won't</span> + base verb
+                        </div>
+                        <ul class="space-y-2 text-lg">
+                            <li>• It <b>won't</b> rain tomorrow.</li>
+                            <li>• They <b>won't</b> come to the party.</li>
+                            <li class="text-sm text-slate-500 italic mt-2">(won't = will not)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Questions -->
+            <div class="slide hidden-slide w-full text-left" id="slide-4">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-amber-100 text-amber-700 p-2 rounded-lg text-lg">Questions</span> (?)
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">To make questions, just move <b>Will</b> to the front!</p>
+
+                <div class="bg-white border-2 border-amber-200 p-8 rounded-xl shadow-sm mb-6 flex flex-col items-center">
+                    <div class="text-3xl font-mono mb-6 bg-amber-50 p-4 rounded-xl border border-amber-200 text-center">
+                        <span class="text-amber-600 font-bold">Will</span> + subject + base verb + ?
+                    </div>
+                    
+                    <div class="text-2xl text-slate-700">
+                        "<span class="font-bold text-amber-600">Will</span> robots <span class="font-bold text-blue-500">take</span> our jobs?"
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 text-xl">
+                    <div class="bg-green-100 p-4 rounded-lg text-center border-2 border-green-200">
+                        <span class="block text-green-700 font-bold mb-1">Yes,</span>
+                        <span class="text-green-800">they <b>will</b>. / I <b>will</b>.</span>
+                    </div>
+                    <div class="bg-red-100 p-4 rounded-lg text-center border-2 border-red-200">
+                        <span class="block text-red-700 font-bold mb-1">No,</span>
+                        <span class="text-red-800">they <b>won't</b>. / I <b>won't</b>.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Probability & Certainty -->
+            <div class="slide hidden-slide w-full text-left" id="slide-5">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg text-lg">Probability</span> How sure are you?
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">We don't always know the future 100%. We can use these words to show probability:</p>
+                
+                <div class="space-y-4 w-full max-w-3xl mx-auto">
+                    <!-- 100% -->
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border-l-8 border-cyan-500 shadow-sm">
+                        <div class="w-20 text-center font-bold text-cyan-600 text-xl">100%</div>
+                        <div class="flex-1">
+                            <p class="text-lg"><span class="font-bold text-slate-800">Will / Won't</span></p>
+                            <p class="text-slate-600">"I <b>will</b> go to the party."</p>
+                        </div>
+                    </div>
+                    <!-- 80% -->
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border-l-8 border-blue-400 shadow-sm">
+                        <div class="w-20 text-center font-bold text-blue-500 text-xl">80%</div>
+                        <div class="flex-1">
+                            <p class="text-lg"><span class="font-bold text-slate-800">Probably / Possibly</span></p>
+                            <p class="text-slate-600">"I <b>will probably</b> go." / "I <b>probably won't</b> go."</p>
+                            <p class="text-sm text-slate-400 italic">*Note: 'Probably' goes after 'will', but before 'won't'!</p>
+                        </div>
+                    </div>
+                    <!-- 50% -->
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border-l-8 border-purple-400 shadow-sm">
+                        <div class="w-20 text-center font-bold text-purple-500 text-xl">50%</div>
+                        <div class="flex-1">
+                            <p class="text-lg"><span class="font-bold text-slate-800">May / Might / Maybe</span></p>
+                            <p class="text-slate-600">"I <b>might</b> go." / "<b>Maybe</b> I will go."</p>
+                            <p class="text-sm text-slate-400 italic">*May and Might do not use 'will'.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Interactive Activity -->
+            <div class="slide hidden-slide w-full text-left" id="slide-6">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-purple-100 text-purple-700 p-2 rounded-lg">🔮</span> The Crystal Ball
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Ask the crystal ball about the future! Click to reveal the prediction.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Pred 1 -->
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `Yes! The weather <b>will be</b> very hot! ☀️`)">
+                        <p class="text-lg font-bold text-purple-800 mb-2">"Will it be hot this weekend?"</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Consult Crystal Ball...</div>
+                    </div>
+                    <!-- Pred 2 -->
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `I am not sure. They <b>might</b> be very smart! 🤖`)">
+                        <p class="text-lg font-bold text-purple-800 mb-2">"Will robots destroy the world?"</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Consult Crystal Ball...</div>
+                    </div>
+                    <!-- Pred 3 -->
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `Yes, you <b>will probably</b> speak perfectly! 🗣️`)">
+                        <p class="text-lg font-bold text-purple-800 mb-2">"Will I learn English fast?"</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Consult Crystal Ball...</div>
+                    </div>
+                    <!-- Pred 4 -->
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `No, we <b>probably won't</b>. We will live on Earth! 🌍`)">
+                        <p class="text-lg font-bold text-purple-800 mb-2">"Will we live on Mars in 2030?"</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box">Consult Crystal Ball...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Speaking Practice -->
+            <div class="slide hidden-slide w-full text-left" id="slide-7">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">💬</span> Your Predictions
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Work in pairs. Ask your partner for their predictions about the year 2050 using <b>"Will...?"</b></p>
+                
+                <div class="bg-slate-800 p-8 rounded-xl text-white shadow-xl relative overflow-hidden">
+                    <h3 class="text-2xl font-bold text-cyan-400 mb-6 border-b border-slate-600 pb-2">Ask your partner:</h3>
+                    
+                    <ul class="space-y-4 text-xl font-medium relative z-10">
+                        <li class="flex items-center gap-3"><span class="text-cyan-500">1.</span> <span class="bg-slate-700 px-3 py-1 rounded">Will we</span> have flying cars?</li>
+                        <li class="flex items-center gap-3"><span class="text-cyan-500">2.</span> <span class="bg-slate-700 px-3 py-1 rounded">Will people</span> live until 150 years old?</li>
+                        <li class="flex items-center gap-3"><span class="text-cyan-500">3.</span> <span class="bg-slate-700 px-3 py-1 rounded">Will animals</span> talk?</li>
+                        <li class="flex items-center gap-3"><span class="text-cyan-500">4.</span> <span class="bg-slate-700 px-3 py-1 rounded">Will teachers</span> be robots?</li>
+                    </ul>
+
+                    <div class="mt-8 bg-slate-700 p-4 rounded-lg flex justify-between items-center relative z-10 text-lg">
+                        <span class="text-green-400 font-bold">"Yes, they will."</span>
+                        <span class="text-yellow-400 font-bold text-center leading-tight">"They might."<br>"Maybe!"</span>
+                        <span class="text-red-400 font-bold">"No, they won't."</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: BONUS - Other uses of Will -->
+            <div class="slide hidden-slide w-full text-left" id="slide-8">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-yellow-100 text-yellow-700 p-2 rounded-lg text-2xl">⭐</span> Bonus: Other uses of Will!
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">Will is not ONLY for predictions. Native speakers use it a lot for these three things:</p>
+                
+                <div class="space-y-4">
+                    <!-- Uso 1 -->
+                    <div class="bg-white border-l-8 border-yellow-400 p-4 rounded-r-xl shadow-sm flex items-center gap-4">
+                        <div class="text-4xl">⚡</div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">1. Instant Decisions (Decisiones al momento)</h3>
+                            <p class="text-slate-600">"I'm thirsty. I <b>will buy</b> a soda." <span class="text-sm italic">(No lo planeaste antes)</span></p>
+                        </div>
+                    </div>
+                    <!-- Uso 2 -->
+                    <div class="bg-white border-l-8 border-pink-400 p-4 rounded-r-xl shadow-sm flex items-center gap-4">
+                        <div class="text-4xl">🤝</div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">2. Promises (Promesas)</h3>
+                            <p class="text-slate-600">"Don't worry, I <b>won't tell</b> your secret." / "I <b>will always love</b> you."</p>
+                        </div>
+                    </div>
+                    <!-- Uso 3 -->
+                    <div class="bg-white border-l-8 border-green-400 p-4 rounded-r-xl shadow-sm flex items-center gap-4">
+                        <div class="text-4xl">🙋</div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">3. Offers (Ofrecimientos de ayuda)</h3>
+                            <p class="text-slate-600">"Those bags look heavy. I <b>will help</b> you."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-9">
+                <!-- Active Quiz -->
+                <div id="quiz-active-area">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700" id="quiz-progress-text">Question 1/5</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600" id="quiz-score-text">Score: 0</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed" id="quiz-question-text">
+                            Loading question...
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4" id="quiz-options-container">
+                        <!-- Botones generados por JS -->
+                    </div>
+                    <div id="quiz-feedback" class="mt-6 text-center font-bold text-xl opacity-0 transition-opacity">
+                        Feedback
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-result-area" class="hidden-slide text-center">
+                    <div class="text-yellow-400 mx-auto mb-6 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-2xl mb-8">You scored <span id="final-score" class="text-cyan-600 font-bold">0</span> out of 5</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-cyan-500 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-cyan-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Try Again
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 10</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-cyan-500 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-cyan-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        // --- Navigation Logic ---
+        let currentSlide = 0;
+        const totalSlides = 10;
+        
+        function updateUI() {
+            // Update Progress Bar & Counter
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update Buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            // Show/Hide Slides
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                    slide.classList.add('fade-in');
+                } else {
+                    slide.classList.add('hidden-slide');
+                    slide.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Reveal Analysis Logic (Slide 2) ---
+        function revealAnalysis() {
+            const boxes = [1, 2];
+            boxes.forEach(boxNum => {
+                const box = document.getElementById(`reveal-box-${boxNum}`);
+                const textInitial = document.getElementById(`reveal-text-${boxNum}`);
+                const textResult = document.getElementById(`reveal-result-${boxNum}`);
+
+                if(boxNum === 1) {
+                    box.className = "p-4 border-2 rounded-xl text-center w-72 bg-cyan-100 border-cyan-500 shadow-lg h-24 flex items-center justify-center transition-all duration-500 scale-105";
+                } else {
+                    box.className = "p-4 border-2 rounded-xl text-center w-72 bg-red-100 border-red-500 shadow-lg h-24 flex items-center justify-center transition-all duration-500 scale-105";
+                }
+                
+                textInitial.classList.add('hidden');
+                textResult.classList.remove('hidden');
+                textResult.classList.add('pop-in');
+            });
+        }
+
+        // --- Reveal Interactive Crystal Ball Logic (Slide 5) ---
+        function revealRule(element, htmlContent) {
+            const ruleBox = element.querySelector('.rule-box');
+            if (ruleBox) {
+                ruleBox.innerHTML = htmlContent;
+                ruleBox.classList.remove('bg-slate-200', 'text-slate-500');
+                ruleBox.classList.add('bg-purple-200', 'text-purple-900', 'border', 'border-purple-400', 'pop-in');
+            }
+        }
+
+        // --- Quiz Logic (Slide 9) ---
+        const quizQuestions = [
+            { text: "In the year 2050, cars _____ fly.", options: ["will", "won't"], correct: 0, feedback: "We use 'will' for affirmative predictions." },
+            { text: "I'm not 100% sure, but I _____ go to the party.", options: ["will", "might"], correct: 1, feedback: "Use 'might' or 'may' when you are 50% sure." },
+            { text: "I _____ won't eat that. It looks disgusting!", options: ["probably", "possibly"], correct: 0, feedback: "Probably goes BEFORE won't in negative sentences." },
+            { text: "I promise I _____ tell anyone your secret.", options: ["will", "won't"], correct: 1, feedback: "It's a negative promise: I will NOT tell anyone." },
+            { text: "_____ we will travel to Mars one day.", options: ["Maybe", "Might"], correct: 0, feedback: "'Maybe' usually goes at the beginning of the sentence." }
+        ];
+        
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let isAnswering = false;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizQ];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizQ + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-score-text').innerText = `Score: ${quizScore}`;
+            
+            // Set question text
+            const parts = q.text.split('_____');
+            if(parts.length > 1) {
+                document.getElementById('quiz-question-text').innerHTML = `${parts[0]} <span id="quiz-blank" class="inline-block border-b-4 px-2 min-w-[100px] text-center border-slate-300 text-transparent">_____</span> ${parts[1] || ''}`;
+            } else {
+                document.getElementById('quiz-question-text').innerHTML = q.text; // For Q5 with no blanks
+            }
+            
+            // Build options dynamically
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = ''; // Clear previous
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.id = `quiz-btn-${index}`;
+                btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-cyan-400 hover:shadow-md text-slate-700 w-full";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // Hide feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('opacity-0');
+            feedback.classList.remove('animate-bounce', 'text-green-600', 'text-red-600');
+            
+            isAnswering = false;
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = quizQuestions[currentQuizQ];
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) quizScore++;
+            
+            // Fill in the blank (if there is one)
+            const blank = document.getElementById('quiz-blank');
+            if (blank) {
+                blank.innerText = q.options[selectedIndex];
+                blank.classList.remove('text-transparent', 'border-slate-300');
+                blank.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', isCorrect ? 'border-green-500' : 'border-red-500');
+            }
+            
+            // Update all buttons
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-btn-${idx}`);
+                if (idx === selectedIndex) {
+                    btn.className = isCorrect 
+                        ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg w-full" 
+                        : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50 w-full";
+                } else {
+                    btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50 w-full";
+                }
+            });
+
+            // Show feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = isCorrect ? 'Correct! 🎉' : `Oops! ${q.feedback}`;
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('animate-bounce', isCorrect ? 'text-green-600' : 'text-red-600');
+
+            // Wait and go to next
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    loadQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 3000); // 3 seconds to read feedback
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-area').classList.add('hidden-slide');
+            document.getElementById('quiz-result-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('fade-in');
+            document.getElementById('final-score').innerText = quizScore;
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            document.getElementById('quiz-active-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('hidden-slide');
+            
+            // Reset Crystal Ball game for a fresh start if they go back
+            const ruleBoxes = document.querySelectorAll('.rule-box');
+            ruleBoxes.forEach(box => {
+                box.innerHTML = "Consult Crystal Ball...";
+                box.className = "bg-slate-200 text-slate-500 py-3 rounded text-center font-medium rule-box";
+            });
+
+            // Reset Analysis box
+            [1, 2].forEach(boxNum => {
+                const box = document.getElementById(`reveal-box-${boxNum}`);
+                const textInitial = document.getElementById(`reveal-text-${boxNum}`);
+                const textResult = document.getElementById(`reveal-result-${boxNum}`);
+                if(box) {
+                    box.className = "p-4 border-2 rounded-xl text-center w-72 bg-slate-100 border-slate-200 transition-all duration-500 h-24 flex items-center justify-center cursor-pointer hover:bg-slate-200";
+                    textInitial.classList.remove('hidden');
+                    textResult.classList.add('hidden');
+                    textResult.classList.remove('pop-in');
+                }
+            });
+
+            loadQuizQuestion();
+        }
+
+        // Initialize first slide and quiz
+        updateUI();
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>

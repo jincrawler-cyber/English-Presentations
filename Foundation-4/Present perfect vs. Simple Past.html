@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Present Perfect vs Simple Past</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animaciones base */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Ocultar elementos */
+        .hidden-slide { display: none !important; }
+        
+        /* Animación para revelar */
+        .pop-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Chat bubbles */
+        .chat-bubble-left {
+            background-color: #f1f5f9;
+            border-radius: 20px 20px 20px 5px;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            align-self: flex-start;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .chat-bubble-right {
+            background-color: #e0e7ff; /* indigo-100 */
+            border-radius: 20px 20px 5px 20px;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            align-self: flex-end;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            color: #3730a3; /* indigo-800 */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]">
+        
+        <!-- Barra de Progreso -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-indigo-600 h-2 transition-all duration-500" style="width: 12.5%"></div>
+        </div>
+
+        <!-- Área de Contenido (Diapositivas) -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center relative" id="slides-container">
+            
+            <!-- SLIDE 0: Intro -->
+            <div class="slide fade-in text-center w-full" id="slide-0">
+                <div class="mb-6 inline-block p-4 bg-indigo-100 rounded-full text-indigo-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m10 13-2 2 2 2"/><path d="m14 17 2-2-2-2"/>
+                    </svg>
+                </div>
+                <h1 class="text-5xl font-extrabold text-slate-900 mb-4">Connecting Tenses</h1>
+                <p class="text-2xl text-slate-600 mb-8">Present Perfect <b>vs</b> Simple Past</p>
+                <button onclick="nextSlide()" class="px-8 py-4 bg-indigo-600 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-indigo-700 transform hover:scale-105 transition-all">
+                    Start Class
+                </button>
+            </div>
+
+            <!-- SLIDE 1: Observation -->
+            <div class="slide hidden-slide text-center w-full" id="slide-1">
+                <h2 class="text-3xl font-bold mb-8">Read this conversation. <br/><span class="text-indigo-600">Notice the change!</span></h2>
+                
+                <div class="bg-slate-200 p-6 rounded-2xl w-full max-w-2xl mx-auto flex flex-col">
+                    
+                    <div class="chat-bubble-left text-lg">
+                        <span class="font-bold text-emerald-600">Have</span> you ever <span class="font-bold text-emerald-600">been</span> to Mexico?
+                    </div>
+                    
+                    <div class="chat-bubble-right text-lg font-bold">
+                        Yes, I have!
+                    </div>
+                    
+                    <div class="chat-bubble-left text-lg mt-4 border-l-4 border-rose-400">
+                        Oh, nice! When <span class="font-bold text-rose-600">did</span> you <span class="font-bold text-rose-600">go</span>?
+                    </div>
+                    
+                    <div class="chat-bubble-right text-lg border-r-4 border-rose-400">
+                        I <span class="font-bold text-rose-600">went</span> there <span class="underline">last year</span>.
+                    </div>
+
+                    <div class="chat-bubble-left text-lg border-l-4 border-rose-400">
+                        <span class="font-bold text-rose-600">Did</span> you <span class="font-bold text-rose-600">like</span> the food?
+                    </div>
+
+                    <div class="chat-bubble-right text-lg border-r-4 border-rose-400">
+                        Yes! I <span class="font-bold text-rose-600">ate</span> so many tacos. It <span class="font-bold text-rose-600">was</span> delicious!
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Analysis -->
+            <div class="slide hidden-slide w-full text-left" id="slide-2">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg text-lg">The Rule</span> General vs Specific
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">We use the two tenses together to tell a story.</p>
+
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <!-- Step 1: Present Perfect -->
+                    <div class="flex-1 bg-white border-2 border-emerald-300 p-6 rounded-xl shadow-sm">
+                        <div class="text-4xl mb-4 text-center">🌍</div>
+                        <h3 class="font-bold text-emerald-700 text-2xl mb-2 text-center">1. Present Perfect</h3>
+                        <p class="text-center text-slate-500 font-bold mb-4 uppercase text-sm tracking-widest">To Open The Topic</p>
+                        <p class="text-lg text-slate-700">We use it to talk about <b>general life experiences</b>. The exact time doesn't matter.</p>
+                        <div class="mt-4 bg-emerald-50 p-3 rounded-lg text-emerald-800 italic">
+                            "Have you ever eaten sushi?"
+                        </div>
+                    </div>
+                    
+                    <div class="hidden md:flex items-center justify-center">
+                        <span class="text-4xl text-slate-300 font-bold">➔</span>
+                    </div>
+
+                    <!-- Step 2: Simple Past -->
+                    <div class="flex-1 bg-white border-2 border-rose-300 p-6 rounded-xl shadow-sm">
+                        <div class="text-4xl mb-4 text-center">🔎</div>
+                        <h3 class="font-bold text-rose-700 text-2xl mb-2 text-center">2. Simple Past</h3>
+                        <p class="text-center text-slate-500 font-bold mb-4 uppercase text-sm tracking-widest">To Give Details</p>
+                        <p class="text-lg text-slate-700">We use it to ask or talk about <b>specific details</b> (when, where, who, why).</p>
+                        <div class="mt-4 bg-rose-50 p-3 rounded-lg text-rose-800 italic">
+                            "Where did you eat it? Was it good?"
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: The Funnel -->
+            <div class="slide hidden-slide w-full text-center" id="slide-3">
+                <h2 class="text-3xl font-bold mb-8">The Conversation Funnel</h2>
+                
+                <div class="flex flex-col items-center gap-2">
+                    <!-- Top (Wide) -->
+                    <div class="w-full max-w-2xl bg-emerald-100 border-2 border-emerald-400 p-6 rounded-t-3xl">
+                        <span class="block text-emerald-800 font-bold text-xl uppercase mb-2">Present Perfect (General)</span>
+                        <p class="text-2xl text-slate-700">"I <b>have seen</b> that movie."</p>
+                    </div>
+                    
+                    <!-- Middle -->
+                    <div class="w-3/4 max-w-xl bg-indigo-100 border-2 border-indigo-400 p-4">
+                        <p class="text-xl text-slate-600 font-bold italic">Wait, I need details...</p>
+                    </div>
+
+                    <!-- Bottom (Narrow) -->
+                    <div class="w-1/2 max-w-md bg-rose-100 border-2 border-rose-400 p-6 rounded-b-3xl">
+                        <span class="block text-rose-800 font-bold text-lg uppercase mb-2">Simple Past (Specific)</span>
+                        <p class="text-xl text-slate-700 mb-1">"When <b>did</b> you <b>see</b> it?"</p>
+                        <p class="text-xl text-slate-700">"I <b>saw</b> it yesterday."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Common Detail Questions -->
+            <div class="slide hidden-slide w-full text-left" id="slide-4">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-amber-100 text-amber-700 p-2 rounded-lg text-lg">Wh- Questions</span> Asking for details
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">When your partner says "Yes, I have", use these Simple Past questions to keep the conversation going!</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                    <div class="bg-white border-l-8 border-rose-400 p-4 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-rose-700 text-xl mb-1">When...? ⏱️</h3>
+                        <p class="text-slate-600 text-lg">When <b>did</b> you <b>go</b>?</p>
+                        <p class="text-slate-600 text-lg">When <b>did</b> you <b>do</b> that?</p>
+                    </div>
+                    <div class="bg-white border-l-8 border-rose-400 p-4 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-rose-700 text-xl mb-1">Where...? 📍</h3>
+                        <p class="text-slate-600 text-lg">Where <b>did</b> you <b>go</b>?</p>
+                        <p class="text-slate-600 text-lg">Where <b>were</b> you?</p>
+                    </div>
+                    <div class="bg-white border-l-8 border-rose-400 p-4 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-rose-700 text-xl mb-1">Who with...? 👥</h3>
+                        <p class="text-slate-600 text-lg">Who <b>did</b> you <b>go</b> with?</p>
+                    </div>
+                    <div class="bg-white border-l-8 border-rose-400 p-4 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-rose-700 text-xl mb-1">Did you like it? ❤️</h3>
+                        <p class="text-slate-600 text-lg"><b>Did</b> you <b>like</b> it?</p>
+                        <p class="text-slate-600 text-lg"><b>Was</b> it fun?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Interactive Activity (The Detective) -->
+            <div class="slide hidden-slide w-full text-center" id="slide-5">
+                <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+                    <span class="bg-slate-200 text-slate-700 p-2 rounded-lg">🕵️</span> The Detective
+                </h2>
+                <p class="text-lg text-slate-600 mb-8">Read the statement (General). Choose the best follow-up question (Specific detail)!</p>
+                
+                <!-- Game Container -->
+                <div id="detective-game" class="w-full max-w-2xl mx-auto">
+                    <div class="bg-emerald-100 border-2 border-emerald-400 p-6 rounded-xl mb-6 shadow-sm">
+                        <span class="text-emerald-800 font-bold uppercase text-sm tracking-widest">Suspect says:</span>
+                        <p id="detective-statement" class="text-2xl text-slate-800 font-medium mt-2">"I have visited Paris."</p>
+                    </div>
+                    
+                    <p class="text-slate-500 font-bold mb-4">You ask:</p>
+                    
+                    <div class="grid grid-cols-1 gap-4" id="detective-options">
+                        <button onclick="checkDetective(true)" class="p-4 border-2 border-slate-300 rounded-xl text-xl hover:bg-rose-50 hover:border-rose-400 transition-colors text-left font-medium">When did you go?</button>
+                        <button onclick="checkDetective(false)" class="p-4 border-2 border-slate-300 rounded-xl text-xl hover:bg-emerald-50 hover:border-emerald-400 transition-colors text-left font-medium text-slate-500 line-through decoration-red-500">Have you ever gone?</button>
+                    </div>
+
+                    <div id="detective-feedback" class="mt-6 text-2xl font-bold hidden"></div>
+                    <button id="detective-next-btn" onclick="nextDetective()" class="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold hidden mx-auto">Next Case</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Speaking Practice -->
+            <div class="slide hidden-slide w-full text-left" id="slide-6">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">🗣️</span> Interview Time
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Work in pairs. Ask your partner these questions. If they say "Yes", act like a detective and ask for <b>at least 2 specific details</b>!</p>
+                
+                <div class="bg-slate-800 p-8 rounded-xl text-white shadow-xl relative overflow-hidden">
+                    <h3 class="text-xl font-bold text-emerald-400 mb-4 border-b border-slate-600 pb-2">Step 1: Open the topic</h3>
+                    <ul class="space-y-3 text-lg font-medium relative z-10 mb-6">
+                        <li>• <span class="text-emerald-300">Have you ever</span> traveled by airplane?</li>
+                        <li>• <span class="text-emerald-300">Have you ever</span> eaten something very strange?</li>
+                        <li>• <span class="text-emerald-300">Have you ever</span> met a famous person?</li>
+                        <li>• <span class="text-emerald-300">Have you ever</span> broken a bone?</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-rose-400 mb-4 border-b border-slate-600 pb-2">Step 2: Get details! (If they say Yes)</h3>
+                    <div class="bg-slate-700 p-4 rounded-lg flex flex-wrap gap-4 text-rose-300 text-md font-mono">
+                        <span>> When did you...?</span>
+                        <span>> Where were you?</span>
+                        <span>> What happened?</span>
+                        <span>> Did it hurt?</span>
+                        <span>> Did you like it?</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-7">
+                <!-- Active Quiz -->
+                <div id="quiz-active-area">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700" id="quiz-progress-text">Question 1/5</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600" id="quiz-score-text">Score: 0</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed" id="quiz-question-text">
+                            Loading question...
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4" id="quiz-options-container">
+                        <!-- Botones generados por JS -->
+                    </div>
+                    <div id="quiz-feedback" class="mt-6 text-center font-bold text-xl opacity-0 transition-opacity">
+                        Feedback
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-result-area" class="hidden-slide text-center">
+                    <div class="text-yellow-400 mx-auto mb-6 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-2xl mb-8">You scored <span id="final-score" class="text-indigo-600 font-bold">0</span> out of 5</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-indigo-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Try Again
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 8</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        // --- Navigation Logic ---
+        let currentSlide = 0;
+        const totalSlides = 8;
+        
+        function updateUI() {
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                    slide.classList.add('fade-in');
+                } else {
+                    slide.classList.add('hidden-slide');
+                    slide.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Detective Game Logic (Slide 5) ---
+        const cases = [
+            { statement: '"I have visited Paris."', correct: "When did you go?", incorrect: "Have you gone to Paris?" },
+            { statement: '"She has tried sushi."', correct: "Did she like it?", incorrect: "Has she tried sushi?" },
+            { statement: '"We have met Cristiano Ronaldo."', correct: "Where did you meet him?", incorrect: "Have you ever met him?" }
+        ];
+        let currentCase = 0;
+
+        function loadDetectiveCase() {
+            const c = cases[currentCase];
+            document.getElementById('detective-statement').innerText = c.statement;
+            
+            // Randomize buttons
+            const optionsDiv = document.getElementById('detective-options');
+            optionsDiv.innerHTML = '';
+            
+            const isFirstCorrect = Math.random() > 0.5;
+            
+            const btn1 = document.createElement('button');
+            btn1.className = "p-4 border-2 border-slate-300 rounded-xl text-xl hover:bg-slate-50 transition-colors text-left font-medium";
+            btn1.innerText = isFirstCorrect ? c.correct : c.incorrect;
+            btn1.onclick = () => checkDetective(isFirstCorrect);
+            
+            const btn2 = document.createElement('button');
+            btn2.className = "p-4 border-2 border-slate-300 rounded-xl text-xl hover:bg-slate-50 transition-colors text-left font-medium";
+            btn2.innerText = !isFirstCorrect ? c.correct : c.incorrect;
+            btn2.onclick = () => checkDetective(!isFirstCorrect);
+
+            optionsDiv.appendChild(btn1);
+            optionsDiv.appendChild(btn2);
+
+            document.getElementById('detective-feedback').classList.add('hidden');
+            document.getElementById('detective-next-btn').classList.add('hidden');
+        }
+
+        function checkDetective(isCorrect) {
+            const feedback = document.getElementById('detective-feedback');
+            feedback.classList.remove('hidden');
+            
+            // Disable buttons
+            const buttons = document.getElementById('detective-options').querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+
+            if(isCorrect) {
+                feedback.innerText = "Correct! We use Simple Past for details. ✅";
+                feedback.className = "mt-6 text-2xl font-bold text-green-600 pop-in";
+                
+                if(currentCase < cases.length - 1) {
+                    document.getElementById('detective-next-btn').classList.remove('hidden');
+                } else {
+                    document.getElementById('detective-next-btn').innerText = "Game Over! You are a great detective!";
+                    document.getElementById('detective-next-btn').classList.remove('hidden', 'bg-indigo-600', 'hover:bg-indigo-700');
+                    document.getElementById('detective-next-btn').classList.add('bg-green-600', 'cursor-default');
+                    document.getElementById('detective-next-btn').onclick = null;
+                }
+            } else {
+                feedback.innerText = "Oops! That's Present Perfect again. We need Simple Past for details! ❌";
+                feedback.className = "mt-6 text-xl font-bold text-red-600 pop-in";
+                // Let them try again
+                setTimeout(() => {
+                    feedback.classList.add('hidden');
+                    buttons.forEach(b => b.disabled = false);
+                }, 2000);
+            }
+        }
+
+        function nextDetective() {
+            currentCase++;
+            loadDetectiveCase();
+        }
+
+        // Initialize first case
+        loadDetectiveCase();
+
+
+        // --- Quiz Logic (Slide 7) ---
+        const quizQuestions = [
+            { text: "_____ you ever visited Paris?", options: ["Have", "Did"], correct: 0, feedback: "We use 'Have' to ask about general life experiences." },
+            { text: "Yes, I have. I _____ there in 2018.", options: ["have gone", "went"], correct: 1, feedback: "2018 is a specific finished time. Use Simple Past!" },
+            { text: "_____ you like the Eiffel Tower?", options: ["Did", "Have"], correct: 0, feedback: "Asking for details of a past trip? Use Simple Past (Did)." },
+            { text: "'I have seen that movie.' -> When _____ you see it?", options: ["did", "have"], correct: 0, feedback: "'When' asks for a specific time, so we must use Simple Past." },
+            { text: "The Rule: Present Perfect opens the topic. Simple Past asks for _____.", options: ["specific details", "general experiences"], correct: 0, feedback: "Exactly! Simple Past gives us the details of the story." }
+        ];
+        
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let isAnswering = false;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizQ];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizQ + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-score-text').innerText = `Score: ${quizScore}`;
+            
+            // Set question text
+            const parts = q.text.split('_____');
+            if(parts.length > 1) {
+                document.getElementById('quiz-question-text').innerHTML = `${parts[0]} <span id="quiz-blank" class="inline-block border-b-4 px-2 min-w-[80px] text-center border-slate-300 text-transparent">_____</span> ${parts[1] || ''}`;
+            } else {
+                document.getElementById('quiz-question-text').innerHTML = q.text; 
+            }
+            
+            // Build options dynamically
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = ''; 
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.id = `quiz-btn-${index}`;
+                btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-indigo-400 hover:shadow-md text-slate-700 w-full";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('opacity-0');
+            feedback.classList.remove('animate-bounce', 'text-green-600', 'text-red-600');
+            
+            isAnswering = false;
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = quizQuestions[currentQuizQ];
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) quizScore++;
+            
+            const blank = document.getElementById('quiz-blank');
+            if (blank) {
+                blank.innerText = q.options[selectedIndex];
+                blank.classList.remove('text-transparent', 'border-slate-300');
+                blank.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', isCorrect ? 'border-green-500' : 'border-red-500');
+            }
+            
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-btn-${idx}`);
+                if (idx === selectedIndex) {
+                    btn.className = isCorrect 
+                        ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg w-full" 
+                        : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50 w-full";
+                } else {
+                    btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50 w-full";
+                }
+            });
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = isCorrect ? 'Correct! 🎉' : `Oops! ${q.feedback}`;
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('animate-bounce', isCorrect ? 'text-green-600' : 'text-red-600');
+
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    loadQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 3000); 
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-area').classList.add('hidden-slide');
+            document.getElementById('quiz-result-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('fade-in');
+            document.getElementById('final-score').innerText = quizScore;
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            document.getElementById('quiz-active-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('hidden-slide');
+            
+            // Reset Detective game
+            currentCase = 0;
+            document.getElementById('detective-next-btn').classList.add('hidden', 'bg-indigo-600', 'hover:bg-indigo-700');
+            document.getElementById('detective-next-btn').classList.remove('bg-green-600', 'cursor-default');
+            document.getElementById('detective-next-btn').onclick = nextDetective;
+            document.getElementById('detective-next-btn').innerText = "Next Case";
+            loadDetectiveCase();
+
+            loadQuizQuestion();
+        }
+
+        // Initialize first slide and quiz
+        updateUI();
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>
