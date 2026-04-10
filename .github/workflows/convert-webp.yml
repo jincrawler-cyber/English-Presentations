@@ -1,0 +1,31 @@
+name: Convertir JPG a WebP
+on:
+  push:
+    paths:
+      - '**.jpg'
+      - '**.jpeg'
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Instalar WebP
+        run: sudo apt-get install -y webp
+
+      - name: Convertir imágenes
+        run: |
+          find . -name "*.jpg" -o -name "*.jpeg" | while read file; do
+            # Convierte solo si el archivo .webp no existe aún
+            if [ ! -f "${file%.*}.webp" ]; then
+              cwebp -q 80 "$file" -o "${file%.*}.webp"
+            fi
+          done
+
+      - name: Subir cambios
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-convertir imágenes a WebP"
+          file_pattern: '**.webp'
