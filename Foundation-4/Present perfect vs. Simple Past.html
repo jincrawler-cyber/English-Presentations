@@ -55,7 +55,7 @@
         
         <!-- Barra de Progreso -->
         <div class="w-full bg-slate-200 h-2">
-            <div id="progress-bar" class="bg-indigo-600 h-2 transition-all duration-500" style="width: 12.5%"></div>
+            <div id="progress-bar" class="bg-indigo-600 h-2 transition-all duration-500" style="width: 11.1%"></div>
         </div>
 
         <!-- Área de Contenido (Diapositivas) -->
@@ -199,8 +199,63 @@
                 </div>
             </div>
 
-            <!-- SLIDE 5: Interactive Activity (The Detective) -->
-            <div class="slide hidden-slide w-full text-center" id="slide-5">
+            <!-- SLIDE 5: Verbs Review (V1, V2, V3) -->
+            <div class="slide hidden-slide w-full text-left" id="slide-5">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg text-lg">Quick Review</span> V1, V2 and V3
+                </h2>
+                <p class="text-xl text-slate-600 mb-4">Don't mix them up! We use <span class="text-rose-600 font-bold">V2</span> for Simple Past and <span class="text-emerald-600 font-bold">V3</span> for Present Perfect.</p>
+                
+                <div class="flex flex-col md:flex-row gap-6 w-full">
+                    <!-- Regular Verbs -->
+                    <div class="flex-1 bg-white border-2 border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                        <div class="bg-slate-100 p-3 font-bold text-slate-700 text-center border-b-2 border-slate-200">
+                            🔄 Regular Verbs (+ed)
+                        </div>
+                        <table class="w-full text-center text-lg">
+                            <thead class="bg-slate-50 border-b">
+                                <tr>
+                                    <th class="p-2 text-slate-500">V1 (Base)</th>
+                                    <th class="p-2 text-rose-600">V2 (Past)</th>
+                                    <th class="p-2 text-emerald-600">V3 (Participle)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 font-mono">
+                                <tr><td class="p-2">visit</td><td class="p-2 font-bold text-rose-500">visited</td><td class="p-2 font-bold text-emerald-500">visited</td></tr>
+                                <tr><td class="p-2">play</td><td class="p-2 font-bold text-rose-500">played</td><td class="p-2 font-bold text-emerald-500">played</td></tr>
+                                <tr><td class="p-2">travel</td><td class="p-2 font-bold text-rose-500">traveled</td><td class="p-2 font-bold text-emerald-500">traveled</td></tr>
+                                <tr><td class="p-2">try</td><td class="p-2 font-bold text-rose-500">tried</td><td class="p-2 font-bold text-emerald-500">tried</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Irregular Verbs -->
+                    <div class="flex-1 bg-white border-2 border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                        <div class="bg-slate-100 p-3 font-bold text-slate-700 text-center border-b-2 border-slate-200">
+                            🤪 Irregular Verbs
+                        </div>
+                        <table class="w-full text-center text-lg">
+                            <thead class="bg-slate-50 border-b">
+                                <tr>
+                                    <th class="p-2 text-slate-500">V1 (Base)</th>
+                                    <th class="p-2 text-rose-600">V2 (Past)</th>
+                                    <th class="p-2 text-emerald-600">V3 (Participle)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 font-mono">
+                                <tr><td class="p-2">go</td><td class="p-2 font-bold text-rose-500">went</td><td class="p-2 font-bold text-emerald-500">gone / been</td></tr>
+                                <tr><td class="p-2">eat</td><td class="p-2 font-bold text-rose-500">ate</td><td class="p-2 font-bold text-emerald-500">eaten</td></tr>
+                                <tr><td class="p-2">see</td><td class="p-2 font-bold text-rose-500">saw</td><td class="p-2 font-bold text-emerald-500">seen</td></tr>
+                                <tr><td class="p-2">meet</td><td class="p-2 font-bold text-rose-500">met</td><td class="p-2 font-bold text-emerald-500">met</td></tr>
+                                <tr><td class="p-2">fly</td><td class="p-2 font-bold text-rose-500">flew</td><td class="p-2 font-bold text-emerald-500">flown</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Interactive Activity (The Detective) -->
+            <div class="slide hidden-slide w-full text-center" id="slide-6">
                 <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
                     <span class="bg-slate-200 text-slate-700 p-2 rounded-lg">🕵️</span> The Detective
                 </h2>
@@ -225,8 +280,8 @@
                 </div>
             </div>
 
-            <!-- SLIDE 6: Speaking Practice -->
-            <div class="slide hidden-slide w-full text-left" id="slide-6">
+            <!-- SLIDE 7: Speaking Practice -->
+            <div class="slide hidden-slide w-full text-left" id="slide-7">
                 <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
                     <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">🗣️</span> Interview Time
                 </h2>
@@ -252,8 +307,8 @@
                 </div>
             </div>
 
-            <!-- SLIDE 7: Quiz Interface -->
-            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-7">
+            <!-- SLIDE 8: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-8">
                 <!-- Active Quiz -->
                 <div id="quiz-active-area">
                     <div class="flex justify-between items-center mb-8">
@@ -294,7 +349,7 @@
             <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                 Previous
             </button>
-            <span id="slide-counter" class="text-slate-500 font-medium">1 / 8</span>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 9</span>
             <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 Next 
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -306,7 +361,7 @@
     <script>
         // --- Navigation Logic ---
         let currentSlide = 0;
-        const totalSlides = 8;
+        const totalSlides = 9;
         
         function updateUI() {
             document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
@@ -341,7 +396,7 @@
             }
         }
 
-        // --- Detective Game Logic (Slide 5) ---
+        // --- Detective Game Logic (Slide 6) ---
         const cases = [
             { statement: '"I have visited Paris."', correct: "When did you go?", incorrect: "Have you gone to Paris?" },
             { statement: '"She has tried sushi."', correct: "Did she like it?", incorrect: "Has she tried sushi?" },
@@ -360,7 +415,7 @@
             const isFirstCorrect = Math.random() > 0.5;
             
             const btn1 = document.createElement('button');
-            btn1.className = "p-4 border-2 border-slate-300 rounded-xl text-xl hover:bg-slate-50 transition-colors text-left font-medium";
+            btn1.className = "p-4 border-2 border-slate-300 rounded-xl text-xl hover:bg-rose-50 hover:border-rose-400 transition-colors text-left font-medium";
             btn1.innerText = isFirstCorrect ? c.correct : c.incorrect;
             btn1.onclick = () => checkDetective(isFirstCorrect);
             
@@ -416,7 +471,7 @@
         loadDetectiveCase();
 
 
-        // --- Quiz Logic (Slide 7) ---
+        // --- Quiz Logic (Slide 8) ---
         const quizQuestions = [
             { text: "_____ you ever visited Paris?", options: ["Have", "Did"], correct: 0, feedback: "We use 'Have' to ask about general life experiences." },
             { text: "Yes, I have. I _____ there in 2018.", options: ["have gone", "went"], correct: 1, feedback: "2018 is a specific finished time. Use Simple Past!" },
@@ -535,3 +590,4 @@
     </script>
 </body>
 </html>
+```
