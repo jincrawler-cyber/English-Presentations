@@ -4,11 +4,13 @@ on:
     paths:
       - '**.jpg'
       - '**.jpeg'
-   workflow_dispatch: #
+  workflow_dispatch: # Permite ejecutarlo manualmente desde la pestaña Actions
 
 jobs:
   convert:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permiso necesario para que la acción pueda subir los archivos .webp
     steps:
       - name: Checkout del código
         uses: actions/checkout@v4
@@ -18,10 +20,13 @@ jobs:
 
       - name: Convertir imágenes
         run: |
-          find . -name "*.jpg" -o -name "*.jpeg" | while read file; do
-            # Convierte solo si el archivo .webp no existe aún
-            if [ ! -f "${file%.*}.webp" ]; then
-              cwebp -q 80 "$file" -o "${file%.*}.webp"
+          find . -type f \( -name "*.jpg" -o -name "*.jpeg" \) | while read file; do
+            # Crea el nombre del nuevo archivo .webp
+            webp_file="${file%.*}.webp"
+            # Convierte si el .webp no existe
+            if [ ! -f "$webp_file" ]; then
+              echo "Convirtiendo: $file"
+              cwebp -q 80 "$file" -o "$webp_file"
             fi
           done
 
