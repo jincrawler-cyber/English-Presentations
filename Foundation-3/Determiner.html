@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering Determiners: All, Most, Some, None</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+/* CORE SETUP */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f0f4f8;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden; 
+}
+
+/* SLIDE CONTAINER & ANIMATION */
+.slide-container {
+    background-color: #fff9f0;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.05);
+    display: none; /* Oculto por defecto */
+    flex-direction: column;
+    height: 720px;
+    width: 1280px;
+    /* Ajustes para pantallas más pequeñas manteniendo proporción */
+    max-width: 95vw;
+    max-height: 85vh; 
+    padding: 40px 50px;
+    position: relative;
+    border: 8px solid #FFD166;
+    animation: fadeIn 0.5s ease-in-out;
+    overflow-y: auto; /* Permite scroll si el contenido es mucho en vertical */
+}
+
+.slide-container.active {
+    display: flex; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* NAVIGATION CONTROLS */
+.controls-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px; /* Espacio reservado para controles */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Para no bloquear clicks detrás si fuera transparente */
+    z-index: 100;
+}
+
+.controls {
+    display: flex;
+    gap: 20px;
+    pointer-events: auto;
+}
+
+.nav-btn {
+    background: #073B4C;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-family: 'Comfortaa', cursive;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-btn:hover {
+    transform: scale(1.05);
+    background: #118AB2;
+}
+
+.nav-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.6;
+}
+
+.slide-indicator {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.9);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #073B4C;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 99;
+}
+
+/* TYPOGRAPHY */
+h1, h2, h3 {
+    font-family: 'Comfortaa', cursive;
+    color: #073B4C;
+    margin: 0;
+}
+
+h1 { font-size: clamp(40px, 5vw, 80px); line-height: 1.1; }
+h2 { font-size: clamp(30px, 4vw, 52px); margin-bottom: 20px; color: #118AB2; }
+h3 { font-size: clamp(24px, 3vw, 36px); color: #EF476F; margin-bottom: 15px; }
+
+p, li, td, th {
+    font-size: clamp(16px, 2vw, 24px);
+    color: #4A4E69;
+    line-height: 1.5;
+}
+
+.slide-title {
+    width: 100%;
+    text-align: left;
+    padding-bottom: 15px;
+    border-bottom: 3px dashed #FFD166;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+/* LAYOUTS */
+.content-area {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Two Column Layout */
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.two-column-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alineación superior para consistencia */
+}
+
+.two-column-card h3 {
+    margin-top: 15px;
+}
+
+.image-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Altura fija relativa para congruencia visual */
+    height: 250px; 
+    flex-shrink: 0;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Tiled Layout */
+.tiled-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Simplificado a 2 columnas máximo por defecto */
+    gap: 30px;
+    width: 100%;
+}
+
+.tile {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    border-bottom: 5px solid #06D6A0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tile i {
+    font-size: 50px;
+    color: #06D6A0;
+    margin-bottom: 20px;
+}
+
+/* Percentage Bar Styles for Quantifiers */
+.quantifier-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+.q-label {
+    width: 100px;
+    font-weight: bold;
+    color: #073B4C;
+    font-size: clamp(18px, 2vw, 24px);
+    flex-shrink: 0;
+}
+.q-bar-container {
+    flex-grow: 1;
+    background: #eee;
+    height: 25px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 0 15px;
+}
+.q-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #118AB2, #06D6A0);
+}
+.q-percent {
+    width: 60px;
+    text-align: right;
+    font-weight: bold;
+    color: #EF476F;
+    font-size: clamp(16px, 2vw, 22px);
+    flex-shrink: 0;
+}
+
+/* Full Background Title */
+.title-slide-layout {
+    text-align: center;
+    z-index: 2;
+    height: 100%;
+    justify-content: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: 1;
+    border-radius: 12px;
+}
+
+.bg-image {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    border-radius: 12px;
+}
+
+/* Inductive Example Box */
+.inductive-box {
+    background-color: #073B4C;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+    text-align: center;
+}
+.inductive-box p { color: #fff; font-size: clamp(20px, 2.5vw, 28px); font-weight: bold; margin: 0; }
+
+/* Quiz Styling */
+.quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.quiz-btn {
+    background: #118AB2;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: clamp(18px, 2vw, 24px);
+    text-align: center;
+    font-family: 'Comfortaa', cursive;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s;
+    width: 100%;
+}
+
+.quiz-btn:active {
+    transform: scale(0.98);
+}
+
+/* Chart/Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: clamp(14px, 1.8vw, 22px); /* Letra adaptable en tablas */
+}
+th { background: #118AB2; color: white; padding: 15px; }
+td { padding: 15px; border-bottom: 1px solid #eee; text-align: center; }
+
+/* General vs Specific specific styles */
+.rule-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    margin-top: 10px;
+    border: 2px dashed #118AB2;
+}
+.highlight-word {
+    color: #EF476F;
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+.example-sentence {
+    font-size: clamp(20px, 2.5vw, 26px); 
+    margin: 15px 0;
+}
+
+/* MEDIA QUERIES FOR CONGRUENCE ON SMALLER SCREENS */
+@media (max-width: 900px) {
+    .slide-container {
+        padding: 30px;
+        height: auto;
+        min-height: 60vh;
+    }
+    .two-column {
+        grid-template-columns: 1fr; /* Colapsar a una columna */
+        gap: 20px;
+    }
+    .tiled-content {
+        grid-template-columns: 1fr;
+    }
+    .image-wrapper {
+        height: 200px; /* Reducir altura de imágenes */
+    }
+    .controls-container {
+        position: relative; /* Dejar de ser fijo si falta espacio */
+        height: auto;
+        margin-top: 20px;
+        background: transparent;
+    }
+    .slide-indicator {
+        position: static;
+        transform: none;
+        text-align: center;
+        margin: 10px auto;
+        display: block;
+        width: fit-content;
+    }
+    body {
+        height: auto;
+        overflow-y: auto;
+        padding: 20px 0;
+        display: block; /* Quitar centrado vertical estricto en móviles */
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide-container active" id="slide1">
+    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1920&auto=format&fit=crop" 
+         class="bg-image" 
+         alt="Education Background"
+         onerror="this.src='https://placehold.co/1280x720?text=Mastering+Determiners'">
+    <div class="overlay"></div>
+    <div class="content-area title-slide-layout">
+        <h1>Mastering Quantifiers</h1>
+        <h3 style="color: #118AB2;">All, Most, Many, Some, None</h3>
+        <p>Specific Things vs. General Things</p>
+    </div>
+</div>
+
+<!-- Slide 2: The Scale (Visual) -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">The Scale of Quantity</h2>
+    <div class="content-area">
+        <div class="quantifier-row">
+            <div class="q-label">All</div>
+            <div class="q-bar-container"><div class="q-bar" style="width: 100%;"></div></div>
+            <div class="q-percent">100%</div>
+        </div>
+        <div class="quantifier-row">
+            <div class="q-label">Most</div>
+            <div class="q-bar-container"><div class="q-bar" style="width: 85%;"></div></div>
+            <div class="q-percent">~80%</div>
+        </div>
+        <div class="quantifier-row">
+            <div class="q-label">Many</div>
+            <div class="q-bar-container"><div class="q-bar" style="width: 60%;"></div></div>
+            <div class="q-percent">~60%</div>
+        </div>
+        <div class="quantifier-row">
+            <div class="q-label">Some</div>
+            <div class="q-bar-container"><div class="q-bar" style="width: 35%;"></div></div>
+            <div class="q-percent">~30%</div>
+        </div>
+        <div class="quantifier-row">
+            <div class="q-label">None</div>
+            <div class="q-bar-container"><div class="q-bar" style="width: 0%;"></div></div>
+            <div class="q-percent">0%</div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: General vs Specific (Inductive Intro) -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Compare these two situations...</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <!-- Left: General -->
+            <div class="two-column-card" style="border: 4px solid #06D6A0;">
+                <h3>Situation A: The World</h3>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop" 
+                         alt="Generic Office Workers"
+                         onerror="this.src='https://placehold.co/600x400?text=Generic+People'">
+                </div>
+                <p class="example-sentence">"<strong>Most</strong> people work."</p>
+                <p style="font-size: 0.9em; color:#888;">(In general, everywhere)</p>
+            </div>
+
+            <!-- Right: Specific -->
+            <div class="two-column-card" style="border: 4px solid #EF476F;">
+                <h3>Situation B: My Office</h3>
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop" 
+                         alt="Specific Group"
+                         onerror="this.src='https://placehold.co/600x400?text=My+Specific+Team'">
+                </div>
+                <p class="example-sentence">"<strong>Most of the</strong> people <em>here</em> work hard."</p>
+                <p style="font-size: 0.9em; color:#888;">(Specific group of people)</p>
+            </div>
+        </div>
+        <div class="inductive-box">
+            <p>What is the small word difference? "OF THE"</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: The Rules (General vs Specific) -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">The Rule: General vs. Specific</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            
+            <!-- GENERAL -->
+            <div class="tile" style="border-bottom-color: #06D6A0;">
+                <i class="fa-solid fa-earth-americas" style="color: #06D6A0;"></i>
+                <h3>GENERAL</h3>
+                <p>Talk about things in the whole world.</p>
+                <div class="rule-card" style="background: #e6fffa;">
+                    <p>Quantifier + Noun</p>
+                    <hr style="border:0; border-top:1px dashed #ccc; margin:10px 0;">
+                    <p><strong>All</strong> cars...</p>
+                    <p><strong>Most</strong> people...</p>
+                </div>
+            </div>
+
+            <!-- SPECIFIC -->
+            <div class="tile" style="border-bottom-color: #EF476F;">
+                <i class="fa-solid fa-bullseye" style="color: #EF476F;"></i>
+                <h3>SPECIFIC</h3>
+                <p>Talk about a specific group (mine, yours, these).</p>
+                <div class="rule-card" style="background: #fff0f3;">
+                    <p>Quantifier + <span class="highlight-word">OF</span> + <span class="highlight-word">THE/MY</span> + Noun</p>
+                    <hr style="border:0; border-top:1px dashed #ccc; margin:10px 0;">
+                    <p><strong>All of my</strong> cars...</p>
+                    <p><strong>Most of the</strong> people...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Example - CHILDREN -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Example: Children</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="two-column-card">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=600&auto=format&fit=crop" 
+                         alt="Happy Kids"
+                         onerror="this.src='https://placehold.co/600x400?text=Happy+Kids'">
+                </div>
+                <h3>General</h3>
+                <p>"<strong>All</strong> children like to play."</p>
+                <p style="font-size:0.9em;">(Every child in the world)</p>
+            </div>
+            <div class="two-column-card">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?q=80&w=600&auto=format&fit=crop" 
+                         alt="Sad Kid"
+                         onerror="this.src='https://placehold.co/600x400?text=Sad+Kid'">
+                </div>
+                <h3>Specific</h3>
+                <p>"<strong>Some of those</strong> children are sad."</p>
+                <p style="font-size:0.9em;">(Only that specific group)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Special Case - NO vs NONE -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Zero Quantity: No vs. None</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <!-- NO -->
+            <div class="two-column-card">
+                <i class="fa-solid fa-ban" style="font-size: 60px; color: #EF476F; margin-bottom: 20px;"></i>
+                <h3>NO + Noun</h3>
+                <p>Use before the noun directly.</p>
+                <div class="rule-card">
+                    <p>"I have <strong>no</strong> money."</p>
+                    <p>"There is <strong>no</strong> food."</p>
+                </div>
+                <p style="color: red; font-size: 0.9em; text-decoration: line-through;">(Don't say: None money)</p>
+            </div>
+
+            <!-- NONE OF -->
+            <div class="two-column-card">
+                <i class="fa-regular fa-circle-xmark" style="font-size: 60px; color: #118AB2; margin-bottom: 20px;"></i>
+                <h3>NONE OF + Group</h3>
+                <p>Use when talking about a specific group.</p>
+                <div class="rule-card">
+                    <p>"<strong>None of</strong> my friends came."</p>
+                    <p>"<strong>None of</strong> the answers were correct."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Quiz Time -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Quiz: Choose the correct one</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=600&auto=format&fit=crop" 
+                     alt="Sports Team"
+                     onerror="this.src='https://placehold.co/600x400?text=Sports+Team'">
+            </div>
+            <div>
+                <p class="example-sentence">"________ players in this team are very tall."</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">Most</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, true)">Most of the</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">All</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false)">None</button>
+                </div>
+                <p id="feedback" style="margin-top:20px; font-weight:bold; min-height: 30px;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Summary Table -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Summary Cheat Sheet</h2>
+    <div class="content-area">
+        <div style="overflow-x: auto;"> <!-- Tabla scrolleable en móviles -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>To say...</th>
+                        <th>General Structure</th>
+                        <th>Specific Structure</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>100%</strong></td>
+                        <td><strong>All</strong> cats...</td>
+                        <td><strong>All (of) my</strong> cats...</td>
+                    </tr>
+                    <tr>
+                        <td><strong>80%</strong></td>
+                        <td><strong>Most</strong> people...</td>
+                        <td><strong>Most of the</strong> people...</td>
+                    </tr>
+                    <tr>
+                        <td><strong>30-50%</strong></td>
+                        <td><strong>Some</strong> birds...</td>
+                        <td><strong>Some of those</strong> birds...</td>
+                    </tr>
+                    <tr>
+                        <td><strong>0%</strong></td>
+                        <td><strong>No</strong> students...</td>
+                        <td><strong>None of the</strong> students...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="inductive-box">
+            <p>Tip: If you see "The", "My", "These" -> Use "OF"!</p>
+        </div>
+    </div>
+</div>
+
+<!-- NAVIGATION UI -->
+<div class="slide-indicator">Slide <span id="currentSlideNum">1</span> / 8</div>
+
+<div class="controls-container">
+    <div class="controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+            <i class="fa-solid fa-arrow-left"></i> Previous
+        </button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+            Next <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide-container');
+    const totalSlides = slides.length;
+    
+    // UI Elements
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slideIndicator = document.getElementById('currentSlideNum');
+
+    function updateUI() {
+        // Hide all slides
+        slides.forEach(slide => slide.classList.remove('active'));
+        
+        // Show current slide
+        slides[currentSlide].classList.add('active');
+        
+        // Update number
+        slideIndicator.innerText = currentSlide + 1;
+
+        // Button states
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === totalSlides - 1;
+        
+        if(currentSlide === totalSlides - 1) {
+            nextBtn.innerHTML = 'Finish <i class="fa-solid fa-check"></i>';
+        } else {
+            nextBtn.innerHTML = 'Next <i class="fa-solid fa-arrow-right"></i>';
+        }
+    }
+
+    function changeSlide(direction) {
+        currentSlide += direction;
+        
+        if (currentSlide < 0) currentSlide = 0;
+        if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+        
+        updateUI();
+    }
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') changeSlide(1);
+        if (e.key === 'ArrowLeft') changeSlide(-1);
+    });
+
+    // Simple Quiz Logic
+    function checkAnswer(btn, isCorrect) {
+        const feedback = document.getElementById('feedback');
+        // Reset buttons
+        const allBtns = btn.parentElement.querySelectorAll('.quiz-btn');
+        allBtns.forEach(b => {
+            b.style.background = '#118AB2';
+            b.style.border = 'none';
+        });
+
+        if (isCorrect) {
+            btn.style.background = '#06D6A0';
+            feedback.style.color = '#06D6A0';
+            feedback.innerText = "Correct! 'This team' is specific, so we use 'OF THE'.";
+        } else {
+            btn.style.background = '#EF476F';
+            feedback.style.color = '#EF476F';
+            feedback.innerText = "Try again! Look at 'this team' - is it general or specific?";
+        }
+    }
+
+    // Initialize
+    updateUI();
+</script>
+
+</body>
+</html>

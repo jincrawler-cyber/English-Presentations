@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Simple Past</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animaciones base */
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Ocultar elementos */
+        .hidden-slide { display: none !important; }
+        
+        /* Animación para revelar */
+        .pop-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Efecto flotante para iconos */
+        .float { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]">
+        
+        <!-- Barra de Progreso -->
+        <div class="w-full bg-slate-200 h-2">
+            <div id="progress-bar" class="bg-rose-500 h-2 transition-all duration-500" style="width: 10%"></div>
+        </div>
+
+        <!-- Área de Contenido (Diapositivas) -->
+        <div class="flex-1 p-8 md:p-12 flex flex-col items-center justify-center relative" id="slides-container">
+            
+            <!-- SLIDE 0: Intro -->
+            <div class="slide fade-in text-center w-full" id="slide-0">
+                <div class="mb-6 inline-block p-4 bg-rose-100 rounded-full text-rose-600 float">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 9 15"/><path d="M16.5 7.5 12 12"/>
+                    </svg>
+                </div>
+                <h1 class="text-5xl font-extrabold text-slate-900 mb-4">The Simple Past</h1>
+                <p class="text-2xl text-slate-600 mb-8">Memories & Finished Actions</p>
+                <button onclick="nextSlide()" class="px-8 py-4 bg-rose-500 text-white text-xl rounded-xl font-bold shadow-lg hover:bg-rose-600 transform hover:scale-105 transition-all">
+                    Start Class
+                </button>
+            </div>
+
+            <!-- SLIDE 1: Observation -->
+            <div class="slide hidden-slide text-center w-full" id="slide-1">
+                <h2 class="text-3xl font-bold mb-8">Read these sentences. <br/><span class="text-rose-600">What is different?</span></h2>
+                <div class="grid md:grid-cols-2 gap-8 w-full text-left">
+                    <div class="bg-slate-100 p-6 rounded-xl border-2 border-slate-300">
+                        <h3 class="text-slate-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group A <span>⏱️ Present</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>am</strong> in Aguascalientes.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>eats</strong> chascas.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">They <strong>play</strong> soccer today.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-rose-50 p-6 rounded-xl border-2 border-rose-200">
+                        <h3 class="text-rose-800 font-bold mb-4 uppercase tracking-wider text-sm flex justify-between">Group B <span>⏪ Past</span></h3>
+                        <ul class="space-y-4 text-xl">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">I <strong>was</strong> in Aguascalientes.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">She <strong>ate</strong> chascas <span class="text-rose-500 underline font-bold">yesterday</span>.</li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">They <strong>played</strong> soccer <span class="text-rose-500 underline font-bold">last week</span>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: TO BE vs Others -->
+            <div class="slide hidden-slide w-full text-left" id="slide-2">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-rose-100 text-rose-700 p-2 rounded-lg text-lg">Two Groups</span> The King vs. The Citizens
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">In the past, we have two very different groups of verbs. They don't mix!</p>
+
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <!-- TO BE -->
+                    <div class="flex-1 bg-white border-2 border-amber-300 p-6 rounded-xl shadow-sm text-center">
+                        <div class="text-4xl mb-2">👑</div>
+                        <h3 class="font-bold text-amber-600 text-2xl mb-4 border-b-2 border-amber-100 pb-2">Verb "To Be"</h3>
+                        <p class="text-lg text-slate-600 mb-4">It's the King. It doesn't need help for negatives or questions.</p>
+                        <div class="space-y-2 text-xl font-bold text-slate-700 bg-amber-50 p-4 rounded-lg">
+                            <p>was / were</p>
+                            <p>wasn't / weren't</p>
+                        </div>
+                    </div>
+                    
+                    <!-- OTHER VERBS -->
+                    <div class="flex-1 bg-white border-2 border-rose-300 p-6 rounded-xl shadow-sm text-center">
+                        <div class="text-4xl mb-2">👥</div>
+                        <h3 class="font-bold text-rose-600 text-2xl mb-4 border-b-2 border-rose-100 pb-2">All Other Verbs</h3>
+                        <p class="text-lg text-slate-600 mb-4">They are normal citizens. They <b>need</b> the helper <b>"DID"</b>.</p>
+                        <div class="space-y-2 text-xl font-bold text-slate-700 bg-rose-50 p-4 rounded-lg">
+                            <p>played / went</p>
+                            <p>didn't play / didn't go</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: Regular vs Irregular -->
+            <div class="slide hidden-slide w-full text-left" id="slide-3">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-rose-100 text-rose-700 p-2 rounded-lg text-lg">Other Verbs</span> Regular vs. Irregular
+                </h2>
+                
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <!-- Regular -->
+                    <div class="flex-1 bg-white border-2 border-blue-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-blue-800 text-xl mb-4 flex items-center gap-2">🔄 Regular Verbs (+ed)</h3>
+                        <p class="text-slate-600 mb-4">Easy! Just add <b>-ed</b> or <b>-d</b> at the end.</p>
+                        <ul class="space-y-2 text-lg font-mono bg-blue-50 p-4 rounded-lg">
+                            <li class="flex justify-between"><span>play</span> <span>➔</span> <span class="font-bold text-blue-600">played</span></li>
+                            <li class="flex justify-between"><span>work</span> <span>➔</span> <span class="font-bold text-blue-600">worked</span></li>
+                            <li class="flex justify-between"><span>dance</span> <span>➔</span> <span class="font-bold text-blue-600">danced</span></li>
+                            <li class="flex justify-between"><span>study</span> <span>➔</span> <span class="font-bold text-blue-600">studied</span></li>
+                        </ul>
+                    </div>
+                    <!-- Irregular -->
+                    <div class="flex-1 bg-white border-2 border-fuchsia-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-fuchsia-800 text-xl mb-4 flex items-center gap-2">🤪 Irregular Verbs</h3>
+                        <p class="text-slate-600 mb-4">Crazy! They change completely. You have to memorize them.</p>
+                        <ul class="space-y-2 text-lg font-mono bg-fuchsia-50 p-4 rounded-lg">
+                            <li class="flex justify-between"><span>go</span> <span>➔</span> <span class="font-bold text-fuchsia-600">went</span></li>
+                            <li class="flex justify-between"><span>eat</span> <span>➔</span> <span class="font-bold text-fuchsia-600">ate</span></li>
+                            <li class="flex justify-between"><span>have</span> <span>➔</span> <span class="font-bold text-fuchsia-600">had</span></li>
+                            <li class="flex justify-between"><span>buy</span> <span>➔</span> <span class="font-bold text-fuchsia-600">bought</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Pronunciation of -ED -->
+            <div class="slide hidden-slide w-full text-left" id="slide-4">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg text-lg">Pronunciation</span> How to say "-ed"
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">Many students say "play-ed" or "work-ed". <b>Don't do that!</b> Here is the simple secret:</p>
+
+                <div class="space-y-4 w-full max-w-4xl mx-auto">
+                    <!-- Rule 1 -->
+                    <div class="bg-white p-6 rounded-xl border-l-8 border-red-500 shadow-sm">
+                        <div class="flex items-center gap-4 mb-2">
+                            <span class="text-3xl">🔊</span>
+                            <h3 class="font-bold text-xl text-slate-800">Rule 1: Extra Syllable (/id/)</h3>
+                        </div>
+                        <p class="text-lg text-slate-600 ml-12">Only add an extra syllable if the original verb ends in a <b>T</b> or <b>D</b> sound.</p>
+                        <div class="ml-12 mt-2 flex gap-4 text-xl">
+                            <span class="bg-red-50 text-red-700 px-4 py-2 rounded-lg border border-red-200">wan<b>t</b> ➔ want-ed</span>
+                            <span class="bg-red-50 text-red-700 px-4 py-2 rounded-lg border border-red-200">nee<b>d</b> ➔ need-ed</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Rule 2 -->
+                    <div class="bg-white p-6 rounded-xl border-l-8 border-green-500 shadow-sm">
+                        <div class="flex items-center gap-4 mb-2">
+                            <span class="text-3xl">🔇</span>
+                            <h3 class="font-bold text-xl text-slate-800">Rule 2: NO Extra Syllable (/t/ or /d/)</h3>
+                        </div>
+                        <p class="text-lg text-slate-600 ml-12">For all other verbs, the "e" is silent. Just make a "t" or "d" sound at the end.</p>
+                        <div class="ml-12 mt-2 flex gap-4 text-xl flex-wrap">
+                            <span class="bg-green-50 text-green-700 px-4 py-2 rounded-lg border border-green-200">play ➔ play'd</span>
+                            <span class="bg-green-50 text-green-700 px-4 py-2 rounded-lg border border-green-200">watch ➔ watch't</span>
+                            <span class="bg-green-50 text-green-700 px-4 py-2 rounded-lg border border-green-200">clean ➔ clean'd</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Grammar (+) and (-) -->
+            <div class="slide hidden-slide w-full text-left" id="slide-5">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-rose-100 text-rose-700 p-2 rounded-lg text-lg">Grammar</span> (+) and (-)
+                </h2>
+                
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <!-- Affirmative -->
+                    <div class="flex-1 bg-white border-2 border-rose-200 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-rose-800 text-xl mb-4 flex items-center gap-2"><span class="text-2xl">✅</span> Affirmative</h3>
+                        <div class="bg-rose-50 p-4 rounded-lg text-xl font-mono text-center mb-4">
+                            Subject + <span class="text-rose-600 font-bold">V2 (Past verb)</span>
+                        </div>
+                        <ul class="space-y-3 text-lg">
+                            <li>• I <span class="font-bold text-rose-500">went</span> to the cinema.</li>
+                            <li>• She <span class="font-bold text-rose-500">played</span> tennis.</li>
+                            <li>• We <span class="font-bold text-rose-500">were</span> happy.</li>
+                        </ul>
+                    </div>
+                    <!-- Negative -->
+                    <div class="flex-1 bg-white border-2 border-slate-300 p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-slate-800 text-xl mb-4 flex items-center gap-2"><span class="text-2xl">❌</span> Negative</h3>
+                        <div class="bg-slate-100 p-4 rounded-lg text-xl font-mono text-center mb-4 leading-tight">
+                            Sub + <span class="text-red-500 font-bold">didn't</span> + <span class="text-blue-600 font-bold">V1 (Base)</span><br>
+                            <span class="text-sm font-sans text-slate-500">*Didn't eats the past!</span>
+                        </div>
+                        <ul class="space-y-3 text-lg">
+                            <li>• I <span class="font-bold text-red-500">didn't</span> <span class="font-bold text-blue-500">go</span> to the cinema.</li>
+                            <li>• She <span class="font-bold text-red-500">didn't</span> <span class="font-bold text-blue-500">play</span> tennis.</li>
+                            <li class="border-t pt-2 border-slate-200 text-amber-600 font-bold">• We weren't happy. <span class="text-sm font-normal text-slate-500">(To Be is King!)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Questions -->
+            <div class="slide hidden-slide w-full text-left" id="slide-6">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <span class="bg-amber-100 text-amber-700 p-2 rounded-lg text-lg">Questions</span> (?)
+                </h2>
+                <p class="text-xl text-slate-600 mb-6">How do we ask questions in the past? Remember our two groups!</p>
+
+                <div class="grid md:grid-cols-2 gap-6 w-full max-w-4xl mx-auto">
+                    <!-- Normal Verbs -->
+                    <div class="bg-white border-2 border-rose-300 p-6 rounded-xl shadow-sm">
+                        <h3 class="text-center font-bold text-rose-700 text-xl mb-4">👥 Normal Verbs</h3>
+                        <div class="text-2xl font-mono mb-4 bg-rose-50 p-4 rounded-xl border border-rose-200 text-center">
+                            <span class="text-red-500 font-bold">Did</span> + sub + <span class="text-blue-600 font-bold">V1 (Base)</span> ?
+                        </div>
+                        <div class="text-center text-xl space-y-2">
+                            <p>"<span class="font-bold text-red-500">Did</span> you <span class="font-bold text-blue-600">eat</span> tacos?"</p>
+                            <p class="text-slate-500 text-lg">✅ Yes, I <b>did</b>. / ❌ No, I <b>didn't</b>.</p>
+                        </div>
+                    </div>
+
+                    <!-- To Be -->
+                    <div class="bg-white border-2 border-amber-300 p-6 rounded-xl shadow-sm">
+                        <h3 class="text-center font-bold text-amber-600 text-xl mb-4">👑 Verb To Be</h3>
+                        <div class="text-2xl font-mono mb-4 bg-amber-50 p-4 rounded-xl border border-amber-200 text-center">
+                            <span class="text-amber-500 font-bold">Was/Were</span> + sub + ... ?
+                        </div>
+                        <div class="text-center text-xl space-y-2">
+                            <p>"<span class="font-bold text-amber-500">Were</span> you tired?"</p>
+                            <p class="text-slate-500 text-lg">✅ Yes, I <b>was</b>. / ❌ No, I <b>wasn't</b>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Interactive Time Machine -->
+            <div class="slide hidden-slide w-full text-left" id="slide-7">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-purple-100 text-purple-700 p-2 rounded-lg">🌀</span> The Time Machine
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">Transform these present sentences into the past! Tap the box to reveal the answer.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `He <b>played</b> video games.`)">
+                        <p class="text-lg text-slate-500 mb-2">Present: He plays video games.</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-bold rule-box">Past: ???</div>
+                    </div>
+                    
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `I <b>didn't study</b> math.`)">
+                        <p class="text-lg text-slate-500 mb-2">Present: I don't study math.</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-bold rule-box">Past: ???</div>
+                    </div>
+                    
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `<b>Did</b> she <b>go</b> to the party?`)">
+                        <p class="text-lg text-slate-500 mb-2">Present: Does she go to the party?</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-bold rule-box">Past: ???</div>
+                    </div>
+                    
+                    <div class="border-2 border-purple-200 p-4 rounded-xl cursor-pointer hover:bg-purple-50 transition-colors" onclick="revealRule(this, `She <b>wasn't</b> at home.`)">
+                        <p class="text-lg text-slate-500 mb-2">Present: She isn't at home.</p>
+                        <div class="bg-slate-200 text-slate-500 py-3 rounded text-center font-bold rule-box">Past: ???</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: Find Someone Who -->
+            <div class="slide hidden-slide w-full text-left" id="slide-8">
+                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                    <span class="bg-orange-100 text-orange-700 p-2 rounded-lg">🗣️</span> Find Someone Who...
+                </h2>
+                <p class="text-lg text-slate-600 mb-4">Stand up! Ask your classmates questions. If they say YES, tap the box to turn it green and write their name!</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div class="border-2 border-slate-300 rounded-lg p-4 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-32" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...watched a movie yesterday. <br><span class="font-normal text-xs text-rose-500">(Did you watch...?)</span></span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-4 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-32" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...was tired this morning. <br><span class="font-normal text-xs text-amber-500">(Were you...?)</span></span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-4 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-32" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...ate pizza last night. <br><span class="font-normal text-xs text-rose-500">(Did you eat...?)</span></span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-4 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-32" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...went to sleep late. <br><span class="font-normal text-xs text-rose-500">(Did you go...?)</span></span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-4 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-32" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...didn't drink coffee today. <br><span class="font-normal text-xs text-rose-500">(Did you drink...?)</span></span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                    <div class="border-2 border-slate-300 rounded-lg p-4 cursor-pointer transition-colors hover:bg-slate-100 flex flex-col justify-between h-32" onclick="toggleFound(this)">
+                        <span class="text-sm font-bold text-slate-700">...was outside Aguascalientes last year. <br><span class="font-normal text-xs text-amber-500">(Were you...?)</span></span>
+                        <div class="border-b-2 border-dashed border-slate-400 mt-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: Quiz Interface -->
+            <div class="slide hidden-slide w-full max-w-lg mx-auto" id="slide-9">
+                <!-- Active Quiz -->
+                <div id="quiz-active-area">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-slate-700" id="quiz-progress-text">Question 1/5</h2>
+                        <span class="text-sm font-bold bg-slate-200 px-3 py-1 rounded-full text-slate-600" id="quiz-score-text">Score: 0</span>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-3xl font-medium text-center leading-relaxed" id="quiz-question-text">
+                            Loading question...
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4" id="quiz-options-container">
+                        <!-- Botones generados por JS -->
+                    </div>
+                    <div id="quiz-feedback" class="mt-6 text-center font-bold text-xl opacity-0 transition-opacity">
+                        Feedback
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-result-area" class="hidden-slide text-center">
+                    <div class="text-yellow-400 mx-auto mb-6 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-2xl mb-8">You scored <span id="final-score" class="text-rose-600 font-bold">0</span> out of 5</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-rose-500 text-white rounded-lg font-bold flex items-center gap-2 mx-auto hover:bg-rose-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Try Again
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center border-t border-slate-200">
+            <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-slate-700 hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span id="slide-counter" class="text-slate-500 font-medium">1 / 10</span>
+            <button id="next-btn" onclick="nextSlide()" class="px-6 py-2 bg-rose-500 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-rose-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        // --- Navigation Logic ---
+        let currentSlide = 0;
+        const totalSlides = 10;
+        
+        function updateUI() {
+            // Update Progress Bar & Counter
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update Buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            // Show/Hide Slides
+            for (let i = 0; i < totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden-slide');
+                    slide.classList.add('fade-in');
+                } else {
+                    slide.classList.add('hidden-slide');
+                    slide.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateUI();
+            }
+        }
+
+        // --- Reveal Interactive Box (Slide 7) ---
+        function revealRule(element, htmlContent) {
+            const ruleBox = element.querySelector('.rule-box');
+            if (ruleBox) {
+                ruleBox.innerHTML = htmlContent;
+                ruleBox.classList.remove('bg-slate-200', 'text-slate-500');
+                ruleBox.classList.add('bg-purple-200', 'text-purple-900', 'border', 'border-purple-400', 'pop-in');
+            }
+        }
+
+        // --- Find Someone Who Logic (Slide 8) ---
+        function toggleFound(element) {
+            element.classList.toggle('bg-green-100');
+            element.classList.toggle('border-green-400');
+            element.classList.toggle('border-slate-300');
+            
+            const span = element.querySelector('span');
+            if (element.classList.contains('bg-green-100')) {
+                if (!span.innerText.startsWith('✅')) {
+                    span.innerHTML = '✅ ' + span.innerHTML;
+                }
+            } else {
+                span.innerHTML = span.innerHTML.replace('✅ ', '');
+            }
+        }
+
+        // --- Quiz Logic (Slide 9) ---
+        const quizQuestions = [
+            { text: "Yesterday, I _____ a movie.", options: ["watch", "watched"], correct: 1, feedback: "It's a regular verb in the past, so we add -ed." },
+            { text: "He _____ to the supermarket yesterday.", options: ["went", "go"], correct: 0, feedback: "The past of 'go' is 'went' (Irregular verb)." },
+            { text: "I _____ eat pizza last night.", options: ["didn't", "wasn't"], correct: 0, feedback: "'Eat' is a normal verb, so it needs the helper 'didn't'." },
+            { text: "_____ they at the park yesterday?", options: ["Were", "Did"], correct: 0, feedback: "To ask about location or state (To Be), we use Was/Were, not Did." },
+            { text: "Which verb has an extra syllable (/id/) sound?", options: ["Played", "Wanted"], correct: 1, feedback: "'Want' ends in T, so 'wanted' is pronounced with an extra syllable (/id/)." }
+        ];
+        
+        let currentQuizQ = 0;
+        let quizScore = 0;
+        let isAnswering = false;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizQ];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizQ + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-score-text').innerText = `Score: ${quizScore}`;
+            
+            // Set question text
+            const parts = q.text.split('_____');
+            if(parts.length > 1) {
+                document.getElementById('quiz-question-text').innerHTML = `${parts[0]} <span id="quiz-blank" class="inline-block border-b-4 px-2 min-w-[100px] text-center border-slate-300 text-transparent">_____</span> ${parts[1] || ''}`;
+            } else {
+                document.getElementById('quiz-question-text').innerHTML = q.text; 
+            }
+            
+            // Build options dynamically
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = ''; // Clear previous
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.id = `quiz-btn-${index}`;
+                btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-white border-2 border-slate-200 hover:border-rose-400 hover:shadow-md text-slate-700 w-full";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // Hide feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('opacity-0');
+            feedback.classList.remove('animate-bounce', 'text-green-600', 'text-red-600');
+            
+            isAnswering = false;
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = quizQuestions[currentQuizQ];
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) quizScore++;
+            
+            // Fill in the blank (if there is one)
+            const blank = document.getElementById('quiz-blank');
+            if (blank) {
+                blank.innerText = q.options[selectedIndex];
+                blank.classList.remove('text-transparent', 'border-slate-300');
+                blank.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', isCorrect ? 'border-green-500' : 'border-red-500');
+            }
+            
+            // Update all buttons
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-btn-${idx}`);
+                if (idx === selectedIndex) {
+                    btn.className = isCorrect 
+                        ? "p-4 rounded-xl text-xl font-bold transition-all bg-green-500 text-white border-green-600 scale-105 shadow-lg w-full" 
+                        : "p-4 rounded-xl text-xl font-bold transition-all bg-red-500 text-white border-red-600 opacity-50 w-full";
+                } else {
+                    btn.className = "p-4 rounded-xl text-xl font-bold transition-all bg-slate-100 text-slate-400 opacity-50 w-full";
+                }
+            });
+
+            // Show feedback
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = isCorrect ? 'Correct! 🎉' : `Oops! ${q.feedback}`;
+            feedback.classList.remove('opacity-0');
+            feedback.classList.add('animate-bounce', isCorrect ? 'text-green-600' : 'text-red-600');
+
+            // Wait and go to next
+            setTimeout(() => {
+                if (currentQuizQ < quizQuestions.length - 1) {
+                    currentQuizQ++;
+                    loadQuizQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 3000); 
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-area').classList.add('hidden-slide');
+            document.getElementById('quiz-result-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('fade-in');
+            document.getElementById('final-score').innerText = quizScore;
+        }
+
+        function restartQuiz() {
+            currentQuizQ = 0;
+            quizScore = 0;
+            document.getElementById('quiz-active-area').classList.remove('hidden-slide');
+            document.getElementById('quiz-result-area').classList.add('hidden-slide');
+            
+            // Reset The Time Machine game
+            const ruleBoxes = document.querySelectorAll('.rule-box');
+            ruleBoxes.forEach(box => {
+                box.innerHTML = "Past: ???";
+                box.className = "bg-slate-200 text-slate-500 py-3 rounded text-center font-bold rule-box";
+            });
+
+            // Reset Find Someone Who
+            const fswCards = document.querySelectorAll('#slide-8 .cursor-pointer');
+            fswCards.forEach(card => {
+                card.classList.remove('bg-green-100', 'border-green-400');
+                card.classList.add('border-slate-300');
+                const span = card.querySelector('span');
+                span.innerHTML = span.innerHTML.replace('✅ ', '');
+            });
+
+            loadQuizQuestion();
+        }
+
+        // Initialize first slide and quiz
+        updateUI();
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>

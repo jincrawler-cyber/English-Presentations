@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar: Regular vs Irregular Verbs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; }
+        .slide { display: none; min-height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; }
+        .active-slide { display: flex; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Regular Styles */
+        .reg-box { background-color: #eff6ff; border-left: 6px solid #3b82f6; color: #1e40af; }
+        .reg-highlight { color: #2563eb; font-weight: bold; }
+        
+        /* Irregular Styles */
+        .irreg-box { background-color: #fff7ed; border-left: 6px solid #f97316; color: #9a3412; }
+        .irreg-highlight { color: #ea580c; font-weight: bold; }
+
+        .box { padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin: 10px 0; width: 100%; max-width: 800px; text-align: left; font-size: 1.5rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 1rem; shadow: lg; transition: transform 0.2s; cursor: pointer; border: 2px solid transparent; }
+        .card:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 relative">
+
+    <!-- NAVIGATION -->
+    <div class="fixed bottom-6 left-0 right-0 flex justify-center gap-4 z-20">
+        <button onclick="changeSlide(-1)" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition disabled:opacity-50" id="prevBtn" disabled>← Prev</button>
+        <p class="py-2 px-4 bg-white rounded-full shadow font-mono" id="slideCounter">1 / 7</p>
+        <button onclick="changeSlide(1)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition disabled:opacity-50" id="nextBtn">Next →</button>
+    </div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active-slide" id="slide1">
+        <h1 class="text-6xl font-bold text-slate-800 mb-4">The Past Simple</h1>
+        <h2 class="text-4xl text-slate-500 mb-8">Two Types of Verbs</h2>
+        <div class="flex gap-12 text-8xl">
+            <div class="flex flex-col items-center">
+                <span>🤖</span>
+                <span class="text-xl text-blue-600 font-bold mt-2">Regulars</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span>👾</span>
+                <span class="text-xl text-orange-600 font-bold mt-2">Irregulars</span>
+            </div>
+        </div>
+        <p class="mt-12 text-xl bg-white py-2 px-6 rounded-full shadow">Click "Next" to investigate.</p>
+    </div>
+
+    <!-- SLIDE 2: Observation Group A (Regulars) -->
+    <div class="slide" id="slide2">
+        <h2 class="text-4xl font-bold text-blue-600 mb-6">Group A: The Robots 🤖</h2>
+        <p class="text-xl mb-6">Look at these sentences about yesterday.</p>
+        
+        <div class="space-y-4 w-full max-w-3xl">
+            <div class="box reg-box">
+                1. I <span class="reg-highlight">played</span> football yesterday.
+            </div>
+            <div class="box reg-box">
+                2. She <span class="reg-highlight">cooked</span> dinner last night.
+            </div>
+            <div class="box reg-box">
+                3. We <span class="reg-highlight">watched</span> TV on Sunday.
+            </div>
+        </div>
+        <div class="mt-8 bg-white p-4 rounded-lg shadow cursor-pointer" onclick="document.getElementById('hint1').classList.remove('hidden')">
+            <p class="font-bold text-slate-600">❓ What do these words have in common?</p>
+            <p id="hint1" class="hidden text-blue-600 text-2xl font-bold mt-2">They all end in -ED!</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Observation Group B (Irregulars) -->
+    <div class="slide" id="slide3">
+        <h2 class="text-4xl font-bold text-orange-600 mb-6">Group B: The Rebels 👾</h2>
+        <p class="text-xl mb-6">Now look at these sentences.</p>
+        
+        <div class="space-y-4 w-full max-w-3xl">
+            <div class="box irreg-box">
+                1. I <span class="irreg-highlight">went</span> to the park. (Go)
+            </div>
+            <div class="box irreg-box">
+                2. He <span class="irreg-highlight">ate</span> a pizza. (Eat)
+            </div>
+            <div class="box irreg-box">
+                3. They <span class="irreg-highlight">saw</span> a movie. (See)
+            </div>
+        </div>
+        <div class="mt-8 bg-white p-4 rounded-lg shadow cursor-pointer" onclick="document.getElementById('hint2').classList.remove('hidden')">
+            <p class="font-bold text-slate-600">❓ Do they end in -ED?</p>
+            <p id="hint2" class="hidden text-orange-600 text-2xl font-bold mt-2">NO! They change completely.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: The Comparison -->
+    <div class="slide" id="slide4">
+        <h2 class="text-4xl font-bold mb-8">Let's Compare</h2>
+        <div class="grid grid-cols-2 gap-8 w-full max-w-4xl">
+            <!-- Regular Side -->
+            <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-200">
+                <h3 class="text-3xl font-bold text-blue-600 mb-4">Regulars 🤖</h3>
+                <p class="mb-4">They follow the rule.</p>
+                <div class="text-2xl bg-white p-4 rounded shadow mb-2">Play + <span class="text-blue-600 font-bold">ed</span></div>
+                <div class="text-2xl bg-white p-4 rounded shadow mb-2">Work + <span class="text-blue-600 font-bold">ed</span></div>
+                <div class="text-2xl bg-white p-4 rounded shadow">Visit + <span class="text-blue-600 font-bold">ed</span></div>
+            </div>
+
+            <!-- Irregular Side -->
+            <div class="bg-orange-50 p-6 rounded-xl border-2 border-orange-200">
+                <h3 class="text-3xl font-bold text-orange-600 mb-4">Irregulars 👾</h3>
+                <p class="mb-4">They are crazy! No rules.</p>
+                <div class="text-2xl bg-white p-4 rounded shadow mb-2">Go ➡️ <span class="text-orange-600 font-bold">Went</span></div>
+                <div class="text-2xl bg-white p-4 rounded shadow mb-2">Buy ➡️ <span class="text-orange-600 font-bold">Bought</span></div>
+                <div class="text-2xl bg-white p-4 rounded shadow">Have ➡️ <span class="text-orange-600 font-bold">Had</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Common Irregulars List -->
+    <div class="slide" id="slide5">
+        <h2 class="text-3xl font-bold text-orange-700 mb-6">Famous Irregular Verbs</h2>
+        <p class="mb-6">Memorize these champions!</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-4xl text-xl">
+            <div class="card text-center group">
+                <p class="text-slate-500 text-sm">Be</p>
+                <p class="font-bold text-orange-600 group-hover:scale-110 transition">Was / Were</p>
+            </div>
+            <div class="card text-center group">
+                <p class="text-slate-500 text-sm">Do</p>
+                <p class="font-bold text-orange-600 group-hover:scale-110 transition">Did</p>
+            </div>
+            <div class="card text-center group">
+                <p class="text-slate-500 text-sm">Get</p>
+                <p class="font-bold text-orange-600 group-hover:scale-110 transition">Got</p>
+            </div>
+            <div class="card text-center group">
+                <p class="text-slate-500 text-sm">Make</p>
+                <p class="font-bold text-orange-600 group-hover:scale-110 transition">Made</p>
+            </div>
+            <div class="card text-center group">
+                <p class="text-slate-500 text-sm">Come</p>
+                <p class="font-bold text-orange-600 group-hover:scale-110 transition">Came</p>
+            </div>
+            <div class="card text-center group">
+                <p class="text-slate-500 text-sm">Say</p>
+                <p class="font-bold text-orange-600 group-hover:scale-110 transition">Said</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Interactive Sorting Game -->
+    <div class="slide" id="slide6">
+        <h2 class="text-3xl font-bold mb-4">Robot or Rebel?</h2>
+        <p class="mb-8">Is the verb Regular (-ed) or Irregular (Changed)?</p>
+        
+        <div class="space-y-4 w-full max-w-2xl text-2xl">
+            <!-- Q1 -->
+            <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center">
+                <span>1. <strong>Walk</strong> (Yesterday I ____)</span>
+                <select class="border-2 border-slate-300 rounded p-1 text-slate-700 font-bold" onchange="checkAnswer(this, 'reg')">
+                    <option>?</option>
+                    <option value="reg">Walked (Regular 🤖)</option>
+                    <option value="irreg">Wolk (Irregular 👾)</option>
+                </select>
+            </div>
+            <!-- Q2 -->
+            <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center">
+                <span>2. <strong>Sleep</strong> (Yesterday I ____)</span>
+                <select class="border-2 border-slate-300 rounded p-1 text-slate-700 font-bold" onchange="checkAnswer(this, 'irreg')">
+                    <option>?</option>
+                    <option value="reg">Sleeped (Regular 🤖)</option>
+                    <option value="irreg">Slept (Irregular 👾)</option>
+                </select>
+            </div>
+            <!-- Q3 -->
+            <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center">
+                <span>3. <strong>Study</strong> (Yesterday I ____)</span>
+                <select class="border-2 border-slate-300 rounded p-1 text-slate-700 font-bold" onchange="checkAnswer(this, 'reg')">
+                    <option>?</option>
+                    <option value="reg">Studied (Regular 🤖)</option>
+                    <option value="irreg">Studore (Irregular 👾)</option>
+                </select>
+            </div>
+        </div>
+        <p id="feedback" class="mt-6 text-2xl font-bold h-8"></p>
+    </div>
+
+    <!-- SLIDE 7: Conclusion -->
+    <div class="slide" id="slide7">
+        <h1 class="text-5xl font-bold text-green-600 mb-6">Excellent Job!</h1>
+        <div class="text-left max-w-2xl bg-white p-8 rounded-xl shadow-xl text-xl">
+            <p class="mb-4">Remember:</p>
+            <ul class="list-disc pl-6 space-y-2">
+                <li><strong>Regulars:</strong> Easy! Just add <span class="text-blue-600 font-bold">-ed</span>.</li>
+                <li><strong>Irregulars:</strong> Tricky! You must memorize the change.</li>
+            </ul>
+        </div>
+        <button onclick="location.reload()" class="mt-12 bg-slate-800 text-white px-8 py-3 rounded-full hover:bg-slate-900 transition">Start Again</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 7;
+
+        function changeSlide(direction) {
+            document.getElementById('slide' + currentSlide).classList.remove('active-slide');
+            currentSlide += direction;
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            document.getElementById('slide' + currentSlide).classList.add('active-slide');
+            
+            document.getElementById('slideCounter').innerText = currentSlide + ' / ' + totalSlides;
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+        }
+
+        function checkAnswer(selectElement, correctAnswer) {
+            const feedback = document.getElementById('feedback');
+            if(selectElement.value === correctAnswer) {
+                selectElement.classList.add('bg-green-100', 'text-green-700');
+                selectElement.classList.remove('bg-red-100', 'text-red-700');
+                feedback.innerText = "Correct! 🎉";
+                feedback.className = "mt-6 text-2xl font-bold text-green-600";
+            } else if (selectElement.value !== '?') {
+                selectElement.classList.add('bg-red-100', 'text-red-700');
+                selectElement.classList.remove('bg-green-100', 'text-green-700');
+                feedback.innerText = "Try again... 😅";
+                feedback.className = "mt-6 text-2xl font-bold text-red-500";
+            }
+        }
+    </script>
+</body>
+</html>
