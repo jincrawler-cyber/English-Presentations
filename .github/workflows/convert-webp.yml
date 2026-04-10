@@ -4,6 +4,7 @@ on:
     paths:
       - '**.jpg'
       - '**.jpeg'
+      - '**.png'
   workflow_dispatch: # Permite ejecutarlo manualmente desde la pestaña Actions
 
 jobs:
