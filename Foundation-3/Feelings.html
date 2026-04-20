@@ -1,211 +1,345 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary: Opinions & Feelings (Updated)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Feelings & Adjectives</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; }
-        .slide { display: none; min-height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; }
-        .active-slide { display: flex; animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .highlight { color: #9333ea; font-weight: bold; }
-        .box { background-color: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin: 10px 0; width: 100%; transition: transform 0.2s; cursor: pointer; }
-        .box:hover { transform: scale(1.02); background-color: #fdf4ff; }
-        .emoji-large { font-size: 3.5rem; display: block; margin-bottom: 0.5rem; }
-        .word-reveal { font-weight: bold; color: #9333ea; font-size: 1.5rem; visibility: hidden; }
-        .revealed .word-reveal { visibility: visible; }
-        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; width: 100%; max-width: 800px; }
-        @media (min-width: 768px) { .grid-container { grid-template-columns: repeat(4, 1fr); } }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgba(30, 30, 30, 0.9); /* Fondo oscuro con transparencia */
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 10px;
+            border-bottom: 2px solid #555;
+        }
+
+        .logo {
+            height: 60px; /* Ajusta la altura de los logos */
+        }
+
+        h1 {
+            color: #4da3ff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #cccccc;
+            margin-top: -10px;
+            margin-bottom: 30px;
+        }
+
+        /* Estilo general del grid para las tarjetas */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+            gap: 20px; /* Espacio entre tarjetas */
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* Estilo de la tarjeta que permite el giro */
+        .card {
+            background-color: transparent;
+            width: 100%;
+            height: 200px; /* Altura de la tarjeta */
+            perspective: 1000px; /* Necesario para el efecto 3D */
+            cursor: pointer;
+        }
+
+        /* Contenedor interno para el frente y la parte trasera */
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        /* Clase que aplica el giro al hacer hover */
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Estilo común para el frente y el reverso */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Ocultar el reverso en Safari */
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #444;
+        }
+
+        /* Cara frontal (Emoji y Número) */
+        .card-front {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .card-front-content {
+            font-size: 6rem; /* Tamaño grande para el emoji */
+            margin: 0;
+        }
+
+        .card-number {
+            font-size: 1.2rem;
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+        }
+
+        /* Cara trasera (Palabra y Categoría) */
+        .card-back {
+            color: white;
+            transform: rotateY(180deg); /* Empieza girada */
+        }
+
+        .word {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .category {
+            font-size: 1.5rem;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* Colores para las categorías */
+        .pos { background-color: #28a745; color: white; } /* Positive (P) */
+        .neg { background-color: #dc3545; color: white; } /* Negative (N) */
+        .both { background-color: #ffc107; color: black; } /* Both (B) */
+
+        /* Colores traseros específicos */
+        .color-cool .card-back { background-color: #1a5276; }
+        .color-fun .card-back { background-color: #a569bd; }
+        .color-strange .card-back { background-color: #5d6d7e; }
+        .color-horrible .card-back { background-color: #2c3e50; }
+        .color-proud .card-back { background-color: #ca6f1e; }
+        .color-amazing .card-back { background-color: #e67e22; }
+        .color-dangerous .card-back { background-color: #922b21; }
+        .color-perfect .card-back { background-color: #1d8348; }
+        .color-loud .card-back { background-color: #f1c40f; color: black; }
+        .color-loud .card-back .word { color: black; }
+        .color-crazy .card-back { background-color: #633974; }
+        .color-tired .card-back { background-color: #a9cce3; color: black; }
+        .color-tired .card-back .word { color: black; }
+        .color-angry .card-back { background-color: #cb4335; }
+
+        footer {
+            margin-top: 50px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* Responsividad para pantallas más pequeñas */
+        @media (max-width: 900px) {
+            .card-container { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 700px) {
+            .card-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 500px) {
+            .card-container { grid-template-columns: 1fr; }
+        }
+
     </style>
 </head>
-<body class="bg-purple-50 text-slate-800">
+<body>
 
-    <!-- NAVIGATION -->
-    <div class="fixed bottom-6 left-0 right-0 flex justify-center gap-4 z-20">
-        <button onclick="changeSlide(-1)" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition disabled:opacity-50" id="prevBtn" disabled>← Prev</button>
-        <p class="py-2 px-4 bg-white rounded-full shadow font-mono" id="slideCounter">1 / 6</p>
-        <button onclick="changeSlide(1)" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition disabled:opacity-50" id="nextBtn">Next →</button>
-    </div>
+    <h1>Vocabulary: Feelings & Adjectives</h1>
+    <p class="subtitle">Inductive Learning: Match the emoji with the word!</p>
 
-    <!-- SLIDE 1: Intro -->
-    <div class="slide active-slide" id="slide1">
-        <h1 class="text-5xl font-bold text-purple-700 mb-4">New Vocabulary</h1>
-        <h2 class="text-3xl text-slate-600">Descriptions & Feelings</h2>
-        <div class="mt-8 grid grid-cols-6 gap-2 text-4xl">
-            <span>😎</span><span>🥳</span><span>👽</span><span>🤢</span><span>😌</span><span>🤩</span>
-            <span>⚠️</span><span>👌</span><span>📢</span><span>🤪</span><span>😩</span><span>😡</span>
-        </div>
-        <p class="mt-8 text-lg bg-white py-2 px-6 rounded-full shadow">Click "Next" to discover meanings.</p>
-    </div>
+    <div class="card-container">
 
-    <!-- SLIDE 2: The Positives (Good things) -->
-    <div class="slide" id="slide2">
-        <h2 class="text-3xl font-bold text-slate-500 mb-6">Group 1: Positive Vibes</h2>
-        <p class="mb-4 text-slate-400">(Click the cards to reveal)</p>
-        <div class="grid-container">
-            <!-- 1. Cool -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">😎</span>
-                <p class="text-sm text-slate-500">Stylish / Relaxed</p>
-                <p class="word-reveal">1. COOL</p>
-            </div>
-            <!-- 2. Fun -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">🥳</span>
-                <p class="text-sm text-slate-500">Enjoyable / Good time</p>
-                <p class="word-reveal">2. FUN</p>
-            </div>
-            <!-- 6. Amazing -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">🤩</span>
-                <p class="text-sm text-slate-500">Wow! / Very good</p>
-                <p class="word-reveal">6. AMAZING</p>
-            </div>
-            <!-- 8. Perfect -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">👌</span>
-                <p class="text-sm text-slate-500">100% Correct / Great</p>
-                <p class="word-reveal">8. PERFECT</p>
+        <div class="card color-cool">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">1</span>
+                    <p class="card-front-content">😎</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">cool</p>
+                    <span class="category pos">P</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- SLIDE 3: The Intense/Negative -->
-    <div class="slide" id="slide3">
-        <h2 class="text-3xl font-bold text-slate-500 mb-6">Group 2: Intense & Negative</h2>
-        <div class="grid-container">
-            <!-- 4. Horrible -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">🤢</span>
-                <p class="text-sm text-slate-500">Very bad / Disgusting</p>
-                <p class="word-reveal">4. HORRIBLE</p>
-            </div>
-            <!-- 7. Dangerous -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">⚠️</span>
-                <p class="text-sm text-slate-500">Not safe</p>
-                <p class="word-reveal">7. DANGEROUS</p>
-            </div>
-            <!-- 9. Loud -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">📢</span>
-                <p class="text-sm text-slate-500">Noisy / High volume</p>
-                <p class="word-reveal">9. LOUD</p>
-            </div>
-            <!-- 12. Angry -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">😡</span>
-                <p class="text-sm text-slate-500">Mad / Furious</p>
-                <p class="word-reveal">12. ANGRY</p>
+        <div class="card color-fun">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">2</span>
+                    <p class="card-front-content">😁</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">fun</p>
+                    <span class="category pos">P</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- SLIDE 4: Feelings & States -->
-    <div class="slide" id="slide4">
-        <h2 class="text-3xl font-bold text-slate-500 mb-6">Group 3: Feelings & States</h2>
-        <div class="grid-container">
-            <!-- 3. Strange -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">👽</span>
-                <p class="text-sm text-slate-500">Weird / Unusual</p>
-                <p class="word-reveal">3. STRANGE</p>
-            </div>
-            <!-- 5. Proud -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">😌</span>
-                <p class="text-sm text-slate-500">Satisfied with self</p>
-                <p class="word-reveal">5. PROUD</p>
-            </div>
-            <!-- 10. Crazy -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">🤪</span>
-                <p class="text-sm text-slate-500">Silly / Wild</p>
-                <p class="word-reveal">10. CRAZY</p>
-            </div>
-            <!-- 11. Tired -->
-            <div class="box" onclick="this.classList.toggle('revealed')">
-                <span class="emoji-large">😩</span>
-                <p class="text-sm text-slate-500">Need sleep / Exhausted</p>
-                <p class="word-reveal">11. TIRED</p>
+        <div class="card color-strange">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">3</span>
+                    <p class="card-front-content">👽</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">strange</p>
+                    <span class="category both">B</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- SLIDE 5: Full List Review -->
-    <div class="slide" id="slide5">
-        <h2 class="text-3xl font-bold mb-4 text-purple-800">Summary List</h2>
-        <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-4xl">
-            <div class="grid grid-cols-3 md:grid-cols-4 gap-4 text-left text-lg">
-                <div class="font-bold text-purple-700">1. Cool 😎</div>
-                <div class="font-bold text-purple-700">2. Fun 🥳</div>
-                <div class="font-bold text-purple-700">3. Strange 👽</div>
-                <div class="font-bold text-purple-700">4. Horrible 🤢</div>
-                <div class="font-bold text-purple-700">5. Proud 😌</div>
-                <div class="font-bold text-purple-700">6. Amazing 🤩</div>
-                <div class="font-bold text-purple-700">7. Dangerous ⚠️</div>
-                <div class="font-bold text-purple-700">8. Perfect 👌</div>
-                <div class="font-bold text-purple-700">9. Loud 📢</div>
-                <div class="font-bold text-purple-700">10. Crazy 🤪</div>
-                <div class="font-bold text-purple-700">11. Tired 😩</div>
-                <div class="font-bold text-purple-700">12. Angry 😡</div>
+        <div class="card color-horrible">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">4</span>
+                    <p class="card-front-content">😣</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">horrible</p>
+                    <span class="category neg">N</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- SLIDE 6: Practice -->
-    <div class="slide" id="slide6">
-        <h2 class="text-3xl font-bold mb-6">Let's Practice!</h2>
-        <div class="space-y-3 w-full max-w-2xl text-xl">
-            <!-- Q1 -->
-            <div class="bg-white p-3 rounded shadow flex justify-between items-center">
-                <span>1. I got an A+ on my exam! I feel... 😌</span>
-                <select class="border-2 border-purple-300 rounded text-purple-700 font-bold">
-                    <option>?</option><option>Horrible</option><option>Proud</option><option>Angry</option>
-                </select>
-            </div>
-            <!-- Q2 -->
-            <div class="bg-white p-3 rounded shadow flex justify-between items-center">
-                <span>2. The party was great. It was... 🥳</span>
-                <select class="border-2 border-purple-300 rounded text-purple-700 font-bold">
-                    <option>?</option><option>Tired</option><option>Fun</option><option>Dangerous</option>
-                </select>
-            </div>
-            <!-- Q3 -->
-            <div class="bg-white p-3 rounded shadow flex justify-between items-center">
-                <span>3. Look at that view! It is... 🤩</span>
-                <select class="border-2 border-purple-300 rounded text-purple-700 font-bold">
-                    <option>?</option><option>Amazing</option><option>Strange</option><option>Loud</option>
-                </select>
-            </div>
-            <!-- Q4 -->
-            <div class="bg-white p-3 rounded shadow flex justify-between items-center">
-                <span>4. This food tastes bad. It is... 🤢</span>
-                <select class="border-2 border-purple-300 rounded text-purple-700 font-bold">
-                    <option>?</option><option>Perfect</option><option>Cool</option><option>Horrible</option>
-                </select>
+        <div class="card color-proud">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">5</span>
+                    <p class="card-front-content">😌</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">proud</p>
+                    <span class="category pos">P</span>
+                </div>
             </div>
         </div>
-        <p class="mt-6 text-purple-600 font-bold">Excellent Work!</p>
+
+        <div class="card color-amazing">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">6</span>
+                    <p class="card-front-content">😅</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">amazing</p>
+                    <span class="category pos">P</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card color-dangerous">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">7</span>
+                    <p class="card-front-content">⚠️</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">dangerous</p>
+                    <span class="category neg">N</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card color-perfect">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">8</span>
+                    <p class="card-front-content">😇</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">perfect</p>
+                    <span class="category pos">P</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card color-loud">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">9</span>
+                    <p class="card-front-content">📢</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">loud</p>
+                    <span class="category both">B</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card color-crazy">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">10</span>
+                    <p class="card-front-content">🤕</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">crazy</p>
+                    <span class="category both">B</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card color-tired">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">11</span>
+                    <p class="card-front-content">😫</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">tired</p>
+                    <span class="category neg">N</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card color-angry">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="card-number">12</span>
+                    <p class="card-front-content">😡</p>
+                </div>
+                <div class="card-back">
+                    <p class="word">angry</p>
+                    <span class="category neg">N</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        let currentSlide = 1;
-        const totalSlides = 6;
+    <footer>
+        English Class Materials - Inductive Vocabulary Activity
+    </footer>
 
-        function changeSlide(direction) {
-            document.getElementById('slide' + currentSlide).classList.remove('active-slide');
-            currentSlide += direction;
-            if (currentSlide < 1) currentSlide = 1;
-            if (currentSlide > totalSlides) currentSlide = totalSlides;
-            document.getElementById('slide' + currentSlide).classList.add('active-slide');
-            
-            document.getElementById('slideCounter').innerText = currentSlide + ' / ' + totalSlides;
-            document.getElementById('prevBtn').disabled = (currentSlide === 1);
-            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
-        }
-    </script>
 </body>
 </html>
