@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Simple vs Past Continuous</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; }
+        .slide { display: none; min-height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; }
+        .active-slide { display: flex; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Past Simple Styles (Red - Short Action) */
+        .simple { color: #dc2626; font-weight: bold; }
+        .simple-bg { background-color: #fee2e2; border-left: 6px solid #ef4444; }
+        
+        /* Past Continuous Styles (Green - Long Action) */
+        .cont { color: #059669; font-weight: bold; }
+        .cont-bg { background-color: #d1fae5; border-left: 6px solid #10b981; }
+
+        .box { padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin: 10px 0; width: 100%; max-width: 800px; text-align: left; font-size: 1.5rem; }
+        .highlight-word { font-weight: 700; }
+        .connector { font-style: italic; font-weight: 600; color: #78350f; /* Brown */ }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 relative">
+
+    <!-- NAVIGATION -->
+    <div class="fixed bottom-6 left-0 right-0 flex justify-center gap-4 z-20">
+        <button onclick="changeSlide(-1)" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition disabled:opacity-50" id="prevBtn" disabled>← Prev</button>
+        <p class="py-2 px-4 bg-white rounded-full shadow font-mono" id="slideCounter">1 / 8</p>
+        <button onclick="changeSlide(1)" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition disabled:opacity-50" id="nextBtn">Next →</button>
+    </div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active-slide" id="slide1">
+        <h1 class="text-6xl font-bold text-slate-800 mb-4">Past Tense Story</h1>
+        <h2 class="text-4xl text-slate-500 mb-8">Simple vs Continuous</h2>
+        <div class="flex gap-12 text-8xl">
+            <span class="text-red-500">🔴</span>
+            <span class="text-green-500">🟢</span>
+        </div>
+        <p class="mt-12 text-xl bg-white py-2 px-6 rounded-full shadow">Click "Next" to read the story.</p>
+    </div>
+
+    <!-- SLIDE 2: Contextual Observation -->
+    <div class="slide" id="slide2">
+        <h2 class="text-4xl font-bold mb-6">Read the action!</h2>
+        <p class="text-xl mb-6">What was happening? What interrupted it?</p>
+        
+        <div class="space-y-4 w-full max-w-3xl">
+            <div class="box cont-bg">
+                <span class="cont">I was watching</span> a movie... (Long action 🟢)
+            </div>
+            <div class="box simple-bg">
+                ...when the phone <span class="simple">rang</span>. (Short action 🔴)
+            </div>
+            <div class="box cont-bg">
+                <span class="cont">She was driving</span> fast... (Long action 🟢)
+            </div>
+            <div class="box simple-bg">
+                ...when she <span class="simple">saw</span> an accident. (Short action 🔴)
+            </div>
+        </div>
+        <div class="mt-8 bg-white p-4 rounded-lg shadow">
+            <p class="font-bold text-slate-600">Observation: There are two types of actions!</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Grammar Focus - Past Continuous -->
+    <div class="slide" id="slide3">
+        <h2 class="text-4xl font-bold text-green-600 mb-8">🟢 The Past Continuous (The Background)</h2>
+        <div class="box cont-bg text-left text-2xl">
+            <p class="mb-4"><span class="highlight-word">Usage:</span> For <span class="cont">long actions</span>, or actions that were <span class="cont">in progress</span> at a specific time in the past.</p>
+            <p class="mb-4"><span class="highlight-word">Example:</span> At 8:00 PM yesterday, <span class="cont">I was eating</span> dinner.</p>
+            <p><span class="highlight-word">Grammar:</span> <span class="cont">WAS / WERE</span> + <span class="cont">Verb + ING</span></p>
+            <ul class="text-lg list-disc pl-6 mt-2">
+                <li>I / He / She / It + <span class="cont">was sleeping</span></li>
+                <li>You / We / They + <span class="cont">were working</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Grammar Focus - Past Simple -->
+    <div class="slide" id="slide4">
+        <h2 class="text-4xl font-bold text-red-600 mb-8">🔴 The Past Simple (The Interruption)</h2>
+        <div class="box simple-bg text-left text-2xl">
+            <p class="mb-4"><span class="highlight-word">Usage:</span> For <span class="simple">short actions</span>, or actions that are <span class="simple">complete</span>.</p>
+            <p class="mb-4"><span class="highlight-word">Example:</span> The phone <span class="simple">rang</span>.</p>
+            <p><span class="highlight-word">Grammar:</span> <span class="simple">Verb in Past Form</span></p>
+            <ul class="text-lg list-disc pl-6 mt-2">
+                <li>Regular: <span class="simple">Talked, Played, Started</span> (+ed)</li>
+                <li>Irregular: <span class="simple">Went, Came, Saw</span> (Change)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Connector WHEN -->
+    <div class="slide" id="slide5">
+        <h2 class="text-4xl font-bold mb-6">The Connector: <span class="connector">WHEN</span></h2>
+        <p class="text-xl mb-8">It connects a long action to a short, interrupting action.</p>
+        
+        <div class="box bg-amber-50 text-left text-2xl border-l-6 border-amber-500">
+            <p class="mb-4"><span class="connector">WHEN</span> is always followed by the <span class="simple">Past Simple</span> (the short action).</p>
+            <p class="mb-4">I <span class="cont">was studying</span> <span class="connector">WHEN</span> the fire alarm <span class="simple">went off</span>.</p>
+            <p>She <span class="simple">woke up</span> <span class="connector">WHEN</span> the dog <span class="cont">was barking</span>.</p>
+            <p class="text-sm italic mt-4 text-slate-500">Simple + WHEN + Continuous is possible, but less common!</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Connector WHILE -->
+    <div class="slide" id="slide6">
+        <h2 class="text-4xl font-bold mb-6">The Connector: <span class="connector">WHILE</span></h2>
+        <p class="text-xl mb-8">It connects two long actions happening at the same time (parallel actions).</p>
+        
+        <div class="box bg-amber-50 text-left text-2xl border-l-6 border-amber-500">
+            <p class="mb-4"><span class="connector">WHILE</span> is always followed by the <span class="cont">Past Continuous</span> (the long action).</p>
+            <p class="mb-4"><span class="connector">WHILE</span> <span class="cont">I was cooking</span>, my brother <span class="cont">was sleeping</span>.</p>
+            <p>They <span class="cont">were driving</span> <span class="connector">WHILE</span> <span class="cont">it was raining</span>.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Practice 1 - Identification -->
+    <div class="slide" id="slide7">
+        <h2 class="text-3xl font-bold mb-4">Practice: What happened?</h2>
+        <p class="mb-8">Choose the correct tense (Simple 🔴 or Continuous 🟢).</p>
+        
+        <div class="space-y-4 w-full max-w-3xl text-xl">
+            <!-- Q1: Interruption -->
+            <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center">
+                <span>1. <span class="cont">He was watching</span> TV <span class="connector">when</span> his sister <span class="simple">____</span> (arrive).</span>
+                <select class="border-2 border-slate-300 rounded p-1 font-bold text-red-600">
+                    <option>?</option>
+                    <option>was arriving</option>
+                    <option>arrived</option>
+                </select>
+            </div>
+            <!-- Q2: Parallel -->
+            <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center">
+                <span>2. <span class="connector">While</span> <span class="cont">I was studying</span>, my phone <span class="cont">____</span> (ring) many times.</span>
+                <select class="border-2 border-slate-300 rounded p-1 font-bold text-red-600">
+                    <option>?</option>
+                    <option>was ringing</option>
+                    <option>rang</option>
+                </select>
+            </div>
+            <!-- Q3: Interruption -->
+            <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center">
+                <span>3. It <span class="simple">____</span> (start) to rain <span class="connector">when</span> <span class="cont">they were walking</span>.</span>
+                <select class="border-2 border-slate-300 rounded p-1 font-bold text-red-600">
+                    <option>?</option>
+                    <option>was starting</option>
+                    <option>started</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Conclusion -->
+    <div class="slide" id="slide8">
+        <h1 class="text-5xl font-bold text-blue-600 mb-6">Key Rule Summary</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+            <div class="p-6 rounded-xl shadow-xl simple-bg">
+                <h3 class="text-3xl font-bold simple mb-2">Past Simple 🔴</h3>
+                <p class="text-lg">Short action. Interrupts. Completed.</p>
+                <p class="text-sm mt-3">Used after: <span class="connector">WHEN</span></p>
+            </div>
+            <div class="p-6 rounded-xl shadow-xl cont-bg">
+                <h3 class="text-3xl font-bold cont mb-2">Past Continuous 🟢</h3>
+                <p class="text-lg">Long action. Background. In progress.</p>
+                <p class="text-sm mt-3">Used after: <span class="connector">WHILE</span></p>
+            </div>
+        </div>
+        <p class="mt-8 text-2xl font-bold text-slate-700">Practice this at home! Good job! 👏</p>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function changeSlide(direction) {
+            document.getElementById('slide' + currentSlide).classList.remove('active-slide');
+            currentSlide += direction;
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            document.getElementById('slide' + currentSlide).classList.add('active-slide');
+            
+            document.getElementById('slideCounter').innerText = currentSlide + ' / ' + totalSlides;
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+        }
+    </script>
+</body>
+</html>

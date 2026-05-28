@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditionals 0 & 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+/* CORE SETUP (Same style as previous) */
+* { box-sizing: border-box; }
+
+body {
+    background-color: #f0f4f8;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden; 
+}
+
+/* SLIDE CONTAINER */
+.slide-container {
+    background-color: #fff9f0;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.05);
+    display: none;
+    flex-direction: column;
+    height: 720px;
+    width: 1280px;
+    max-width: 95vw;
+    max-height: 85vh; 
+    padding: 40px 50px;
+    position: relative;
+    border: 8px solid #FFD166;
+    animation: fadeIn 0.5s ease-in-out;
+    overflow-y: auto;
+}
+
+.slide-container.active { display: flex; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* TYPOGRAPHY */
+h1, h2, h3 { font-family: 'Comfortaa', cursive; color: #073B4C; margin: 0; }
+h1 { font-size: clamp(40px, 5vw, 80px); line-height: 1.1; }
+h2 { font-size: clamp(30px, 4vw, 52px); margin-bottom: 20px; color: #118AB2; }
+h3 { font-size: clamp(24px, 3vw, 36px); color: #EF476F; margin-bottom: 15px; }
+
+p, li, td, th {
+    font-size: clamp(18px, 2vw, 24px);
+    color: #4A4E69;
+    line-height: 1.5;
+}
+
+.slide-title {
+    width: 100%;
+    text-align: left;
+    padding-bottom: 15px;
+    border-bottom: 3px dashed #FFD166;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+/* LAYOUTS */
+.content-area {
+    display: flex; flex-direction: column; flex-grow: 1;
+    justify-content: center; width: 100%; height: 100%;
+}
+
+.two-column {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+    width: 100%; height: 100%; align-items: center;
+}
+
+.two-column-card {
+    background: white; border-radius: 15px; padding: 20px;
+    text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    height: 100%; display: flex; flex-direction: column; justify-content: flex-start;
+}
+
+.image-wrapper {
+    width: 100%; border-radius: 12px; overflow: hidden;
+    position: relative; background: #e9ecef; display: flex;
+    align-items: center; justify-content: center;
+    height: 250px; flex-shrink: 0; margin-bottom: 15px;
+}
+.image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+/* BADGES */
+.badge {
+    padding: 8px 15px; border-radius: 50px; color: white; font-weight: bold; font-size: 0.9em; display: inline-block; margin-bottom: 10px;
+}
+.badge-zero { background: #06D6A0; color: #073B4C; } /* Green - Fact */
+.badge-first { background: #118AB2; color: #fff; } /* Blue - Future */
+
+/* INDUCTIVE BOX */
+.inductive-box {
+    background-color: #073B4C; color: white; padding: 20px;
+    border-radius: 15px; margin-top: 20px; text-align: center;
+}
+.inductive-box p { color: #fff; margin: 0; font-weight: bold; font-size: 1.2em; }
+
+/* REVEAL BUTTON (For Inductive Method) */
+.reveal-btn {
+    background: #EF476F; color: white; border: none; padding: 10px 20px;
+    border-radius: 10px; font-family: 'Comfortaa', cursive; cursor: pointer;
+    font-size: 18px; margin-top: 10px;
+}
+.hidden-answer { display: none; animation: fadeIn 0.5s; }
+
+/* QUIZ */
+.quiz-options {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;
+}
+.quiz-btn {
+    background: #118AB2; color: white; padding: 15px;
+    border-radius: 10px; font-size: 20px; text-align: center;
+    font-family: 'Comfortaa', cursive; border: none; cursor: pointer; width: 100%;
+}
+.quiz-btn:active { transform: scale(0.98); }
+
+/* SUMMARY TABLE */
+table {
+    width: 100%; border-collapse: collapse; background: white;
+    border-radius: 10px; overflow: hidden; font-size: 20px;
+}
+th { background: #073B4C; color: white; padding: 15px; }
+td { padding: 15px; border-bottom: 1px solid #eee; text-align: center; vertical-align: middle; }
+
+/* CONTROLS */
+.controls-container {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 90px;
+    display: flex; justify-content: center; align-items: center;
+    pointer-events: none; z-index: 100;
+}
+.controls { display: flex; gap: 20px; pointer-events: auto; }
+.nav-btn {
+    background: #073B4C; color: white; border: none; padding: 15px 30px;
+    border-radius: 50px; font-family: 'Comfortaa', cursive; font-size: 20px;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s; display: flex; align-items: center; gap: 10px;
+}
+.nav-btn:hover { transform: scale(1.05); background: #118AB2; }
+.nav-btn:disabled { background: #ccc; cursor: not-allowed; opacity: 0.6; transform: none; }
+.slide-indicator {
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,0.9); padding: 5px 15px; border-radius: 20px;
+    font-weight: bold; color: #073B4C; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .two-column { grid-template-columns: 1fr; }
+    .slide-container { height: auto; padding: 20px; }
+    .image-wrapper { height: 180px; }
+}
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide-container active" id="slide1">
+    <div class="content-area title-slide-layout" style="text-align:center;">
+        <h1>Conditionals</h1>
+        <h2 style="color: #EF476F;">Zero (0) & First (1)</h2>
+        <div style="margin-top: 30px;">
+            <p><span class="badge badge-zero">Facts (Science)</span> vs <span class="badge badge-first">Possibility (Future)</span></p>
+        </div>
+        <div class="image-wrapper" style="height: 300px; margin-top: 20px;">
+            <img src="https://images.unsplash.com/photo-1504595403659-9088ce801e29?q=80&w=1200&auto=format&fit=crop" 
+                 alt="Choice paths"
+                 onerror="this.src='https://placehold.co/800x400?text=If+This...+Then+That'">
+        </div>
+    </div>
+</div>
+
+<!-- Slide 2: Inductive Example 1 (Zero) -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">Observe Situation #1</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper">
+                <img src="https://www.sciencing.com/sciencing/ice-cubes-melting-process-5415212/be7b04f8385c4adfa1b458a1987ce567.jpg" 
+                     alt="Ice Melting"
+                     onerror="this.src='https://placehold.co/600x400?text=Ice+Melting'">
+            </div>
+            <div>
+                <h3>"If you heat ice..."</h3>
+                <button class="reveal-btn" onclick="reveal(this)">What happens?</button>
+                <div class="hidden-answer" style="margin-top: 20px;">
+                    <p style="font-size: 30px; color: #073B4C;">"...it melts."</p>
+                    <hr>
+                    <p><strong>Question:</strong> Is this just today? Or always?</p>
+                    <p class="badge badge-zero">ALWAYS TRUE (FACT)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: Zero Conditional Rule -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Zero Conditional (0)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="two-column-card" style="border-top: 5px solid #06D6A0;">
+                <span class="badge badge-zero">THE RULES (FACTS)</span>
+                <h3>Structure</h3>
+                <p style="font-size: 24px; margin: 20px 0;"><strong>IF + Present Simple, ... Present Simple</strong></p>
+                <p style="color: #4A4E69;">If you <strong>mix</strong> red and blue, you <strong>get</strong> purple.</p>
+            </div>
+            <div class="two-column-card">
+                <h3>When to use it?</h3>
+                <ul style="text-align: left;">
+                    <li>Scientific facts</li>
+                    <li>General truths</li>
+                    <li>Rules / Instructions</li>
+                    <li>"When" can often replace "If"</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Inductive Example 2 (First) -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Observe Situation #2</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1428592953211-077101b2021b?q=80&w=600&auto=format&fit=crop" 
+                     alt="Rainy Cloud"
+                     onerror="this.src='https://placehold.co/600x400?text=Rainy+Cloud'">
+            </div>
+            <div>
+                <h3>"If it rains tomorrow..."</h3>
+                <button class="reveal-btn" onclick="reveal(this)">What will happen?</button>
+                <div class="hidden-answer" style="margin-top: 20px;">
+                    <p style="font-size: 30px; color: #073B4C;">"...I will stay home."</p>
+                    <hr>
+                    <p><strong>Question:</strong> Is this a scientific fact? Or a future plan?</p>
+                    <p class="badge badge-first">POSSIBLE FUTURE</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: First Conditional Rule -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">First Conditional (1)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="two-column-card" style="border-top: 5px solid #118AB2;">
+                <span class="badge badge-first">REAL POSSIBILITY</span>
+                <h3>Structure</h3>
+                <p style="font-size: 24px; margin: 20px 0;"><strong>IF + Present Simple, ... WILL + Verb</strong></p>
+                <p style="color: #4A4E69;">If I <strong>study</strong> hard, I <strong>will pass</strong> the exam.</p>
+            </div>
+            <div class="two-column-card">
+                <h3>When to use it?</h3>
+                <ul style="text-align: left;">
+                    <li>Future plans</li>
+                    <li>Promises</li>
+                    <li>Predictions</li>
+                    <li>Warnings</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Comparison -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">0 vs 1: The Difference</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <!-- Zero -->
+            <div class="two-column-card">
+                <span class="badge badge-zero">ZERO</span>
+                <p><strong>If I drink coffee...</strong></p>
+                <p style="font-size: 26px; color: #06D6A0;">"...I can't sleep."</p>
+                <p style="font-size: 0.8em;">(This is a biological fact for me. Always.)</p>
+            </div>
+            <!-- First -->
+            <div class="two-column-card">
+                <span class="badge badge-first">FIRST</span>
+                <p><strong>If I drink coffee tonight...</strong></p>
+                <p style="font-size: 26px; color: #118AB2;">"...I will finish the report."</p>
+                <p style="font-size: 0.8em;">(This is a specific plan for tonight.)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Quiz 1 -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Quiz: Fact or Future?</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1472120435266-53107fd0c44a?q=80&w=600&auto=format&fit=crop" 
+                     alt="Sun Setting"
+                     onerror="this.src='https://placehold.co/600x400?text=Sun'">
+            </div>
+            <div>
+                <h3>"If the sun sets, it ______ dark."</h3>
+                <p>Is this a general truth?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! It is a natural fact (Zero Conditional).')">gets (0)</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, false, 'Think again. Does this happen only once, or always?')">will get (1)</button>
+                </div>
+                <p class="feedback" style="margin-top:20px; font-weight:bold; min-height: 30px;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Quiz 2 -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Quiz: Fact or Future?</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=600&auto=format&fit=crop" 
+                     alt="Piggy Bank"
+                     onerror="this.src='https://placehold.co/600x400?text=Savings'">
+            </div>
+            <div>
+                <h3>"If I don't save money, I ______ buy a car next year."</h3>
+                <p>Is this a specific future situation?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(this, false, 'Usually we use Will/Won\'t for future specific plans.')">don't buy (0)</button>
+                    <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! It refers to next year (First Conditional).')">won't buy (1)</button>
+                </div>
+                <p class="feedback" style="margin-top:20px; font-weight:bold; min-height: 30px;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: Summary Table -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">Summary</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Use</th>
+                    <th>Structure</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge badge-zero">ZERO</span></td>
+                    <td>Facts, General Truths</td>
+                    <td>If + Present, <strong>Present</strong></td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-first">FIRST</span></td>
+                    <td>Future Possibility</td>
+                    <td>If + Present, <strong>Will + Verb</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- NAVIGATION UI -->
+<div class="slide-indicator">Slide <span id="currentSlideNum">1</span> / 9</div>
+<div class="controls-container">
+    <div class="controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+            <i class="fa-solid fa-arrow-left"></i> Previous
+        </button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+            Next <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide-container');
+    const totalSlides = slides.length;
+    const slideIndicator = document.getElementById('currentSlideNum');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateUI() {
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[currentSlide].classList.add('active');
+        slideIndicator.innerText = currentSlide + 1;
+        
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === totalSlides - 1;
+
+        if(currentSlide === totalSlides - 1) {
+            nextBtn.innerHTML = 'Finish <i class="fa-solid fa-check"></i>';
+        } else {
+            nextBtn.innerHTML = 'Next <i class="fa-solid fa-arrow-right"></i>';
+        }
+    }
+
+    function changeSlide(direction) {
+        currentSlide += direction;
+        if (currentSlide < 0) currentSlide = 0;
+        if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+        updateUI();
+    }
+
+    function reveal(btn) {
+        const answer = btn.nextElementSibling;
+        answer.style.display = 'block';
+        btn.style.display = 'none';
+    }
+
+    function checkAnswer(btn, isCorrect, msg) {
+        // Reset buttons in this container
+        const container = btn.parentElement;
+        const feedback = container.nextElementSibling;
+        const allBtns = container.querySelectorAll('.quiz-btn');
+        
+        allBtns.forEach(b => {
+            b.style.background = '#118AB2';
+            b.style.opacity = '0.5';
+        });
+
+        btn.style.opacity = '1';
+        
+        if (isCorrect) {
+            btn.style.background = '#06D6A0';
+            btn.style.color = '#073B4C';
+            feedback.style.color = '#06D6A0';
+        } else {
+            btn.style.background = '#EF476F';
+            feedback.style.color = '#EF476F';
+        }
+        feedback.innerText = msg;
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') changeSlide(1);
+        if (e.key === 'ArrowLeft') changeSlide(-1);
+    });
+
+    updateUI();
+</script>
+
+</body>
+</html>

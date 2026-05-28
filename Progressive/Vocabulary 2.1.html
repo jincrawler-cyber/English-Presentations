@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards - Opposites</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light gray-blue background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .flashcard {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+            min-height: 250px; /* Ensure consistent card height */
+            position: relative;
+            perspective: 1000px; /* For 3D flip effect */
+        }
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .flashcard-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backface-visibility: hidden;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            box-sizing: border-box;
+            border-radius: 12px; /* Apply border-radius to front/back as well */
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        .flashcard h2 {
+            font-size: 1.75rem; /* Smaller text size */
+            font-weight: 700; /* font-bold */
+            color: #334155; /* slate-700 */
+            margin-bottom: 16px;
+        }
+        .flashcard p {
+            font-size: 1.25rem; /* text-xl */
+            color: #475569; /* slate-600 */
+            margin-bottom: 20px;
+            line-height: 1.4; /* Improve readability for multiple lines */
+        }
+        .flashcard img {
+            max-width: 90%;
+            max-height: 120px; /* Limit image height */
+            object-fit: contain;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #e2e8f0; /* light border for images */
+            display: block; /* Important for margin: auto to work */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .button-group {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .action-button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .action-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        .action-button.reset {
+            background-color: #ef4444; /* Red */
+        }
+        .action-button.reset:hover {
+            background-color: #dc2626;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .flashcard {
+                min-height: 220px;
+                padding: 20px;
+            }
+            .flashcard h2 {
+                font-size: 1.5rem; /* Adjusted for smaller screens */
+            }
+            .flashcard p {
+                font-size: 1rem; /* text-lg */
+            }
+            .flashcard img {
+                max-height: 100px;
+            }
+            .action-button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+            .flashcard {
+                min-height: 200px;
+                padding: 15px;
+            }
+            .flashcard h2 {
+                font-size: 1.25rem; /* Adjusted for smallest screens */
+            }
+            .flashcard p {
+                font-size: 0.9rem;
+            }
+            .flashcard img {
+                max-height: 80px;
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flex flex-col items-center">
+        <div class="flashcard-container">
+            <!-- Pairing 1: Brand New & Used -->
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Brand New</h2>
+                        <img id="image-brand-new" class="mx-auto" src="https://cdn.sanity.io/images/bl383u0v/production/bce5125e59b5bb714ad6e9e06535b7aaa364c5b4-530x299.gif" alt="Imagen de algo nuevo a estrenar" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Completely new; never used.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Used</h2>
+                        <img id="image-used" class="mx-auto" src="https://5.imimg.com/data5/SELLER/Default/2021/12/IC/LY/RE/27109059/used-apple-iphone-6s-64gb-refurb-500x500.jpg" alt="Imagen de algo usado" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Having been used before; not new.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pairing 2: In Good Condition & Damaged -->
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>In Good Condition</h2>
+                        <img id="image-good-condition" class="mx-auto" src="https://i0.wp.com/www.shelllouise.co.uk/wp-content/uploads/2019/09/house-1158139_1920-1.jpg?resize=960%2C638&ssl=1" alt="Imagen de algo en buenas condiciones" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Not damaged or showing signs of heavy wear.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Damaged</h2>
+                        <img id="image-damaged" class="mx-auto" src="https://image-cdn.carrot.com/uploads/sites/42864/2022/11/Selling-a-House-with-Fire-Damage-in-Texas.jpg" alt="Imagen de algo dañado" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Harmed or impaired in a way that reduces value or functionality.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pairing 3: Plain & Fancy -->
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Plain</h2>
+                        <img id="image-plain" class="mx-auto" src="https://www.designboom.com/wp-content/uploads/2017/06/studio-loop-voice-house-japan-designboom-02-818x545.jpg" alt="Imagen de algo sencillo" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Without patterns or decoration; simple.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Fancy</h2>
+                        <img id="image-fancy" class="mx-auto" src="https://i.pinimg.com/736x/30/42/d0/3042d03929a5c4e924dffcd049a6867b.jpg" alt="Imagen de algo elegante" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Elaborate in structure or decoration; luxurious.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pairing 4: Outdated & Modern -->
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Outdated</h2>
+                        <img id="image-outdated" class="mx-auto" src="https://img-cdn.tnwcdn.com/image?fit=1280%2C720&url=https%3A%2F%2Fcdn0.tnwcdn.com%2Fwp-content%2Fblogs.dir%2F1%2Ffiles%2F2017%2F02%2Fnokia3310-1.png&signature=a909fe4e584036b2a311ed9bff9dc0b0" alt="Imagen de algo anticuado" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>No longer modern or current; old-fashioned.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Modern</h2>
+                        <img id="image-modern" class="mx-auto" src="https://i.pcmag.com/imagery/reviews/031JYZj5cx6S4NRJqjzOMYC-1.fit_lim.size_919x518.v1721322815.jpg" alt="Imagen de algo moderno" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Relating to the present or recent times as opposed to the remote past.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pairing 5: Special & Common -->
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Special</h2>
+                        <img id="image-special" class="mx-auto" src="https://m.media-amazon.com/images/I/61D1wOummmL.jpg" alt="Imagen de algo especial" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Better, greater, or otherwise different from what is usual.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Common</h2>
+                        <img id="image-common" class="mx-auto" src="https://i5.walmartimages.com/seo/PlayStation-5-Console_b29e7500-cac2-4d1f-b4aa-5e0ebb3de124.c0b04249d968e2c1e5d25799b96ee0e3.jpeg" alt="Imagen de algo común" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Occurring, found, or done often; prevalent.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pairing 6: Useless & Useful -->
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Useless</h2>
+                        <img id="image-useless" class="mx-auto" src="https://preview.redd.it/can-someone-please-explain-this-to-me-v0-heyrbmwicp0b1.jpg?auto=webp&s=50b3d14c6c9bc4eccecfacddf598d4604f42554c" alt="Imagen de algo inútil" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Having no use; not able to do anything useful.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Useful</h2>
+                        <img id="image-useful" class="mx-auto" src="https://cdn.hswstatic.com/gif/hammer-1.jpg" alt="Imagen de algo útil" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Able to be used for a practical purpose or in several ways.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="button-group">
+            <button class="action-button" onclick="flipAllCards()">Flip All Cards</button>
+            <button class="action-button reset" onclick="resetAllCards()">Reset All Cards</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle flipping all cards or resetting them
+        function flipAllCards() {
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                if (!card.classList.contains('flipped')) {
+                    card.classList.add('flipped');
+                }
+            });
+        }
+
+        function resetAllCards() {
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                if (card.classList.contains('flipped')) {
+                    card.classList.remove('flipped');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
