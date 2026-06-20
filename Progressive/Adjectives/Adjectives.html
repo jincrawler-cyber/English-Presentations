@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Adjectives</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0fdf4; /* Fondo verde muy claro */
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-desc: #4b5563;
+            --accent: #10b981; /* Verde esmeralda */
+            --example-bg: #ecfdf5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-desc);
+        }
+
+        /* Contenedor principal: Cuadrícula de 3 columnas */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Fuerza 3 columnas */
+            gap: 30px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        /* Estilos de la tarjeta */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Área de la imagen */
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background-color: #e5e7eb; /* Color de fondo por si la imagen tarda en cargar */
+        }
+
+        /* Área de contenido (textos) */
+        .card-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .word {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 10px 0;
+            text-align: center;
+            text-transform: capitalize;
+            border-bottom: 2px solid #f3f4f6;
+            padding-bottom: 10px;
+        }
+
+        .definition {
+            font-size: 0.95rem;
+            color: var(--text-desc);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .example {
+            background-color: var(--example-bg);
+            border-left: 4px solid var(--accent);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: #047857;
+            margin-top: auto; /* Empuja el ejemplo hacia abajo */
+        }
+
+        /* Responsividad: Si la pantalla es muy pequeña (móviles), pasa a 1 o 2 columnas */
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Personality Adjectives</h1>
+        <p class="subtitle">Vocabulary for how to describe people</p>
+    </header>
+
+    <main class="grid-container">
+        <article class="card">
+            <img src="images/Brave.avif" alt="Brave" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Brave</h2>
+                <p class="definition">A person who is not afraid of dangerous or difficult things.</p>
+                <div class="example">"The warrior is very brave."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Cheerful.avif" alt="Cheerful" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Cheerful</h2>
+                <p class="definition">A person who is always happy, smiles a lot, and is positive.</p>
+                <div class="example">"He is a cheerful boy; he always smiles."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Easygoing.webp" alt="Easygoing" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Easygoing</h2>
+                <p class="definition">A relaxed person who doesn't get angry or worried easily.</p>
+                <div class="example">"My dad is easygoing. He never shouts."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Generous.webp" alt="Generous" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Generous</h2>
+                <p class="definition">A person who likes to give money, help, or gifts to others.</p>
+                <div class="example">"She is very generous; she shares her lunch."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Helpful.avif" alt="Helpful" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Helpful</h2>
+                <p class="definition">A person who likes helping other people with their problems.</p>
+                <div class="example">"The staff at the hotel are very helpful."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Honest.webp" alt="Honest" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Honest</h2>
+                <p class="definition">A person who always tells the truth and does not lie.</p>
+                <div class="example">"Be honest. Did you give the wallet back?"</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Intelligent.avif" alt="Intelligent" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Intelligent</h2>
+                <p class="definition">A person who is clever and learns new things quickly.</p>
+                <div class="example">"Elephants are very intelligent animals."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Nervous.avif" alt="Nervous" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Nervous</h2>
+                <p class="definition">A person who feels worried or afraid about something.</p>
+                <div class="example">"I always feel nervous before an English exam."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Reliable.webp" alt="Reliable" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Reliable</h2>
+                <p class="definition">A person you can trust to do something well or arrive on time.</p>
+                <div class="example">"My car is old, but it is very reliable."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Selfish.webp" alt="Selfish" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Selfish</h2>
+                <p class="definition">A person who only thinks about themselves, not others.</p>
+                <div class="example">"Don't be selfish! Share your toys with your brother."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Serious.webp" alt="Serious" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Serious</h2>
+                <p class="definition">A person who is quiet, thinks a lot, and doesn't joke much.</p>
+                <div class="example">"Our history teacher is very serious in class."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Sociable.avif" alt="Sociable" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Sociable</h2>
+                <p class="definition">A person who likes being with others and meeting people.</p>
+                <div class="example">"She's very sociable; she has many friends at school."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Creative.webp" alt="Creative" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Creative</h2>
+                <p class="definition">A person who is good at making art or has new ideas.</p>
+                <div class="example">"Artists and writers are usually very creative."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Patient.webp" alt="Patient" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Patient</h2>
+                <p class="definition">A person who can wait for a long time without getting angry.</p>
+                <div class="example">"Teachers need to be very patient with their students."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Shy.avif" alt="Shy" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Shy</h2>
+                <p class="definition">A person who is nervous or quiet when meeting new people.</p>
+                <div class="example">"He was too shy to say hello to the new student."</div>
+            </div>
+        </article>
+    </main>
+
+</body>
+</html>

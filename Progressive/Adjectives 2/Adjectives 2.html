@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Adjectives - B1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0fdf4; /* Fondo verde muy claro */
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-desc: #4b5563;
+            --accent: #10b981; /* Verde esmeralda */
+            --example-bg: #ecfdf5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-desc);
+        }
+
+        /* Contenedor principal: Cuadrícula de 4 columnas */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Fuerza 4 columnas */
+            gap: 25px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        /* Estilos de la tarjeta */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Área de la imagen */
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background-color: #e5e7eb; /* Color de fondo por si la imagen tarda en cargar */
+        }
+
+        /* Área de contenido (textos) */
+        .card-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .word {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 10px 0;
+            text-align: center;
+            text-transform: capitalize;
+            border-bottom: 2px solid #f3f4f6;
+            padding-bottom: 10px;
+        }
+
+        .definition {
+            font-size: 0.95rem;
+            color: var(--text-desc);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .example {
+            background-color: var(--example-bg);
+            border-left: 4px solid var(--accent);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: #047857;
+            margin-top: auto; /* Empuja el ejemplo hacia abajo */
+        }
+
+        /* Responsividad: Si la pantalla es muy pequeña (móviles), pasa a 1 o 2 columnas */
+        @media (max-width: 1100px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 650px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Personality Adjectives</h1>
+        <p class="subtitle">Vocabulary for emerging B1 Level</p>
+    </header>
+
+    <main class="grid-container">
+        <!-- Fila 1: Falsos Amigos y Opuestos -->
+        <article class="card">
+            <img src="images/Sensitive.webp" alt="Sensitive" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Sensitive</h2>
+                <p class="definition">A person who understands others' feelings or gets hurt easily.</p>
+                <div class="example">"He is very sensitive, so please don't criticize his work."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Sensible.jfif" alt="Sensible" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Sensible</h2>
+                <p class="definition">A person who makes good, practical decisions based on reason.</p>
+                <div class="example">"Wearing a warm coat in winter is a sensible decision."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Polite.webp" alt="Polite" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Polite</h2>
+                <p class="definition">A person who behaves in a way that is socially correct and shows respect.</p>
+                <div class="example">"The children were very polite and said 'thank you'."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Rude.webp" alt="Rude" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Rude</h2>
+                <p class="definition">A person who speaks or acts in a way that is not polite or respectful.</p>
+                <div class="example">"It is rude to talk with food in your mouth."</div>
+            </div>
+        </article>
+
+        <!-- Fila 2: Mentalidad y Lealtades (Opuestos y Similares) -->
+        <article class="card">
+            <img src="images/Open-minded.webp" alt="Open-minded" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Open-minded</h2>
+                <p class="definition">A person who is willing to listen to and accept other people's ideas.</p>
+                <div class="example">"It's important to be open-minded when traveling to new countries."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Stubborn.webp" alt="Stubborn" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Stubborn</h2>
+                <p class="definition">A person who refuses to change their mind or plans.</p>
+                <div class="example">"Donkeys are famous for being stubborn animals."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Faithful.webp" alt="Faithful" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Faithful</h2>
+                <p class="definition">A person who keeps promises and is devoted to their partner or beliefs (Trust/Devotion).</p>
+                <div class="example">"They have been faithful to each other for 50 years of marriage."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Loyal.jfif" alt="Loyal" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Loyal</h2>
+                <p class="definition">A person who always supports their friends, team, or employer (Support/Allegiance).</p>
+                <div class="example">"Dogs are known for being very loyal pets to their owners."</div>
+            </div>
+        </article>
+
+        <!-- Fila 3: El Ego y el Éxito -->
+        <article class="card">
+            <img src="images/Confident.webp" alt="Confident" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Confident</h2>
+                <p class="definition">A person who is sure about their own abilities and ideas.</p>
+                <div class="example">"You need to be confident when you speak in public."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Arrogant.avif" alt="Arrogant" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Arrogant</h2>
+                <p class="definition">A person who thinks they are better or more important than other people.</p>
+                <div class="example">"He is so arrogant that he never listens to anyone's advice."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Ambitious.jfif" alt="Ambitious" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Ambitious</h2>
+                <p class="definition">A person who strongly wants to be successful, rich, or powerful.</p>
+                <div class="example">"She is highly ambitious and wants to be the boss of the company."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Jealous.webp" alt="Jealous" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Jealous</h2>
+                <p class="definition">A person who is unhappy because someone has something they want.</p>
+                <div class="example">"He felt jealous when his friend bought a new sports car."</div>
+            </div>
+        </article>
+
+        <!-- Fila 4: Rasgos de Comportamiento -->
+        <article class="card">
+            <img src="images/Curious.webp" alt="Curious" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Curious</h2>
+                <p class="definition">A person who wants to know or learn about something new.</p>
+                <div class="example">"Children are naturally curious about the world."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Talkative.webp" alt="Talkative" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Talkative</h2>
+                <p class="definition">A person who likes to speak a lot.</p>
+                <div class="example">"My neighbor is so talkative; she can chat for hours."</div>
+            </div>
+        </article>
+
+        <article class="card">
+            <img src="images/Moody.webp" alt="Moody" class="card-img">
+            <div class="card-content">
+                <h2 class="word">Moody</h2>
+                <p class="definition">A person whose feelings change often and quickly.</p>
+                <div class="example">"Teenagers can be quite moody sometimes."</div>
+            </div>
+        </article>
+    </main>
+
+</body>
+</html>
