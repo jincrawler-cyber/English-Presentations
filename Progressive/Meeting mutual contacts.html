@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Mutual Contacts - Interactive Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --secondary-light: #ecfdf5;
+            --purple: #8b5cf6;
+            --purple-light: #f5f3ff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        /* Action Buttons for Modals */
+        .action-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--purple);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Main Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 968px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            padding: 35px 30px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+        }
+
+        .card-blue::before { background-color: var(--primary); }
+        .card-green::before { background-color: var(--secondary); }
+        .card-purple::before { background-color: var(--purple); }
+
+        .card-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        .card-blue .card-icon { background-color: var(--primary-light); color: var(--primary); }
+        .card-green .card-icon { background-color: var(--secondary-light); color: var(--secondary); }
+        .card-purple .card-icon { background-color: var(--purple-light); color: var(--purple); }
+
+        .category-card h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .category-card .card-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .expression-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .expression-list li {
+            font-size: 19px;
+            color: var(--text-dark);
+            font-weight: 500;
+            padding-left: 35px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .expression-list li::before {
+            content: '💬';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 18px;
+        }
+
+        /* Modal / Popup Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-container {
+            background-color: white;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 650px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 30px 40px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .modal-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .btn-close:hover {
+            color: var(--text-dark);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        /* Dialogue Custom Box */
+        .dialogue-box {
+            background-color: var(--primary-light);
+            border-left: 6px solid var(--primary);
+            padding: 30px;
+            border-radius: 0 16px 16px 0;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .char-name {
+            font-weight: 700;
+        }
+        .char-mia { color: var(--primary); }
+        .char-you { color: var(--secondary-dark); }
+
+        /* Task Checkbox List */
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .task-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .task-list i {
+            color: var(--secondary);
+            font-size: 22px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Meeting Mutual Contacts</h1>
+        <p>An interactive cheat-sheet for high- beginner to intermediate English learners.</p>
+        
+        <div class="action-container">
+            <button class="btn btn-primary" onclick="openModal('exampleModal')">
+                <i class="fa-solid fa-comments"></i> View Conversation Example
+            </button>
+            <button class="btn btn-secondary" onclick="openModal('challengeModal')">
+                <i class="fa-solid fa-people-arrows"></i> Open Speaking Challenge
+            </button>
+        </div>
+    </header>
+
+    <!-- Unified Single Page Content Grid -->
+    <main class="dashboard-grid">
+        
+        <!-- Pillar 1 -->
+        <section class="category-card card-blue">
+            <div class="card-icon"><i class="fa-solid fa-handshake"></i></div>
+            <h2>1. Breaking the Ice</h2>
+            <p class="card-subtitle">Phrases to use when you first greet someone you've heard about:</p>
+            <ul class="expression-list">
+                <li>"I've heard a lot about you."</li>
+                <li>"I've heard good things about you."</li>
+                <li>"Jodi has told me so much about you."</li>
+                <li>"It's great to finally meet you in person."</li>
+            </ul>
+        </section>
+
+        <!-- Pillar 2 -->
+        <section class="category-card card-green">
+            <div class="card-icon"><i class="fa-solid fa-face-smile"></i></div>
+            <h2>2. How to Respond</h2>
+            <p class="card-subtitle">Polite and modest replies when someone says they know you:</p>
+            <ul class="expression-list">
+                <li>"Good things, I hope!"</li>
+                <li>"Oh, that's nice."</li>
+                <li>"Likewise! It's nice to meet you too."</li>
+                <li>"All good things, I'm sure!"</li>
+            </ul>
+        </section>
+
+        <!-- Pillar 3 -->
+        <section class="category-card card-purple">
+            <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+            <h2>3. Making the Connection</h2>
+            <p class="card-subtitle">Keep the talk going by focusing on your shared connection:</p>
+            <ul class="expression-list">
+                <li>"So, how do you know Jodi?"</li>
+                <li>"How long have you known Jodi?"</li>
+                <li>"Where did you and Jodi meet?"</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- POPUP 1: Real Conversation Flow -->
+    <div class="modal-overlay" id="exampleModal" onclick="closeModalOnOverlay(event, 'exampleModal')">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-comments" style="color: var(--primary);"></i> Conversation Flow</h3>
+                <button class="btn-close" onclick="closeModal('exampleModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="dialogue-box">
+                    <div><span class="char-name char-mia">Mia:</span> "Hi, I'm Mia."</div>
+                    <div><span class="char-name char-you">You:</span> "It's great to meet you, Mia. I've heard good things about you."</div>
+                    <div><span class="char-name char-mia">Mia:</span> "Oh, that's nice. So, how do you know Jodi?"</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP 2: Speaking Challenge Instructions -->
+    <div class="modal-overlay" id="challengeModal" onclick="closeModalOnOverlay(event, 'challengeModal')">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-people-arrows" style="color: var(--purple);"></i> Classroom Activity</h3>
+                <button class="btn-close" onclick="closeModal('challengeModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 18px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.5;">
+                    <strong>Instructions:</strong> Find a classmate. Imagine you are both attending a social gathering or party organized by your mutual friend <strong>"David"</strong>.
+                </p>
+                <div style="background-color: #faf5ff; border: 1px dashed var(--purple); padding: 25px; border-radius: 16px;">
+                    <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 15px; color: var(--purple);">Your Goals:</h4>
+                    <ul class="task-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Introduce yourself confidently</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Use a natural "Icebreaker" phrase</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Reply with a modest, friendly expression</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Ask how they are connected to David</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function closeModalOnOverlay(event, id) {
+            if (event.target === document.getElementById(id)) {
+                closeModal(id);
+            }
+        }
+
+        // Keyboard support (ESC to close)
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
