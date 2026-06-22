@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal & Travel Items - A2 Vocabulary</title>
+    <!-- Importar fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Importar iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Variables de color y diseño */
+        :root {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-desc: #475569;
+            --accent: #2563eb; 
+            --example-bg: #eff6ff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        /* Estilos del encabezado */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        header i {
+            font-size: 3.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-desc);
+            margin-top: 10px;
+        }
+
+        /* Contenedor de la cuadrícula: 3 columnas */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 35px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        /* Estilos de las tarjetas */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Área de la imagen */
+        .card-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Área del contenido textual */
+        .card-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .word-tag {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .word {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            color: var(--text-main);
+        }
+
+        .definition {
+            font-size: 1rem;
+            color: var(--text-desc);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .example {
+            background-color: var(--example-bg);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 0.95rem;
+            color: #1d4ed8;
+            font-style: italic;
+            margin-top: auto;
+            position: relative;
+        }
+
+        .example::before {
+            content: "\f0eb"; /* Icono de bombilla de FontAwesome */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 10px;
+            opacity: 0.7;
+        }
+
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 1000px) {
+            .grid-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 650px) {
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <i class="fa-solid fa-suitcase-rolling"></i>
+        <h1>In My Bag</h1>
+        <p class="subtitle">Vocabulary: Personal Items and Everyday Things</p>
+    </header>
+
+    <main class="grid-container">
+        <!-- Tarjeta 1 -->
+        <article class="card">
+            <img src="images/Gum.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Uncountable</span>
+                <h2 class="word">Some gum</h2>
+                <p class="definition">Small pieces of food that you chew but do not swallow.</p>
+                <div class="example">"I have some gum in my pocket to keep my breath fresh."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 2 -->
+        <article class="card">
+            <img src="images/Candy bar.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">A candy bar</h2>
+                <p class="definition">A sweet snack usually made of chocolate, nuts, or caramel.</p>
+                <div class="example">"I am hungry. I want to buy a candy bar."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 3 -->
+        <article class="card">
+            <img src="https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=400&q=80" alt="[Image of botella de agua]" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">A water bottle</h2>
+                <p class="definition">A container used to hold water so you can drink later.</p>
+                <div class="example">"Always carry a water bottle when you travel."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 4 -->
+        <article class="card">
+            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=400&q=80" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Uncountable</span>
+                <h2 class="word">Some hand lotion</h2>
+                <p class="definition">A thick liquid (cream) that you put on your skin to make it soft.</p>
+                <div class="example">"My hands are dry. I need some hand lotion."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 5 -->
+        <article class="card">
+            <img src="images/Umbrella.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">An umbrella</h2>
+                <p class="definition">A folding object that protects you from the rain or sun.</p>
+                <div class="example">"It is raining outside! Don't forget your umbrella."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 6 -->
+        <article class="card">
+            <img src="https://images.unsplash.com/photo-1584556812952-905ffd0c611a?auto=format&fit=crop&w=400&q=80" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Uncountable / Plural</span>
+                <h2 class="word">Some tissues</h2>
+                <p class="definition">Soft paper used for cleaning your nose or hands.</p>
+                <div class="example">"Do you have some tissues? I have a cold."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 7 -->
+        <article class="card">
+            <img src="images/Brush.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">A hairbrush</h2>
+                <p class="definition">An object with a handle used to make your hair neat.</p>
+                <div class="example">"She uses a hairbrush every morning."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 8 -->
+        <article class="card">
+            <img src="images/Mirror.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">A mirror</h2>
+                <p class="definition">A surface made of glass that allows you to see yourself.</p>
+                <div class="example">"He looked in the mirror to check his hair."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 9 -->
+        <article class="card">
+            <img src="images/Drivers Licesnse.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">A driver's license</h2>
+                <p class="definition">An official card that says you are allowed to drive a car.</p>
+                <div class="example">"You must show your driver's license to rent a car."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 10 -->
+        <article class="card">
+            <img src="images/Receipt.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">A receipt</h2>
+                <p class="definition">A piece of paper that shows you paid for something in a shop.</p>
+                <div class="example">"Keep your receipt if you want to return the product."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 11 -->
+        <article class="card">
+            <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=400&q=80" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Uncountable</span>
+                <h2 class="word">Some cash</h2>
+                <p class="definition">Money in the form of coins or paper notes.</p>
+                <div class="example">"I don't have a credit card. Can I pay with some cash?"</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 12 -->
+        <article class="card">
+            <img src="images/Keychain.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">A keychain</h2>
+                <p class="definition">A small metal ring used to hold your keys together.</p>
+                <div class="example">"There is a small teddy bear on my keychain."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 13 -->
+        <article class="card">
+            <img src="images/Passport.webp" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Countable</span>
+                <h2 class="word">A passport</h2>
+                <p class="definition">An official document needed to travel to other countries.</p>
+                <div class="example">"You need a passport to fly from Spain to Mexico."</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 14 -->
+        <article class="card">
+            <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=400&q=80" alt="[Image of gafas de sol]" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Plural</span>
+                <h2 class="word">Sunglasses</h2>
+                <p class="definition">Dark glasses that protect your eyes from the sun.</p>
+                <div class="example">"It is very sunny at the beach. Wear your sunglasses!"</div>
+            </div>
+        </article>
+
+        <!-- Tarjeta 15 -->
+        <article class="card">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80" alt="" class="card-img">
+            <div class="card-content">
+                <span class="word-tag">Plural</span>
+                <h2 class="word">Headphones</h2>
+                <p class="definition">An object you wear over your ears to listen to music privately.</p>
+                <div class="example">"I am listening to music with my new headphones."</div>
+            </div>
+        </article>
+    </main>
+
+</body>
+</html>
