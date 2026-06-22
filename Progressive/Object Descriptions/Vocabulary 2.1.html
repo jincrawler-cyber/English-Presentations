@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards - Opposites (Projector View)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px; /* Más padding para respirar */
+            box-sizing: border-box;
+        }
+        
+        .flashcard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 50px; /* Más espacio entre pares */
+            max-width: 1200px; /* VISTA DE PROYECTOR: Contenedor más ancho */
+            width: 100%;
+        }
+
+        .flashcard-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 40px; /* Más espacio entre la tarjeta izquierda y derecha */
+            position: relative;
+            background-color: #e2e8f0; 
+            padding: 30px; /* Cajas más amplias */
+            border-radius: 20px;
+        }
+
+        .vs-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #334155;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.5rem; /* VISTA DE PROYECTOR: Letra más grande */
+            width: 60px; /* VISTA DE PROYECTOR: Círculo más grande */
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            z-index: 10;
+            border: 6px solid #e2e8f0; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .flashcard-front, .flashcard-back {
+            border-top: 12px solid transparent; /* Borde de color más grueso */
+        }
+
+        .theme-neutral .flashcard-front, .theme-neutral .flashcard-back { border-top-color: #3b82f6; }
+        .theme-positive .flashcard-front, .theme-positive .flashcard-back { border-top-color: #10b981; }
+        .theme-negative .flashcard-front, .theme-negative .flashcard-back { border-top-color: #ef4444; }
+
+        .flashcard {
+            background-color: #ffffff;
+            border-radius: 16px; /* Bordes más suaves */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+            min-height: 400px; /* VISTA DE PROYECTOR: Tarjetas mucho más altas */
+            position: relative;
+            perspective: 1000px; 
+        }
+        
+        .flashcard:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .flashcard-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backface-visibility: hidden;
+        }
+        
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            border-radius: 16px; 
+        }
+        
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard h2 {
+            font-size: 2.5rem; /* VISTA DE PROYECTOR: Títulos masivos */
+            font-weight: 700; 
+            color: #334155; 
+            margin-bottom: 20px;
+        }
+        
+        .flashcard p {
+            font-size: 1.75rem; /* VISTA DE PROYECTOR: Definiciones muy legibles */
+            color: #475569; 
+            margin-bottom: 20px;
+            line-height: 1.5; 
+        }
+        
+        .flashcard img {
+            max-width: 95%;
+            max-height: 220px; /* VISTA DE PROYECTOR: Imágenes casi el doble de grandes */
+            object-fit: contain;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid #e2e8f0; 
+            display: block; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .button-group {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            background-color: #4CAF50; 
+            color: white;
+            padding: 15px 35px; /* Botones más gruesos */
+            border: none;
+            border-radius: 12px;
+            font-size: 1.5rem; /* Letra de botón gigante */
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .action-button.reset {
+            background-color: #ef4444; 
+        }
+        
+        .action-button.reset:hover {
+            background-color: #dc2626;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .flashcard-pair { grid-template-columns: 1fr; }
+            .vs-badge { border: 6px solid #ffffff; }
+            .flashcard { min-height: 300px; }
+            .flashcard h2 { font-size: 2rem; }
+            .flashcard p { font-size: 1.25rem; }
+            .flashcard img { max-height: 150px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="flashcard-container">
+
+        <div class="flashcard-pair">
+            <div class="vs-badge">VS</div>
+            
+            <div class="flashcard theme-neutral" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Brand New</h2>
+                        <img id="image-brand-new" class="mx-auto" src="images/Brand New.gif" alt="Imagen nueva">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Completely new; never used.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard theme-neutral" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Used</h2>
+                        <img id="image-used" class="mx-auto" src="images/Used.webp" alt="Imagen usada">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Having been used before; not new.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-pair">
+            <div class="vs-badge">VS</div>
+
+            <div class="flashcard theme-positive" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>In Good Condition</h2>
+                        <img id="image-good-condition" class="mx-auto" src="images/Good Condition.webp" alt="Imagen de algo en buenas condiciones" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Not damaged or showing signs of heavy wear.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard theme-negative" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Damaged</h2>
+                        <img id="image-damaged" class="mx-auto" src="images/Damaged.avif" alt="Imagen de algo dañado" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Harmed or impaired in a way that reduces value or functionality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-pair">
+            <div class="vs-badge">VS</div>
+
+            <div class="flashcard theme-neutral" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Plain</h2>
+                        <img id="image-plain" class="mx-auto" src="images/Plain.webp" alt="Imagen de algo sencillo" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Without patterns or decoration; simple.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard theme-neutral" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Fancy</h2>
+                        <img id="image-fancy" class="mx-auto" src="images/Luxury.jfif" alt="Imagen de algo elegante" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Elaborate in structure or decoration; luxurious.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-pair">
+            <div class="vs-badge">VS</div>
+
+            <div class="flashcard theme-negative" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Outdated</h2>
+                        <img id="image-outdated" class="mx-auto" src="images/Outdated.webp" alt="Imagen de algo anticuado" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>No longer modern or current; old-fashioned.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard theme-positive" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Modern</h2>
+                        <img id="image-modern" class="mx-auto" src="images/Modern.webp" alt="Imagen de algo moderno" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Relating to the present or recent times as opposed to the remote past.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-pair">
+            <div class="vs-badge">VS</div>
+
+            <div class="flashcard theme-positive" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Special</h2>
+                        <img id="image-special" class="mx-auto" src="images/Special.webp" alt="Imagen de algo especial" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Better, greater, or otherwise different from what is usual.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard theme-neutral" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Common</h2>
+                        <img id="image-common" class="mx-auto" src="images/Common.webp" alt="Imagen de algo común" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Occurring, found, or done often; prevalent.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-pair">
+            <div class="vs-badge">VS</div>
+
+            <div class="flashcard theme-negative" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Useless</h2>
+                        <img id="image-useless" class="mx-auto" src="images/Useless.webp" alt="Imagen de algo inútil" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Having no use; not able to do anything useful.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard theme-positive" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h2>Useful</h2>
+                        <img id="image-useful" class="mx-auto" src="images/Useful.webp" alt="Imagen de algo útil" onerror="this.onerror=null;this.src='https://placehold.co/200x120/DDDDDD/666666?text=No+Image';">
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Able to be used for a practical purpose or in several ways.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="action-button" onclick="flipAllCards()">Flip All Cards</button>
+            <button class="action-button reset" onclick="resetAllCards()">Reset All Cards</button>
+        </div>
+
+    </div>
+
+    <script>
+        function flipAllCards() {
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                if (!card.classList.contains('flipped')) {
+                    card.classList.add('flipped');
+                }
+            });
+        }
+
+        function resetAllCards() {
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                if (card.classList.contains('flipped')) {
+                    card.classList.remove('flipped');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
