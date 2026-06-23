@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections & Hobbies Vocabulary</title>
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ocultar barra de desplazamiento */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Animación de las tarjetas */
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-8px); }
+
+        /* * TEMAS VISUALES PARA CADA SECCIÓN
+         */
+        
+        /* 1. Traditional: Estilo Museo Clásico */
+        .theme-traditional {
+            background-color: #fefce8; /* cream */
+            border: 8px double #d97706; /* amber-600 */
+            box-shadow: inset 0 0 40px rgba(217, 119, 6, 0.1);
+        }
+        .theme-traditional .vocab-card {
+            background-color: #ffffff;
+            border: 1px solid #fcd34d;
+            box-shadow: 0 10px 15px -3px rgba(217, 119, 6, 0.1);
+        }
+        .theme-traditional h3 { color: #78350f; } /* amber-900 */
+
+        /* 2. Pop Culture: Estilo Cómic Pop-Art */
+        .theme-pop {
+            background-color: #fef08a; /* yellow-200 */
+            /* Textura de puntos de cómic */
+            background-image: radial-gradient(#facc15 20%, transparent 20%), radial-gradient(#facc15 20%, transparent 20%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            border: 4px solid #be123c; /* rose-700 */
+        }
+        .theme-pop .vocab-card {
+            background-color: #ffffff;
+            border: 3px solid #be123c;
+            /* Sombra sólida tipo cómic */
+            box-shadow: 6px 6px 0px 0px rgba(190, 18, 60, 1); 
+        }
+        .theme-pop h3 { color: #be123c; text-transform: uppercase; font-weight: 800; }
+
+        /* 3. Technology: Estilo Digital/Dark Mode */
+        .theme-tech {
+            background-color: #0f172a; /* slate-900 */
+            /* Textura de cuadrícula cibernética */
+            background-image: linear-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            border: 2px solid #0ea5e9; /* sky-500 */
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+        }
+        .theme-tech .vocab-card {
+            background-color: #1e293b;
+            border: 1px solid #38bdf8;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .theme-tech h3 { color: #bae6fd; font-family: monospace; font-size: 1.2rem; }
+
+        /* 4. Retro Audio: Estilo Synthwave/Vaporwave */
+        .theme-audio {
+            background: linear-gradient(135deg, #fce7f3 0%, #e0e7ff 100%);
+            border: 4px solid #c084fc; /* purple-400 */
+            border-radius: 40px;
+        }
+        .theme-audio .vocab-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            border: 2px solid #e879f9;
+            box-shadow: 0 10px 25px rgba(192, 132, 252, 0.3);
+            border-radius: 20px;
+        }
+        .theme-audio h3 { color: #86198f; }
+
+        /* 5. Arcade: Estilo Neón */
+        .theme-arcade {
+            background-color: #000000;
+            border: 4px solid #10b981; /* emerald-500 */
+            box-shadow: 0 0 15px #10b981, inset 0 0 30px rgba(16, 185, 129, 0.3);
+        }
+        .theme-arcade .vocab-card {
+            background-color: #111827;
+            border: 2px solid #34d399;
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+        }
+        .theme-arcade h3 { color: #6ee7b7; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Contenedor central de scroll con fade effects */
+        .scroll-container { position: relative; }
+        
+        /* Imagen temporal estilo placeholder por si  no carga nativamente */
+        .placeholder-img {
+            background-color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Encabezado Principal -->
+    <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-indigo-600 text-white p-3 rounded-xl">
+                    <i class="fa-solid fa-layer-group text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Collectibles & Hobbies</h1>
+                    <p class="text-slate-500 font-medium">Vocabulary Presentation</p>
+                </div>
+            </div>
+            
+            <!-- CONTROLES DE PESTAÑAS (TABS) -->
+            <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-2 md:pb-0">
+                <button id="btn-traditional" onclick="openTab('traditional')" class="tab-btn bg-indigo-600 text-white shadow-md px-5 py-2 rounded-full font-semibold whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-building-columns mr-2"></i>Traditional
+                </button>
+                <button id="btn-pop" onclick="openTab('pop')" class="tab-btn bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 px-5 py-2 rounded-full font-semibold whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-mask mr-2"></i>Pop Culture
+                </button>
+                <button id="btn-tech" onclick="openTab('tech')" class="tab-btn bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 px-5 py-2 rounded-full font-semibold whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-gamepad mr-2"></i>Technology
+                </button>
+                <button id="btn-audio" onclick="openTab('audio')" class="tab-btn bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 px-5 py-2 rounded-full font-semibold whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-record-vinyl mr-2"></i>Retro Audio
+                </button>
+                <button id="btn-arcade" onclick="openTab('arcade')" class="tab-btn bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 px-5 py-2 rounded-full font-semibold whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-ghost mr-2"></i>Arcade
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-6 lg:p-12">
+
+        <!-- SECCIÓN 1: TRADITIONAL -->
+        <section id="traditional" class="tab-content w-full max-w-6xl theme-traditional rounded-[2rem] p-8 md:p-12">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-amber-900 uppercase tracking-widest border-b-2 border-amber-300 inline-block pb-2">Traditional Collectibles</h2>
+            </div>
+            
+            <div class="scroll-container">
+                <div class="flex overflow-x-auto gap-8 pb-8 snap-x snap-mandatory hide-scrollbar items-center">
+                    
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Coins&Notes.jfif" alt="Coins and banknotes" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold">Coins and banknotes</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Painting.webp" alt="Paintings" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold">Paintings</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Watch.webp" alt="Watch" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold">Watch</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Postcard.webp" alt="Postcard" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold">Postcard</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Stamps.avif" alt="Stamps" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold">Stamps</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Posters.webp" alt="Posters" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold">Posters</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Jewelry.webp" alt="Jewelry" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold">Jewelry</h3>
+                        </div>
+                    </div>
+
+                    <div class="w-[20px] flex-none"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: POP CULTURE -->
+        <section id="pop" class="tab-content hidden w-full max-w-6xl theme-pop rounded-3xl p-8 md:p-12">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-black text-rose-700 uppercase tracking-tight bg-white inline-block px-6 py-2 border-4 border-rose-700 shadow-[4px_4px_0px_0px_rgba(190,18,60,1)] -rotate-2">Pop Culture</h2>
+            </div>
+            
+            <div class="scroll-container">
+                <div class="flex overflow-x-auto gap-10 pb-10 pt-4 snap-x snap-mandatory hide-scrollbar items-center">
+                    
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Toys.jfif" alt="Toys" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl">Toys</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Trading cards.webp" alt="Trading cards" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl">Trading cards</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Comics.webp" alt="Comic books" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl">Comic books</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-2xl overflow-hidden cursor-pointer">
+                        <img src="images/Action Figure.webp" alt="Action figures" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl">Action figures</h3>
+                        </div>
+                    </div>
+
+                    <div class="w-[20px] flex-none"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: TECHNOLOGY -->
+        <section id="tech" class="tab-content hidden w-full max-w-6xl theme-tech rounded-xl p-8 md:p-12">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl text-sky-400 tracking-[0.3em] font-mono border-y border-sky-400 py-3 inline-block uppercase">Technology</h2>
+            </div>
+            
+            <div class="scroll-container">
+                <div class="flex overflow-x-auto gap-8 pb-8 snap-x snap-mandatory hide-scrollbar items-center">
+                    
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-xl overflow-hidden cursor-pointer">
+                        <img src="images/Retro Console.webp" alt="Retro console" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center border-t border-sky-800">
+                            <h3>>_ Retro_console</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-xl overflow-hidden cursor-pointer">
+                        <img src="images/Cartridge.avif" alt="Game cartridges" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center border-t border-sky-800">
+                            <h3>>_ Game_cartridges</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[280px] snap-center rounded-xl overflow-hidden cursor-pointer">
+                        <img src="images/Handheld.avif" alt="Handheld device" class="w-full h-56 object-cover placeholder-img">
+                        <div class="p-6 text-center border-t border-sky-800">
+                            <h3>>_ Handheld_device</h3>
+                        </div>
+                    </div>
+
+                    <div class="w-[20px] flex-none"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: VINTAGE AUDIO -->
+        <section id="audio" class="tab-content hidden w-full max-w-6xl theme-audio p-8 md:p-12">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-fuchsia-800 tracking-wide uppercase italic drop-shadow-md">Retro Audio</h2>
+            </div>
+            
+            <div class="scroll-container">
+                <div class="flex overflow-x-auto gap-8 pb-8 snap-x snap-mandatory hide-scrollbar items-center justify-center">
+                    
+                    <div class="card-hover vocab-card flex-none w-[300px] snap-center overflow-hidden cursor-pointer">
+                        <img src="images/Vinyl.webp" alt="Vinyl records" class="w-full h-64 object-cover placeholder-img rounded-t-[18px]">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl font-bold">Vinyl records</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[300px] snap-center overflow-hidden cursor-pointer">
+                        <img src="images/Cassette.webp" alt="Cassette tapes" class="w-full h-64 object-cover placeholder-img rounded-t-[18px]">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl font-bold">Cassette tapes</h3>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: ARCADE & AMUSEMENTS -->
+        <section id="arcade" class="tab-content hidden w-full max-w-6xl theme-arcade rounded-sm p-8 md:p-12">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl text-emerald-400 uppercase tracking-[0.2em] font-black drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]">Arcade & Amusements</h2>
+            </div>
+            
+            <div class="scroll-container">
+                <div class="flex overflow-x-auto gap-8 pb-8 snap-x snap-mandatory hide-scrollbar items-center justify-center">
+                    
+                    <div class="card-hover vocab-card flex-none w-[320px] snap-center overflow-hidden cursor-pointer">
+                        <img src="images/Pinball.webp" alt="Pinball" class="w-full h-64 object-cover placeholder-img border-b-2 border-emerald-500">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl font-bold">Pinball</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-hover vocab-card flex-none w-[320px] snap-center overflow-hidden cursor-pointer">
+                        <img src="images/Arcade.webp" alt="Arcade cabinets" class="w-full h-64 object-cover placeholder-img border-b-2 border-emerald-500">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl font-bold">Arcade cabinets</h3>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Script de lógica de pestañas y deslizamiento táctil -->
+    <script>
+        // Función para cambiar de pestaña
+        function openTab(tabId) {
+            // 1. Ocultar todas las secciones
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            // 2. Quitar el estilo "activo" a todos los botones
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-600');
+            });
+
+            // 3. Mostrar la sección correcta
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // 4. Poner estilo "activo" al botón correspondiente
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('bg-white', 'text-slate-600');
+            activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+        }
+
+        // Función para permitir arrastrar el carrusel en PC
+        const sliders = document.querySelectorAll('.overflow-x-auto');
+        
+        sliders.forEach(slider => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('cursor-grabbing');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.classList.remove('cursor-grabbing');
+            });
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.classList.remove('cursor-grabbing');
+            });
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; // Velocidad
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
+    </script>
+</body>
+</html>
