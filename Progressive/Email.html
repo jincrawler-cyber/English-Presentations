@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Infographic: Email Writing Skills</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* GLOBAL STYLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: #334155;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* INFOGRAPHIC CONTAINER */
+        .infographic {
+            max-width: 900px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* HEADER SECTION */
+        .info-header {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .info-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .info-header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .level-badge {
+            display: inline-block;
+            background-color: #f97316;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* SECTION STYLES */
+        .info-section {
+            padding: 45px 40px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            color: #1e293b;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: #0284c7;
+        }
+
+        /* SECTION 1: WHAT IS A PARAGRAPH? */
+        .paragraph-definition {
+            background-color: #f8fafc;
+            border-left: 5px solid #0284c7;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 25px;
+        }
+
+        .paragraph-definition h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: #0284c7;
+            margin-bottom: 5px;
+        }
+
+        .paragraph-definition p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .grid-rules {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .rule-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .rule-card i {
+            font-size: 24px;
+            color: #f97316;
+        }
+
+        .rule-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #1e293b;
+        }
+
+        .rule-card p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* SECTION 2: PARAGRAPH ORDER (TIMELINE STYLE) */
+        .timeline {
+            position: relative;
+            margin-left: 20px;
+            padding-left: 30px;
+            border-left: 3px dashed #cbd5e1;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -42px;
+            top: 0;
+            background-color: #0284c7;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .timeline-content h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 17px;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .example-tag {
+            display: inline-block;
+            font-family: monospace;
+            background-color: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #0369a1;
+            margin-top: 6px;
+        }
+
+        /* SECTION 3: DYNAMIC REGISTER CHECK (INTERACTIVE TABS) */
+        .tabs-container {
+            margin-top: 15px;
+        }
+
+        .tabs-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            border: 2px solid #e2e8f0;
+            background-color: #f8fafc;
+            color: #64748b;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            background-color: #f1f5f9;
+        }
+
+        .tab-btn.active[data-tab="informal"] {
+            background-color: #fff7ed;
+            border-color: #f97316;
+            color: #c2410c;
+        }
+
+        .tab-btn.active[data-tab="formal"] {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+            color: #15803d;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* REGISTER TABLES / BOXES */
+        .register-box {
+            border-radius: 14px;
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .informal-box { background-color: #fff7ed; border-color: #fed7aa; }
+        .formal-box { background-color: #f0fdf4; border-color: #bbf7d0; }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .vocab-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .vocab-item label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+        .vocab-item p {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .vocab-item span {
+            display: block;
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 2px;
+            font-style: italic;
+        }
+
+        /* SECTION 4: PRACTICE TASK */
+        .practice-card {
+            background: linear-gradient(135deg, #fef08a 0%, #fef9c3 100%);
+            border: 1px solid #fde047;
+            padding: 30px;
+            border-radius: 16px;
+            color: #713f12;
+        }
+
+        .practice-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .practice-card ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .practice-card li {
+            margin-bottom: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* FOOTER */
+        .info-footer {
+            background-color: #1e293b;
+            color: #94a3b8;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="infographic">
+        
+        <div class="info-header">
+            <h1>How to Write an Introductory Email</h1>
+            <p>Master paragraph structure and tone to present yourself successfully!</p>
+            <span class="level-badge">B1 English Level</span>
+        </div>
+
+        <div class="info-section">
+            <h2 class="section-title"><i class="fa-solid fa-pen-fancy"></i> 1. What is a Paragraph?</h2>
+            
+            <div class="paragraph-definition">
+                <h3>The Golden Rule</h3>
+                <p>A paragraph is a group of sentences that develop <strong>ONE single main idea</strong>. Organizing your email into paragraphs makes it clear and professional for the reader.</p>
+            </div>
+
+            <div class="grid-rules">
+                <div class="rule-card">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <div>
+                        <h4>One Topic per Block</h4>
+                        <p>Keep all sentences in a paragraph focused on the same specific subject.</p>
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <div>
+                        <h4>Start a New Paragraph</h4>
+                        <p>When you change the topic or want to talk about a new idea, press 'Enter'.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2 class="section-title"><i class="fa-solid fa-list-ol"></i> 2. The Perfect Email Structure</h2>
+            <p style="margin-bottom: 25px; font-size: 15px; color: #64748b;">Follow this logical order when introducing yourself to a new person:</p>
+            
+            <div class="timeline">
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot">1</div>
+                    <div class="timeline-content">
+                        <h4>Opening Sentences</h4>
+                        <p>Start with a friendly greeting and state the reason why you are writing the email.</p>
+                        <span class="example-tag">Example: "I am writing to introduce myself..."</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">2</div>
+                    <div class="timeline-content">
+                        <h4>Information About Yourself</h4>
+                        <p>Explain who you are, what you do (your job, study, or project), and relevant details.</p>
+                        <span class="example-tag">Example: "I work as an coordinator at..."</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">3</div>
+                    <div class="timeline-content">
+                        <h4>Questions & Showing Interest</h4>
+                        <p>Ask questions about the recipient or their country to build a friendly connection.</p>
+                        <span class="example-tag">Example: "How is the weather over there?"</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">4</div>
+                    <div class="timeline-content">
+                        <h4>Closing Sentences</h4>
+                        <p>Say goodbye, mention future contact, and sign with your name.</p>
+                        <span class="example-tag">Example: "Best regards, [Your Name]"</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2 class="section-title"><i class="fa-solid fa-sliders"></i> 3. Dynamic Register Check</h2>
+            <p style="font-size: 15px; color: #64748b;">Choose the right tone depending on who you are writing to. Click the tabs below to explore the vocabulary banks:</p>
+            
+            <div class="tabs-container">
+                <div class="tabs-buttons">
+                    <button class="tab-btn active" data-tab="informal"><i class="fa-solid fa-face-smile"></i> Informal (Family & Friends)</button>
+                    <button class="tab-btn" data-tab="formal"><i class="fa-solid fa-briefcase"></i> Formal (Business & First Contact)</button>
+                </div>
+
+                <div class="tab-content active" id="informal">
+                    <div class="register-box informal-box">
+                        <p style="margin-bottom: 15px; font-size: 14px; color: #c2410c;"><strong>Use when:</strong> Writing to relatives, close classmates, or people you already know well.</p>
+                        <div class="vocab-grid">
+                            <div class="vocab-item">
+                                <label>Greeting / Opening</label>
+                                <p>Hi there [Name],</p>
+                                <span>It’s great to hear from you!</span>
+                            </div>
+                            <div class="vocab-item">
+                                <label>Asking how they are</label>
+                                <p>How’s it going?</p>
+                                <span>What have you been up to?</span>
+                            </div>
+                            <div class="vocab-item">
+                                <label>Call to Action / Next steps</label>
+                                <p>Let’s stay in touch.</p>
+                                <span>Drop me a line soon!</span>
+                            </div>
+                            <div class="vocab-item">
+                                <label>Sign-off / Goodbye</label>
+                                <p>Cheers,</p>
+                                <span>Best wishes / Take care,</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="formal">
+                    <div class="register-box formal-box">
+                        <p style="margin-bottom: 15px; font-size: 14px; color: #15803d;"><strong>Use when:</strong> Writing to managers, clients, professors, or an international contact for the first time.</p>
+                        <div class="vocab-grid">
+                            <div class="vocab-item">
+                                <label>Greeting / Opening</label>
+                                <p>Dear Mr./Ms. [Surname],</p>
+                                <span>It was a pleasure to hear from you.</span>
+                            </div>
+                            <div class="vocab-item">
+                                <label>Polite Interest / Reason</label>
+                                <p>I hope this email finds you well.</p>
+                                <span>I am writing to introduce myself...</span>
+                            </div>
+                            <div class="vocab-item">
+                                <label>Future Contact</label>
+                                <p>I look forward to hearing from you.</p>
+                                <span>Thank you for your time.</span>
+                            </div>
+                            <div class="vocab-item">
+                                <label>Sign-off / Goodbye</label>
+                                <p>Best regards,</p>
+                                <span>Yours sincerely / Yours faithfully,</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2 class="section-title"><i class="fa-solid fa-laptop-code"></i> 4. Quick Challenge</h2>
+            <div class="practice-card">
+                <h4><i class="fa-solid fa-thumbtack"></i> Your Turn to Write!</h4>
+                <p>Imagine you need to write an email introducing yourself to a distant relative who lives in another country. Write a short draft following these criteria:</p>
+                <ul>
+                    <li>Use an <strong>Informal Register</strong>.</li>
+                    <li>Organize your email into exactly <strong>3 distinct paragraphs</strong>.</li>
+                    <li><strong>Paragraph 1:</strong> Start with an informal greeting and say why you are writing.</li>
+                    <li><strong>Paragraph 2:</strong> Share 2 things about your current activities or routine.</li>
+                    <li><strong>Paragraph 3:</strong> Ask them about their country's weather and close the email nicely.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-footer">
+            Interactive Learning Resources &bull; Designed for Emergent B1 English Learners
+        </div>
+
+    </div>
+
+    <script>
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to current button and targeted content
+                button.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
