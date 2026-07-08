@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary: City Features</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f3;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .slide {
+            background-color: white;
+            width: 90%;
+            max-width: 1000px; /* Un poco más ancho para la proyección */
+            margin-bottom: 30px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em; /* Título más grande */
+        }
+        .instruction {
+            background-color: #fdf2e9;
+            border-left: 6px solid #e67e22;
+            padding: 20px;
+            font-size: 1.3em;
+            margin: 20px 0;
+        }
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+            padding: 40px 20px 20px 20px; /* Más espacio arriba para los globos */
+            background-color: #f4f6f7;
+            border-radius: 12px;
+            border: 3px dashed #bdc3c7;
+        }
+        
+        /* Contenedor relativo para posicionar el globo */
+        .word-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Estilos para las palabras */
+        .word-tag {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.4em; /* Letra grande para proyector */
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .word-wrapper:hover .word-tag {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        /* Estilos para el GLOBO FLOTANTE */
+        .emoji-balloon {
+            position: absolute;
+            bottom: 140%; /* Posicionado muy por encima de la palabra */
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            transform-origin: bottom center;
+            background-color: white;
+            border: 3px solid #f1c40f;
+            border-radius: 50%;
+            padding: 15px 20px;
+            font-size: 4.5rem; /* TAMAÑO GIGANTE PARA CLASE */
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+            opacity: 0;
+            pointer-events: none; /* Evita que el cursor interfiera con el globo */
+            z-index: 100;
+            
+            /* Animación de rebote (bouncy) */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* El piquito del globo (la cola) */
+        .emoji-balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            margin-left: -15px;
+            border-width: 15px 15px 0;
+            border-style: solid;
+            border-color: #f1c40f transparent transparent transparent;
+            display: block;
+            width: 0;
+        }
+        
+        /* Interior blanco del piquito del globo */
+        .emoji-balloon::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            margin-left: -11px;
+            border-width: 11px 11px 0;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+            display: block;
+            width: 0;
+            z-index: 1;
+        }
+
+        /* Cuando el mouse pasa por el contenedor, el globo aparece */
+        .word-wrapper:hover .emoji-balloon {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        .category-box {
+            background-color: #f8f9fa;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            min-height: 250px;
+        }
+        .category-box h2 {
+            color: #2980b9;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+        .category-box p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+        }
+        .challenge-box {
+            background-color: #e8f8f5;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #16a085;
+            text-align: center;
+            margin-top: 40px;
+            border: 2px solid #1abc9c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide">
+        <h1>Vocabulary: City Features 🏙️</h1>
+        
+        <div class="instruction">
+            <p><strong>Pair Work:</strong> Look at the words in the box below. Hover your mouse over the words for a visual hint! Are these words for <strong>buildings</strong>, <strong>art</strong>, or <strong>transportation</strong>? Organize them into the correct lists.</p>
+        </div>
+
+        <!-- Word Bank with Floating Balloons -->
+        <div class="word-bank">
+            <div class="word-wrapper">
+                <span class="word-tag">bridge</span>
+                <div class="emoji-balloon">🌉</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">ferry</span>
+                <div class="emoji-balloon">⛴️</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">hostel</span>
+                <div class="emoji-balloon">🏨</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">sculpture</span>
+                <div class="emoji-balloon">🗿</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">clinic</span>
+                <div class="emoji-balloon">🏥</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">fire station</span>
+                <div class="emoji-balloon">🚒</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">monument</span>
+                <div class="emoji-balloon">🏛️</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">sidewalk</span>
+                <div class="emoji-balloon">🚶‍♂️</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">embassy</span>
+                <div class="emoji-balloon">🛂</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">highway</span>
+                <div class="emoji-balloon">🛣️</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">parking lot</span>
+                <div class="emoji-balloon">🅿️</div>
+            </div>
+            <div class="word-wrapper">
+                <span class="word-tag">tunnel</span>
+                <div class="emoji-balloon">🚇</div>
+            </div>
+        </div>
+
+        <!-- Categories for classification -->
+        <div class="categories-container">
+            <div class="category-box">
+                <h2>🏢 Buildings</h2>
+                <p><em>(e.g., places where people work or stay)</em></p>
+            </div>
+            
+            <div class="category-box">
+                <h2>🎨 Art</h2>
+                <p><em>(e.g., creative or historical objects in the city)</em></p>
+            </div>
+            
+            <div class="category-box">
+                <h2>🚗 Transportation</h2>
+                <p><em>(e.g., ways to move around or infrastructure)</em></p>
+            </div>
+        </div>
+
+        <!-- The extra challenge from the image -->
+        <div class="challenge-box">
+            <p>🌟 Extra Challenge: Can you add ONE more new word to each list? Use your dictionary if you need to!</p>
+        </div>
+    </div>
+
+</body>
+</html>
