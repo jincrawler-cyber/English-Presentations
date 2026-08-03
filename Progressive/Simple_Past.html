@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Past Masterclass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+        
+        body { font-family: 'Nunito', sans-serif; background-color: #f8fafc; overflow: hidden; }
+        .slide { display: none; height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; }
+        .active-slide { display: flex; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(40px) scale(0.95); } 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+        
+        /* UI Elements */
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 2.5rem; width: 100%; max-width: 900px; margin: 15px 0; text-align: left; }
+        
+        /* Visual Themes */
+        .highlight-blue { color: #2563eb; font-weight: 900; } 
+        .highlight-red { color: #e11d48; font-weight: 900; }
+        .highlight-orange { color: #ea580c; font-weight: 900; }
+        .highlight-purple { color: #7c3aed; font-weight: 900; }
+        
+        .badge { padding: 0.4rem 1.2rem; border-radius: 99px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; font-size: 1.2rem; }
+        .badge-pos { background-color: #dbeafe; color: #1e40af; }
+        .badge-neg { background-color: #ffe4e6; color: #9f1239; }
+        .badge-que { background-color: #f3e8ff; color: #5b21b6; }
+
+        .chat-bubble { background-color: #f1f5f9; padding: 1rem 1.5rem; border-radius: 20px; border-bottom-left-radius: 4px; font-size: 1.5rem; font-weight: 700; color: #334155; margin-bottom: 1rem; width: fit-content;}
+        .chat-bubble-right { background-color: #dbeafe; padding: 1rem 1.5rem; border-radius: 20px; border-bottom-right-radius: 4px; font-size: 1.5rem; font-weight: 700; color: #1e40af; margin-bottom: 1rem; width: fit-content; margin-left: auto;}
+        
+        /* Tablet Selects */
+        select { appearance: none; background-color: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.75rem 1rem; font-size: 1.25rem; font-weight: 700; color: #334155; cursor: pointer; outline: none; transition: all 0.2s; width: 100%; text-align: center;}
+        select:focus { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- NAVIGATION -->
+    <div class="fixed bottom-8 left-0 right-0 flex justify-center items-center gap-6 z-20">
+        <button onclick="changeSlide(-1)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-8 rounded-2xl shadow-md transition-all active:scale-95 disabled:opacity-30 disabled:active:scale-100 text-xl" id="prevBtn" disabled>◀ Back</button>
+        <div class="bg-white px-6 py-3 rounded-2xl shadow-md font-bold text-slate-500 text-xl tracking-widest">
+            <span id="currentCount">1</span> / <span id="totalCount">7</span>
+        </div>
+        <button onclick="changeSlide(1)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-2xl shadow-lg transition-all active:scale-95 disabled:opacity-30 disabled:active:scale-100 text-xl" id="nextBtn">Next ▶</button>
+    </div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active-slide" id="slide1">
+        <div class="flex gap-4 mb-6 text-7xl">
+            <span>📱</span><span>🤖</span><span>👾</span>
+        </div>
+        <h1 class="text-6xl font-black text-slate-800 mb-4 tracking-tight">The Simple Past</h1>
+        <h2 class="text-3xl text-slate-500 font-semibold mb-12">The Ultimate Survival Guide.</h2>
+        <div class="glass-card text-center !max-w-md cursor-pointer hover:scale-105 transition-transform" onclick="changeSlide(1)">
+            <p class="text-2xl font-bold text-blue-600">Start the class 🚀</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Regulars vs Irregulars (Inductive) -->
+    <div class="slide" id="slide2">
+        <div class="text-center mb-6">
+            <span class="badge badge-pos">Part 1: The Affirmative (+)</span>
+        </div>
+        <h2 class="text-4xl font-black mb-8 text-slate-700">Read what happened after class:</h2>
+        
+        <div class="glass-card flex flex-col md:flex-row gap-8">
+            <!-- Group A -->
+            <div class="flex-1 bg-blue-50 p-6 rounded-2xl border-2 border-blue-100">
+                <div class="text-4xl mb-4 text-center">🤖</div>
+                <ul class="text-2xl font-semibold text-slate-700 space-y-4">
+                    <li>I <span class="highlight-blue">crashed</span> at my friend's house.</li>
+                    <li>We <span class="highlight-blue">studied</span> all night.</li>
+                </ul>
+            </div>
+            <!-- Group B -->
+            <div class="flex-1 bg-orange-50 p-6 rounded-2xl border-2 border-orange-100">
+                <div class="text-4xl mb-4 text-center">👾</div>
+                <ul class="text-2xl font-semibold text-slate-700 space-y-4">
+                    <li>I <span class="highlight-orange">woke up</span> late. <span class="text-sm text-slate-400">(wake)</span></li>
+                    <li>I <span class="highlight-orange">forgot</span> my wallet. <span class="text-sm text-slate-400">(forget)</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <button onclick="document.getElementById('hint1').classList.remove('hidden'); this.classList.add('hidden');" class="mt-8 bg-slate-800 text-white font-bold text-2xl py-3 px-8 rounded-xl shadow-md hover:bg-slate-900 transition">
+            🔍 What's the difference?
+        </button>
+        
+        <div id="hint1" class="hidden text-center bg-white p-4 rounded-xl shadow-inner mt-4 border-l-8 border-slate-800 w-full max-w-4xl text-xl font-bold">
+            <span class="text-blue-600">Robots (Regulars)</span> always end in -ED. <br>
+            <span class="text-orange-600">Rebels (Irregulars)</span> change their spelling completely!
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Inductive Observation (Negative) -->
+    <div class="slide" id="slide3">
+        <div class="text-center mb-6">
+            <span class="badge badge-neg">Part 2: The Plot Twist 🛑</span>
+        </div>
+        <h2 class="text-4xl font-black mb-8 text-slate-700">Read these text messages:</h2>
+        
+        <div class="glass-card !bg-slate-50">
+            <!-- Example 1 -->
+            <div class="mb-6 pb-6 border-b-2 border-slate-200">
+                <div class="chat-bubble">I <span class="highlight-blue">texted</span> my ex last night. 😬</div>
+                <div class="chat-bubble-right">Good thing I <span class="highlight-red">didn't text</span> mine. 😌</div>
+            </div>
+            
+            <!-- Example 2 -->
+            <div class="mb-4">
+                <div class="chat-bubble">We <span class="highlight-orange">went</span> to the party. 🪩</div>
+                <div class="chat-bubble-right">I was tired. I <span class="highlight-red">didn't go</span>. 😴</div>
+            </div>
+            
+            <button onclick="document.getElementById('hint2').classList.remove('hidden'); this.classList.add('hidden');" class="w-full bg-slate-800 text-white font-bold text-xl py-3 rounded-xl shadow-md hover:bg-slate-900 transition">
+                🔍 What happened to the verbs in the replies?
+            </button>
+            
+            <div id="hint2" class="hidden bg-white p-4 rounded-xl shadow-inner mt-4 border-l-8 border-rose-500">
+                <p class="text-xl font-black text-slate-700">The past tense disappeared from the main verb!</p>
+                <p class="text-lg text-slate-600 font-semibold">"Texted" became <span class="text-rose-600 font-black">text</span>. "Went" became <span class="text-rose-600 font-black">go</span>.</p>
+                <p class="text-lg text-slate-500 mt-1 italic">Why? Because DIDN'T absorbed all the past energy. 🧛‍♂️</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Inductive Observation (Questions) -->
+    <div class="slide" id="slide4">
+        <div class="text-center mb-6">
+            <span class="badge badge-que">Part 3: Spilling the tea ☕</span>
+        </div>
+        <h2 class="text-4xl font-black mb-8 text-slate-700">How do we ask for the gossip?</h2>
+        
+        <div class="glass-card !bg-purple-50 border-2 border-purple-100">
+            <div class="space-y-6 mb-8 pl-4">
+                <p class="text-3xl font-semibold text-slate-700">
+                    <span class="highlight-purple">Did</span> you <span class="font-black border-b-4 border-purple-300">finish</span> the assignment? 📚
+                </p>
+                <p class="text-3xl font-semibold text-slate-700">
+                    <span class="highlight-purple">Did</span> he <span class="font-black border-b-4 border-purple-300">buy</span> the concert tickets? 🎟️
+                </p>
+            </div>
+            
+            <!-- Inductive Trigger -->
+            <button onclick="document.getElementById('hint3').classList.remove('hidden'); this.classList.add('hidden');" class="w-full bg-purple-600 text-white font-bold text-2xl py-4 rounded-xl shadow-md hover:bg-purple-700 transition active:scale-95">
+                🔍 Who is doing the heavy lifting?
+            </button>
+            
+            <div id="hint3" class="hidden text-center bg-white p-6 rounded-xl shadow-inner mt-4 border-l-8 border-purple-500">
+                <p class="text-3xl font-black text-purple-600">"DID" opens the door! 🚪</p>
+                <p class="text-xl text-slate-600 mt-2 font-semibold">When "Did" is in the sentence, the action verb relaxes and stays in its normal form.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: The Master Matrix -->
+    <div class="slide" id="slide5">
+        <span class="text-6xl mb-2">🕶️</span>
+        <h2 class="text-4xl font-black mb-4 text-slate-700">The Golden Rule Matrix</h2>
+        <p class="text-xl text-rose-600 font-bold mb-6 text-center bg-rose-50 py-2 px-6 rounded-full">
+            Only ONE word can carry the past tense.
+        </p>
+        
+        <div class="glass-card !py-6 w-full max-w-5xl">
+            <div class="space-y-4 w-full">
+                <!-- Affirmative -->
+                <div class="bg-blue-50 p-4 rounded-xl border-l-8 border-blue-500 flex items-center justify-between">
+                    <div>
+                        <span class="badge badge-pos mb-1">1. Affirmative (+)</span>
+                        <p class="text-xl font-bold text-slate-700">She <span class="highlight-orange">bought</span> a coffee. <span class="text-sm">(Irregular verb works here)</span></p>
+                    </div>
+                </div>
+
+                <!-- Negative -->
+                <div class="bg-rose-50 p-4 rounded-xl border-l-8 border-rose-500 flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="badge badge-neg mb-1">2. Negative (-)</span>
+                        <p class="text-xl font-bold text-slate-700">She <span class="highlight-red">didn't buy</span> a coffee.</p>
+                        <p class="text-sm text-rose-600 font-bold mt-1">"Didn't" is the boss. "Buy" goes back to normal.</p>
+                    </div>
+                </div>
+
+                <!-- Question -->
+                <div class="bg-purple-50 p-4 rounded-xl border-l-8 border-purple-500 flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="badge badge-que mb-1">3. Question (?)</span>
+                        <p class="text-xl font-bold text-slate-700"><span class="highlight-purple">Did</span> she <span class="text-slate-800">buy</span> a coffee?</p>
+                        <p class="text-sm text-purple-600 font-bold mt-1">"Did" is the boss. "Buy" goes back to normal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Interactive Game -->
+    <div class="slide" id="slide6">
+        <h2 class="text-4xl font-black mb-4 flex items-center justify-center gap-3">
+            Final Exam! 🎮
+        </h2>
+        <p class="text-2xl text-slate-500 font-semibold mb-6">Choose the correct grammar.</p>
+        
+        <div class="w-full max-w-4xl space-y-4">
+            <!-- Q1: Affirmative Irregular -->
+            <div class="glass-card !py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xl font-bold text-slate-700 w-full md:w-3/5">
+                    1. Yesterday I <span class="text-slate-400">____</span> (see) my teacher at the mall.
+                </p>
+                <div class="w-full md:w-2/5">
+                    <select class="w-full" onchange="checkAnswer(this, 'correct')">
+                        <option value="?" disabled selected>Tap to answer...</option>
+                        <option value="correct">saw (Rebel) 👾</option>
+                        <option value="wrong">seeed (Robot) 🤖</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Q2: Negative -->
+            <div class="glass-card !py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xl font-bold text-slate-700 w-full md:w-3/5">
+                    2. The movie was boring, so we <span class="text-slate-400">____</span> it.
+                </p>
+                <div class="w-full md:w-2/5">
+                    <select class="w-full" onchange="checkAnswer(this, 'correct')">
+                        <option value="?" disabled selected>Tap to answer...</option>
+                        <option value="correct">didn't finish 🛑</option>
+                        <option value="wrong">didn't finished ❌</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Q3: Question -->
+            <div class="glass-card !py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xl font-bold text-slate-700 w-full md:w-3/5">
+                    3. Hey, <span class="text-slate-400">____</span> my Netflix password?
+                </p>
+                <div class="w-full md:w-2/5">
+                    <select class="w-full" onchange="checkAnswer(this, 'correct')">
+                        <option value="?" disabled selected>Tap to answer...</option>
+                        <option value="wrong">Did you changed ❌</option>
+                        <option value="correct">Did you change 🤔</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div id="feedbackContainer" class="mt-4 h-10 flex items-center justify-center">
+            <p id="feedback" class="text-2xl font-black opacity-0 transition-opacity duration-300"></p>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Conclusion -->
+    <div class="slide" id="slide7">
+        <span class="text-8xl mb-6">🎓</span>
+        <h1 class="text-5xl font-black text-slate-800 mb-8">Nailed it!</h1>
+        
+        <div class="glass-card text-center !max-w-3xl">
+            <p class="text-3xl font-semibold text-slate-600 mb-8">To summarize:</p>
+            
+            <!-- Corrección: Eliminado el 'w-max', cambiado por 'w-full max-w-2xl' y fuente más grande -->
+            <div class="flex flex-col gap-6 text-2xl font-bold text-left w-full max-w-2xl mx-auto mb-6 px-4">
+                <p class="flex items-start gap-3">
+                    <span>✅</span> 
+                    <span><span class="text-blue-600">Affirmative (+)</span> = Use your Robots (-ed) and Rebels.</span>
+                </p>
+                <p class="flex items-start gap-3">
+                    <span>🛑</span> 
+                    <span><span class="text-red-600">Negative (-) & (?)</span> = <b class="text-slate-800">DID</b> does all the work. The verb stays normal!</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 7;
+        document.getElementById('totalCount').innerText = totalSlides;
+
+        function changeSlide(direction) {
+            const currentElement = document.getElementById('slide' + currentSlide);
+            currentElement.classList.remove('active-slide');
+            
+            currentSlide += direction;
+            
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            
+            const nextElement = document.getElementById('slide' + currentSlide);
+            nextElement.classList.add('active-slide');
+            
+            document.getElementById('currentCount').innerText = currentSlide;
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentSlide === totalSlides) {
+                nextBtn.disabled = true;
+                nextBtn.innerText = "Done! 👏";
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.innerText = "Next ▶";
+            }
+        }
+
+        function checkAnswer(selectElement, correctAnswer) {
+            const feedback = document.getElementById('feedback');
+            
+            selectElement.style.backgroundColor = "";
+            selectElement.style.color = "";
+            selectElement.style.borderColor = "";
+
+            if(selectElement.value === correctAnswer) {
+                selectElement.style.backgroundColor = "#dcfce7"; 
+                selectElement.style.color = "#15803d"; 
+                selectElement.style.borderColor = "#22c55e"; 
+                
+                feedback.innerText = "Spot on! ✨";
+                feedback.className = "text-2xl font-black text-green-600 opacity-100 transition-opacity duration-300";
+            } else if (selectElement.value !== '?') {
+                selectElement.style.backgroundColor = "#fee2e2"; 
+                selectElement.style.color = "#b91c1c"; 
+                selectElement.style.borderColor = "#ef4444"; 
+                
+                feedback.innerText = "Careful! Remember the rules 👀";
+                feedback.className = "text-xl font-black text-red-500 opacity-100 transition-opacity duration-300";
+            }
+        }
+    </script>
+</body>
+</html>
