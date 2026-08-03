@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Presentation: Verbs to Adjectives (-ing vs -ed) - Desktop Optimized</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for the card transition */
+        .card-content {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .card-enter {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+        .card-exit {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-3xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-2">Adjectives: -ing vs -ed</h1>
+        <p class="text-center text-lg text-gray-600 dark:text-gray-300 mb-8">Navigate with the buttons or your arrow keys.</p>
+        
+        <div id="card" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-10 relative overflow-hidden">
+            <div id="card-content">
+                <!-- Content will be injected here with JavaScript -->
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-8">
+            <button id="prev-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+                &larr; Previous
+            </button>
+            <div id="progress" class="text-gray-700 dark:text-gray-300 font-semibold text-lg"></div>
+            <button id="next-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+                Next &rarr;
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const verbs = [
+            { base: "Alarm", ing_adj: "Alarming", ing_example: "The news was alarming.", ed_adj: "Alarmed", ed_example: "I was alarmed by the news." },
+            { base: "Amaze", ing_adj: "Amazing", ing_example: "The magic trick was amazing.", ed_adj: "Amazed", ed_example: "We were amazed by the magic trick." },
+            { base: "Amuse", ing_adj: "Amusing", ing_example: "The comedian was very amusing.", ed_adj: "Amused", ed_example: "She was amused by his jokes." },
+            { base: "Annoy", ing_adj: "Annoying", ing_example: "That buzzing sound is annoying.", ed_adj: "Annoyed", ed_example: "He was annoyed with the service." },
+            { base: "Bore", ing_adj: "Boring", ing_example: "This book is really boring.", ed_adj: "Bored", ed_example: "I am bored, let's do something." },
+            { base: "Confuse", ing_adj: "Confusing", ing_example: "The instructions were confusing.", ed_adj: "Confused", ed_example: "I am confused about what to do." },
+            { base: "Depress", ing_adj: "Depressing", ing_example: "The rainy weather is depressing.", ed_adj: "Depressed", ed_example: "She has been feeling very depressed lately." },
+            { base: "Disappoint", ing_adj: "Disappointing", ing_example: "The movie's ending was disappointing.", ed_adj: "Disappointed", ed_example: "They were disappointed with the results." },
+            { base: "Disgust", ing_adj: "Disgusting", ing_example: "The smell was disgusting.", ed_adj: "Disgusted", ed_example: "I was disgusted by his comments." },
+            { base: "Embarrass", ing_adj: "Embarrassing", ing_example: "It was an embarrassing moment.", ed_adj: "Embarrassed", ed_example: "He felt embarrassed when he forgot her name." },
+            { base: "Excite", ing_adj: "Exciting", ing_example: "The roller coaster ride was exciting.", ed_adj: "Excited", ed_example: "She is excited about her trip." },
+            { base: "Exhaust", ing_adj: "Exhausting", ing_example: "My job is exhausting.", ed_adj: "Exhausted", ed_example: "I am exhausted after working all day." },
+            { base: "Fascinate", ing_adj: "Fascinating", ing_example: "History is a fascinating subject.", ed_adj: "Fascinated", ed_example: "He was fascinated by the ancient ruins." },
+            { base: "Frighten", ing_adj: "Frightening", ing_example: "It was a frightening experience.", ed_adj: "Frightened", ed_example: "The little girl was frightened of the dog." },
+            { base: "Frustrate", ing_adj: "Frustrating", ing_example: "Learning a new language can be frustrating.", ed_adj: "Frustrated", ed_example: "She felt frustrated with her lack of progress." },
+            { base: "Inspire", ing_adj: "Inspiring", ing_example: "His speech was very inspiring.", ed_adj: "Inspired", ed_example: "I felt inspired to start my own project." },
+            { base: "Interest", ing_adj: "Interesting", ing_example: "That's an interesting idea.", ed_adj: "Interested", ed_example: "I'm interested in modern art." },
+            { base: "Overwhelm", ing_adj: "Overwhelming", ing_example: "The amount of work was overwhelming.", ed_adj: "Overwhelmed", ed_example: "She felt overwhelmed by all the attention." },
+            { base: "Relax", ing_adj: "Relaxing", ing_example: "A hot bath is very relaxing.", ed_adj: "Relaxed", ed_example: "I feel so relaxed after my vacation." },
+            { base: "Satisfy", ing_adj: "Satisfying", ing_example: "Finishing the marathon was a satisfying experience.", ed_adj: "Satisfied", ed_example: "Are you satisfied with your meal?" },
+            { base: "Shock", ing_adj: "Shocking", ing_example: "The news of the accident was shocking.", ed_adj: "Shocked", ed_example: "We were all shocked to hear the news." },
+            { base: "Surprise", ing_adj: "Surprising", ing_example: "It was surprising to see them together.", ed_adj: "Surprised", ed_example: "I was surprised by the birthday party." },
+            { base: "Tire", ing_adj: "Tiring", ing_example: "Shopping can be a tiring activity.", ed_adj: "Tired", ed_example: "You look tired, you should rest." },
+            { base: "Worry", ing_adj: "Worrying", ing_example: "The political situation is worrying.", ed_adj: "Worried", ed_example: "I'm worried about my final exams." }
+        ];
+
+        let currentIndex = 0;
+
+        const cardContent = document.getElementById('card-content');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressIndicator = document.getElementById('progress');
+
+        function showVerb(index) {
+            const verb = verbs[index];
+            
+            // Fade out effect
+            cardContent.classList.add('card-enter');
+
+            setTimeout(() => {
+                cardContent.innerHTML = `
+                    <div class="text-center mb-8">
+                        <p class="text-md text-indigo-500 dark:text-indigo-400 font-semibold tracking-wider">BASE VERB</p>
+                        <h2 class="text-5xl font-bold text-gray-900 dark:text-white">${verb.base}</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- -ING Column -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-3">${verb.ing_adj} <span class="text-lg font-normal text-gray-500 dark:text-gray-400">(-ing)</span></h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-300 italic">" ${verb.ing_example} "</p>
+                            <p class="text-sm mt-3 text-gray-500 dark:text-gray-400">Describes the <strong>cause</strong> of the feeling.</p>
+                        </div>
+
+                        <!-- -ED Column -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-3">${verb.ed_adj} <span class="text-lg font-normal text-gray-500 dark:text-gray-400">(-ed)</span></h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-300 italic">" ${verb.ed_example} "</p>
+                            <p class="text-sm mt-3 text-gray-500 dark:text-gray-400">Describes the <strong>feeling</strong> itself.</p>
+                        </div>
+                    </div>
+                `;
+                progressIndicator.textContent = `Verb ${index + 1} of ${verbs.length}`;
+                
+                // Fade in effect
+                cardContent.classList.remove('card-enter');
+            }, 300); // Matches the CSS transition duration
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % verbs.length;
+            showVerb(currentIndex);
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + verbs.length) % verbs.length;
+            showVerb(currentIndex);
+        }
+
+        // Event Listeners for buttons
+        prevBtn.addEventListener('click', showPrev);
+        nextBtn.addEventListener('click', showNext);
+
+        // Event Listener for Keyboard Navigation
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                showNext();
+            } else if (event.key === 'ArrowLeft') {
+                showPrev();
+            }
+        });
+
+        // Show the first card on page load
+        showVerb(currentIndex);
+    </script>
+</body>
+</html>

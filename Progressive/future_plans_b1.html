@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future: Will vs Present Continuous</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-dark: #2d3436;
+            --accent-will: #ff7675; /* Soft Red for Spontaneous */
+            --accent-pc: #00cec9; /* Mint for Fixed */
+            --chat-sent: #74b9ff;
+            --chat-received: #dfe6e9;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-container {
+            width: 90%;
+            max-width: 1100px;
+            height: 85vh;
+            position: relative;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 3rem;
+            box-sizing: border-box;
+            z-index: 1;
+            transform: translateY(20px);
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 10;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #636e72;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        /* iMessage Style Chat Bubbles */
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 1rem 0;
+        }
+
+        .bubble {
+            max-width: 75%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .received {
+            align-self: flex-start;
+            background: var(--chat-received);
+            color: var(--text-dark);
+            border-bottom-left-radius: 5px;
+        }
+
+        .sent {
+            align-self: flex-end;
+            background: var(--chat-sent);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .sent.will-color { background: var(--accent-will); }
+        .sent.pc-color { background: var(--accent-pc); }
+
+        .tag {
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .will-tag { background: var(--accent-will); }
+        .pc-tag { background: var(--accent-pc); }
+
+        .comparison {
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .col {
+            flex: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+        }
+
+        .col.will-col { border-color: var(--accent-will); }
+        .col.pc-col { border-color: var(--accent-pc); }
+
+        .highlight {
+            font-weight: bold;
+        }
+        .hw { color: var(--accent-will); }
+        .hpc { color: var(--accent-pc); }
+
+        /* Modern Table */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f1f2f6;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        /* Controls */
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+            box-sizing: border-box;
+            z-index: 20;
+        }
+
+        button {
+            background: white;
+            border: none;
+            color: var(--text-dark);
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .box-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 85%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            margin: 1rem 0;
+            font-size: 1.3rem;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container">
+        
+        <!-- Slide 1: Intro -->
+        <div class="slide active">
+            <h1>Future Plans 🗓️</h1>
+            <h2>The "Oops" vs. The "It's in the Calendar"</h2>
+            <p style="font-size: 1.5rem; color: #636e72;">Mastering <span class="highlight hw">Will</span> and <span class="highlight hpc">Present Continuous</span></p>
+        </div>
+
+        <!-- Slide 2: Inductive Observation -->
+        <div class="slide">
+            <h2>Read the room... (Text Messages)</h2>
+            
+            <div class="chat-container">
+                <span class="tag will-tag" style="align-self: center;">Situation 1</span>
+                <div class="bubble received">Oh no! We are completely out of milk for breakfast. 😭</div>
+                <div class="bubble sent will-color">Really? I <span style="font-weight: 800;">will go</span> to the OXXO right now to buy some! 🏃‍♂️</div>
+            </div>
+
+            <div class="chat-container" style="margin-top: 2rem;">
+                <span class="tag pc-tag" style="align-self: center;">Situation 2</span>
+                <div class="bubble received">Hey! Are you free this Saturday to play video games? 🎮</div>
+                <div class="bubble sent pc-color">Sorry bro, I <span style="font-weight: 800;">am traveling</span> to San Luis with Alma. We booked the hotel yesterday! 🚗</div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Concept extraction -->
+        <div class="slide">
+            <h2>What is the difference? 🤔</h2>
+            <p style="font-size: 1.5rem; margin-bottom: 2rem;">When did they make the decision?</p>
+            
+            <div class="comparison">
+                <div class="col will-col">
+                    <h3 class="hw">I WILL go...</h3>
+                    <ul style="text-align: left; font-size: 1.2rem; line-height: 1.8;">
+                        <li>Decided at the exact moment of speaking? <strong>Yes.</strong></li>
+                        <li>Is there a previous plan? <strong>No.</strong></li>
+                        <li>Vibe: <strong>Spontaneous / "I got this" 🦸‍♂️</strong></li>
+                    </ul>
+                </div>
+                <div class="col pc-col">
+                    <h3 class="hpc">I AM TRAVELING...</h3>
+                    <ul style="text-align: left; font-size: 1.2rem; line-height: 1.8;">
+                        <li>Decided at the exact moment of speaking? <strong>No.</strong></li>
+                        <li>Is there a previous plan/tickets? <strong>Yes.</strong></li>
+                        <li>Vibe: <strong>100% Locked In 🔒</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Grammar Anatomy -->
+        <div class="slide">
+            <h2>The Anatomy (Grammar Check) 🧬</h2>
+            
+            <div class="comparison">
+                <div class="col">
+                    <span class="tag will-tag">WILL</span>
+                    <table>
+                        <tr>
+                            <td><strong>(+)</strong> Subj + <span class="hw">will</span> + Base Verb</td>
+                        </tr>
+                        <tr>
+                            <td><em>I will help you with that.</em></td>
+                        </tr>
+                        <tr>
+                            <td><strong>(-)</strong> Subj + <span class="hw">won't</span> + Base Verb</td>
+                        </tr>
+                        <tr>
+                            <td><em>I won't tell anyone.</em></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="col">
+                    <span class="tag pc-tag">PRESENT CONTINUOUS</span>
+                    <table>
+                        <tr>
+                            <td><strong>(+)</strong> Subj + <span class="hpc">am/is/are + Verb(ing)</span></td>
+                        </tr>
+                        <tr>
+                            <td><em>She is meeting her boss at 3 PM.</em></td>
+                        </tr>
+                        <tr>
+                            <td><strong>(-)</strong> Subj + <span class="hpc">am/is/are NOT + Verb(ing)</span></td>
+                        </tr>
+                        <tr>
+                            <td><em>We aren't working tomorrow.</em></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Rule Summary -->
+        <div class="slide">
+            <h2>The Formula 🧪</h2>
+            
+            <div class="box-container" style="border-left: 6px solid var(--accent-will);">
+                <span class="tag will-tag">WILL</span><br>
+                Use it for <strong>spontaneous decisions</strong> made exactly at the time of speaking. It's an instant reaction, an offer, or a promise. <br>
+                <em>(Usually reactions to a problem or a situation).</em>
+            </div>
+
+            <div class="box-container" style="border-left: 6px solid var(--accent-pc);">
+                <span class="tag pc-tag">PRESENT CONTINUOUS</span><br>
+                Use it for <strong>fixed arrangements</strong> in the near future. You already made the decision in the past, and usually, time/place are confirmed.
+                <em>(Keywords: tomorrow, at 8 PM, next weekend).</em>
+            </div>
+        </div>
+
+        <!-- Slide 6: Vibe Check (Practice) -->
+        <div class="slide">
+            <h2>Vibe Check: Choose the correct one ✅</h2>
+            
+            <div class="box-container">
+                <p>1. <strong>POV:</strong> The phone is ringing and everyone is busy.<br>
+                ➔ "Don't worry, I ________________ (answer) it!"</p>
+                
+                <p>2. <strong>POV:</strong> You have an appointment card from your dentist for tomorrow at 4:00 PM.<br>
+                ➔ "I can't go to the cinema, I ________________ (see) the dentist tomorrow."</p>
+
+                <p>3. <strong>POV:</strong> You are at a restaurant. The waiter asks: "Are you ready to order?"<br>
+                ➔ "Yes, I ________________ (have) the hamburger and fries."</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Answers -->
+        <div class="slide">
+            <h2>The Receipts (Answers) 🧾</h2>
+            
+            <div class="box-container">
+                <p>1. "Don't worry, I <strong class="hw">will answer</strong> it!"<br>
+                <em style="color: #636e72; font-size: 1.1rem;">(Spontaneous reaction to the phone ringing).</em></p>
+                
+                <p>2. "I can't go to the cinema, I <strong class="hpc">am seeing</strong> the dentist tomorrow."<br>
+                <em style="color: #636e72; font-size: 1.1rem;">(Fixed arrangement/appointment already in your calendar).</em></p>
+
+                <p>3. "Yes, I <strong class="hw">will have</strong> the hamburger and fries."<br>
+                <em style="color: #636e72; font-size: 1.1rem;">(Spontaneous decision made at the moment you order).</em></p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button id="prevBtn" onclick="changeSlide(-1)" disabled>◄ Back</button>
+            <button id="nextBtn" onclick="changeSlide(1)">Next ►</button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function changeSlide(direction) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide += direction;
+            
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+
+            slides[currentSlide].classList.add('active');
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+        }
+    </script>
+</body>
+</html>

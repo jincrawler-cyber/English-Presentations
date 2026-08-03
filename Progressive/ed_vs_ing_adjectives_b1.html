@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adjectives: -ED vs -ING</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-1: #c084fc; /* Purple for -ED */
+            --accent-2: #fb923c; /* Orange for -ING */
+            --accent-3: #4ade80; /* Green for base verbs */
+            --table-bg: #1e293b;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-container {
+            width: 90%;
+            max-width: 1100px;
+            height: 85vh;
+            position: relative;
+            background: #1e293b;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--accent-2);
+            margin-bottom: 1.5rem;
+        }
+
+        .meme-box {
+            background: #334155;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-3);
+            margin: 1rem 0;
+            width: 85%;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .tag {
+            background: var(--accent-2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .ed-tag { background: var(--accent-1); }
+        .ing-tag { background: var(--accent-2); }
+
+        .comparison {
+            display: flex;
+            gap: 2rem;
+            width: 95%;
+            justify-content: center;
+        }
+
+        .col {
+            flex: 1;
+            background: #334155;
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .highlight {
+            color: var(--accent-3);
+            font-weight: bold;
+        }
+
+        /* Table Styles for Grammar */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        /* Specific adjustments for the large vocabulary table to fit */
+        .vocab-table {
+            font-size: 1.05rem;
+            margin-top: 0.5rem;
+        }
+        
+        .vocab-table th, .vocab-table td {
+            padding: 6px 12px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #475569;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .grammar-col h3 {
+            margin-top: 0;
+        }
+
+        /* Controls */
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-sizing: border-box;
+            z-index: 20;
+        }
+
+        button {
+            background: none;
+            border: 2px solid var(--accent-1);
+            color: var(--accent-1);
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: var(--accent-1);
+            color: var(--bg-color);
+        }
+
+        button:disabled {
+            border-color: #475569;
+            color: #475569;
+            cursor: not-allowed;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container">
+        
+        <!-- Slide 1: Intro -->
+        <div class="slide active">
+            <h1>-ED vs. -ING Adjectives 🎭</h1>
+            <h2>"Who hurt you" vs. "Who is hurting you"</h2>
+            <p style="font-size: 1.5rem;">A survival guide to <span style="color: var(--accent-1); font-weight: bold;">Feelings</span> and <span style="color: var(--accent-2); font-weight: bold;">Causes</span></p>
+        </div>
+
+        <!-- Slide 2: Inductive Observation 1 -->
+        <div class="slide">
+            <h2>Read the room...</h2>
+            
+            <div class="meme-box" style="border-left-color: var(--accent-2);">
+                <span class="tag ing-tag">Situation 1</span><br>
+                <strong>POV:</strong> You are in a 3-hour math lecture. The professor speaks in a monotone voice. <br><br>
+                <em>"This class is so <span style="color: var(--accent-2); font-weight: bold;">boring</span>."</em> 🥱 (The Villain)
+            </div>
+
+            <div class="meme-box" style="border-left-color: var(--accent-1);">
+                <span class="tag ed-tag">Situation 2</span><br>
+                <strong>POV:</strong> You are sitting in that class. You are falling asleep. <br><br>
+                <em>"I am so <span style="color: var(--accent-1); font-weight: bold;">bored</span>."</em> 💀 (The Victim)
+            </div>
+        </div>
+
+        <!-- Slide 3: Concept extraction -->
+        <div class="slide">
+            <h2>What is the difference? 🤔</h2>
+            <p style="font-size: 1.5rem;">Look closely at the two situations.</p>
+            
+            <div class="comparison">
+                <div class="col">
+                    <h3 style="color: var(--accent-1);">I am BORED (-ED)</h3>
+                    <ul style="text-align: left; font-size: 1.2rem; line-height: 1.8;">
+                        <li>Is it about how a person feels inside? Yes.</li>
+                        <li>Is it an internal emotion? Yes.</li>
+                        <li>Vibe: <strong>My current status / The victim</strong></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h3 style="color: var(--accent-2);">The class is BORING (-ING)</h3>
+                    <ul style="text-align: left; font-size: 1.2rem; line-height: 1.8;">
+                        <li>Does the class have feelings? No.</li>
+                        <li>Does the class cause the feeling in you? Yes.</li>
+                        <li>Vibe: <strong>The instigator / The Red Flag 🚩</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Anatomy (Base Verbs) - UPDATED WITH IMAGE VOCABULARY -->
+        <div class="slide">
+            <h2>The Anatomy (Where do they come from?) 🧬</h2>
+            <p style="font-size: 1.3rem;">These adjectives are actually born from <span class="highlight">VERBS</span> (actions).</p>
+            
+            <div class="meme-box" style="width: 95%; padding: 1rem 2rem;">
+                <table class="vocab-table" style="text-align: center;">
+                    <tr>
+                        <th style="text-align: center;">Base Word (VERB)</th>
+                        <th style="text-align: center; color: var(--accent-1);">Adjective -ED (How I feel)</th>
+                        <th style="text-align: center; color: var(--accent-2);">Adjective -ING (The Cause)</th>
+                    </tr>
+                    <tr>
+                        <td>To <strong>surprise</strong></td>
+                        <td><span style="color: var(--accent-1); font-weight: bold;">surprised</span> 😲</td>
+                        <td><span style="color: var(--accent-2); font-weight: bold;">surprising</span> 🎁</td>
+                    </tr>
+                    <tr>
+                        <td>To <strong>annoy</strong></td>
+                        <td><span style="color: var(--accent-1); font-weight: bold;">annoyed</span> 😒</td>
+                        <td><span style="color: var(--accent-2); font-weight: bold;">annoying</span> 🪰</td>
+                    </tr>
+                    <tr>
+                        <td>To <strong>disappoint</strong></td>
+                        <td><span style="color: var(--accent-1); font-weight: bold;">disappointed</span> 😞</td>
+                        <td><span style="color: var(--accent-2); font-weight: bold;">disappointing</span> 📉</td>
+                    </tr>
+                    <tr>
+                        <td>To <strong>embarrass</strong></td>
+                        <td><span style="color: var(--accent-1); font-weight: bold;">embarrassed</span> 😳</td>
+                        <td><span style="color: var(--accent-2); font-weight: bold;">embarrassing</span> 🤦‍♂️</td>
+                    </tr>
+                    <tr>
+                        <td>To <strong>fascinate</strong></td>
+                        <td><span style="color: var(--accent-1); font-weight: bold;">fascinated</span> 🤩</td>
+                        <td><span style="color: var(--accent-2); font-weight: bold;">fascinating</span> 🌌</td>
+                    </tr>
+                    <tr>
+                        <td>To <strong>frighten</strong></td>
+                        <td><span style="color: var(--accent-1); font-weight: bold;">frightened</span> 😨</td>
+                        <td><span style="color: var(--accent-2); font-weight: bold;">frightening</span> 👻</td>
+                    </tr>
+                    <tr>
+                        <td>To <strong>shock</strong></td>
+                        <td><span style="color: var(--accent-1); font-weight: bold;">shocked</span> 🤯</td>
+                        <td><span style="color: var(--accent-2); font-weight: bold;">shocking</span> ⚡</td>
+                    </tr>
+                    <tr>
+                        <td>To <strong>amuse</strong></td>
+                        <td><span style="color: var(--accent-1); font-weight: bold;">amused</span> 😏</td>
+                        <td><span style="color: var(--accent-2); font-weight: bold;">amusing</span> 🤡</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 5: Rule Summary -->
+        <div class="slide">
+            <h2>The Formula 🧪</h2>
+            
+            <div class="meme-box" style="border-left-color: var(--accent-1);">
+                <span class="tag ed-tag">-ED ADJECTIVES</span><br>
+                Describe <strong>emotions and feelings</strong>. <br>
+                <em>(Only humans and animals can feel these. A book cannot be bored!).</em>
+            </div>
+
+            <div class="meme-box" style="border-left-color: var(--accent-2);">
+                <span class="tag ing-tag">-ING ADJECTIVES</span><br>
+                Describe the <strong>thing, situation, or person</strong> that CAUSES the emotion.
+                <em>(The characteristic of a noun).</em>
+            </div>
+        </div>
+
+        <!-- Slide 6: Vibe Check (Practice) - UPDATED WITH IMAGE CONTEXT -->
+        <div class="slide">
+            <h2>Vibe Check: Choose the correct one ✅</h2>
+            
+            <div class="meme-box" style="text-align: left; font-size: 1.3rem;">
+                1. <strong>POV:</strong> Your roommate's alarm has been ringing for 10 minutes non-stop.<br>
+                ➔ "This noise is so ________________ !" (annoy)<br><br>
+                
+                2. <strong>POV:</strong> You confidently answer a question in class, but you are 100% wrong.<br>
+                ➔ "My face was red, I was so ________________ ." (embarrass)<br><br>
+
+                3. <strong>POV:</strong> The new movie had terrible CGI and a bad story.<br>
+                ➔ "Our trip to the cinema was really ________________ ." (disappoint)
+            </div>
+        </div>
+
+        <!-- Slide 7: Answers -->
+        <div class="slide">
+            <h2>The Receipts (Answers) 🧾</h2>
+            
+            <div class="meme-box" style="text-align: left; font-size: 1.3rem;">
+                1. "This noise is so <strong style="color: var(--accent-2);">annoying</strong>!"<br>
+                <em>(The noise is the cause of the emotion).</em><br><br>
+                
+                2. "My face was red, I was so <strong style="color: var(--accent-1);">embarrassed</strong>."<br>
+                <em>(This is your internal feeling/emotion).</em><br><br>
+
+                3. "Our trip to the cinema was really <strong style="color: var(--accent-2);">disappointing</strong>."<br>
+                <em>(The movie causes the disappointment in you).</em>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button id="prevBtn" onclick="changeSlide(-1)" disabled>◄ Back</button>
+            <button id="nextBtn" onclick="changeSlide(1)">Next ►</button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function changeSlide(direction) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide += direction;
+            
+            // Bounds checking
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+
+            slides[currentSlide].classList.add('active');
+            
+            // Update buttons
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+        }
+    </script>
+</body>
+</html>
