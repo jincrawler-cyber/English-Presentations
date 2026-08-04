@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    background-color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: white;
+  }
+  .chat-container {
+    width: 100%;
+    max-width: 450px;
+    background: #2c2f33;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  }
+  .header {
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #444;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+  }
+  .message {
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 15px;
+    max-width: 85%;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .received {
+    background: #36393f;
+    color: #dcddde;
+    margin-right: auto;
+    border-top-left-radius: 2px;
+  }
+  .sent {
+    background: #5865F2; 
+    color: white;
+    margin-left: auto;
+    border-top-right-radius: 2px;
+  }
+  .vocab {
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-color: #fee75c;
+    text-decoration-thickness: 3px;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 5px;
+    margin-left: 5px;
+  }
+  .tag-n { background: #ed4245; color: white; } /* Need help */
+  .tag-g { background: #3ba55d; color: white; } /* Give help */
+  .concept-box {
+    margin-top: 20px;
+    background: #23272a;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    border-left: 5px solid #fee75c;
+  }
+</style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="header">🍿 Movie Night Squad</div>
+  
+  <div class="message received">
+    Guys, I am really <span class="vocab">in trouble</span>! <span class="tag tag-n">[N]</span> My bus just <span class="vocab">broke down</span> <span class="tag tag-n">[N]</span> and I am going to miss the movie! 😭
+  </div>
+  
+  <div class="message sent">
+    Oh no, I <span class="vocab">feel sorry for</span> you! My mom is driving right now. We can <span class="vocab">give you a ride</span>. <span class="tag tag-g">[G]</span> Where are you?
+  </div>
+  
+  <div class="message received">
+    I am near the big park, but I <span class="vocab">got lost</span> walking trying to find another bus stop. <span class="tag tag-n">[N]</span>
+  </div>
+  
+  <div class="message sent">
+    Send me your live location. I will <span class="vocab">show you where to go</span> to meet us. We will <span class="vocab">figure out</span> a fast route! <span class="tag tag-g">[G]</span>
+  </div>
+  
+  <div class="message received">
+    Wait, I <span class="vocab">warned</span> my sister about the traffic there. She says the street is closed!
+  </div>
+  
+  <div class="message sent">
+    Don't worry, my mom knows this city perfectly. She will <span class="vocab">take care of</span> it. <span class="tag tag-g">[G]</span>
+  </div>
+
+  <div class="message received">
+    You guys are the best. I am so <span class="vocab">grateful</span>! <span class="tag tag-n">[N]</span>
+  </div>
+</div>
+
+<div class="concept-box">
+  <h3>🧠 Concept Check</h3>
+  <p>Look at the tags! What is happening?</p>
+  <ul>
+    <li><span class="tag tag-n">[N]</span> = <b>Needing help</b> (I have a problem!).</li>
+    <li><span class="tag tag-g">[G]</span> = <b>Giving help</b> (I have a solution!).</li>
+  </ul>
+</div>
+
+</body>
+</html>
