@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictions: Will vs Going To</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-1: #38bdf8; /* Light blue */
+            --accent-2: #f472b6; /* Pink */
+            --accent-3: #a3e635; /* Lime */
+            --table-bg: #1e293b;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-container {
+            width: 90%;
+            max-width: 1100px;
+            height: 85vh;
+            position: relative;
+            background: #1e293b;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--accent-2);
+            margin-bottom: 1.5rem;
+        }
+
+        .meme-box {
+            background: #334155;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-3);
+            margin: 1rem 0;
+            width: 85%;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .tag {
+            background: var(--accent-2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .will-tag { background: var(--accent-2); }
+        .going-tag { background: var(--accent-1); }
+
+        .comparison {
+            display: flex;
+            gap: 2rem;
+            width: 95%;
+            justify-content: center;
+        }
+
+        .col {
+            flex: 1;
+            background: #334155;
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .highlight {
+            color: var(--accent-3);
+            font-weight: bold;
+        }
+
+        /* Table Styles for Grammar */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #475569;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .grammar-col h3 {
+            margin-top: 0;
+        }
+
+        /* Controls */
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-sizing: border-box;
+            z-index: 20;
+        }
+
+        button {
+            background: none;
+            border: 2px solid var(--accent-1);
+            color: var(--accent-1);
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: var(--accent-1);
+            color: var(--bg-color);
+        }
+
+        button:disabled {
+            border-color: #475569;
+            color: #475569;
+            cursor: not-allowed;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container">
+        
+        <!-- Slide 1: Intro -->
+        <div class="slide active">
+            <h1>Predictions 🔮</h1>
+            <h2>"Trust me bro" vs. "I have receipts"</h2>
+            <p style="font-size: 1.5rem;">A survival guide to <span class="highlight">Will</span> and <span class="highlight">Going to</span></p>
+        </div>
+
+        <!-- Slide 2: Inductive Observation 1 -->
+        <div class="slide">
+            <h2>Read the room...</h2>
+            
+            <div class="meme-box">
+                <span class="tag will-tag">Situation 1</span><br>
+                <strong>POV:</strong> You and your friends are talking about the year 2050. Nobody knows anything for sure. You are just guessing. <br><br>
+                <em>"I think cars <span class="highlight">will</span> fly."</em> 🚗💨
+            </div>
+
+            <div class="meme-box">
+                <span class="tag going-tag">Situation 2</span><br>
+                <strong>POV:</strong> You look at the sky. It's completely dark gray. You hear thunder. <br><br>
+                <em>"It <span class="highlight">is going to</span> rain."</em> ⛈️
+            </div>
+        </div>
+
+        <!-- Slide 3: Concept extraction -->
+        <div class="slide">
+            <h2>What is the difference? 🤔</h2>
+            <p style="font-size: 1.5rem;">Look closely at the two situations.</p>
+            
+            <div class="comparison">
+                <div class="col">
+                    <h3 style="color: var(--accent-2);">Cars WILL fly</h3>
+                    <ul style="text-align: left; font-size: 1.2rem; line-height: 1.8;">
+                        <li>Do we have proof today? No.</li>
+                        <li>Is it a personal opinion? Yes.</li>
+                        <li>Vibe: <strong>Delulu / Just a feeling</strong></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h3 style="color: var(--accent-1);">It IS GOING TO rain</h3>
+                    <ul style="text-align: left; font-size: 1.2rem; line-height: 1.8;">
+                        <li>Do we have proof today? Yes (dark clouds).</li>
+                        <li>Is it based on current evidence? Yes.</li>
+                        <li>Vibe: <strong>I have receipts 🧾</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Rule Summary -->
+        <div class="slide">
+            <h2>The Formula 🧪</h2>
+            
+            <div class="meme-box" style="border-left-color: var(--accent-2);">
+                <span class="tag will-tag">WILL</span><br>
+                Use it when you <strong>guess, think, or believe</strong> something will happen. No hard evidence. <br>
+                <em>(Usually comes with: I think, I hope, maybe, probably).</em>
+            </div>
+
+            <div class="meme-box" style="border-left-color: var(--accent-1);">
+                <span class="tag going-tag">BE GOING TO</span><br>
+                Use it when you can <strong>see, hear, or feel the evidence right now</strong>. A logical consequence.
+            </div>
+        </div>
+
+        <!-- Slide 5: Grammar Review -->
+        <div class="slide">
+            <h2>The Anatomy (Grammar Check) 🦴</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">Let's break down the structure so you don't fail finals.</p>
+            
+            <div class="comparison">
+                <!-- WILL Structure -->
+                <div class="col grammar-col" style="border-top: 4px solid var(--accent-2);">
+                    <h3 style="color: var(--accent-2);">WILL (Base Verb)</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Structure & Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>(+)</strong></td>
+                            <td>Subj + <span class="highlight">will</span> + Verb<br><em>I will pass the exam.</em></td>
+                        </tr>
+                        <tr>
+                            <td><strong>(-)</strong></td>
+                            <td>Subj + <span class="highlight">won't</span> + Verb<br><em>I won't fail this class.</em></td>
+                        </tr>
+                        <tr>
+                            <td><strong>(?)</strong></td>
+                            <td><span class="highlight">Will</span> + Subj + Verb?<br><em>Will I survive this semester?</em></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- GOING TO Structure -->
+                <div class="col grammar-col" style="border-top: 4px solid var(--accent-1);">
+                    <h3 style="color: var(--accent-1);">BE GOING TO (Base Verb)</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Structure & Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>(+)</strong></td>
+                            <td>Subj + <span class="highlight">am/is/are going to</span> + Verb<br><em>She is going to study all night.</em></td>
+                        </tr>
+                        <tr>
+                            <td><strong>(-)</strong></td>
+                            <td>Subj + <span class="highlight">am/is/are NOT going to</span> + Verb<br><em>He isn't going to sleep.</em></td>
+                        </tr>
+                        <tr>
+                            <td><strong>(?)</strong></td>
+                            <td><span class="highlight">Am/Is/Are</span> + Subj + going to + Verb?<br><em>Are we going to graduate?</em></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Vibe Check (Practice) -->
+        <div class="slide">
+            <h2>Vibe Check: Choose the correct one ✅</h2>
+            
+            <div class="meme-box" style="text-align: left; font-size: 1.3rem;">
+                1. <strong>POV:</strong> Your friend is carrying 10 coffees and trips over a cable.<br>
+                ➔ "Oh no! He ________________ drop them!" <br><br>
+                
+                2. <strong>POV:</strong> You are talking about artificial intelligence taking over the world.<br>
+                ➔ "In my opinion, robots ________________ take our jobs."<br><br>
+
+                3. <strong>POV:</strong> You look at your phone. 1% battery.<br>
+                ➔ "My phone ________________ die."
+            </div>
+        </div>
+
+        <!-- Slide 7: Answers -->
+        <div class="slide">
+            <h2>The Receipts (Answers) 🧾</h2>
+            
+            <div class="meme-box" style="text-align: left; font-size: 1.3rem;">
+                1. "Oh no! He <strong class="highlight">is going to</strong> drop them!" <br>
+                <em>(Evidence: He is tripping right now).</em><br><br>
+                
+                2. "In my opinion, robots <strong class="highlight">will</strong> take our jobs."<br>
+                <em>(Evidence: None, just a personal belief / "Trust me bro").</em><br><br>
+
+                3. "My phone <strong class="highlight">is going to</strong> die."<br>
+                <em>(Evidence: You literally see the 1% battery).</em>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button id="prevBtn" onclick="changeSlide(-1)" disabled>◄ Back</button>
+            <button id="nextBtn" onclick="changeSlide(1)">Next ►</button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function changeSlide(direction) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide += direction;
+            
+            // Bounds checking
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+
+            slides[currentSlide].classList.add('active');
+            
+            // Update buttons
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+        }
+    </script>
+</body>
+</html>
