@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Simple vs Past Continuous - Interactive Lesson</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+        
+        body { font-family: 'Nunito', sans-serif; background-color: #f8fafc; overflow: hidden; }
+        .slide { display: none; height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; }
+        .active-slide { display: flex; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(40px) scale(0.95); } 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+        
+        /* Tablet & Projector friendly UI Elements */
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 2.5rem; width: 100%; max-width: 900px; margin: 15px 0; text-align: left; }
+        
+        /* Visual Analogies */
+        .simple-theme { color: #e11d48; font-weight: 900; } /* Flash / Red */
+        .cont-theme { color: #059669; font-weight: 900; } /* Video / Green */
+        
+        .badge-simple { background-color: #ffe4e6; color: #e11d48; padding: 0.4rem 1rem; border-radius: 99px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; font-size: 1.2rem; }
+        .badge-cont { background-color: #d1fae5; color: #059669; padding: 0.4rem 1rem; border-radius: 99px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; font-size: 1.2rem; }
+        .badge-connector { background-color: #fef3c7; color: #d97706; padding: 0.2rem 0.8rem; border-radius: 12px; font-weight: 900; }
+
+        .chat-bubble { background-color: #f1f5f9; padding: 1rem 1.5rem; border-radius: 20px; border-bottom-left-radius: 4px; font-size: 1.5rem; font-weight: 700; color: #334155; margin-bottom: 1rem; width: fit-content;}
+        .chat-bubble-right { background-color: #d1fae5; padding: 1rem 1.5rem; border-radius: 20px; border-bottom-right-radius: 4px; font-size: 1.5rem; font-weight: 700; color: #065f46; margin-bottom: 1rem; width: fit-content; margin-left: auto;}
+
+        .big-emoji { font-size: 3.5rem; }
+        
+        /* Tablet Selects */
+        select { appearance: none; background-color: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.75rem 1rem; font-size: 1.25rem; font-weight: 700; color: #334155; cursor: pointer; outline: none; transition: all 0.2s; width: 100%; text-align: center;}
+        select:focus { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- NAVIGATION -->
+    <div class="fixed bottom-8 left-0 right-0 flex justify-center items-center gap-6 z-20">
+        <button onclick="changeSlide(-1)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-8 rounded-2xl shadow-md transition-all active:scale-95 disabled:opacity-30 disabled:active:scale-100 text-xl" id="prevBtn" disabled>◀ Back</button>
+        <div class="bg-white px-6 py-3 rounded-2xl shadow-md font-bold text-slate-500 text-xl tracking-widest">
+            <span id="currentCount">1</span> / <span id="totalCount">8</span>
+        </div>
+        <button onclick="changeSlide(1)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-2xl shadow-lg transition-all active:scale-95 disabled:opacity-30 disabled:active:scale-100 text-xl" id="nextBtn">Next ▶</button>
+    </div>
+
+    <!-- SLIDE 1: Hooks & Title -->
+    <div class="slide active-slide" id="slide1">
+        <span class="text-8xl mb-6">🎬</span>
+        <h1 class="text-6xl font-black text-slate-800 mb-4 tracking-tight">Telling Stories</h1>
+        <h2 class="text-3xl text-slate-500 font-semibold mb-12">How to mix actions in the past</h2>
+        <div class="glass-card text-center !max-w-md cursor-pointer hover:scale-105 transition-transform" onclick="changeSlide(1)">
+            <p class="text-2xl font-bold text-blue-600">Tap here or click Next to start 🚀</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Inductive Observation (The Cameras) -->
+    <div class="slide" id="slide2">
+        <h2 class="text-4xl font-black mb-8 text-slate-700">Look at the tools we use to tell stories:</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
+            <!-- Video Camera -->
+            <div class="glass-card !bg-emerald-50 border-2 border-emerald-200 flex flex-col items-center text-center">
+                <span class="big-emoji mb-4">🎥</span>
+                <h3 class="text-3xl font-black cont-theme mb-2">Video Camera</h3>
+                <p class="text-2xl text-emerald-800 font-medium mb-4">Records a long action happening over time.</p>
+                <div class="bg-white p-4 rounded-xl w-full text-left shadow-sm">
+                    <span class="badge-cont mb-2">Past Continuous</span><br>
+                    <span class="text-2xl font-bold mt-2 inline-block">"We <span class="cont-theme">were walking</span>..."</span>
+                </div>
+            </div>
+
+            <!-- Flash Camera -->
+            <div class="glass-card !bg-rose-50 border-2 border-rose-200 flex flex-col items-center text-center">
+                <span class="big-emoji mb-4">📸</span>
+                <h3 class="text-3xl font-black simple-theme mb-2">Flash Camera</h3>
+                <p class="text-2xl text-rose-800 font-medium mb-4">Captures a quick, interrupting event in a second.</p>
+                <div class="bg-white p-4 rounded-xl w-full text-left shadow-sm">
+                    <span class="badge-simple mb-2">Past Simple</span><br>
+                    <span class="text-2xl font-bold mt-2 inline-block">"...the tire <span class="simple-theme">exploded</span>."</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: The Golden Rule -->
+    <div class="slide" id="slide3">
+        <span class="text-8xl mb-6">🧠</span>
+        <h1 class="text-5xl font-black text-slate-800 mb-8">The Golden Rule</h1>
+        
+        <div class="glass-card text-center">
+            <p class="text-4xl font-bold text-slate-700 mb-8 leading-relaxed">
+                Before we look at connectors, remember this: <br>
+                Look at the <b class="text-blue-600">action</b>!
+            </p>
+            <div class="flex justify-center gap-8 text-3xl font-semibold">
+                <div class="bg-emerald-50 px-8 py-6 rounded-2xl text-emerald-700 border-2 border-emerald-200 shadow-sm">
+                    Duration = 🎥 (Continuous)
+                </div>
+                <div class="bg-rose-50 px-8 py-6 rounded-2xl text-rose-700 border-2 border-rose-200 shadow-sm">
+                    Interruption = 📸 (Simple)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Inductive Grammar (How to build the Video Camera) -->
+    <div class="slide" id="slide4">
+        <div class="text-center mb-6">
+            <span class="badge-cont">Building the Video Camera 🎥</span>
+        </div>
+        <h2 class="text-4xl font-black mb-8 text-slate-700">Read these messages carefully:</h2>
+        
+        <div class="glass-card !bg-slate-50">
+            <div class="mb-6">
+                <div class="chat-bubble">I <span class="cont-theme">was studying</span> all night. 📚</div>
+                <div class="chat-bubble-right">Liar! You <span class="cont-theme">weren't studying</span>. 📱</div>
+                <!-- Corrección: Se cambió a chat-bubble-right -->
+                <div class="chat-bubble-right"><span class="cont-theme">Were</span> you <span class="cont-theme">watching</span> TikTok again? 🤨</div>
+            </div>
+            
+            <!-- Inductive Trigger -->
+            <button onclick="document.getElementById('hint_matrix').classList.remove('hidden'); this.classList.add('hidden');" class="w-full bg-emerald-600 text-white font-bold text-2xl py-4 rounded-xl shadow-md hover:bg-emerald-700 transition active:scale-95">
+                🔍 What's the secret formula?
+            </button>
+            
+            <div id="hint_matrix" class="hidden text-center bg-white p-6 rounded-xl shadow-inner mt-4 border-l-8 border-emerald-500">
+                <p class="text-3xl font-black text-slate-700 mb-4">The Video Camera always needs <b class="text-emerald-600">TWO</b> pieces:</p>
+                <div class="flex justify-center items-center gap-4 text-3xl font-bold bg-emerald-50 py-4 rounded-xl text-emerald-800 border-2 border-emerald-200">
+                    <span>WAS / WERE</span> 
+                    <span class="text-4xl">+</span> 
+                    <span>Action-ING</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: The Matrix -->
+    <div class="slide" id="slide5">
+        <span class="text-6xl mb-4">🎥</span>
+        <h2 class="text-4xl font-black mb-6 text-slate-700">The Past Continuous Matrix</h2>
+        
+        <div class="glass-card !py-6 w-full max-w-5xl">
+            <div class="space-y-6 w-full">
+                <!-- Affirmative -->
+                <div class="bg-emerald-50 p-6 rounded-xl border-l-8 border-emerald-500 flex flex-col justify-center shadow-sm">
+                    <span class="badge-cont w-max mb-2">1. Affirmative (+)</span>
+                    <p class="text-3xl font-bold text-slate-700">She <span class="cont-theme">was driving</span> fast.</p>
+                </div>
+
+                <!-- Negative -->
+                <div class="bg-rose-50 p-6 rounded-xl border-l-8 border-rose-500 flex flex-col justify-center shadow-sm">
+                    <span class="badge-simple w-max mb-2">2. Negative (-)</span>
+                    <p class="text-3xl font-bold text-slate-700">She <span class="text-rose-600">wasn't driving</span> fast.</p>
+                    <p class="text-xl text-rose-600 font-bold mt-2">Just add NOT to the 'was/were'. The -ing stays!</p>
+                </div>
+
+                <!-- Question -->
+                <div class="bg-purple-50 p-6 rounded-xl border-l-8 border-purple-500 flex flex-col justify-center shadow-sm">
+                    <span class="badge-connector w-max mb-2 !bg-purple-200 !text-purple-800">3. Question (?)</span>
+                    <p class="text-3xl font-bold text-slate-700"><span class="text-purple-600">Was</span> she <span class="cont-theme">driving</span> fast?</p>
+                    <p class="text-xl text-purple-600 font-bold mt-2">Flip the 'was/were' to the front!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: The Strict Connector (WHILE) -->
+    <div class="slide" id="slide6">
+        <h2 class="text-4xl font-black mb-6 flex items-center gap-4">
+            <span class="badge-connector">WHILE</span> = The Cameraman 🎥
+        </h2>
+        <div class="glass-card">
+            <p class="text-3xl text-slate-600 font-semibold mb-6">
+                <span class="text-amber-600 font-black">WHILE</span> means "during the time that". It demands duration. It <b class="underline">must</b> be followed by the video camera!
+            </p>
+            
+            <div class="bg-slate-100 p-6 rounded-2xl mb-6 text-3xl shadow-sm">
+                ✅ <span class="badge-connector">While</span> <span class="cont-theme font-bold">we were driving</span>, it started to rain.
+            </div>
+            
+            <div class="bg-red-50 p-6 rounded-2xl text-2xl opacity-75 shadow-sm">
+                ❌ <span class="badge-connector">While</span> <span class="simple-theme font-bold line-through">the car broke down</span>, we were driving. <br>
+                <span class="text-xl text-red-600 font-bold mt-2 block"> (A car doesn't break down slowly for hours!)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: The Flexible Connector (WHEN) -->
+    <div class="slide" id="slide7">
+        <h2 class="text-4xl font-black mb-6 flex items-center gap-4">
+            <span class="badge-connector">WHEN</span> = The Director 🎬
+        </h2>
+        <div class="glass-card">
+            <p class="text-2xl text-slate-600 font-semibold mb-6">
+                Forget the old rules! <span class="text-amber-600 font-black">WHEN</span> is flexible. It simply sets the scene. Look at the verb right next to it:
+            </p>
+            
+            <!-- Focus on the Flash -->
+            <div class="border-l-8 border-rose-400 pl-6 mb-8">
+                <p class="text-2xl font-bold text-slate-500 mb-2">Scene 1: Focusing on the interruption 📸</p>
+                <p class="text-3xl font-semibold">We were walking downtown <span class="badge-connector text-2xl">when</span> <span class="simple-theme font-black">we got lost.</span></p>
+            </div>
+
+            <!-- Focus on the Video -->
+            <div class="border-l-8 border-emerald-400 pl-6">
+                <p class="text-2xl font-bold text-slate-500 mb-2">Scene 2: Setting the background action 🎥</p>
+                <p class="text-3xl font-semibold"><span class="badge-connector text-2xl">When</span> <span class="cont-theme font-black">we were walking</span> downtown, we got lost.</p>
+                <p class="text-xl text-emerald-700 font-bold mt-3">✨ Yes, this is 100% correct! "When" is opening the video camera scene.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Interactive Practice -->
+    <div class="slide" id="slide8">
+        <h2 class="text-4xl font-black mb-6">Your Turn! 🎮</h2>
+        <p class="text-3xl text-slate-500 mb-8 font-semibold">Choose the right camera for the story.</p>
+        
+        <div class="w-full max-w-4xl space-y-8">
+            <!-- Question 1 -->
+            <div class="glass-card !py-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-3xl font-semibold w-full md:w-3/5">
+                    1. <span class="badge-connector text-xl">While</span> my mom <span class="text-slate-400">____</span> dinner, the power went out.
+                </p>
+                <div class="w-full md:w-2/5">
+                    <select class="w-full" onchange="checkAnswer(this, 'cont')">
+                        <option value="?" disabled selected>Tap to choose...</option>
+                        <option value="cont">🎥 was cooking</option>
+                        <option value="simp">📸 cooked</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Question 2 (The Trick) -->
+            <div class="glass-card !py-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-3xl font-semibold w-full md:w-3/5">
+                    2. <span class="badge-connector text-xl">When</span> I <span class="text-slate-400">____</span> my homework, I found an old photo.
+                </p>
+                <div class="w-full md:w-2/5">
+                    <select class="w-full" onchange="checkAnswer(this, 'cont')">
+                        <option value="?" disabled selected>Tap to choose...</option>
+                        <option value="cont">🎥 was doing</option>
+                        <option value="simp">📸 did</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div id="feedbackContainer" class="mt-8 h-12 flex items-center justify-center">
+            <p id="feedback" class="text-3xl font-black opacity-0 transition-opacity duration-300"></p>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+        document.getElementById('totalCount').innerText = totalSlides;
+
+        function changeSlide(direction) {
+            const currentElement = document.getElementById('slide' + currentSlide);
+            currentElement.classList.remove('active-slide');
+            
+            currentSlide += direction;
+            
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            
+            const nextElement = document.getElementById('slide' + currentSlide);
+            nextElement.classList.add('active-slide');
+            
+            document.getElementById('currentCount').innerText = currentSlide;
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentSlide === totalSlides) {
+                nextBtn.disabled = true;
+                nextBtn.innerText = "Done! 🎉";
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.innerText = "Next ▶";
+            }
+        }
+        
+        function checkAnswer(selectElement, correctAnswer) {
+            const feedback = document.getElementById('feedback');
+            
+            selectElement.style.backgroundColor = "";
+            selectElement.style.color = "";
+            selectElement.style.borderColor = "";
+
+            if(selectElement.value === correctAnswer) {
+                selectElement.style.backgroundColor = "#dcfce7"; 
+                selectElement.style.color = "#15803d"; 
+                selectElement.style.borderColor = "#22c55e"; 
+                
+                feedback.innerText = "Correct! Awesome! ✨";
+                feedback.className = "text-3xl font-black text-green-600 opacity-100 transition-opacity duration-300";
+            } else if (selectElement.value !== '?') {
+                selectElement.style.backgroundColor = "#fee2e2"; 
+                selectElement.style.color = "#b91c1c"; 
+                selectElement.style.borderColor = "#ef4444"; 
+                
+                feedback.innerText = "Oops! Remember the rule 😅";
+                feedback.className = "text-3xl font-black text-red-500 opacity-100 transition-opacity duration-300";
+            }
+        }
+    </script>
+</body>
+</html>
