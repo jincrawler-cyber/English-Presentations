@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  .title {
+    color: #00e5ff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  }
+  .inventory-container {
+    display: flex;
+    gap: 20px;
+    max-width: 900px;
+    width: 100%;
+  }
+  .panel {
+    flex: 1;
+    background: #1e1e1e;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.8);
+  }
+  .panel-header {
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #555;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+  .count-header { color: #ffeb3b; border-color: #ffeb3b; }
+  .noncount-header { color: #ff5252; border-color: #ff5252; }
+  
+  .stat-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    background: #2a2a2a;
+    padding: 10px;
+    border-radius: 6px;
+  }
+  .icon {
+    font-size: 1.5em;
+    margin-right: 15px;
+    width: 30px;
+    text-align: center;
+  }
+  .text { font-size: 1.05em; line-height: 1.4; }
+  .highlight-c { color: #ffeb3b; font-weight: bold; }
+  .highlight-nc { color: #ff5252; font-weight: bold; }
+  .noun { text-decoration: underline; text-decoration-color: #888; }
+  .both { color: #4caf50; font-weight: bold; } /* Green for both */
+
+  .alert-box {
+    margin-top: 20px;
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid #4caf50;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    max-width: 900px;
+  }
+</style>
+</head>
+<body>
+
+<div class="title">🎮 Player Status Screen</div>
+
+<div class="inventory-container">
+  
+  <!-- COUNT NOUNS PANEL -->
+  <div class="panel">
+    <div class="panel-header count-header">🎒 Items (Countable)</div>
+    
+    <div class="stat-row">
+      <div class="icon">📱</div>
+      <div class="text">I have <span class="highlight-c">so many</span> unread <span class="noun">messages</span> on my WhatsApp group.</div>
+    </div>
+    <div class="stat-row">
+      <div class="icon">🥤</div>
+      <div class="text">I bought <span class="highlight-c">several</span> energy <span class="noun">drinks</span> for finals week.</div>
+    </div>
+    <div class="stat-row">
+      <div class="icon">🎮</div>
+      <div class="text">I unlocked <span class="both">a lot of</span> <span class="noun">skins</span> in Fortnite this season!</div>
+    </div>
+    <div class="stat-row">
+      <div class="icon">🎵</div>
+      <div class="text"><span class="both">Almost all of</span> the <span class="noun">songs</span> on my Spotify playlist are Reggaeton.</div>
+    </div>
+    <div class="stat-row">
+      <div class="icon">🚫</div>
+      <div class="text">There are <span class="highlight-c">almost no</span> <span class="noun">students</span> on the UNID campus on Fridays.</div>
+    </div>
+  </div>
+
+  <!-- NON-COUNT NOUNS PANEL -->
+  <div class="panel">
+    <div class="panel-header noncount-header">⚡ Resources (Non-Countable)</div>
+    
+    <div class="stat-row">
+      <div class="icon">🚦</div>
+      <div class="text">There is <span class="highlight-nc">so much</span> <span class="noun">traffic</span> in Aguascalientes today.</div>
+    </div>
+    <div class="stat-row">
+      <div class="icon">💵</div>
+      <div class="text">I have just <span class="highlight-nc">a little</span> <span class="noun">money</span> left for the weekend!</div>
+    </div>
+    <div class="stat-row">
+      <div class="icon">⏱️</div>
+      <div class="text">I spent <span class="both">a lot of</span> <span class="noun">time</span> scrolling on TikTok yesterday.</div>
+    </div>
+    <div class="stat-row">
+      <div class="icon">📶</div>
+      <div class="text"><span class="both">Almost all of</span> the <span class="noun">Wi-Fi</span> in the cafeteria is super slow.</div>
+    </div>
+    <div class="stat-row">
+      <div class="icon">💨</div>
+      <div class="text">There is <span class="highlight-nc">almost no</span> <span class="noun">storage</span> left on my phone for more photos.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="alert-box">
+  <span class="both">Almost all of</span> and <span class="both">a lot of</span> are <b>OP ITEMS</b>! 🌟 You can equip them with Countable AND Non-Countable nouns! (Notice the green color in both panels!)
+</div>
+
+</body>
+</html>

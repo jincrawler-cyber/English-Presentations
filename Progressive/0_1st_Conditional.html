@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  .phone-screen {
+    background-color: #161b22;
+    border: 2px solid #30363d;
+    border-radius: 30px;
+    max-width: 450px;
+    width: 100%;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  }
+  .header {
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .section-title {
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8b949e;
+    margin-bottom: 10px;
+    margin-top: 25px;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 5px;
+  }
+  .card {
+    background-color: #21262d;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-left: 5px solid #8b949e;
+  }
+  .card-present { border-left-color: #58a6ff; } /* Blue for Present */
+  .card-future { border-left-color: #ff7b72; } /* Red for Future */
+  
+  .text { font-size: 1.05em; line-height: 1.5; }
+  
+  /* Grammar Highlights */
+  .v-pres { 
+    color: #58a6ff; 
+    font-weight: bold; 
+    background: rgba(88, 166, 255, 0.1); 
+    padding: 2px 4px; 
+    border-radius: 4px; 
+  }
+  .v-fut { 
+    color: #ff7b72; 
+    font-weight: bold; 
+    background: rgba(255, 123, 114, 0.1); 
+    padding: 2px 4px; 
+    border-radius: 4px; 
+  }
+  .if-word {
+    color: #3fb950;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-screen">
+  <div class="header">⚙️ System Settings</div>
+
+  <div class="section-title">🔄 General Habits (Present Real)</div>
+  <p style="font-size: 0.85em; color: #8b949e; margin-top: -5px;">The usual result of a situation. It is a fact.</p>
+  
+  <div class="card card-present">
+    <div class="text">
+      <span class="if-word">When</span> you <span class="v-pres">speak</span> during the exam, the teacher <span class="v-pres">takes</span> your paper. 🤫
+    </div>
+  </div>
+  <div class="card card-present">
+    <div class="text">
+      <span class="if-word">If</span> there <span class="v-pres">is</span> no Wi-Fi on campus, students <span class="v-pres">use</span> their mobile data. 📶
+    </div>
+  </div>
+
+  <div class="section-title">⚠️ Active Warnings (Future Real)</div>
+  <p style="font-size: 0.85em; color: #8b949e; margin-top: -5px;">The likely result of a POSSIBLE future situation.</p>
+
+  <div class="card card-future">
+    <div class="text">
+      <span class="if-word">If</span> you <span class="v-pres">make</span> a group chat for the project, I <span class="v-fut">will send</span> the PDF. 📱
+    </div>
+  </div>
+  <div class="card card-future">
+    <div class="text">
+      <span class="if-word">If</span> we <span class="v-pres">don't leave</span> right now, we <span class="v-fut">won't get</span> a table at the cafeteria! 🏃‍♂️💨
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
