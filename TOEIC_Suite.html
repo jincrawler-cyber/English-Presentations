@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="TOEIC Grammar Suite: ten grammar topics with slides, review and practice.">
+<meta name="description" content="Study app: review and practice for ten TOEIC grammar topics.">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>TOEIC Grammar Suite</title>
+<title>TOEIC Grammar Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
@@ -23,7 +23,7 @@
   --t9:#1F7A55; --t9-soft:#DCF0E6;
   --t10:#8B3A8B; --t10-soft:#F2E0F2;
   --ok:#1F7A3A; --ok-soft:#DFF2E4; --bad:#B3261E; --bad-soft:#F9E1DF;
-  --acc:var(--t1); --acc-soft:var(--t1-soft);
+  --acc:var(--t1); --acc-soft:var(--t1-soft); --qr-bg:#FFFFFF;
   --f-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
   --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -201,6 +201,75 @@ td:first-child{font-weight:700;color:var(--acc);white-space:nowrap}
 .ritem.ok{border-left:4px solid var(--ok)}
 .tag{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
 
+/* live mode */
+.lcard,.lstage{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:clamp(18px,3vw,32px);display:grid;gap:16px}
+.lstage{font-size:clamp(1rem,1.4vw,1.25rem)}
+.lstage:fullscreen{border-radius:0;border:0;padding:3vh 4vw;align-content:start;overflow:auto;font-size:clamp(1.1rem,1.8vw,1.6rem)}
+.lv-k{color:var(--acc)}
+.lv-h{font-family:var(--f-display);font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lcard .lead,.lstage .lead{color:var(--muted);margin:0;max-width:62ch}
+.lv-opts{display:flex;gap:24px;flex-wrap:wrap}
+.lv-opts > div{display:grid;gap:6px}
+.lv-opts .mono{color:var(--muted)}
+.lv-steps{margin:0;padding-left:1.2em;display:grid;gap:8px;max-width:70ch}
+.lv-steps pre{background:var(--tint);border-radius:8px;padding:10px 12px;overflow-x:auto;font-family:var(--f-mono);font-size:.82rem;margin:6px 0 0}
+.lv-steps code{font-family:var(--f-mono);font-size:.88em;background:var(--tint);padding:0 .3em;border-radius:4px}
+.lv-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.lv-top b{color:var(--ink);letter-spacing:.14em}
+.lv-lobby{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+.lv-join{display:grid;gap:6px;min-width:0}
+.lv-url{font-family:var(--f-mono);font-size:clamp(.95rem,1.8vw,1.3rem);font-weight:700;overflow-wrap:anywhere;margin-bottom:10px}
+.lv-code{font-family:var(--f-mono);font-weight:700;font-size:clamp(3rem,9vw,6.5rem);line-height:1;letter-spacing:.12em;color:var(--acc)}
+.lv-qr{background:var(--qr-bg);padding:12px;border-radius:12px;width:232px;height:232px;max-width:100%}
+.lv-qr img,.lv-qr canvas{display:block;width:208px;height:208px}
+.lv-plhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:14px}
+.lv-players{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{background:var(--acc-soft);border-radius:999px;padding:4px 12px;font-weight:700;font-size:.9rem;animation:pop .25s ease-out}
+@keyframes pop{from{transform:scale(.7)}to{transform:scale(1)}}
+.lv-qhead{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.lv-qhead .lv-k{flex:1;min-width:0}
+.lv-ring{--p:100;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--acc) calc(var(--p)*1%), var(--tint) 0);position:relative;flex:none}
+.lv-ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--sheet)}
+.lv-ring span{position:relative;font-family:var(--f-display);font-weight:800;font-size:1.5rem;font-variant-numeric:tabular-nums}
+.lv-done{font-family:var(--f-display);font-weight:800;color:var(--ok)}
+.lv-q{font-size:clamp(1.25rem,2.6vw,2rem);line-height:1.35;margin:0}
+.lv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lv-opt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px 18px;transition:opacity .3s,border-color .3s,background .3s}
+.lv-opt .bub{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:.85rem}
+.lv-ot{min-width:0;overflow-wrap:anywhere}
+.lv-cnt{font-family:var(--f-display);font-weight:800;font-size:1.4em;font-variant-numeric:tabular-nums}
+.lv-bar{position:absolute;left:14px;right:14px;bottom:7px;height:6px;background:var(--tint);border-radius:999px;overflow:hidden}
+.lv-bar i{display:block;height:100%;width:0;background:var(--acc);border-radius:999px;transition:width .35s ease}
+.lv-opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.lv-opt.right .bub{background:var(--ok);border-color:var(--ok);color:var(--sheet)}
+.lv-opt.right .lv-bar i{background:var(--ok)}
+.lv-opt.dim{opacity:.45}
+.lv-rank{margin:0;padding:0;list-style:none;counter-reset:r;display:grid;gap:6px;max-width:560px}
+.lv-rank li{counter-increment:r;display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:6px 0}
+.lv-rank li::before{content:counter(r);font-family:var(--f-mono);font-weight:700;color:var(--acc)}
+.lv-rank li b{font-variant-numeric:tabular-nums}
+.pl-wrap{max-width:560px;margin:0 auto}
+.lcard.pl{gap:14px}
+.lcard.pl label{font-weight:700;font-size:.92rem;margin-bottom:-8px}
+.lv-in{font:inherit;font-size:1.15rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);width:100%}
+.lv-in.mono{font-family:var(--f-mono);letter-spacing:.2em;text-transform:uppercase;font-size:1.4rem}
+.lv-in:focus{outline:none;border-color:var(--acc)}
+.lv-big{padding:13px 18px;font-size:1.05rem;justify-self:stretch}
+.pl-head{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:10px}
+.pl-opts .opt{min-height:64px;font-size:1.1rem}
+.pl-sent{display:flex;gap:14px;align-items:center;background:var(--acc-soft);border-radius:10px;padding:14px 16px}
+.pl-sent .bub{flex:none;width:44px;height:44px;border-radius:50%;background:var(--acc);color:var(--sheet);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700}
+.pl-sent p{margin:2px 0 0}
+.pulse{width:18px;height:18px;border-radius:50%;background:var(--acc);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+.joinbox,.linkrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0}
+.linkrow code{font-family:var(--f-mono);font-size:.82rem;overflow-wrap:anywhere;min-width:0}
+a.btn{display:inline-block;text-decoration:none;color:inherit}
+a.btn.solid{color:var(--paper)}
+.apptag{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:999px;padding:2px 8px;margin-left:4px}
+.pmode{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+@media (max-width:820px){ .lv-lobby{grid-template-columns:1fr} .lv-grid{grid-template-columns:1fr} }
+
 @media (max-width:820px){
   .hero{grid-template-columns:1fr}
   .topics{grid-template-columns:1fr}
@@ -217,6 +286,7 @@ td:first-child{font-weight:700;color:var(--acc);white-space:nowrap}
 <div class="wrap" id="app"></div>
 
 <script>
+const APP = "study"; /* teacher | study | join */
 const TOPICS = [
 { id:"conjunctions", key:"t1", n:"01", name:"Conjunctions & Linkers",
   blurb:"Although vs. despite, however vs. but, paired conjunctions and the punctuation that goes with each.",
@@ -1207,7 +1277,7 @@ function loadStore(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }c
 function saveStore(s){ try{ localStorage.setItem(LS, JSON.stringify(s)); }catch(e){} }
 const store = loadStore();
 
-const S = { view:"home", topic:null, tab:"present", slide:0, quiz:null, size:{topic:10, mixed:30} };
+const S = { view: APP==="join" ? "join" : "home", topic:null, tab: APP==="study" ? "review" : "present", slide:0, quiz:null, pmode:"live", size:{topic:10, mixed:30} };
 const app = document.getElementById("app");
 const L = ["A","B","C","D"];
 
@@ -1219,48 +1289,73 @@ function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.flo
 function setHash(h){ try{ history.replaceState(null,"", h?"#"+h:location.pathname); }catch(e){ location.hash=h; } }
 
 function bar(){
-  const crumb = S.view==="home" ? "" : S.view==="mixed" ? "Mixed test" : topicBy(S.topic).name;
-  return `<header class="bar"><button class="brand" data-go="home" aria-label="Home"><span class="dots"><i></i><i></i><i></i><i></i></span><b>TOEIC Grammar Suite</b></button>
+  const crumb = (APP==="join" || S.view==="home") ? "" : S.view==="mixed" ? "Mixed test" : topicBy(S.topic).name;
+  const tag = {teacher:"Teacher", study:"Study", join:"Live"}[APP];
+  return `<header class="bar"><button class="brand" ${APP==="join"?"":'data-go="home"'} aria-label="Home"><span class="dots"><i></i><i></i><i></i><i></i></span><b>TOEIC Grammar Suite</b><span class="apptag">${tag}</span></button>
   <span class="mono crumb">${crumb}</span></header>`;
 }
 
+function sibling(file){ try{ return new URL(file, location.href).href.split("#")[0]; }catch(e){ return file; } }
 function renderHome(){
   document.documentElement.removeAttribute("data-topic");
-  app.innerHTML = bar() + `
+  const teacher = APP==="teacher";
+  const hero = teacher ? `
   <section class="hero">
-    <div><span class="mono" style="color:var(--muted)">Reading · Part 5 &amp; Part 6</span>
-      <h1>Grammar that the TOEIC tests every time.</h1>
-      <p>Each topic has three modes: slides for class, a review page for self-study, and TOEIC-style practice with instant feedback.</p></div>
+    <div><span class="mono" style="color:var(--muted)">Class screen · Reading Part 5 &amp; 6</span>
+      <h1>Present the grammar. Quiz the class live.</h1>
+      <p>Show the slides on the projector, then open Practice: students answer on their phones and the screen shows how the class voted.</p></div>
     <div class="howto">
       <div><span class="mono">Present</span><span>Full-screen slides. Use the ← → arrows or the space bar.</span></div>
-      <div><span class="mono">Review</span><span>All the content on one page to study at your own pace.</span></div>
-      <div><span class="mono">Practice</span><span>50 Part 5 questions per topic. Rounds of 10, 25 or 50, in a new order every time.</span></div>
+      <div><span class="mono">Practice</span><span><b>Live</b>: students answer on their phones. <b>On screen</b>: the class solves together.</span></div>
+      <div><span class="mono">Join app</span><span class="linkrow"><code>${esc(sibling("toeic-join.html").replace(/^https?:\/\//,""))}</code><button class="btn" data-copy="${esc(sibling("toeic-join.html"))}">Copy</button></span></div>
+      <div><span class="mono">Study app</span><span class="linkrow"><code>${esc(sibling("toeic-study.html").replace(/^https?:\/\//,""))}</code><button class="btn" data-copy="${esc(sibling("toeic-study.html"))}">Copy</button></span></div>
     </div>
-  </section>
+  </section>` : `
+  <section class="hero">
+    <div><span class="mono" style="color:var(--muted)">Study · Reading Part 5 &amp; 6</span>
+      <h1>Grammar that the TOEIC tests every time.</h1>
+      <p>Review each topic at your own pace, then practice with TOEIC-style questions and instant feedback.</p></div>
+    <div class="howto">
+      <div><span class="mono">Review</span><span>All the content of a topic on one page, with examples and common mistakes.</span></div>
+      <div><span class="mono">Practice</span><span>50 Part 5 questions per topic. Rounds of 10, 25 or 50, in a new order every time.</span></div>
+      <div><span class="mono">In class?</span><span class="linkrow"><a class="btn solid" href="toeic-join.html">Join your teacher's live quiz</a></span></div>
+    </div>
+  </section>`;
+  const tabsFor = teacher ? [["present","Present"],["practice","Practice"]] : [["review","Review"],["practice","Practice"]];
+  app.innerHTML = bar() + hero + `
   <section class="topics">${TOPICS.map(t=>{
     const best = store[t.id];
     return `<article class="tcard" data-topic="${t.key}">
       <span class="mono">Topic ${t.n}</span><h2>${t.name}</h2><p>${t.blurb}</p>
-      <div class="actions"><button class="btn solid" data-open="${t.id}" data-tab="present">Present</button><button class="btn" data-open="${t.id}" data-tab="review">Review</button><button class="btn" data-open="${t.id}" data-tab="practice">Practice</button></div>
-      <div class="meta"><span>${t.slides.length} slides · ${t.quiz.length} questions</span><span>${best!=null?`Best: ${best}%`:"Not attempted"}</span></div>
+      <div class="actions">${tabsFor.map(([k,l],i)=>`<button class="btn ${i?"":"solid"}" data-open="${t.id}" data-tab="${k}">${l}</button>`).join("")}</div>
+      <div class="meta"><span>${teacher?t.slides.length+" slides · ":""}${t.quiz.length} questions</span>${teacher?"":`<span>${best!=null?`Best: ${best}%`:"Not attempted"}</span>`}</div>
     </article>`;}).join("")}
     <article class="tcard mixed"><span class="mono">All topics</span><h2>Mixed test</h2><p>Questions from all ${TOPICS.length} topics, shuffled together, like the real exam.</p>
-      <div class="actions"><button class="btn solid" data-go="mixed">Start mixed test</button></div>
-      <div class="meta"><span>${TOPICS.reduce((n,t)=>n+t.quiz.length,0)} questions · rounds of 30, 60 or 100</span><span>${store.mixed!=null?`Best: ${store.mixed}%`:"Not attempted"}</span></div>
+      <div class="actions"><button class="btn solid" data-go="mixed">${teacher?"Practice with the class":"Start mixed test"}</button></div>
+      <div class="meta"><span>${TOPICS.reduce((n,t)=>n+t.quiz.length,0)} questions</span>${teacher?"":`<span>${store.mixed!=null?`Best: ${store.mixed}%`:"Not attempted"}</span>`}</div>
     </article></section>`;
 }
 
 function renderTopic(){
   const t = topicBy(S.topic);
   document.documentElement.setAttribute("data-topic", t.key);
-  const tabs = [["present","Present"],["review","Review"],["practice","Practice"]];
+  const tabs = APP==="teacher" ? [["present","Present"],["practice","Practice"]] : [["review","Review"],["practice","Practice"]];
   let inner = "";
   if(S.tab==="present") inner = presentHTML(t);
   else if(S.tab==="review") inner = reviewHTML(t);
-  else inner = quizHTML();
+  else inner = practiceHTML();
   app.innerHTML = bar() + `<div class="thead"><div><span class="mono">Topic ${t.n}</span><h1>${t.name}</h1></div>
    <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab-go="${k}">${l}</button>`).join("")}</div></div>` + inner;
+  afterPractice();
 }
+function practiceHTML(){
+  if(APP!=="teacher") return quizHTML();
+  const modes=[["live","Live · phones"],["screen","On screen"]];
+  return `<div class="pmode"><div class="tabs" role="tablist" aria-label="Practice mode">${modes.map(([k,l])=>`<button role="tab" aria-selected="${S.pmode===k}" data-pmode="${k}">${l}</button>`).join("")}</div>
+  <span class="hint">${S.pmode==="live"?"Students answer on their phones with the Join app.":"Solve the questions together on the classroom screen."}</span></div>` + (S.pmode==="live" ? `<div id="live"></div>` : quizHTML());
+}
+function inPractice(){ return (S.view==="topic"&&S.tab==="practice")||S.view==="mixed"; }
+function afterPractice(){ if(APP==="teacher" && inPractice() && S.pmode==="live"){ liveKey=""; liveRender(); } }
 
 function slideHTML(t,s,i,inStage){
   const kick = `<div class="kick"><span>${t.name}</span><span>${String(i+1).padStart(2,"0")} / ${String(t.slides.length).padStart(2,"0")}</span></div>`;
@@ -1354,10 +1449,12 @@ function resultHTML(){
 
 function renderMixed(){
   document.documentElement.removeAttribute("data-topic");
-  app.innerHTML = bar() + `<div class="thead"><div><span class="mono" style="color:var(--muted)">All topics</span><h1>Mixed test</h1></div></div>` + quizHTML();
+  app.innerHTML = bar() + `<div class="thead"><div><span class="mono" style="color:var(--muted)">All topics</span><h1>Mixed test</h1></div></div>` + practiceHTML();
+  afterPractice();
 }
 
 function render(){
+  if(APP==="join") return renderJoin();
   if(S.view==="home") renderHome();
   else if(S.view==="mixed") renderMixed();
   else renderTopic();
@@ -1367,7 +1464,7 @@ function go(view, topic, tab){
   S.view=view; S.topic=topic||null; if(tab) S.tab=tab;
   if(view==="topic"){ S.slide=0; }
   S.quiz=null;
-  setHash(view==="home"?"":view==="mixed"?"mixed":topic+(S.tab!=="present"?"-"+S.tab:""));
+  setHash(view==="home"?"":view==="mixed"?"mixed":topic+"-"+S.tab);
   render(); window.scrollTo(0,0);
 }
 
@@ -1375,8 +1472,11 @@ app.addEventListener("click", e=>{
   const b = e.target.closest("button"); if(!b) return;
   if(b.dataset.go==="home") return go("home");
   if(b.dataset.go==="mixed") return go("mixed");
+  if(b.dataset.pmode){ S.pmode=b.dataset.pmode; render(); return; }
+  if(b.dataset.copy!=null){ const t=b.dataset.copy; const done=()=>{ b.textContent="Copied"; setTimeout(()=>b.textContent="Copy",1500); };
+    try{ navigator.clipboard.writeText(t).then(done,()=>selectNext(b)); }catch(err){ selectNext(b); } return; }
   if(b.dataset.open) return go("topic", b.dataset.open, b.dataset.tab);
-  if(b.dataset.tabGo){ S.tab=b.dataset.tabGo; if(S.tab==="practice" && S.quiz && S.quiz.done) S.quiz=null; setHash(S.topic+(S.tab!=="present"?"-"+S.tab:"")); render(); window.scrollTo(0,0); return; }
+  if(b.dataset.tabGo){ S.tab=b.dataset.tabGo; if(S.tab==="practice" && S.quiz && S.quiz.done) S.quiz=null; setHash(S.topic+"-"+S.tab); render(); window.scrollTo(0,0); return; }
   if(b.dataset.nav) return nav(+b.dataset.nav);
   if(b.hasAttribute("data-fs")) return toggleFS();
   if(b.dataset.ans!=null) return answer(+b.dataset.ans);
@@ -1385,6 +1485,7 @@ app.addEventListener("click", e=>{
   if(b.hasAttribute("data-retry")){ const k=S.quiz.key; S.quiz=null; render(); return; }
 });
 
+function selectNext(b){ const c=b.previousElementSibling; if(!c) return; const r=document.createRange(); r.selectNodeContents(c); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); }
 function nav(d){
   const t=topicBy(S.topic); const n=S.slide+d;
   if(n<0||n>=t.slides.length) return;
@@ -1416,7 +1517,7 @@ document.addEventListener("keydown", e=>{
     else if(e.key==="f"||e.key==="F") toggleFS();
     return;
   }
-  const inQuiz = (S.view==="topic"&&S.tab==="practice")||S.view==="mixed";
+  const inQuiz = inPractice() && !(APP==="teacher" && S.pmode==="live");
   if(inQuiz && S.quiz && !S.quiz.done){
     const k=["a","b","c","d"].indexOf(e.key.toLowerCase());
     if(k>-1 && S.quiz.answers[S.quiz.i]==null) answer(k);
@@ -1426,11 +1527,327 @@ document.addEventListener("keydown", e=>{
 
 function fromHash(){
   const h=(location.hash||"").slice(1);
+  if(APP==="join") return;
   if(h==="mixed"){ S.view="mixed"; return; }
-  const m=h.match(/^(conjunctions|word-order|comparisons|articles|tenses|modals|pronouns|still-yet-already|so-such-too|prepositions)(?:-(review|practice))?$/);
-  if(m){ S.view="topic"; S.topic=m[1]; S.tab=m[2]||"present"; }
+  const m=h.match(/^(conjunctions|word-order|comparisons|articles|tenses|modals|pronouns|still-yet-already|so-such-too|prepositions)(?:-(present|review|practice))?$/);
+  if(m){ const ok = APP==="teacher" ? ["present","practice"] : ["review","practice"]; S.view="topic"; S.topic=m[1]; S.tab = ok.includes(m[2]) ? m[2] : ok[0]; }
 }
-fromHash(); render();
+/* ===================== LIVE MODE ===================== */
+/* The Firebase config lives in toeic-firebase-config.js (shared by the teacher and join apps). */
+const FIREBASE_CONFIG = window.TOEIC_FIREBASE_CONFIG || { apiKey:"PASTE_API_KEY" };
+const LIVE_COLL = "toeic_live";
+const FB_VER = "10.12.2";
+const LIVE_N = [10,15,20], LIVE_T = [10,20,30];
+
+function liveConfigured(){ return !!window.firebase || (FIREBASE_CONFIG.apiKey && !/^PASTE/.test(FIREBASE_CONFIG.apiKey)); }
+const loadedScripts = {};
+function loadScript(src){
+  if(!loadedScripts[src]) loadedScripts[src] = new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=()=>{ delete loadedScripts[src]; rej(new Error("Could not load "+src)); }; document.head.appendChild(s); });
+  return loadedScripts[src];
+}
+let dbPromise = null;
+function getDB(){
+  if(!dbPromise) dbPromise = (async()=>{
+    if(!window.firebase){
+      await loadScript(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-app-compat.js`);
+      await loadScript(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-firestore-compat.js`);
+    }
+    if(!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    return firebase.firestore();
+  })().catch(e=>{ dbPromise=null; throw e; });
+  return dbPromise;
+}
+function ssGet(k){ try{ return JSON.parse(sessionStorage.getItem(k)); }catch(e){ return null; } }
+function ssSet(k,v){ try{ v==null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+function livePool(topicId){ return topicId==="mixed" ? TOPICS.flatMap(t=>t.quiz.map(q=>({...q, from:t.name, tkey:t.key}))) : (topicBy(topicId)||TOPICS[0]).quiz; }
+function liveTopicName(topicId){ return topicId==="mixed" ? "Mixed test" : (topicBy(topicId)||{}).name || ""; }
+function liveQ(sess, i){
+  const q = livePool(sess.topicId)[sess.qIdx[i]];
+  const order = sess.orders[i].split("").map(Number);
+  return {...q, o: order.map(k=>q.o[k]), a: order.indexOf(q.a)};
+}
+function joinURL(code){ return sibling("toeic-join.html") + "#" + code; }
+function newCode(){ const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let c=""; for(let i=0;i<5;i++) c+=A[Math.floor(Math.random()*A.length)]; return c; }
+function optText(o){ return o.startsWith("—") ? o : esc(o); }
+function errMsg(e){
+  const m = String(e && e.message || e);
+  if(/permission|insufficient/i.test(m)) return "Firestore rejected the request. Add the toeic_live rule to your Firestore security rules.";
+  if(/load/i.test(m)) return "Live mode couldn't connect. Check the internet connection. Live mode only works in the version on your hosting, not inside Claude.";
+  return "Something went wrong: " + m;
+}
+
+/* ---------- Host (classroom screen) ---------- */
+const LH = { code:null, topicId:null, sess:null, players:[], counts:[0,0,0,0], answered:0, unsubs:[], ansUnsub:null, ansFor:-1, timer:null, revealedFor:-1, n:10, dur:10, results:null, error:"", busy:false };
+
+function hostStop(){ LH.unsubs.forEach(u=>{ try{u();}catch(e){} }); LH.unsubs=[]; if(LH.ansUnsub){ try{LH.ansUnsub();}catch(e){} LH.ansUnsub=null; } LH.ansFor=-1; clearInterval(LH.timer); LH.timer=null; }
+async function hostStart(topicId){
+  LH.busy=true; LH.error=""; liveRender();
+  try{
+    const db = await getDB();
+    let code, ref;
+    for(let tries=0; tries<5; tries++){ code=newCode(); ref=db.collection(LIVE_COLL).doc(code); const s=await ref.get(); if(!s.exists) break; }
+    const pool = livePool(topicId);
+    const qIdx = shuffle(pool.map((_,i)=>i)).slice(0, LH.n);
+    const orders = qIdx.map(()=>shuffle([0,1,2,3]).join(""));
+    await ref.set({ topicId, qIdx, orders, n:qIdx.length, dur:LH.dur, cur:-1, phase:"lobby", endsAt:0, createdAt:Date.now() });
+    LH.code=code; LH.topicId=topicId; LH.results=null; LH.revealedFor=-1;
+    ssSet("toeic-live-host", {code, topicId});
+    hostListen();
+  }catch(e){ LH.error=errMsg(e); }
+  LH.busy=false; liveRender();
+}
+async function hostListen(){
+  hostStop();
+  const db = await getDB();
+  const ref = db.collection(LIVE_COLL).doc(LH.code);
+  LH.unsubs.push(ref.onSnapshot(s=>{
+    if(!s.exists){ LH.error="This session no longer exists."; LH.code=null; ssSet("toeic-live-host",null); hostStop(); liveRender(); return; }
+    LH.sess = s.data();
+    if(LH.sess.phase==="question" || LH.sess.phase==="reveal") hostWatchAnswers(ref, LH.sess.cur);
+    if(LH.sess.phase==="question" && !LH.timer) LH.timer=setInterval(hostTick, 250);
+    if(LH.sess.phase!=="question" && LH.timer){ clearInterval(LH.timer); LH.timer=null; }
+    if(LH.sess.phase==="ended" && !LH.results) hostResults();
+    liveRender();
+  }, e=>{ LH.error=errMsg(e); liveRender(); }));
+  LH.unsubs.push(ref.collection("players").onSnapshot(qs=>{
+    LH.players = qs.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(a.joinedAt||0)-(b.joinedAt||0));
+    liveUpdate();
+  }));
+}
+function hostWatchAnswers(ref, cur){
+  if(LH.ansFor===cur) return;
+  if(LH.ansUnsub){ try{LH.ansUnsub();}catch(e){} }
+  LH.ansFor=cur; LH.counts=[0,0,0,0]; LH.answered=0;
+  LH.ansUnsub = ref.collection("answers").where("q","==",cur).onSnapshot(qs=>{
+    const c=[0,0,0,0]; qs.docs.forEach(d=>{ const k=d.data().choice; if(k>=0&&k<4) c[k]++; });
+    LH.counts=c; LH.answered=qs.size; liveUpdate();
+  });
+}
+function hostRemaining(){ return LH.sess ? Math.max(0, (LH.sess.endsAt - Date.now())/1000) : 0; }
+function hostTick(){
+  const s=LH.sess; if(!s || s.phase!=="question") return;
+  const rem = hostRemaining();
+  const t=document.getElementById("lv-time"); if(t) t.textContent=Math.ceil(rem);
+  const ring=document.getElementById("lv-ring"); if(ring) ring.style.setProperty("--p", (rem/s.dur*100).toFixed(1));
+  const all = LH.players.length>0 && LH.answered>=LH.players.length;
+  if((rem<=0 || all) && LH.revealedFor!==s.cur){ LH.revealedFor=s.cur; hostUpdate({phase:"reveal"}); }
+}
+async function hostUpdate(data){ try{ const db=await getDB(); await db.collection(LIVE_COLL).doc(LH.code).update(data); }catch(e){ LH.error=errMsg(e); liveRender(); } }
+function hostNext(){
+  const s=LH.sess; if(!s) return;
+  if(s.cur+1 >= s.n) return hostUpdate({phase:"ended"});
+  hostUpdate({phase:"question", cur:s.cur+1, endsAt:Date.now()+s.dur*1000});
+}
+async function hostResults(){
+  try{
+    const db=await getDB(); const ref=db.collection(LIVE_COLL).doc(LH.code); const s=LH.sess;
+    const [ans, pl] = await Promise.all([ref.collection("answers").get(), ref.collection("players").get()]);
+    const correct = s.qIdx.map((_,i)=>liveQ(s,i).a);
+    const names={}; pl.docs.forEach(d=>names[d.id]=d.data().name);
+    const score={}; Object.keys(names).forEach(id=>score[id]=0);
+    const perQ = s.qIdx.map(()=>({ok:0,total:0}));
+    ans.docs.forEach(d=>{ const a=d.data(); if(a.q<0||a.q>=s.n) return; perQ[a.q].total++; if(a.choice===correct[a.q]){ perQ[a.q].ok++; score[a.pid]=(score[a.pid]||0)+1; } });
+    const rank = Object.keys(score).map(id=>({name:names[id]||"Student", score:score[id]})).sort((a,b)=>b.score-a.score);
+    const tot = perQ.reduce((n,q)=>n+q.total,0), ok = perQ.reduce((n,q)=>n+q.ok,0);
+    LH.results = { rank, perQ, pct: tot? Math.round(ok/tot*100) : 0 };
+  }catch(e){ LH.error=errMsg(e); }
+  liveRender();
+}
+function hostEnd(){ hostStop(); ssSet("toeic-live-host", null); LH.code=null; LH.sess=null; LH.players=[]; LH.results=null; LH.error=""; liveRender(); }
+
+/* ---------- Player (phone) ---------- */
+const LP = { code:"", name:"", pid:null, sess:null, answers:{}, unsub:null, error:"", joining:false };
+async function playerJoin(code, name){
+  code=(code||"").trim().toUpperCase(); name=(name||"").trim().slice(0,24);
+  if(!liveConfigured()){ LP.error="Live quizzes aren't set up yet. Tell your teacher."; return liveRender(); }
+  if(code.length!==5){ LP.error="Enter the 5-character code on the screen."; return liveRender(); }
+  if(!name){ LP.error="Enter your name so your teacher knows who answered."; return liveRender(); }
+  LP.joining=true; LP.error=""; liveRender();
+  try{
+    const db=await getDB(); const ref=db.collection(LIVE_COLL).doc(code); const s=await ref.get();
+    if(!s.exists){ LP.error="That code doesn't exist. Check it with your teacher."; }
+    else if(s.data().phase==="ended"){ LP.error="This live quiz has already finished."; }
+    else{
+      const saved = ssGet("toeic-live-player");
+      const pid = saved && saved.code===code ? saved.pid : Math.random().toString(36).slice(2,10);
+      await ref.collection("players").doc(pid).set({name, joinedAt:Date.now()});
+      Object.assign(LP, {code, name, pid, answers: saved && saved.code===code ? saved.answers||{} : {}});
+      ssSet("toeic-live-player", {code, name, pid, answers:LP.answers});
+      playerListen();
+    }
+  }catch(e){ LP.error=errMsg(e); }
+  LP.joining=false; liveRender();
+}
+async function playerListen(){
+  if(LP.unsub){ try{LP.unsub();}catch(e){} }
+  const db=await getDB();
+  LP.unsub = db.collection(LIVE_COLL).doc(LP.code).onSnapshot(s=>{ LP.sess = s.exists ? s.data() : null; liveRender(); }, e=>{ LP.error=errMsg(e); liveRender(); });
+}
+async function playerAnswer(k){
+  const s=LP.sess; if(!s || s.phase!=="question" || LP.answers[s.cur]!=null) return;
+  LP.answers[s.cur]=k; ssSet("toeic-live-player", {code:LP.code, name:LP.name, pid:LP.pid, answers:LP.answers}); liveRender();
+  try{ const db=await getDB(); await db.collection(LIVE_COLL).doc(LP.code).collection("answers").doc(s.cur+"_"+LP.pid).set({q:s.cur, pid:LP.pid, choice:k, at:Date.now()}); }
+  catch(e){ delete LP.answers[s.cur]; LP.error=errMsg(e); liveRender(); }
+}
+function playerScore(){ const s=LP.sess; if(!s) return 0; const upTo = s.phase==="question" ? s.cur-1 : (s.phase==="ended" ? s.n-1 : s.cur); let n=0; for(let i=0;i<=upTo;i++){ if(LP.answers[i]!=null && LP.answers[i]===liveQ(s,i).a) n++; } return n; }
+function playerLeave(){ if(LP.unsub){ try{LP.unsub();}catch(e){} } ssSet("toeic-live-player", null); Object.assign(LP,{code:"",pid:null,sess:null,answers:{},error:""}); liveRender(); }
+
+/* ---------- Rendering ---------- */
+let liveKey = "";
+function liveRender(){
+  const el=document.getElementById("live"); if(!el) return;
+  const isHost = APP==="teacher";
+  const key = isHost ? ["h",liveConfigured(),LH.code,LH.sess&&LH.sess.phase,LH.sess&&LH.sess.cur,LH.error,!!LH.results,LH.n,LH.dur,LH.busy].join("|")
+                     : ["p",LP.code,LP.sess&&LP.sess.phase,LP.sess&&LP.sess.cur,LP.sess&&LP.answers[LP.sess.cur],LP.error,LP.joining].join("|");
+  if(key!==liveKey || !el.firstChild){
+    liveKey=key; el.innerHTML = isHost ? hostHTML() : playerHTML();
+    if(isHost && LH.sess && LH.sess.phase==="lobby") drawQR();
+    if(!isHost){ const i=document.getElementById("lv-name"); if(i && !i.value && LP.name) i.value=LP.name; }
+  }
+  if(isHost) liveUpdate();
+}
+function liveUpdate(){
+  if(APP!=="teacher") return;
+  const pc=document.getElementById("lv-pcount"); if(pc) pc.textContent=LH.players.length;
+  const pl=document.getElementById("lv-players"); if(pl) pl.innerHTML = LH.players.length ? LH.players.map(p=>`<span class="pchip">${esc(p.name||"Student")}</span>`).join("") : `<span class="hint">Waiting for students to join…</span>`;
+  const an=document.getElementById("lv-answered"); if(an) an.textContent=`${LH.answered} / ${LH.players.length} answered`;
+  const max = Math.max(1, LH.answered);
+  for(let k=0;k<4;k++){ const b=document.getElementById("lv-bar-"+k); if(b) b.style.width=(LH.counts[k]/max*100)+"%"; const c=document.getElementById("lv-cnt-"+k); if(c) c.textContent=LH.counts[k]; }
+  hostTick();
+}
+function drawQR(){
+  const box=document.getElementById("lv-qr"); if(!box || !LH.code) return;
+  loadScript("https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js").then(()=>{
+    const b=document.getElementById("lv-qr"); if(!b) return; b.innerHTML="";
+    new QRCode(b, {text:joinURL(LH.code), width:208, height:208, colorDark:"#16202B", colorLight:"#FFFFFF", correctLevel:QRCode.CorrectLevel.M});
+  }).catch(()=>{ const b=document.getElementById("lv-qr"); if(b) b.hidden=true; });
+}
+function setupHTML(){
+  return `<div class="lcard"><span class="mono lv-k">Live mode setup</span><h2 class="lv-h">Connect live mode to Firebase</h2>
+  <p class="lead">Live mode stores the answers in your Firestore project, so phones and the classroom screen can see the same quiz.</p>
+  <ol class="lv-steps"><li>Open <b>toeic-firebase-config.js</b> in a text editor.</li>
+  <li>Paste the web config of your Firebase project (Project settings → Your apps → Config). The teacher and join apps both read this file.</li>
+  <li>Add this block to your Firestore rules:<pre>match /toeic_live/{code}/{document=**} {
+  allow read, write: if true;
+}
+match /toeic_live/{code} {
+  allow read, write: if true;
+}</pre></li>
+  <li>Upload the four files to the same folder on your hosting. Live mode does not work inside Claude.</li></ol></div>`;
+}
+function hostHTML(){
+  if(!liveConfigured()) return setupHTML();
+  const err = LH.error ? `<div class="fb no"><strong>Live mode error</strong><span>${esc(LH.error)}</span></div>` : "";
+  const s = LH.sess;
+  if(!LH.code || !s){
+    const topicId = S.view==="mixed" ? "mixed" : S.topic;
+    return `${err}<div class="lcard"><span class="mono lv-k">Live quiz · ${esc(liveTopicName(topicId))}</span>
+    <h2 class="lv-h">Students answer from their phones.</h2>
+    <p class="lead">They scan a QR code, type their name and choose A, B, C or D. The screen shows how many students chose each option, then reveals the correct answer when time runs out.</p>
+    <div class="lv-opts"><div><span class="mono">Questions</span><div class="tabs">${LIVE_N.map(n=>`<button aria-selected="${LH.n===n}" data-lv-n="${n}">${n}</button>`).join("")}</div></div>
+    <div><span class="mono">Time per question</span><div class="tabs">${LIVE_T.map(n=>`<button aria-selected="${LH.dur===n}" data-lv-t="${n}">${n} s</button>`).join("")}</div></div></div>
+    <div class="actions"><button class="btn solid" data-lv="start" ${LH.busy?"disabled":""}>${LH.busy?"Creating session…":"Start live session"}</button></div></div>`;
+  }
+  const top = `<div class="lv-top"><span class="mono lv-k">Live · ${esc(liveTopicName(s.topicId))} · Code <b>${LH.code}</b></span>
+    <div class="actions"><button class="btn" data-lv="fs">Full screen</button><button class="btn" data-lv="end">${s.phase==="ended"?"Close":"End session"}</button></div></div>`;
+  if(s.phase==="lobby"){
+    const local = location.protocol==="file:";
+    return `${err}<div class="lstage" id="lv-stage">${top}
+    <div class="lv-lobby"><div class="lv-join"><span class="mono lv-k">Join on your phone</span>
+      <div class="lv-url">${esc(joinURL(LH.code).replace(/^https?:\/\//,""))}</div>
+      <span class="mono lv-k">Code</span><div class="lv-code">${LH.code}</div>
+      ${local?`<p class="hint">This file is open from your computer, so phones can't reach it. Upload it to your hosting first.</p>`:""}</div>
+      <div class="lv-qr" id="lv-qr" aria-label="QR code to join"></div></div>
+    <div class="lv-plhead"><b><span id="lv-pcount">0</span> students joined</b><button class="btn solid" data-lv="next">Start quiz →</button></div>
+    <div class="lv-players" id="lv-players"></div></div>`;
+  }
+  if(s.phase==="question" || s.phase==="reveal"){
+    const q = liveQ(s, s.cur), rev = s.phase==="reveal";
+    return `${err}<div class="lstage ${rev?"rev":""}" id="lv-stage" ${q.tkey?`data-topic="${q.tkey}"`:""}>${top}
+    <div class="lv-qhead"><span class="mono lv-k">Question ${s.cur+1} of ${s.n}${q.from?` · ${esc(q.from)}`:""}</span>
+      <span id="lv-answered" class="hint"></span>
+      ${rev?`<span class="lv-done">${hostRemaining()>0?"Everyone answered":"Time's up"}</span>`:`<div class="lv-ring" id="lv-ring" style="--p:100"><span id="lv-time">${s.dur}</span></div>`}</div>
+    <p class="lv-q">${qHTML(q.q)}</p>
+    <div class="lv-grid">${q.o.map((o,k)=>`<div class="lv-opt ${rev?(k===q.a?"right":"dim"):""}"><span class="bub">${L[k]}</span><span class="lv-ot">${optText(o)}</span><span class="lv-cnt" id="lv-cnt-${k}">0</span><span class="lv-bar"><i id="lv-bar-${k}"></i></span></div>`).join("")}</div>
+    ${rev?`<div class="fb ok"><strong>Answer: ${L[q.a]}) ${optText(q.o[q.a])}</strong><span>${q.why}</span></div>
+      <div class="lv-plhead"><span class="hint">Press Enter or → for the next question</span><button class="btn solid" data-lv="next">${s.cur+1>=s.n?"See results":"Next question →"}</button></div>`
+      :`<div class="lv-plhead"><span class="hint">The answer appears when time runs out or everyone has answered.</span><button class="btn" data-lv="reveal">Show answer now</button></div>`}</div>`;
+  }
+  const r = LH.results;
+  return `${err}<div class="lstage" id="lv-stage">${top}
+  ${r?`<div class="result"><div class="score">${r.pct}<small>%</small></div><div><h2 class="lv-h" style="margin:0">Class accuracy</h2><p class="lead">${r.rank.length} ${r.rank.length===1?"student":"students"} · ${s.n} questions. ${(h=>h.length?` Review these questions: ${h.join(", ")}.`:" Every question had a correct majority.")(r.perQ.map((p,i)=>({i,v:p.total?p.ok/p.total:1})).filter(x=>x.v<.5).sort((a,b)=>a.v-b.v).slice(0,3).map(x=>"Q"+(x.i+1)))}</p></div></div>
+  <ol class="lv-rank">${r.rank.slice(0,10).map(p=>`<li><span>${esc(p.name)}</span><b>${p.score} / ${s.n}</b></li>`).join("")}</ol>`:`<p class="hint">Calculating results…</p>`}
+  <div class="actions"><button class="btn solid" data-lv="new">New live session</button></div></div>`;
+}
+function playerHTML(){
+  const err = LP.error ? `<div class="fb no"><strong>Can't continue</strong><span>${esc(LP.error)}</span></div>` : "";
+  const s = LP.sess;
+  if(!LP.code || !s){
+    const pre = (location.hash.match(/^#(?:join-)?([A-Za-z0-9]{5})$/)||[])[1] || "";
+    return `<form class="lcard pl" id="lv-join" autocomplete="off"><span class="mono lv-k">Live quiz</span><h2 class="lv-h">Join your class</h2>
+      ${err}<label for="lv-code">Code</label><input id="lv-code" class="lv-in mono" maxlength="5" value="${esc(pre.toUpperCase())}" placeholder="ABCDE" autocapitalize="characters">
+      <label for="lv-name">Your name</label><input id="lv-name" class="lv-in" maxlength="24" placeholder="First name and last name">
+      <button class="btn solid lv-big" type="submit" ${LP.joining?"disabled":""}>${LP.joining?"Joining…":"Join"}</button></form>`;
+  }
+  const tk = (topicBy(s.topicId)||{}).key; const el=document.getElementById("live"); if(el){ tk ? el.setAttribute("data-topic", tk) : el.removeAttribute("data-topic"); }
+  const head = `<div class="pl-head"><span class="mono lv-k">${esc(LP.name)} · ${LP.code}</span><span class="mono lv-k">${playerScore()} ${playerScore()===1?"pt":"pts"}</span></div>`;
+  if(s.phase==="lobby") return `<div class="lcard pl">${head}${err}<h2 class="lv-h">You're in!</h2><p class="lead">Look at the classroom screen. The first question will appear here when your teacher starts.</p><div class="pulse"></div></div>`;
+  if(s.phase==="ended"){
+    return `<div class="lcard pl">${head}<span class="mono lv-k">Final score</span><div class="score">${playerScore()}<small>/${s.n}</small></div>
+    <p class="lead">${playerScore()/s.n>=.8?"Excellent work!":playerScore()/s.n>=.6?"Good job. Review the topic to improve.":"Keep practicing. Open the topic and use Review and Practice."}</p>
+    <div class="actions"><a class="btn solid" href="toeic-study.html${s.topicId!=="mixed"?"#"+s.topicId+"-review":""}">Study this topic</a><button class="btn" data-lv="leave">Leave</button></div></div>`;
+  }
+  const q = liveQ(s, s.cur), mine = LP.answers[s.cur], rev = s.phase==="reveal";
+  let body;
+  if(rev){
+    const ok = mine===q.a;
+    body = `<div class="fb ${ok?"ok":"no"}"><strong>${mine==null?"No answer":ok?"Correct!":"Not this time"}</strong><span>Answer: ${L[q.a]}) ${optText(q.o[q.a])}</span><span>${q.why}</span></div><p class="hint">Wait for the next question.</p>`;
+  }else if(mine!=null){
+    body = `<div class="pl-sent"><span class="bub">${L[mine]}</span><div><b>Answer sent</b><p class="hint">${optText(q.o[mine])}<br>Look at the screen to see the results.</p></div></div>`;
+  }else{
+    body = `<div class="opts pl-opts">${q.o.map((o,k)=>`<button class="opt" data-lv-ans="${k}"><span class="bub">${L[k]}</span><span>${optText(o)}</span></button>`).join("")}</div>`;
+  }
+  return `<div class="lcard pl" ${q.tkey?`data-topic="${q.tkey}"`:""}>${head}${err}<span class="mono lv-k">Question ${s.cur+1} of ${s.n}</span><p class="qtext">${qHTML(q.q)}</p>${body}</div>`;
+}
+function renderJoin(){
+  document.documentElement.removeAttribute("data-topic");
+  app.innerHTML = bar() + `<div id="live" class="pl-wrap"></div>`;
+  liveKey=""; liveRender();
+}
+
+/* ---------- Events ---------- */
+app.addEventListener("click", e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.lvN){ LH.n=+b.dataset.lvN; return liveRender(); }
+  if(b.dataset.lvT){ LH.dur=+b.dataset.lvT; return liveRender(); }
+  if(b.dataset.lvAns!=null) return playerAnswer(+b.dataset.lvAns);
+  const a=b.dataset.lv; if(!a) return;
+  if(a==="start") hostStart(S.view==="mixed" ? "mixed" : S.topic);
+  else if(a==="next") hostNext();
+  else if(a==="reveal"){ if(LH.sess){ LH.revealedFor=LH.sess.cur; hostUpdate({phase:"reveal"}); } }
+  else if(a==="end"){ if(LH.sess && LH.sess.phase!=="ended") hostUpdate({phase:"ended"}); hostEnd(); }
+  else if(a==="new") hostEnd();
+  else if(a==="leave") playerLeave();
+  else if(a==="fs"){ const w=document.getElementById("lv-stage"); try{ if(document.fullscreenElement) document.exitFullscreen().catch(()=>{}); else if(w&&w.requestFullscreen) w.requestFullscreen().catch(()=>{}); }catch(err){} }
+});
+app.addEventListener("submit", e=>{
+  if(e.target.id!=="lv-join") return; e.preventDefault();
+  playerJoin(document.getElementById("lv-code").value, document.getElementById("lv-name").value);
+});
+document.addEventListener("keydown", e=>{
+  if(e.target.closest("input,textarea")) return;
+  const host = APP==="teacher" && inPractice() && S.pmode==="live";
+  if(host && LH.sess && LH.sess.phase==="reveal" && (e.key==="Enter"||e.key==="ArrowRight")){ e.preventDefault(); hostNext(); }
+});
+function liveResume(){
+  const h = APP==="teacher" && ssGet("toeic-live-host");
+  if(h && h.code && liveConfigured()){ LH.code=h.code; LH.topicId=h.topicId; hostListen().catch(e=>{ LH.error=errMsg(e); liveRender(); }); }
+  const p = APP==="join" && ssGet("toeic-live-player");
+  if(p && p.code && liveConfigured()){ Object.assign(LP, {code:p.code, name:p.name, pid:p.pid, answers:p.answers||{}}); playerListen().catch(e=>{ LP.error=errMsg(e); liveRender(); }); }
+}
+
+fromHash(); liveResume(); render();
 </script>
 
 </body>
