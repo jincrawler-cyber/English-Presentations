@@ -1,1 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Profile 1.4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<style>
+/* Layout: an ID-card / passport-desk metaphor. Sticky stage rail on top, one stage visible at a time, big projector-friendly type. */
+:root{
+  --bg:#f3f1f6; --paper:#ffffff; --ink:#1f1830; --muted:#625a73; --line:#ddd6e6;
+  --accent:#b0175f; --accent-soft:#f8dceb; --teal:#0f7c86; --teal-soft:#d6f0f1;
+  --gold:#a86f00; --ok:#1d7a3e; --ok-soft:#dcf2e3; --bad:#b4261c; --on:#ffffff;
+  --display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#16121e; --paper:#221c2e; --ink:#f1ecf7; --muted:#b1a8c2; --line:#3a3149;
+  --accent:#ff6aa9; --accent-soft:#4a1d36; --teal:#5fd0d8; --teal-soft:#123a3e;
+  --gold:#f0bd45; --ok:#6fd894; --ok-soft:#173a25; --bad:#ff7a6e; --on:#16121e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16121e; --paper:#221c2e; --ink:#f1ecf7; --muted:#b1a8c2; --line:#3a3149;
+  --accent:#ff6aa9; --accent-soft:#4a1d36; --teal:#5fd0d8; --teal-soft:#123a3e;
+  --gold:#f0bd45; --ok:#6fd894; --ok-soft:#173a25; --bad:#ff7a6e; --on:#16121e; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+button{font:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,input:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
+header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.top{display:flex;align-items:center;gap:14px;padding-block:12px 8px;flex-wrap:wrap}
+.badge{font-family:var(--display);font-weight:800;font-size:1.6rem;background:var(--accent);color:var(--on);padding:2px 12px;border-radius:6px}
+.top h1{font-size:1.5rem;letter-spacing:.02em}
+.top .obj{margin-left:auto;font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.rail{display:flex;gap:6px;overflow-x:auto;padding-block:4px 10px;scrollbar-width:thin}
+.rail button{flex:0 0 auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 14px;font-size:.88rem;display:flex;gap:8px;align-items:center}
+.rail button .n{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.rail button[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.rail button[aria-selected="true"] .n{color:var(--paper);opacity:.7}
+
+main{padding-block:24px 60px}
+.stage-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:18px}
+.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:700}
+.stage-head h2{font-size:clamp(1.8rem,4vw,2.6rem);width:100%}
+.stage-head p{margin:0;color:var(--muted);max-width:75ch}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.tag{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--teal);font-weight:700}
+.big{font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.2}
+.mono{font-family:var(--mono)}
+.muted{color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:0;border-radius:8px;padding:9px 16px;background:var(--ink);color:var(--paper);font-weight:700}
+.btn.alt{background:var(--accent-soft);color:var(--accent)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.teal{background:var(--teal);color:var(--on)}
+.btn.gold{background:var(--gold);color:var(--on)}
+.reveal{background:var(--teal-soft);color:var(--ink);border-radius:8px;padding:10px 14px}
+.note{border-left:4px solid var(--gold);padding:8px 14px;background:var(--paper);border-radius:0 8px 8px 0}
+.teacher{font-size:.9rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin:0}
+.teacher b{color:var(--ink)}
+.timer{font-family:var(--mono);font-size:2.4rem;text-align:center;font-variant-numeric:tabular-nums}
+.timer.low{color:var(--bad)}
+
+/* Warm up stepper */
+.wu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:820px){.wu-grid{grid-template-columns:1fr}}
+.set{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.set.wide{grid-column:1 / -1}
+.set-head{display:flex;align-items:center;gap:12px}
+.set-n{font-family:var(--display);font-weight:800;font-size:1.3rem;width:2em;height:2em;border-radius:50%;background:var(--accent);color:var(--on);display:grid;place-items:center;flex:0 0 auto}
+.set h3{font-size:clamp(1.4rem,2.6vw,1.8rem)}
+.who{background:var(--gold);color:var(--on);padding:6px 12px;border-radius:8px;font-size:1.02rem}
+.who b{text-transform:uppercase;letter-spacing:.06em}
+.qs{margin:0;padding-left:1.6em;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 20px;font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,2vw,1.4rem)}
+@media (max-width:520px){.qs{grid-template-columns:1fr}}
+.qs li::marker{color:var(--accent);font-family:var(--mono);font-size:.85em}
+.qs.nums{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.words{display:flex;flex-wrap:wrap;gap:8px}
+.words span{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,2vw,1.35rem);padding:4px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
+.cities{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:8px}
+.cities div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 10px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.cities b{font-family:var(--display);font-size:1.25rem;grid-column:1 / -1}
+.cities span{color:var(--muted)}
+.cities i{font-style:normal;color:var(--muted);letter-spacing:.05em}
+.model{margin-top:auto;background:var(--teal-soft);border-radius:10px;padding:10px 14px;display:flex;flex-direction:column;gap:2px;font-size:1.05rem}
+.quiz-wrap{overflow-x:auto}
+.quiz{border-collapse:collapse;width:100%;min-width:520px}
+.quiz th{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--bg);text-align:left;padding:8px 12px;border-bottom:2px solid var(--line)}
+.quiz td{padding:10px 12px;border-bottom:1px solid var(--line)}
+.quiz .qn{font-family:var(--mono);color:var(--accent);width:2.5em}
+.quiz .qq{font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,2vw,1.45rem)}
+.quiz .qa{width:42%;border-bottom:2px dotted var(--muted)}
+.model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.model-grid .model{margin-top:0}
+/* QR panel */
+.qrbox{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.qr{background:#ffffff;padding:10px;border-radius:10px;width:180px;height:180px;flex:0 0 auto}
+.qr img,.qr canvas{width:160px!important;height:160px!important}
+
+/* Vocabulary */
+.jobs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:12px}
+.job{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;color:var(--ink)}
+.job .art{font-family:var(--mono);font-size:.8rem;color:var(--accent)}
+.job .w{font-family:var(--display);font-weight:800;font-size:1.7rem}
+.job .ex{font-size:.95rem;color:var(--muted)}
+.job.hide .w{filter:blur(9px)}
+
+/* Mime */
+.mime{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:20px;align-items:start}
+@media (max-width:820px){.mime{grid-template-columns:1fr}}
+.howto{margin:0;padding:20px 20px 20px 48px;background:var(--paper);border:1px solid var(--line);border-radius:14px;display:grid;gap:14px;font-size:clamp(1.15rem,2.2vw,1.45rem)}
+.howto li::marker{font-family:var(--display);font-weight:800;color:var(--accent)}
+.mime-jobs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mime-jobs div{background:var(--paper);border:2px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;min-width:0}
+.mime-jobs .a{font-family:var(--mono);color:var(--accent);font-size:.9rem}
+.mime-jobs .w{font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,3.2vw,2.1rem);overflow-wrap:anywhere}
+
+/* Grammar */
+.profile-sample{font-size:1.15rem;line-height:1.8;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px}
+.show-caps .c{background:var(--accent-soft);color:var(--accent);font-weight:700;border-radius:3px;padding:0 2px}
+.show-dots .d{background:var(--teal-soft);color:var(--teal);font-weight:700;border-radius:3px;padding:0 4px}
+.show-but .b{background:var(--gold);color:var(--on);font-weight:700;border-radius:3px;padding:0 4px}
+.rules{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.rules li{display:flex;gap:10px;align-items:baseline}
+.rules li .k{font-family:var(--display);font-weight:800;color:var(--accent);min-width:3.2em}
+.but-line{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:1.15rem}
+.chip{padding:4px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+.chip.but{background:var(--gold);color:var(--on);border-color:var(--gold);font-weight:700}
+
+/* Controlled */
+.sent{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:6px 12px;align-items:center}
+.sent .num{font-family:var(--mono);color:var(--muted)}
+.sent .q{font-size:1.2rem;overflow-wrap:anywhere}
+.sent .a{grid-column:2 / 4;font-size:1.2rem;overflow-wrap:anywhere}
+.sent .a mark{background:var(--accent-soft);color:var(--accent);font-weight:700;padding:0 2px;border-radius:3px}
+
+/* Role cards */
+.idcard{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--paper)}
+.idcard .bar{background:var(--accent);color:var(--on);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-weight:800;letter-spacing:.04em}
+.idcard dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;margin:0;padding:16px}
+.idcard dt{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);align-self:center}
+.idcard dd{margin:0;font-weight:700;font-size:1.2rem;overflow-wrap:anywhere}
+.idcard dd.secretjob{color:var(--accent)}
+.frame{font-size:1.15rem;line-height:2.1}
+.gap{display:inline-block;min-width:7ch;border-bottom:2px solid var(--teal);color:var(--teal);font-weight:700;padding:0 4px;line-height:1.3}
+.frame.blank .gap span{visibility:hidden}
+
+/* Checklist */
+.check{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
+.check input{width:22px;height:22px;margin-top:3px;accent-color:var(--ok)}
+
+/* Reading */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px;background:var(--paper)}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+th{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--bg)}
+td input{width:100%;min-width:0;border:1px solid var(--line);border-radius:6px;padding:6px 8px;font:inherit;background:var(--bg);color:var(--ink)}
+td input.right{border-color:var(--ok);background:var(--ok-soft)}
+td input.wrong{border-color:var(--bad)}
+.tf{display:grid;gap:8px}
+.tf .item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:10px 12px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+.tf .item.ok{border-color:var(--ok);background:var(--ok-soft)}
+.tf .item.no{border-color:var(--bad)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <span class="badge">1.4</span>
+      <h1>MY PROFILE</h1>
+      <span class="obj">Objective · write a profile</span>
+    </div>
+    <nav class="rail" role="tablist" id="rail"></nav>
+  </div>
+</header>
+
+<main class="wrap" id="stages">
+
+<section data-stage="Warm up" id="warmup">
+  <div class="stage-head">
+    <span class="eyebrow">Stage 1 · Warm up · 10 min</span>
+    <h2>Questionnaire: who is your partner?</h2>
+  </div>
+  <div class="set">
+    <div class="who"><b>Pairs</b> · Ask your partner the questions. Write the answers in your notebook. Then change.</div>
+    <div class="quiz-wrap">
+      <table class="quiz">
+        <thead><tr><th>#</th><th>Question</th><th>My partner's answer</th></tr></thead>
+        <tbody>
+        <tr><td class="qn">1</td><td class="qq">What's your name?</td><td class="qa"></td></tr>
+        <tr><td class="qn">2</td><td class="qq">How do you spell it?</td><td class="qa"></td></tr>
+        <tr><td class="qn">3</td><td class="qq">What's your last name?</td><td class="qa"></td></tr>
+        <tr><td class="qn">4</td><td class="qq">How do you spell your last name?</td><td class="qa"></td></tr>
+        <tr><td class="qn">5</td><td class="qq">Are you Mexican?</td><td class="qa"></td></tr>
+        <tr><td class="qn">6</td><td class="qq">Are you from Aguascalientes?</td><td class="qa"></td></tr>
+        <tr><td class="qn">7</td><td class="qq">What's your phone number?</td><td class="qa"></td></tr>
+        <tr><td class="qn">8</td><td class="qq">What's your email?</td><td class="qa"></td></tr>
+        <tr><td class="qn">9</td><td class="qq">How do you spell your email?</td><td class="qa"></td></tr>
+        <tr><td class="qn">10</td><td class="qq">Are you a student?</td><td class="qa"></td></tr>
+        <tr><td class="qn">11</td><td class="qq">What's the name of your school?</td><td class="qa"></td></tr>
+        <tr><td class="qn">12</td><td class="qq">Am I your teacher?</td><td class="qa"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="model-grid">
+      <div class="model"><span class="tag">Are you…? / Am I…?</span><span>Yes, I am. / No, I'm not.</span><span>Yes, you are. / No, you aren't.</span></div>
+      <div class="model"><span class="tag">What's…?</span><span>What's your name? → <b>It's</b> Ana.</span><span>What's = What is · It's = It is</span></div>
+      <div class="model"><span class="tag">How do you spell…?</span><span>How do you spell it? → <b>A - N - A</b>.</span><span>@ = at · . = dot · _ = underscore</span></div>
+    </div>
+  </div>
+</section>
+
+<section data-stage="Vocabulary" id="vocab" hidden>
+  <div class="stage-head">
+    <span class="eyebrow">Stage 2 · Vocabulary presentation · 10 min</span>
+    <h2>Jobs</h2>
+    <p>Tap a card to hear the word. Use <b>Hide words</b> to test memory: students say the job from the clue.</p>
+  </div>
+  <div class="row" style="margin-bottom:12px">
+    <button class="btn ghost" id="toggleWords">Hide words</button>
+    <span class="muted">I'm <b>a</b> teacher. / I'm <b>an</b> artist. (a, e, i, o, u → <b>an</b>)</span>
+  </div>
+  <div class="jobs" id="jobs"></div>
+</section>
+
+<section data-stage="Mime game" id="mime" hidden>
+  <div class="stage-head">
+    <span class="eyebrow">Stage 3 · Vocabulary practice · 10 min</span>
+    <h2>Mime the job</h2>
+  </div>
+  <div class="mime">
+    <ol class="howto">
+      <li><b>Make teams</b> of 4 or 5.</li>
+      <li>One student <b>chooses a job</b>. Don't say it!</li>
+      <li><b>Mime</b> the job. No words, no sounds.</li>
+      <li>Your team asks: <b>"Are you a chef?"</b></li>
+      <li>Answer: <b>"Yes, I am!"</b> or <b>"No, I'm not."</b></li>
+      <li>Correct answer = <b>1 point</b>. Change student.</li>
+    </ol>
+    <div class="mime-jobs" id="mimeJobs"></div>
+  </div>
+</section>
+
+<section data-stage="Grammar" id="grammar" hidden>
+  <div class="stage-head">
+    <span class="eyebrow">Stage 4 · Grammar presentation · 15 min</span>
+    <h2>A profile: capital letters, periods and <i>but</i></h2>
+    <p>A <b>profile</b> is a short text about you: your name, where you're from, where you live, your job, your company or school, and your contact information. It can be a <b>work profile</b> or a <b>personal profile</b>.</p>
+  </div>
+  <div class="grid g2">
+    <div class="panel">
+      <span class="tag">Example profile</span>
+      <div class="profile-sample" id="sample"></div>
+      <div class="row">
+        <button class="btn alt" data-hl="show-caps">Capital letters</button>
+        <button class="btn teal" data-hl="show-dots">Periods ( . )</button>
+        <button class="btn gold" data-hl="show-but">but</button>
+      </div>
+      <p class="teacher"><b>Ask:</b> Is it a work profile or a personal profile? How do you know?</p>
+    </div>
+    <div class="panel">
+      <span class="tag">Use capital letters (A, B, C…)</span>
+      <ul class="rules">
+        <li><span class="k">I</span><span>for <b>I</b> (I'm), always. <i>I live in Aguascalientes.</i></span></li>
+        <li><span class="k">Ana</span><span>for names of people</span></li>
+        <li><span class="k">UNID</span><span>for names of places, companies and schools</span></li>
+        <li><span class="k">Mexican</span><span>for nationalities and languages <i>(Spanish, English)</i></span></li>
+        <li><span class="k">My…</span><span>at the beginning of sentences</span></li>
+      </ul>
+      <div class="note">Use a <b>period ( . )</b> at the end of statements. Emails stay in small letters: <span class="mono">ana_lopez@unid.mx</span></div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:16px">
+    <span class="tag">Use <i>but</i> to connect two different ideas</span>
+    <div class="but-line"><span class="chip">I'm Peruvian,</span><span class="chip but">but</span><span class="chip">my home is in the United States.</span></div>
+    <div class="but-line"><span class="chip">I'm from Zacatecas,</span><span class="chip but">but</span><span class="chip">I live in Aguascalientes.</span></div>
+    <div class="but-line"><span class="chip">I'm a teacher,</span><span class="chip but">but</span><span class="chip">I'm a student, too.</span></div>
+    <p class="teacher"><b>Concept check:</b> Is "I'm from Zacatecas" the same idea as "I live in Aguascalientes"? (No → different ideas → <b>but</b>). Note the comma before <i>but</i>.</p>
+    <div class="note">People say <i>I'm from Paris</i> (city of origin) and <i>I live in Paris</i> (city now). <i>Paris is my home now</i> = I live in Paris.</div>
+  </div>
+</section>
+
+<section data-stage="Controlled" id="controlled" hidden>
+  <div class="stage-head">
+    <span class="eyebrow">Stage 5 · Controlled practice · 10 min</span>
+    <h2>Rewrite in your notebook</h2>
+    <p>Copy each sentence with <b>capital letters</b> and a <b>period</b>. Then check with a partner. Reveal the answers one by one.</p>
+  </div>
+  <div class="row" style="margin-bottom:12px">
+    <button class="btn alt" id="showAll">Show all answers</button>
+    <button class="btn ghost" id="hideAll">Hide all</button>
+  </div>
+  <div class="grid" id="sentences"></div>
+</section>
+
+<section data-stage="Semi-controlled" id="semi" hidden>
+  <div class="stage-head">
+    <span class="eyebrow">Stage 6 · Semi-controlled practice · 15 min</span>
+    <h2>Secret Identity: who am I?</h2>
+    <p><b>1.</b> Open the app on your phone and choose your number. <b>2.</b> Copy your card in your notebook. <b>3.</b> Write the profile with the frame. Don't write your job! <b>4.</b> Read it to the class. The class asks: <b>"Are you a doctor?"</b></p>
+  </div>
+  <div class="grid g2">
+    <div class="panel">
+      <span class="tag">Example card</span>
+      <div class="idcard">
+        <div class="bar"><span>PROFILE CARD</span><span class="mono">EXAMPLE</span></div>
+        <dl>
+          <dt>Name</dt><dd>Pedro Ramírez</dd>
+          <dt>Nationality</dt><dd>Mexican</dd>
+          <dt>From</dt><dd>Puebla</dd>
+          <dt>Lives in</dt><dd>Aguascalientes</dd>
+          <dt>Company</dt><dd>Hotel Fiesta Ags</dd>
+          <dt>Email</dt><dd class="mono" style="font-size:1rem">pramirez@fiestaags.mx</dd>
+          <dt>Job</dt><dd class="secretjob">hotel clerk (secret!)</dd>
+        </dl>
+      </div>
+      <div class="qrbox">
+        <div class="qr" id="qr" role="img" aria-label="QR code for the role card app"></div>
+        <div style="flex:1 1 200px;min-width:0">
+          <span class="tag">Get your card</span>
+          <p style="margin:4px 0 0;font-size:1.1rem">Scan the code and choose the number your teacher gives you.</p>
+          <p class="mono muted" id="qrLink" style="margin:6px 0 0;font-size:.8rem;overflow-wrap:anywhere"></p>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <span class="tag">Writing frame · example</span>
+      <div class="frame" id="frame">
+        Hello. My name is <span class="gap"><span>Pedro Ramírez</span></span>.<br>
+        I'm <span class="gap"><span>Mexican</span></span>.<br>
+        I'm from <span class="gap"><span>Puebla</span></span>, <b>but</b> I live in <span class="gap"><span>Aguascalientes</span></span>.<br>
+        My company is <span class="gap"><span>Hotel Fiesta Ags</span></span>.<br>
+        My email is <span class="gap"><span>pramirez@fiestaags.mx</span></span>.<br>
+        <b>My job is a secret. Who am I?</b>
+      </div>
+      <div class="note">Class: <b>"Are you a hotel clerk?"</b> → <b>"Yes, I am!"</b></div>
+      <p class="teacher"><b>School card?</b> Change the line: <i>The name of my school is…</i></p>
+    </div>
+  </div>
+</section>
+
+<section data-stage="Free practice" id="free" hidden>
+  <div class="stage-head">
+    <span class="eyebrow">Stage 7 · Free practice · 15 min</span>
+    <h2>Write it: your profile</h2>
+    <p>Choose a <b>work profile</b> or a <b>personal profile</b>. Write about <b>you</b>, without the frame. Then exchange notebooks: your partner uses the checklist.</p>
+  </div>
+  <div class="grid g2">
+    <div class="panel">
+      <span class="tag">Include</span>
+      <div class="grid g4" style="gap:8px">
+        <div class="chip">Hello / Hi</div><div class="chip">Name</div><div class="chip">Nationality</div><div class="chip">From… / live in…</div>
+        <div class="chip">Job</div><div class="chip">Company / school</div><div class="chip">Email / phone</div><div class="chip but">one but</div>
+      </div>
+      <div class="note"><b>Work profile</b> → Hello, company, work email.<br><b>Personal profile</b> → Hi / Hey, school, friends, social media.</div>
+      <div class="timer" id="freeTimer">10:00</div>
+      <div class="row" style="justify-content:center">
+        <button class="btn teal" id="fStart">Start 10 min</button>
+        <button class="btn ghost" id="fReset">Reset</button>
+      </div>
+    </div>
+    <div class="panel">
+      <span class="tag">Partner checklist</span>
+      <div id="checklist"></div>
+      <button class="btn ghost" id="clearChecks">Clear checklist</button>
+    </div>
+  </div>
+</section>
+
+<section data-stage="Reading p. 8" id="reading" hidden>
+  <div class="stage-head">
+    <span class="eyebrow">Stage 8 · Consolidation · 10 min</span>
+    <h2>Reading, page 8: Studio 10 store profiles</h2>
+    <p>Read the profiles of Akemi and Frank in your book. <b>2A:</b> circle three job words. <b>2B:</b> complete the chart. <b>2C:</b> How are they different?</p>
+  </div>
+  <div class="panel">
+    <span class="tag">2B · Complete the chart</span>
+    <div class="tablewrap">
+      <table id="chart">
+        <thead><tr><th>&nbsp;</th><th>Akemi</th><th>Frank</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="row">
+      <button class="btn" id="checkChart">Check</button>
+      <button class="btn alt" id="showChart">Show answers</button>
+      <button class="btn ghost" id="clearChart">Clear</button>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="panel">
+      <span class="tag">True or false?</span>
+      <div class="tf" id="tf"></div>
+    </div>
+    <div class="panel">
+      <span class="tag">2C · Pair work: how are they different?</span>
+      <div class="big">"I'm Akemi. I'm a student."<br>"I'm Frank. I'm not a student. I live in Texas…"</div>
+      <div class="reveal" id="diffAns" hidden>
+        Akemi is Japanese, but she lives in San Diego. She is an artist and a student.<br>
+        Frank is American and Brazilian. He lives in Austin. He is an artist and an art teacher, not a student.
+      </div>
+      <button class="btn alt" id="showDiff">Show example answer</button>
+      <p class="teacher"><b>Find it:</b> Ask students to find the sentences with <b>but</b> in both profiles and three examples of capital letters.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function say(text,rate){try{const u=new SpeechSynthesisUtterance(text);u.lang="en-US";u.rate=rate||.85;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+
+/* Stage navigation */
+const stages=$$("section[data-stage]"), rail=$("#rail");
+stages.forEach((s,i)=>{
+  const b=document.createElement("button");b.setAttribute("role","tab");b.id="tab-"+s.id;
+  b.innerHTML=`<span class="n">${i+1}</span>${s.dataset.stage}`;
+  b.onclick=()=>show(i);rail.appendChild(b);
+});
+function show(i){stages.forEach((s,j)=>s.hidden=j!==i);$$("#rail button").forEach((b,j)=>b.setAttribute("aria-selected",j===i));
+  try{localStorage.setItem("p14stage",i)}catch(e){} window.scrollTo({top:0});
+  $$("#rail button")[i].scrollIntoView({inline:"center",block:"nearest"});}
+let start=0;try{start=+localStorage.getItem("p14stage")||0}catch(e){}
+const hi=stages.findIndex(s=>s.id===location.hash.slice(1));if(hi>=0)start=hi;
+show(Math.min(start,stages.length-1));
+document.addEventListener("keydown",e=>{if(e.target.matches("input"))return;const cur=stages.findIndex(s=>!s.hidden);
+  if(e.key==="ArrowRight"&&cur<stages.length-1)show(cur+1);if(e.key==="ArrowLeft"&&cur>0)show(cur-1);});
+
+/* Jobs */
+const jobs=[
+ ["salesperson","a","I sell things. I'm a salesperson."],
+ ["artist","an","I paint and draw. I'm an artist."],
+ ["teacher","a","I work in a school. I'm a teacher."],
+ ["student","a","I study at UNID. I'm a student."],
+ ["hotel clerk","a","I work at a hotel reception. I'm a hotel clerk."],
+ ["doctor","a","I work in a hospital. I'm a doctor."],
+ ["chef","a","I cook in a restaurant. I'm a chef."],
+ ["server","a","I serve food in a restaurant. I'm a server."]];
+$("#jobs").innerHTML=jobs.map(j=>`<button class="job" data-w="${j[0]}"><span class="art">${j[1]} …</span><span class="w">${j[0]}</span><span class="ex">${j[2]}</span></button>`).join("");
+$$(".job").forEach(b=>b.onclick=()=>say(b.dataset.w));
+let hid=false;
+$("#toggleWords").onclick=e=>{hid=!hid;$$(".job").forEach(j=>j.classList.toggle("hide",hid));e.target.textContent=hid?"Show words":"Hide words";};
+
+/* Mime: jobs on view */
+$("#mimeJobs").innerHTML=jobs.map(j=>`<div><span class="a">I'm ${j[1]}…</span><span class="w">${j[0]}</span></div>`).join("");
+
+/* Grammar sample */
+$("#sample").innerHTML=`<span class="c">H</span>ello<span class="d">.</span> <span class="c">M</span>y name is <span class="c">L</span>aura <span class="c">M</span>éndez<span class="d">.</span> <span class="c">I</span> am <span class="c">M</span>exican<span class="d">.</span> <span class="c">I</span>'m from <span class="c">Z</span>acatecas, <span class="b">but</span> <span class="c">I</span> live in <span class="c">A</span>guascalientes now<span class="d">.</span> <span class="c">I</span>'m an engineer<span class="d">.</span> <span class="c">M</span>y company is <span class="c">N</span>issan<span class="d">.</span> <span class="c">M</span>y email is lmendez@nissan.mx<span class="d">.</span>`;
+$$("[data-hl]").forEach(b=>b.onclick=()=>$("#sample").classList.toggle(b.dataset.hl));
+
+/* Controlled */
+const answers=[
+ "Hi, my name is Ana López.",
+ "I'm Mexican.",
+ "I am from Guadalajara, but I live in Aguascalientes.",
+ "The name of my school is UNID.",
+ "Carlos is a chef in Mexico City.",
+ "I'm an engineer. My company is Nissan.",
+ "I speak Spanish and English.",
+ "I'm a teacher, but I'm a student, too.",
+ "My email is luisa_m@unid.mx.",
+ "Hello, I'm Kenji. I'm Japanese, but I live in Brazil."];
+$("#sentences").innerHTML=answers.map((a,i)=>{
+  const q=a.slice(0,-1).toLowerCase();
+  let marked="";for(let k=0;k<a.length;k++){const ch=a[k];marked+=(k>=q.length||ch!==q[k])?`<mark>${ch}</mark>`:ch;}
+  return `<div class="sent"><span class="num">${String(i+1).padStart(2,"0")}</span><span class="q">${q}</span><button class="btn alt" data-r="${i}">Answer</button><span class="a" id="ans${i}" hidden>${marked}</span></div>`;}).join("");
+$$("[data-r]").forEach(b=>b.onclick=()=>{const a=$("#ans"+b.dataset.r);a.hidden=!a.hidden;});
+$("#showAll").onclick=()=>$$(".sent .a").forEach(a=>a.hidden=false);
+$("#hideAll").onclick=()=>$$(".sent .a").forEach(a=>a.hidden=true);
+
+/* Semi: QR to the phone app */
+const QR_URL=/claude/.test(location.hostname)?"https://claude.ai/artifact/2iHNBkSsqMFYWC4Wxg2tsx":new URL("role-cards.html",location.href).href;
+const qrLink=document.getElementById("qrLink");if(qrLink){qrLink.textContent=QR_URL;}
+try{new QRCode(document.getElementById("qr"),{text:QR_URL,width:160,height:160,colorDark:"#000000",colorLight:"#ffffff"});}catch(e){document.getElementById("qr").textContent="QR unavailable";}
+
+/* Free */
+const checks=["Hello / Hi at the beginning","Capital I for I / I'm","Capital letters for names of people","Capital letters for cities, companies and schools","Capital letters for nationalities and languages","Capital letter at the beginning of every sentence","A period ( . ) at the end of every statement","One sentence with but (and a comma before it)","Job with a / an","Email or phone number"];
+$("#checklist").innerHTML=checks.map((c,i)=>`<label class="check"><input type="checkbox" id="ck${i}"><span>${c}</span></label>`).join("");
+$("#clearChecks").onclick=()=>$$("#checklist input").forEach(i=>i.checked=false);
+let fInt=null,fLeft=600;
+$("#fStart").onclick=()=>{if(fInt)return;fInt=setInterval(()=>{fLeft--;$("#freeTimer").textContent=fmt(Math.max(fLeft,0));$("#freeTimer").classList.toggle("low",fLeft<=60);if(fLeft<=0){clearInterval(fInt);fInt=null;}},1000);};
+$("#fReset").onclick=()=>{clearInterval(fInt);fInt=null;fLeft=600;$("#freeTimer").textContent="10:00";$("#freeTimer").classList.remove("low");};
+
+/* Reading chart */
+const rows=[["First name","Akemi",["Frank"]],["Last name",["Tanaka"],"Silva"],["City",["San Diego"],["Austin"]],["Nationality",["Japanese"],["American and Brazilian","American, Brazilian","American / Brazilian","Brazilian and American"]],["Company",["Tanaka Paints"],["Designs by Frank"]],["School",["The Art Institute","Art Institute"],null]];
+const norm=s=>s.toLowerCase().replace(/[^a-z]/g,"");
+$("#chart tbody").innerHTML=rows.map((r,i)=>`<tr><th scope="row">${r[0]}</th>${[1,2].map(c=>r[c]===null?`<td class="muted">— (no school)</td>`:typeof r[c]==="string"?`<td>${r[c]}</td>`:`<td><input id="c${i}${c}" data-a="${r[c].join("|")}" aria-label="${r[0]} ${c===1?"Akemi":"Frank"}"></td>`).join("")}</tr>`).join("");
+$("#checkChart").onclick=()=>$$("#chart input").forEach(inp=>{const ok=inp.dataset.a.split("|").some(a=>norm(a)===norm(inp.value));inp.classList.toggle("right",ok);inp.classList.toggle("wrong",!ok&&inp.value.trim()!=="");});
+$("#showChart").onclick=()=>$$("#chart input").forEach(inp=>{inp.value=inp.dataset.a.split("|")[0];inp.classList.add("right");inp.classList.remove("wrong");});
+$("#clearChart").onclick=()=>$$("#chart input").forEach(inp=>{inp.value="";inp.classList.remove("right","wrong");});
+const tf=[["Akemi is American.",false],["Akemi lives in San Diego.",true],["Akemi is an artist and a student.",true],["Frank lives in Texas.",true],["Frank is a student.",false],["Frank's classes are in his home.",true]];
+$("#tf").innerHTML=tf.map((t,i)=>`<div class="item" id="tf${i}"><span>${t[0]}</span><span class="row"><button class="btn ghost" data-t="${i}" data-v="1">T</button><button class="btn ghost" data-t="${i}" data-v="0">F</button></span></div>`).join("");
+$$("[data-t]").forEach(b=>b.onclick=()=>{const i=b.dataset.t,ok=(b.dataset.v==="1")===tf[i][1];const it=$("#tf"+i);it.classList.toggle("ok",ok);it.classList.toggle("no",!ok);});
+$("#showDiff").onclick=()=>$("#diffAns").hidden=!$("#diffAns").hidden;
+})();
+</script>
+</body>
+</html>
