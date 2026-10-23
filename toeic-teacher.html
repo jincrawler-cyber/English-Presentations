@@ -1,0 +1,1855 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Teacher screen: slides and live class quizzes for the TOEIC grammar suite.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>TOEIC Grammar Suite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: answer-sheet motif — topic "forms" on a cool paper ground, A–D bubbles as the recurring device; one stage for class, one scroll for review */
+:root{
+  --paper:#F3F5F2; --sheet:#FFFFFF; --ink:#16202B; --muted:#56626F; --line:#D7DCD5; --tint:#E9EDE7;
+  --t1:#0E7470; --t1-soft:#DDF0EE;
+  --t2:#A8580A; --t2-soft:#F7E9D8;
+  --t3:#5B44B5; --t3-soft:#E9E4F8;
+  --t4:#B0335A; --t4-soft:#F8E1E8;
+  --t5:#1F5FA8; --t5-soft:#DFEAF7;
+  --t6:#557214; --t6-soft:#E8EFD6;
+  --t7:#8C4A1C; --t7-soft:#F4E6DA;
+  --t8:#B8322A; --t8-soft:#F8E0DD;
+  --t9:#1F7A55; --t9-soft:#DCF0E6;
+  --t10:#8B3A8B; --t10-soft:#F2E0F2;
+  --ok:#1F7A3A; --ok-soft:#DFF2E4; --bad:#B3261E; --bad-soft:#F9E1DF;
+  --acc:var(--t1); --acc-soft:var(--t1-soft); --qr-bg:#FFFFFF;
+  --f-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11161C; --sheet:#182029; --ink:#E8ECEF; --muted:#9AA6B2; --line:#2B3640; --tint:#1F2832;
+  --t1:#4FC3BC; --t1-soft:#123432; --t2:#F0A257; --t2-soft:#3A2814; --t3:#A893F2; --t3-soft:#2A2347; --t4:#F28AAA; --t4-soft:#3E1A26; --t5:#7FB2F0; --t5-soft:#16283F; --t6:#B3D468; --t6-soft:#26300F; --t7:#E7A877; --t7-soft:#3A2516; --t8:#F2897E; --t8-soft:#3D1A16; --t9:#6FD3A4; --t9-soft:#143327; --t10:#E39BE3; --t10-soft:#351A35;
+  --ok:#5CCB7C; --ok-soft:#173322; --bad:#F2857C; --bad-soft:#3D1B19; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11161C; --sheet:#182029; --ink:#E8ECEF; --muted:#9AA6B2; --line:#2B3640; --tint:#1F2832;
+  --t1:#4FC3BC; --t1-soft:#123432; --t2:#F0A257; --t2-soft:#3A2814; --t3:#A893F2; --t3-soft:#2A2347; --t4:#F28AAA; --t4-soft:#3E1A26; --t5:#7FB2F0; --t5-soft:#16283F; --t6:#B3D468; --t6-soft:#26300F; --t7:#E7A877; --t7-soft:#3A2516; --t8:#F2897E; --t8-soft:#3D1A16; --t9:#6FD3A4; --t9-soft:#143327; --t10:#E39BE3; --t10-soft:#351A35;
+  --ok:#5CCB7C; --ok-soft:#173322; --bad:#F2857C; --bad-soft:#3D1B19; color-scheme:dark}
+[data-topic="t1"]{--acc:var(--t1);--acc-soft:var(--t1-soft)}
+[data-topic="t2"]{--acc:var(--t2);--acc-soft:var(--t2-soft)}
+[data-topic="t3"]{--acc:var(--t3);--acc-soft:var(--t3-soft)}
+[data-topic="t4"]{--acc:var(--t4);--acc-soft:var(--t4-soft)}
+[data-topic="t5"]{--acc:var(--t5);--acc-soft:var(--t5-soft)}
+[data-topic="t6"]{--acc:var(--t6);--acc-soft:var(--t6-soft)}
+[data-topic="t7"]{--acc:var(--t7);--acc-soft:var(--t7-soft)}
+[data-topic="t8"]{--acc:var(--t8);--acc-soft:var(--t8-soft)}
+[data-topic="t9"]{--acc:var(--t9);--acc-soft:var(--t9-soft)}
+[data-topic="t10"]{--acc:var(--t10);--acc-soft:var(--t10-soft)}
+
+*{box-sizing:border-box}
+html,body{touch-action:pan-y}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:clamp(16px,4vw,40px);padding-block:20px 64px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:6px}
+.mono{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:6px 18px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;cursor:pointer;padding:0}
+.brand b{font-family:var(--f-display);font-weight:800;font-size:1.15rem;letter-spacing:-.01em}
+.dots{display:flex;gap:4px}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);display:block}
+.dots i:nth-child(3){background:var(--ink)}
+.crumb{color:var(--muted)}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:end;margin-bottom:36px}
+.hero h1{font-family:var(--f-display);font-weight:800;font-size:clamp(2.2rem,5.6vw,4.1rem);line-height:1;letter-spacing:-.03em;margin:.2em 0 .25em;text-wrap:balance}
+.hero p{color:var(--muted);max-width:56ch;margin:0}
+.howto{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:grid;gap:10px}
+.howto div{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:baseline}
+.howto .mono{color:var(--acc)}
+.topics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:1060px){.topics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tcard{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.tcard::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--acc)}
+.tcard .mono{color:var(--acc)}
+.tcard h2{font-family:var(--f-display);font-weight:700;font-size:1.55rem;line-height:1.1;margin:0;letter-spacing:-.02em}
+.tcard p{margin:0;color:var(--muted);font-size:.95rem}
+.tcard .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;border-top:1px dashed var(--line);padding-top:10px;margin-top:auto}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:700;font-size:.9rem}
+.btn:hover{background:var(--tint)}
+.btn.solid{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.solid:hover{opacity:.88;background:var(--ink)}
+.btn.acc{background:var(--acc);border-color:var(--acc);color:var(--sheet)}
+.tcard.mixed{grid-column:span 2;background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tcard.mixed::before{background:linear-gradient(90deg,var(--t1),var(--t2),var(--t3),var(--t4),var(--t5),var(--t6),var(--t7),var(--t8),var(--t9),var(--t10))}
+.tcard.mixed .mono,.tcard.mixed p,.tcard.mixed .meta{color:var(--paper);opacity:.8}
+.tcard.mixed .meta{border-top-color:var(--paper)}
+.tcard.mixed .btn{border-color:var(--paper);color:var(--paper)}
+.tcard.mixed .btn.solid{background:var(--paper);color:var(--ink)}
+
+/* topic header + tabs */
+.thead{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.thead h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.02;letter-spacing:-.03em;margin:4px 0 0}
+.thead .mono{color:var(--acc)}
+.tabs{display:inline-flex;background:var(--tint);border-radius:999px;padding:4px;gap:2px}
+.tabs button{border:0;background:transparent;border-radius:999px;padding:7px 14px;cursor:pointer;font-weight:700;font-size:.9rem;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--sheet);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+/* slides */
+.stagewrap{background:var(--paper);display:flex;flex-direction:column;gap:12px}
+.stagewrap:fullscreen{padding:2vh 3vw;justify-content:center}
+.stage{container-type:inline-size;background:var(--sheet);border:1px solid var(--line);border-radius:12px;aspect-ratio:16/9;width:100%;max-width:100%;overflow:hidden;position:relative}
+.stagewrap:fullscreen .stage{max-height:88vh;width:auto;margin:0 auto;aspect-ratio:16/9;height:88vh}
+.slide{position:absolute;inset:0;padding:4.2cqw 5cqw 4cqw;display:flex;flex-direction:column;gap:1.6cqw;font-size:1.9cqw;line-height:1.45;overflow:auto}
+.slide .kick{font-family:var(--f-mono);font-size:1.25cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);display:flex;justify-content:space-between}
+.slide h2{font-family:var(--f-display);font-weight:800;font-size:3.9cqw;line-height:1.04;letter-spacing:-.025em;margin:0;text-wrap:balance}
+.slide.cover h2{font-size:7.6cqw;margin-top:auto}
+.slide.cover .lead{font-size:2.6cqw;max-width:40ch}
+.slide .lead{color:var(--muted);margin:0;max-width:62ch}
+.slide.cover .lead{color:var(--ink)}
+.slide.cover::after{content:"";position:absolute;right:5cqw;top:5cqw;width:14cqw;height:14cqw;border-radius:50%;border:1.1cqw solid var(--acc);opacity:.9}
+.slide .body{display:flex;flex-direction:column;gap:1.4cqw;min-height:0}
+
+/* shared content blocks (slides scale via cqw; review uses rem fallback) */
+.cols{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:1.4em}
+.col{border-top:3px solid var(--acc);padding-top:.5em}
+.col b{display:block;font-family:var(--f-display);font-size:1.1em}
+.col small{display:block;color:var(--muted);font-size:.82em;margin-bottom:.3em}
+.ex{margin:0;padding:0;list-style:none;display:grid;gap:.35em}
+.ex li{padding-left:1.4em;position:relative}
+.ex li::before{content:"";position:absolute;left:.15em;top:.5em;width:.55em;height:.55em;border-radius:50%;border:2px solid var(--acc)}
+.ex li.no::before{border-color:var(--bad);background:var(--bad)}
+.ex li.yes::before{border-color:var(--ok);background:var(--ok)}
+.ex li.no{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px}
+mark{background:var(--acc-soft);color:var(--ink);padding:0 .2em;border-radius:3px;font-weight:700}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.86em}
+th,td{text-align:left;padding:.42em .6em;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.72em;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+td:first-child{font-weight:700;color:var(--acc);white-space:nowrap}
+.tip{background:var(--acc-soft);border-radius:8px;padding:.6em .9em;font-size:.9em}
+.tip::before{content:"Nota en español";display:block;font-family:var(--f-mono);font-size:.68em;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:.15em}
+.formula{display:flex;flex-wrap:wrap;gap:.4em;align-items:center}
+.chip{border:2px solid var(--acc);border-radius:999px;padding:.15em .7em;font-weight:700;font-size:.92em}
+.chip.fill{background:var(--acc);color:var(--sheet)}
+.arrow{color:var(--muted)}
+
+.stagectl{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.prog{flex:1;min-width:120px;height:6px;background:var(--tint);border-radius:999px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--acc);transition:width .25s}
+.count{font-family:var(--f-mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;min-width:4.5em;text-align:center}
+.iconbtn{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--ink);background:var(--sheet);cursor:pointer;font-size:1.1rem;font-weight:700;display:grid;place-items:center}
+.iconbtn:disabled{opacity:.35;cursor:default}
+.hint{color:var(--muted);font-size:.82rem}
+
+/* review */
+.review{display:grid;gap:18px}
+.rsec{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:22px clamp(16px,3vw,28px);display:grid;gap:12px;font-size:1rem}
+.rsec .kick{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--acc)}
+.rsec h2{font-family:var(--f-display);font-weight:700;font-size:1.45rem;line-height:1.15;margin:0;letter-spacing:-.015em}
+.rsec .lead{color:var(--muted);margin:0}
+.rsec .body{display:grid;gap:12px}
+.rsec .body > *{min-width:0}
+.cta{background:var(--ink);color:var(--paper);border-radius:10px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.cta h3{font-family:var(--f-display);margin:0;font-size:1.25rem}
+.cta p{margin:2px 0 0;opacity:.75;font-size:.92rem}
+.cta .btn{border-color:var(--paper);color:var(--paper)}
+.cta .btn:hover{background:transparent;opacity:.85}
+
+/* practice */
+.qsize{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.qsize .mono{color:var(--muted)}
+.qcard{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:clamp(18px,3vw,32px);display:grid;gap:18px;max-width:820px}
+.qtop{display:flex;justify-content:space-between;gap:10px;color:var(--muted);flex-wrap:wrap}
+.qtop .mono{color:var(--acc)}
+.qtext{font-size:clamp(1.15rem,2.4vw,1.45rem);line-height:1.45;margin:0}
+.blank{display:inline-block;min-width:4.5em;border-bottom:2.5px solid var(--ink);margin:0 .15em;text-align:center;color:var(--acc);font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:14px;border:1.5px solid var(--line);background:var(--sheet);border-radius:10px;padding:10px 14px;cursor:pointer;text-align:left;font-size:1.05rem;width:100%}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt .bub{flex:none;width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:.82rem}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .bub{background:var(--ok);border-color:var(--ok);color:var(--sheet)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .bub{background:var(--bad);border-color:var(--bad);color:var(--sheet)}
+.fb{border-radius:10px;padding:12px 16px;display:grid;gap:4px}
+.fb.ok{background:var(--ok-soft)}
+.fb.no{background:var(--bad-soft)}
+.fb strong{font-family:var(--f-display);font-size:1.1rem}
+.fb.ok strong{color:var(--ok)}
+.fb.no strong{color:var(--bad)}
+.qnav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.sheet{display:flex;gap:6px;flex-wrap:wrap}
+.sheet span{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:block}
+.sheet span.cur{border-color:var(--ink)}
+.sheet span.ok{background:var(--ok);border-color:var(--ok)}
+.sheet span.no{background:var(--bad);border-color:var(--bad)}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center}
+.score{font-family:var(--f-display);font-weight:800;font-size:clamp(3rem,9vw,5.5rem);line-height:1;color:var(--acc);font-variant-numeric:tabular-nums}
+.score small{font-size:.35em;color:var(--muted)}
+.rlist{display:grid;gap:8px;margin-top:4px}
+.ritem{border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:.95rem;display:grid;gap:3px}
+.ritem .q{font-weight:700}
+.ritem .ans{color:var(--muted)}
+.ritem.no{border-left:4px solid var(--bad)}
+.ritem.ok{border-left:4px solid var(--ok)}
+.tag{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+
+/* live mode */
+.lcard,.lstage{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:clamp(18px,3vw,32px);display:grid;gap:16px}
+.lstage{font-size:clamp(1rem,1.4vw,1.25rem)}
+.lstage:fullscreen{border-radius:0;border:0;padding:3vh 4vw;align-content:start;overflow:auto;font-size:clamp(1.1rem,1.8vw,1.6rem)}
+.lv-k{color:var(--acc)}
+.lv-h{font-family:var(--f-display);font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lcard .lead,.lstage .lead{color:var(--muted);margin:0;max-width:62ch}
+.lv-opts{display:flex;gap:24px;flex-wrap:wrap}
+.lv-opts > div{display:grid;gap:6px}
+.lv-opts .mono{color:var(--muted)}
+.lv-steps{margin:0;padding-left:1.2em;display:grid;gap:8px;max-width:70ch}
+.lv-steps pre{background:var(--tint);border-radius:8px;padding:10px 12px;overflow-x:auto;font-family:var(--f-mono);font-size:.82rem;margin:6px 0 0}
+.lv-steps code{font-family:var(--f-mono);font-size:.88em;background:var(--tint);padding:0 .3em;border-radius:4px}
+.lv-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.lv-top b{color:var(--ink);letter-spacing:.14em}
+.lv-lobby{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+.lv-join{display:grid;gap:6px;min-width:0}
+.lv-url{font-family:var(--f-mono);font-size:clamp(.95rem,1.8vw,1.3rem);font-weight:700;overflow-wrap:anywhere;margin-bottom:10px}
+.lv-code{font-family:var(--f-mono);font-weight:700;font-size:clamp(3rem,9vw,6.5rem);line-height:1;letter-spacing:.12em;color:var(--acc)}
+.lv-qr{background:var(--qr-bg);padding:12px;border-radius:12px;width:232px;height:232px;max-width:100%}
+.lv-qr img,.lv-qr canvas{display:block;width:208px;height:208px}
+.lv-plhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:14px}
+.lv-players{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{background:var(--acc-soft);border-radius:999px;padding:4px 12px;font-weight:700;font-size:.9rem;animation:pop .25s ease-out}
+@keyframes pop{from{transform:scale(.7)}to{transform:scale(1)}}
+.lv-qhead{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.lv-qhead .lv-k{flex:1;min-width:0}
+.lv-ring{--p:100;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--acc) calc(var(--p)*1%), var(--tint) 0);position:relative;flex:none}
+.lv-ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--sheet)}
+.lv-ring span{position:relative;font-family:var(--f-display);font-weight:800;font-size:1.5rem;font-variant-numeric:tabular-nums}
+.lv-done{font-family:var(--f-display);font-weight:800;color:var(--ok)}
+.lv-q{font-size:clamp(1.25rem,2.6vw,2rem);line-height:1.35;margin:0}
+.lv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lv-opt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px 18px;transition:opacity .3s,border-color .3s,background .3s}
+.lv-opt .bub{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:.85rem}
+.lv-ot{min-width:0;overflow-wrap:anywhere}
+.lv-cnt{font-family:var(--f-display);font-weight:800;font-size:1.4em;font-variant-numeric:tabular-nums}
+.lv-bar{position:absolute;left:14px;right:14px;bottom:7px;height:6px;background:var(--tint);border-radius:999px;overflow:hidden}
+.lv-bar i{display:block;height:100%;width:0;background:var(--acc);border-radius:999px;transition:width .35s ease}
+.lv-opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.lv-opt.right .bub{background:var(--ok);border-color:var(--ok);color:var(--sheet)}
+.lv-opt.right .lv-bar i{background:var(--ok)}
+.lv-opt.dim{opacity:.45}
+.lv-rank{margin:0;padding:0;list-style:none;counter-reset:r;display:grid;gap:6px;max-width:560px}
+.lv-rank li{counter-increment:r;display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:6px 0}
+.lv-rank li::before{content:counter(r);font-family:var(--f-mono);font-weight:700;color:var(--acc)}
+.lv-rank li b{font-variant-numeric:tabular-nums}
+.pl-wrap{max-width:560px;margin:0 auto}
+.lcard.pl{gap:14px}
+.lcard.pl label{font-weight:700;font-size:.92rem;margin-bottom:-8px}
+.lv-in{font:inherit;font-size:1.15rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);width:100%}
+.lv-in.mono{font-family:var(--f-mono);letter-spacing:.2em;text-transform:uppercase;font-size:1.4rem}
+.lv-in:focus{outline:none;border-color:var(--acc)}
+.lv-big{padding:13px 18px;font-size:1.05rem;justify-self:stretch}
+.pl-head{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:10px}
+.pl-opts .opt{min-height:64px;font-size:1.1rem}
+.pl-sent{display:flex;gap:14px;align-items:center;background:var(--acc-soft);border-radius:10px;padding:14px 16px}
+.pl-sent .bub{flex:none;width:44px;height:44px;border-radius:50%;background:var(--acc);color:var(--sheet);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700}
+.pl-sent p{margin:2px 0 0}
+.pulse{width:18px;height:18px;border-radius:50%;background:var(--acc);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+.joinbox,.linkrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0}
+.linkrow code{font-family:var(--f-mono);font-size:.82rem;overflow-wrap:anywhere;min-width:0}
+a.btn{display:inline-block;text-decoration:none;color:inherit}
+a.btn.solid{color:var(--paper)}
+.apptag{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:999px;padding:2px 8px;margin-left:4px}
+.pmode{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+@media (max-width:820px){ .lv-lobby{grid-template-columns:1fr} .lv-grid{grid-template-columns:1fr} }
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr}
+  .topics{grid-template-columns:1fr}
+  .tcard.mixed{grid-column:auto}
+  .cols{grid-template-columns:1fr}
+  .result{grid-template-columns:1fr}
+  .howto div{grid-template-columns:1fr;gap:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script src="toeic-firebase-config.js"></script>
+<script>
+const APP = "teacher"; /* teacher | study | join */
+const TOPICS = [
+{ id:"conjunctions", key:"t1", n:"01", name:"Conjunctions & Linkers",
+  blurb:"Although vs. despite, however vs. but, paired conjunctions and the punctuation that goes with each.",
+  slides:[
+  {cover:true, title:"Conjunctions & Linkers", lead:"Choose the connector by meaning <em>and</em> by grammar. Both have to fit the blank."},
+  {title:"Two questions for every blank", lead:"Before you read the options, look at the sentence around the blank.",
+   body:`<div class="cols" style="--n:2">
+     <div class="col"><b>1 · What is the relationship?</b><small>Read both ideas</small>Contrast · cause · result · addition · condition · time · purpose</div>
+     <div class="col"><b>2 · What comes after the blank?</b><small>Look right</small>A clause (subject + verb) · a noun or <em>-ing</em> · a new sentence</div></div>
+     <ul class="ex"><li><mark>Although</mark> the flight was delayed, the team arrived on time. <span class="hint">→ contrast + clause</span></li>
+     <li><mark>Despite</mark> the delay, the team arrived on time. <span class="hint">→ contrast + noun</span></li>
+     <li>The flight was delayed. <mark>However</mark>, the team arrived on time. <span class="hint">→ contrast + new sentence</span></li></ul>`},
+  {title:"Same meaning, different grammar", lead:"The column decides the answer when two options mean the same thing.",
+   body:`<div class="tbl"><table><thead><tr><th>Meaning</th><th>+ clause (S + V)</th><th>+ noun / -ing</th><th>Between sentences</th></tr></thead><tbody>
+   <tr><td>Contrast</td><td>although, even though, though, whereas, while</td><td>despite, in spite of, notwithstanding</td><td>however, nevertheless, nonetheless</td></tr>
+   <tr><td>Cause</td><td>because, since, as</td><td>because of, due to, owing to</td><td>—</td></tr>
+   <tr><td>Result</td><td>so (+ comma)</td><td>—</td><td>therefore, consequently, as a result</td></tr>
+   <tr><td>Addition</td><td>and</td><td>in addition to, besides, along with</td><td>moreover, furthermore, in addition</td></tr>
+   <tr><td>Condition</td><td>if, unless, provided that, as long as</td><td>in case of, in the event of</td><td>otherwise</td></tr>
+   <tr><td>Time</td><td>when, while, once, as soon as, until</td><td>during, prior to, until, following</td><td>meanwhile, subsequently</td></tr>
+   <tr><td>Purpose</td><td>so that</td><td>in order to (+ verb)</td><td>—</td></tr>
+   </tbody></table></div>`},
+  {title:"Coordinating conjunctions: FANBOYS", lead:"For, And, Nor, But, Or, Yet, So join two complete clauses. Use a comma before them.",
+   body:`<div class="formula"><span class="chip">Clause</span><span class="arrow">,</span><span class="chip fill">but / so / yet …</span><span class="chip">Clause</span></div>
+   <ul class="ex"><li>The office closed early, <mark>so</mark> staff left at 3 p.m. <span class="hint">result</span></li>
+   <li>The proposal was strong, <mark>yet</mark> the board rejected it. <span class="hint">unexpected contrast</span></li>
+   <li>We can ship by air, <mark>or</mark> we can use a local courier. <span class="hint">alternative</span></li>
+   <li>Please arrive early <mark>so that</mark> we can start on time. <span class="hint">purpose ≠ result</span></li></ul>
+   <div class="tip"><b>so</b> = por eso (resultado). <b>so that</b> = para que (propósito). En el TOEIC aparecen juntas como distractores.</div>`},
+  {title:"Paired conjunctions", lead:"If you see the first half, look for its partner. They always travel together.",
+   body:`<div class="tbl"><table><thead><tr><th>Pair</th><th>Example</th></tr></thead><tbody>
+   <tr><td>both … and</td><td>Applicants need <mark>both</mark> a résumé <mark>and</mark> two references.</td></tr>
+   <tr><td>either … or</td><td>You can pay <mark>either</mark> online <mark>or</mark> at the front desk.</td></tr>
+   <tr><td>neither … nor</td><td><mark>Neither</mark> the manager <mark>nor</mark> the assistants were informed.</td></tr>
+   <tr><td>not only … but also</td><td>The firm <mark>not only</mark> cut costs <mark>but also</mark> improved service.</td></tr>
+   <tr><td>whether … or</td><td>We will proceed <mark>whether</mark> the client agrees <mark>or</mark> not.</td></tr>
+   </tbody></table></div>
+   <div class="tip">Con <b>either/or</b> y <b>neither/nor</b>, el verbo concuerda con el sujeto <b>más cercano</b>: "Neither the manager nor the assistants <u>were</u>".</div>`},
+  {title:"Punctuation with transitions", lead:"However, therefore and moreover are adverbs. They cannot join two clauses with only a comma.",
+   body:`<ul class="ex"><li class="yes">Prices rose; <mark>however</mark>, demand stayed high.</li>
+   <li class="yes">Prices rose. <mark>However</mark>, demand stayed high.</li>
+   <li class="yes">Prices rose, <mark>but</mark> demand stayed high.</li>
+   <li class="no">Prices rose, however demand stayed high.</li></ul>
+   <div class="tip">En Part 6, si el espacio está al inicio de una oración y va seguido de coma, casi siempre buscan un <b>transition</b> (However, Therefore, In addition…). Lee la oración anterior para saber cuál.</div>`},
+  {title:"TOEIC traps", lead:"These distractors appear again and again.",
+   body:`<ul class="ex"><li class="no">Despite of the rain …</li><li class="yes"><mark>Despite</mark> the rain … / <mark>In spite of</mark> the rain …</li>
+   <li class="no">During the manager was away …</li><li class="yes"><mark>While</mark> the manager was away … / <mark>During</mark> the manager's absence …</li>
+   <li class="no">Although the sales fell, but profits rose.</li><li class="yes"><mark>Although</mark> sales fell, profits rose.</li></ul>
+   <div class="tip">"Aunque…, pero…" es natural en español, pero en inglés <b>although</b> y <b>but</b> nunca van juntos. <b>Unless</b> = if … not: "unless you call" = "si no llamas".</div>`}
+  ],
+  quiz:[
+  {q:"___ the heavy rain, the outdoor product launch went ahead as planned.", o:["Although","Despite","However","Because"], a:1, why:"A noun follows the blank (<em>the heavy rain</em>), with no verb. Contrast + noun → <b>despite</b>. <em>Although</em> needs a subject + verb."},
+  {q:"Ms. Chen will approve the budget ___ the figures are verified by accounting.", o:["once","during","despite","therefore"], a:0, why:"A clause follows (<em>the figures are verified</em>) and the meaning is time → <b>once</b> (= en cuanto). <em>During</em> and <em>despite</em> need a noun."},
+  {q:"The new software is faster; ___, it requires more memory.", o:["although","however","despite","because of"], a:1, why:"Semicolon + blank + comma is the position for a transition. Contrast → <b>however</b>."},
+  {q:"Applicants must submit ___ a résumé and two letters of reference.", o:["either","both","neither","whether"], a:1, why:"The partner of <em>and</em> is <b>both</b>. <em>Either</em> goes with <em>or</em>; <em>neither</em> goes with <em>nor</em>."},
+  {q:"Shipments will remain on hold ___ the warehouse receives the missing parts.", o:["until","during","because of","so that"], a:0, why:"A clause follows, and the idea is a time limit: on hold up to the moment the parts arrive → <b>until</b>."},
+  {q:"___ the conference room was already booked, the team met in the cafeteria.", o:["Due to","Since","In spite of","Moreover"], a:1, why:"Full clause + cause → <b>since</b> (= because). <em>Due to</em> needs a noun; <em>in spite of</em> shows contrast."},
+  {q:"Neither the manager nor the assistants ___ aware of the schedule change.", o:["was","were","is","being"], a:1, why:"With <em>neither … nor</em>, the verb agrees with the nearer subject: <em>the assistants</em> (plural) → <b>were</b>."},
+  {q:"The firm not only reduced its costs ___ improved customer satisfaction.", o:["and also","but also","or","as well"], a:1, why:"<em>Not only</em> always pairs with <b>but also</b>."},
+  {q:"Please arrive fifteen minutes early ___ we can begin the training on time.", o:["so that","even though","in case of","whereas"], a:0, why:"The second part gives a purpose → <b>so that</b> (= para que)."},
+  {q:"Sales rose sharply in Europe, ___ they fell slightly in Asia.", o:["whereas","despite","because","therefore"], a:0, why:"Two clauses in direct contrast → <b>whereas</b>. <em>Therefore</em> can't join clauses with a comma, and <em>despite</em> needs a noun."}
+  ]},
+
+{ id:"word-order", key:"t2", n:"02", name:"Word Order",
+  blurb:"Sentence order, where adverbs go, adjective order, indirect questions and formal inversion.",
+  slides:[
+  {cover:true, title:"Word Order", lead:"In Part 5, the position of the blank often tells you the answer before you read the options."},
+  {title:"The basic English sentence", lead:"English keeps a fixed order. The object stays next to the verb.",
+   body:`<div class="formula"><span class="chip fill">Subject</span><span class="chip fill">Verb</span><span class="chip fill">Object</span><span class="chip">How</span><span class="chip">Where</span><span class="chip">When</span></div>
+   <ul class="ex"><li class="yes">The team presented the results <mark>clearly</mark> <mark>in the boardroom</mark> <mark>yesterday</mark>.</li>
+   <li class="no">The team presented clearly the results yesterday.</li>
+   <li class="no">I like very much this proposal.</li><li class="yes">I like this proposal very much.</li></ul>
+   <div class="tip">En español podemos decir "presentó claramente los resultados". En inglés el adverbio <b>no</b> se mete entre el verbo y su objeto.</div>`},
+  {title:"Read the slot, choose the form", lead:"Look at the words on each side of the blank. The slot decides noun, adjective or adverb.",
+   body:`<div class="tbl"><table><thead><tr><th>Slot</th><th>You need</th><th>Example</th></tr></thead><tbody>
+   <tr><td>the / a / our + ___ + noun</td><td>adjective</td><td>the <mark>annual</mark> report</td></tr>
+   <tr><td>the / a / our + ___ (+ verb)</td><td>noun</td><td>Our <mark>expansion</mark> was approved.</td></tr>
+   <tr><td>be / seem / become + ___</td><td>adjective</td><td>The plan seems <mark>reasonable</mark>.</td></tr>
+   <tr><td>verb (+ object) + ___</td><td>adverb</td><td>She reviewed it <mark>carefully</mark>.</td></tr>
+   <tr><td>be / have + ___ + participle</td><td>adverb</td><td>It was <mark>carefully</mark> reviewed.</td></tr>
+   <tr><td>___ + adjective</td><td>adverb</td><td><mark>highly</mark> qualified staff</td></tr>
+   </tbody></table></div>`},
+  {title:"Where frequency adverbs go", lead:"Always, usually, often, rarely, never …",
+   body:`<div class="cols"><div class="col"><b>Before the main verb</b><small>simple tenses</small>She <mark>usually</mark> arrives at 8.</div>
+   <div class="col"><b>After <em>be</em></b><small>am / is / are / was</small>He is <mark>rarely</mark> late.</div>
+   <div class="col"><b>After the first auxiliary</b><small>have / will / can …</small>We have <mark>always</mark> used this vendor.</div></div>
+   <ul class="ex"><li class="no">She arrives usually at 8.</li><li class="no">We always have used this vendor.</li></ul>
+   <div class="tip"><b>Usually</b>, <b>sometimes</b> y <b>often</b> también pueden ir al inicio de la oración para dar énfasis.</div>`},
+  {title:"Adjectives and compound nouns", lead:"Several adjectives follow a fixed order. In compound nouns, the first noun works like an adjective.",
+   body:`<div class="formula"><span class="chip">opinion</span><span class="chip">size</span><span class="chip">age</span><span class="chip">shape</span><span class="chip">color</span><span class="chip">origin</span><span class="chip">material</span><span class="chip">purpose</span><span class="chip fill">NOUN</span></div>
+   <ul class="ex"><li>a <mark>spacious new</mark> conference room</li><li>a <mark>large black leather</mark> sofa</li>
+   <li class="yes">a <mark>three-day</mark> workshop · <mark>expense</mark> reports · the <mark>customer service</mark> desk</li>
+   <li class="no">a three-days workshop</li></ul>
+   <div class="tip">El primer sustantivo de un compuesto se queda en <b>singular</b>: "a ten-minute break", nunca "ten-minutes".</div>`},
+  {title:"Indirect questions", lead:"After Could you tell me / Do you know / I wonder, use statement order. No do, does or did.",
+   body:`<div class="tbl"><table><thead><tr><th>Direct</th><th>Indirect</th></tr></thead><tbody>
+   <tr><td>Where is the meeting?</td><td>Could you tell me where <mark>the meeting is</mark>?</td></tr>
+   <tr><td>When does the shuttle leave?</td><td>Do you know when <mark>the shuttle leaves</mark>?</td></tr>
+   <tr><td>Did the order ship?</td><td>I wonder <mark>whether / if</mark> the order shipped.</td></tr>
+   </tbody></table></div>
+   <div class="tip">Si no hay palabra interrogativa (yes/no question), se agrega <b>whether</b> o <b>if</b>.</div>`},
+  {title:"Formal inversion and enough", lead:"Business English uses inversion after negative adverbs and in formal conditionals.",
+   body:`<ul class="ex"><li><mark>Rarely have we</mark> seen such strong growth.</li>
+   <li><mark>Not only did</mark> sales increase, but costs also fell.</li>
+   <li><mark>Should you</mark> need assistance, call the front desk. <span class="hint">= If you need</span></li>
+   <li><mark>Had we</mark> known, we would have called. <span class="hint">= If we had known</span></li></ul>
+   <div class="cols" style="--n:2"><div class="col"><b>adjective + enough</b>The room is <mark>large enough</mark>.</div>
+   <div class="col"><b>enough + noun</b>We have <mark>enough chairs</mark>.</div></div>`}
+  ],
+  quiz:[
+  {q:"The marketing team ___ meets on Mondays to review weekly results.", o:["usual","usually","usualness","more usual"], a:1, why:"Between the subject and the main verb you need a frequency adverb → <b>usually</b>."},
+  {q:"Could you tell me when ___?", o:["does the shuttle leave","the shuttle leaves","leaves the shuttle","is the shuttle leave"], a:1, why:"Indirect question: statement order (subject + verb), no <em>does</em> → <b>the shuttle leaves</b>."},
+  {q:"Ms. Patel gave a ___ presentation to the board of directors.", o:["persuade","persuasively","persuasive","persuasion"], a:2, why:"Article + ___ + noun (<em>presentation</em>) → adjective: <b>persuasive</b>."},
+  {q:"The proposal was ___ reviewed by the legal department.", o:["careful","carefully","care","carefulness"], a:1, why:"Between <em>was</em> and the participle <em>reviewed</em> → adverb: <b>carefully</b>."},
+  {q:"Rarely ___ such strong quarterly growth.", o:["the company has reported","has the company reported","the company reported","reported the company"], a:1, why:"A negative adverb at the start (<em>Rarely</em>) causes inversion: auxiliary + subject → <b>has the company reported</b>."},
+  {q:"___ you require further assistance, please contact the front desk.", o:["Should","Would","Unless","Had"], a:0, why:"<b>Should</b> + subject + base verb = <em>If you require</em>. Common in formal notices and emails."},
+  {q:"The training room is not ___ for forty participants.", o:["enough large","large enough","enough largely","largely enough"], a:1, why:"With adjectives, <em>enough</em> comes after → <b>large enough</b>."},
+  {q:"We purchased ___ for the reception area.", o:["a leather black large sofa","a large black leather sofa","a black large leather sofa","a leather large black sofa"], a:1, why:"Adjective order: size → color → material → noun: <b>a large black leather sofa</b>."},
+  {q:"The director asked us ___ the quarterly report was finished.", o:["whether","that whether","did","was"], a:0, why:"It's an indirect yes/no question, so it starts with <b>whether</b> (or <em>if</em>) and keeps statement order."},
+  {q:"All staff must attend a ___ workshop on the new software.", o:["two-days","two-day","two day's","days-two"], a:1, why:"In a compound adjective, the noun stays singular and takes a hyphen → <b>two-day</b>."}
+  ]},
+
+{ id:"comparisons", key:"t3", n:"03", name:"Comparisons",
+  blurb:"Comparative and superlative forms, as … as, modifiers like significantly, and the more … the more.",
+  slides:[
+  {cover:true, title:"Comparisons", lead:"Count the syllables, find <em>than</em> or <em>the</em>, then check the word in front."},
+  {title:"Forms", lead:"Length of the adjective decides -er / -est or more / most.",
+   body:`<div class="tbl"><table><thead><tr><th>Adjective</th><th>Base</th><th>Comparative</th><th>Superlative</th></tr></thead><tbody>
+   <tr><td>1 syllable</td><td>cheap</td><td>cheap<mark>er</mark></td><td>the cheap<mark>est</mark></td></tr>
+   <tr><td>2 syllables, ends in -y</td><td>busy</td><td>bus<mark>ier</mark></td><td>the bus<mark>iest</mark></td></tr>
+   <tr><td>2+ syllables</td><td>efficient</td><td><mark>more</mark> efficient</td><td>the <mark>most</mark> efficient</td></tr>
+   <tr><td>Adverb in -ly</td><td>quickly</td><td><mark>more</mark> quickly</td><td>the <mark>most</mark> quickly</td></tr>
+   <tr><td>Irregular</td><td>good / well · bad · far · little · many/much</td><td>better · worse · farther/further · less · more</td><td>best · worst · farthest/furthest · least · most</td></tr>
+   </tbody></table></div>`},
+  {title:"Signal words", lead:"The words around the blank tell you which form the sentence needs.",
+   body:`<div class="cols"><div class="col"><b>than</b><small>→ comparative</small>Profits are <mark>higher than</mark> last year's.</div>
+   <div class="col"><b>the … in / of / ever</b><small>→ superlative</small>It's <mark>the largest</mark> hotel in the city.</div>
+   <div class="col"><b>as … as</b><small>→ base form</small>It arrived <mark>as quickly as</mark> the first one.</div></div>
+   <ul class="ex"><li>Our fees are <mark>the same as</mark> theirs. · Model B is <mark>similar to</mark> Model A. · The plan is <mark>different from</mark> last year's.</li>
+   <li>Shipping is <mark>not as fast as</mark> we expected.</li></ul>`},
+  {title:"Modifiers", lead:"Use these words in front of a comparative or superlative. Very and too don't work here.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>+ comparative</b><small>much, far, significantly, considerably, slightly, a little, even</small><ul class="ex"><li>The new model is <mark>significantly</mark> more efficient.</li><li>Costs were <mark>slightly</mark> lower.</li><li class="no">very cheaper</li></ul></div>
+   <div class="col"><b>+ superlative</b><small>by far, one of the … + plural noun</small><ul class="ex"><li>It is <mark>by far</mark> the best option.</li><li>It's <mark>one of the most popular products</mark>.</li><li class="no">one of the most popular product</li></ul></div></div>`},
+  {title:"The more …, the more …", lead:"Two comparatives, each with <em>the</em>, show that one change causes another.",
+   body:`<div class="formula"><span class="chip fill">The + comparative</span><span class="chip">clause</span><span class="arrow">,</span><span class="chip fill">the + comparative</span><span class="chip">clause</span></div>
+   <ul class="ex"><li><mark>The sooner</mark> we sign the contract, <mark>the faster</mark> production can begin.</li>
+   <li><mark>The more</mark> customers we survey, <mark>the more accurate</mark> the results will be.</li>
+   <li><mark>The larger</mark> the order, <mark>the lower</mark> the unit price.</li></ul>
+   <div class="tip">Equivale a "entre más …, más …". No olvides el <b>the</b> en ambas partes.</div>`},
+  {title:"Adjective or adverb? Fewer or less?", lead:"Comparisons follow the same slot rules as any other word.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>be + adjective</b>The new system <mark>is faster</mark>.</div>
+   <div class="col"><b>verb + adverb</b>Mr. Díaz negotiated <mark>more skillfully</mark> than his colleagues.</div>
+   <div class="col"><b>fewer + countable</b><mark>fewer</mark> errors, <mark>fewer</mark> complaints</div>
+   <div class="col"><b>less + uncountable</b><mark>less</mark> time, <mark>less</mark> paperwork</div></div>`},
+  {title:"TOEIC traps", lead:"Check these before you choose.",
+   body:`<ul class="ex"><li class="no">more cheaper</li><li class="yes"><mark>cheaper</mark></li>
+   <li class="no">as fast than</li><li class="yes"><mark>as</mark> fast <mark>as</mark> / fast<mark>er than</mark></li>
+   <li class="no">Our prices are lower than our competitors.</li><li class="yes">Our prices are lower than <mark>those of</mark> our competitors.</li>
+   <li class="yes">faster than <mark>any other company</mark> <span class="hint">singular noun</span></li></ul>
+   <div class="tip">"Más mejor" no existe en inglés: <b>better</b> ya es comparativo. Y cuidado con <b>then</b> (después) vs <b>than</b> (que, en comparaciones).</div>`}
+  ],
+  quiz:[
+  {q:"This year's profits are ___ than last year's.", o:["high","higher","highest","more high"], a:1, why:"<em>Than</em> → comparative. <em>High</em> has one syllable → <b>higher</b>."},
+  {q:"The Riverside is ___ hotel in the city.", o:["larger","the largest","largest","more large"], a:1, why:"<em>In the city</em> signals a superlative, and superlatives need <em>the</em> → <b>the largest</b>."},
+  {q:"The new model is ___ more efficient than the previous one.", o:["very","significantly","so","too"], a:1, why:"Before a comparative, use <em>much, far, significantly…</em>; never <em>very</em> → <b>significantly</b>."},
+  {q:"The second shipment arrived ___ the first one.", o:["as quickly as","as quick than","more quickly as","quickest than"], a:0, why:"Equality: <b>as + adverb + as</b>. It's an adverb because it modifies the verb <em>arrived</em>."},
+  {q:"___ we finalize the contract, the sooner production can begin.", o:["Sooner","The sooner","Soonest","As soon"], a:1, why:"Double comparative: <em>the + comparative …, the + comparative</em> → <b>The sooner</b>."},
+  {q:"Our team made ___ errors this quarter than last quarter.", o:["less","fewer","little","least"], a:1, why:"<em>Errors</em> is countable and plural → <b>fewer</b>. <em>Less</em> is for uncountable nouns."},
+  {q:"Mr. Díaz handled the negotiation ___ than his colleagues.", o:["more skillful","most skillfully","more skillfully","skillfuller"], a:2, why:"It modifies the verb <em>handled</em>, so you need an adverb, and <em>than</em> needs a comparative → <b>more skillfully</b>."},
+  {q:"Delmar Logistics offers faster delivery than any other ___ in the region.", o:["companies","company","the company","of companies"], a:1, why:"<em>Any other</em> is followed by a singular noun → <b>company</b>."},
+  {q:"Prices at the new supplier are lower than ___ at our current supplier.", o:["that","those","these","them"], a:1, why:"We compare <em>prices</em> with <em>prices</em>. To avoid repeating a plural noun, use <b>those</b>."},
+  {q:"This is one of the most popular ___ in our spring catalog.", o:["product","products","the products","productive"], a:1, why:"<em>One of the + superlative</em> always takes a plural noun → <b>products</b>."}
+  ]}
+];
+
+/* ===== Banco extra: 40 preguntas por tema (formato: [pregunta, opciones, índice correcto, explicación]) ===== */
+const BANK = {
+"conjunctions":[
+["The seminar was canceled ___ low registration numbers.",["because","due to","although","so"],1,"A noun phrase follows (<em>low registration numbers</em>). Cause + noun → <b>due to</b>."],
+["___ our sales team worked overtime, we missed the quarterly target.",["Even though","Despite","Because of","Unless"],0,"Full clause + contrast → <b>Even though</b>. <em>Despite</em> needs a noun."],
+["You will not receive a refund ___ you present the original receipt.",["unless","if","despite","whereas"],0,"No refund if you do not show the receipt → <b>unless</b> (= if … not; a menos que)."],
+["The printer is out of toner. ___, please send large print jobs to the second floor.",["Therefore","Although","Despite","Unless"],0,"Start of sentence + comma: a transition. The second idea is a result of the first → <b>Therefore</b>."],
+["___ the merger, the two companies will share a single headquarters.",["Following","Although","Unless","So that"],0,"A noun follows (<em>the merger</em>) and the meaning is time (after) → <b>Following</b>."],
+["Employees may work from home ___ they remain available during core hours.",["as long as","in spite of","due to","instead of"],0,"Condition + clause → <b>as long as</b> (= siempre y cuando)."],
+["The hotel offers free parking. ___, guests receive a complimentary breakfast.",["In addition","However","Otherwise","Instead"],0,"It adds another benefit → <b>In addition</b>."],
+["Please save your work frequently; ___, you may lose data if the system shuts down.",["otherwise","moreover","therefore","meanwhile"],0,"If you don't save, you may lose data → <b>otherwise</b> (= de lo contrario)."],
+["___ Mr. Kim was on vacation, Ms. Lopez handled his clients.",["While","During","Despite","Due to"],0,"A clause follows (<em>Mr. Kim was on vacation</em>) → <b>While</b>. <em>During</em> only takes a noun."],
+["The meeting was postponed ___ the director's illness.",["because of","because","since","although"],0,"A noun follows (<em>the director's illness</em>) → <b>because of</b>."],
+["The package can be delivered ___ to your home or to your office.",["either","both","neither","whether"],0,"The partner of <em>or</em> is <b>either</b>."],
+["The new policy applies ___ to full-time staff nor to contractors.",["neither","either","both","not only"],0,"The partner of <em>nor</em> is <b>neither</b>."],
+["___ the budget is approved, construction will begin next month.",["Provided that","Despite","In case of","Owing to"],0,"Condition + clause → <b>Provided that</b> (= siempre que). The other options take a noun."],
+["The factory increased production; ___, it had to hire twenty new workers.",["consequently","although","despite","whereas"],0,"The second idea is a result of the first, after a semicolon → <b>consequently</b>."],
+["The client wanted the report by Friday, ___ we worked over the weekend.",["so","but","or","nor"],0,"Comma + coordinating conjunction showing a result → <b>so</b>."],
+["Prices are expected to rise ___ the shortage of raw materials.",["owing to","even though","so that","whereas"],0,"Cause + noun → <b>owing to</b> (= due to)."],
+["___ attending the conference, Ms. Ruiz met several potential investors.",["While","During","Since","Despite"],0,"Use <b>While</b> + <em>-ing</em> to mean \"at the same time as\". <em>During attending</em> is incorrect."],
+["The training was useful; ___, it was far too long.",["nevertheless","therefore","as a result","in addition"],0,"Useful vs. too long: contrast → <b>nevertheless</b>."],
+["Bring an umbrella ___ it rains during the factory tour.",["in case","in case of","due to","unless"],0,"<em>In case</em> + clause (<em>it rains</em>). <em>In case of</em> takes a noun."],
+["___ a fire, use the stairs instead of the elevator.",["In case of","In case","Unless","Although"],0,"A noun follows (<em>a fire</em>) → <b>In case of</b>."],
+["The proposal was rejected, ___ the team had worked on it for months.",["even though","despite","because of","so"],0,"Full clause + contrast → <b>even though</b>."],
+["Customers can choose ___ the standard plan or the premium plan.",["either","between","both","whether"],0,"<em>Or</em> needs <b>either</b>. <em>Between</em> would need <em>and</em>."],
+["The store will remain open ___ renovations are carried out.",["while","during","despite","so that"],0,"A clause follows (<em>renovations are carried out</em>) → <b>while</b>."],
+["The store will remain open ___ the renovations.",["during","while","although","unless"],0,"Now only a noun follows (<em>the renovations</em>) → <b>during</b>."],
+["___ we receive your payment, we will ship the order.",["As soon as","Prior to","Due to","Despite"],0,"Time + clause → <b>As soon as</b> (= en cuanto)."],
+["Mr. Tanaka speaks ___ Japanese but also Korean and Chinese.",["not only","either","both","neither"],0,"<em>But also</em> pairs with <b>not only</b>."],
+["The project was completed on time ___ several unexpected problems.",["in spite of","although","even though","so that"],0,"Contrast + noun phrase (<em>several unexpected problems</em>) → <b>in spite of</b>."],
+["Please review the contract carefully ___ signing it.",["before","until","unless","so"],0,"Time + <em>-ing</em>: first review, then sign → <b>before</b>."],
+["Our competitors lowered their prices; ___, we decided to keep ours unchanged.",["however","therefore","besides","as a result"],0,"Competitors cut prices but we did not: contrast → <b>however</b>."],
+["Attendance is mandatory ___ you have received written permission from your supervisor.",["unless","if","so","because"],0,"Attendance is required except when you have permission → <b>unless</b>."],
+["___ the CEO and the CFO will speak at the shareholders' meeting.",["Both","Either","Neither","Whether"],0,"With <em>and</em>, the pair is <b>Both … and</b>."],
+["The company has grown rapidly ___ it was founded in 2015.",["since","for","during","while"],0,"From a point in the past + clause → <b>since</b>."],
+["Sales have increased ___ the new advertising campaign.",["as a result of","as a result","so","therefore"],0,"A noun follows → <b>as a result of</b>. <em>As a result</em> only links sentences."],
+["The software is easy to use; ___, it is very affordable.",["moreover","however","otherwise","whereas"],0,"It adds another advantage → <b>moreover</b> (= además)."],
+["Ms. Grant will decide ___ to renew the contract or find a new supplier.",["whether","either","if","unless"],0,"Before an infinitive (<em>to renew</em>) with <em>or</em>, use <b>whether</b>. <em>If</em> cannot go before <em>to</em>."],
+["___ the shipment arrives late, the client will receive a discount.",["If","Unless","Despite","Whereas"],0,"A simple condition → <b>If</b>. <em>Unless</em> would reverse the meaning."],
+["The meeting ran long, ___ nobody missed the last train.",["but","so","because","or"],0,"You would expect someone to miss the train, but nobody did: contrast → <b>but</b>."],
+["The manager approved the request ___ it slightly exceeded the budget.",["although","because of","despite","so that"],0,"Contrast + full clause → <b>although</b>."],
+["___ being the smallest branch, the León office had the highest sales.",["Despite","Although","However","Because"],0,"Contrast + <em>-ing</em> (<em>being</em>) → <b>Despite</b>."],
+["Our office will be closed on Monday for maintenance. ___, all calls will be forwarded to the Guadalajara branch.",["In the meantime","Even though","Because of","Unless"],0,"Part 6: start of sentence + comma, and the action happens while the office is closed → <b>In the meantime</b> (= mientras tanto)."]
+],
+"word-order":[
+["Mr. Lee ___ to work by train.",["often goes","goes often","often go","going often"],0,"Frequency adverb before the main verb; third person takes -s → <b>often goes</b>."],
+["The new manager is ___ friendly with the staff.",["extremely","extreme","extremeness","more extreme"],0,"Before an adjective (<em>friendly</em>) → adverb: <b>extremely</b>."],
+["Our ___ was approved by the board last week.",["proposal","propose","proposed","proposing"],0,"After the possessive <em>our</em> and before the verb → noun: <b>proposal</b>."],
+["The financial report was ___ prepared and full of errors.",["poorly","poor","poorness","poorer"],0,"Between <em>was</em> and the participle <em>prepared</em> → adverb: <b>poorly</b>."],
+["Do you know where ___?",["the nearest bank is","is the nearest bank","the nearest bank does","does the nearest bank"],0,"Indirect question: subject + verb → <b>the nearest bank is</b>."],
+["The CEO spoke ___ about the company's future.",["confidently","confident","confidence","confide"],0,"It modifies the verb <em>spoke</em> → adverb: <b>confidently</b>."],
+["All clients have ___ been informed of the price change.",["already","yet","ever","still"],0,"In an affirmative sentence, between auxiliary and participle → <b>already</b>. <em>Yet</em> is for negatives and questions."],
+["Ms. Hill is ___ late for meetings.",["rarely","rare","rarity","rarer"],0,"After <em>be</em> → frequency adverb: <b>rarely</b>."],
+["Not only ___ the deadline, but they also stayed under budget.",["did the team meet","the team met","met the team","the team did meet"],0,"<em>Not only</em> at the start causes inversion: auxiliary + subject + verb → <b>did the team meet</b>."],
+["Had we ___ about the delay, we would have rescheduled the meeting.",["known","know","knew","knowing"],0,"<em>Had</em> + subject + past participle = <em>If we had known</em> → <b>known</b>."],
+["Please let me know ___ you will attend the awards dinner.",["whether","that","what","which"],0,"A yes/no question made indirect → <b>whether</b>."],
+["The company needs to hire ___ staff before the busy season.",["enough","enough of","sufficiently","enoughly"],0,"Before a noun, use <b>enough</b> with no <em>of</em>."],
+["The instructions were not ___ for new users.",["clear enough","enough clear","clearly enough","enough clearly"],0,"Adjective + <em>enough</em> → <b>clear enough</b>."],
+["Our team ___ meets its monthly sales targets.",["consistently","consistent","consistency","consisting"],0,"Between the subject and the verb → adverb: <b>consistently</b>."],
+["The company hired a ___ qualified engineer.",["highly","high","height","higher"],0,"Before the adjective <em>qualified</em> → adverb. The fixed collocation is <b>highly qualified</b>."],
+["I wonder ___ the conference will be held this year.",["where","where is","where does","is where"],0,"Indirect question: question word + subject + verb → <b>where</b>."],
+["We need ___ for the trade fair.",["two large wooden display tables","two wooden large display tables","two display large wooden tables","large two wooden display tables"],0,"Number → size → material → purpose → noun: <b>two large wooden display tables</b>."],
+["Seldom ___ a candidate with so much experience.",["have we interviewed","we have interviewed","interviewed we","we interviewed have"],0,"A negative adverb at the start causes inversion → <b>have we interviewed</b>."],
+["Only after the audit ___ the errors in the accounts.",["did the accountant discover","the accountant discovered","discovered the accountant","the accountant did discover"],0,"<em>Only after …</em> at the start causes inversion → <b>did the accountant discover</b>."],
+["The ___ department handles all complaints.",["customer service","customers services","service customer","customer's servicing"],0,"Compound noun: the first noun acts like an adjective and stays singular → <b>customer service</b>."],
+["Our ___ goal this year is to reduce waste by 20 percent.",["primary","primarily","primacy","primer"],0,"Possessive + ___ + noun (<em>goal</em>) → adjective: <b>primary</b>."],
+["Unfortunately, the shipment arrived ___.",["two days late","late two days","two late days","days two late"],0,"The amount of time goes before <em>late</em> → <b>two days late</b>."],
+["She has ___ worked in the finance industry.",["always","ever","yet","since"],0,"Between auxiliary and participle in an affirmative sentence → <b>always</b>."],
+["The director ___ approves overtime requests.",["seldom","seldomly","seldoms","rare"],0,"Frequency adverb before the verb: <b>seldom</b>. (<em>Seldomly</em> does not exist.)"],
+["Can you tell me how much ___?",["the tickets cost","do the tickets cost","cost the tickets","the tickets do cost"],0,"Indirect question, no <em>do</em> → <b>the tickets cost</b>."],
+["The applicant's ___ of logistics impressed the interview panel.",["knowledge","knowledgeable","knowledgeably","know"],0,"After the possessive and before <em>of</em> → noun: <b>knowledge</b>."],
+["The engineers tested the prototype ___.",["thoroughly in the lab last week","last week thoroughly in the lab","in the lab thoroughly last week","thoroughly last week in the lab"],0,"Order: manner → place → time → <b>thoroughly in the lab last week</b>."],
+["The board will ___ announce the new CEO on Friday.",["officially","official","office","officiate"],0,"Between <em>will</em> and the verb → adverb: <b>officially</b>."],
+["The committee reached a ___ decision after two hours.",["unanimous","unanimously","unanimity","unanimousness"],0,"Article + ___ + noun → adjective: <b>unanimous</b>."],
+["Should the flight ___ delayed, we will reschedule the meeting.",["be","is","being","been"],0,"After <em>Should</em> + subject, use the base form → <b>be</b>."],
+["The marketing campaign was ___ successful.",["remarkably","remarkable","remark","remarking"],0,"Before the adjective <em>successful</em> → adverb: <b>remarkably</b>."],
+["He asked me what time ___.",["the store opened","did the store open","opened the store","the store did open"],0,"Indirect question in the past: subject + verb, no <em>did</em> → <b>the store opened</b>."],
+["The ___ of the new branch is scheduled for May.",["opening","open","opened","openly"],0,"After <em>the</em> and before <em>of</em> → noun: <b>opening</b>."],
+["Our profits have ___ increased over the last three years.",["steadily","steady","steadiness","steadied"],0,"Between <em>have</em> and the participle → adverb: <b>steadily</b>."],
+["They bought ___ for the lobby.",["a beautiful old Italian painting","an old beautiful Italian painting","an Italian beautiful old painting","a beautiful Italian old painting"],0,"Opinion → age → origin: <b>a beautiful old Italian painting</b>."],
+["The memo was sent to ___ employees.",["all full-time","full-time all","all time-full","full all-time"],0,"<em>All</em> comes before the adjectives → <b>all full-time employees</b>."],
+["Mr. Ortiz is ___ responsible for the Mexico City account.",["directly","direct","direction","directness"],0,"Before the adjective <em>responsible</em> → adverb: <b>directly</b>."],
+["The company ___ its annual report every March.",["always publishes","publishes always","always publish","publishing always"],0,"Frequency adverb before the verb; third person takes -s → <b>always publishes</b>."],
+["It was ___ that the meeting ended early.",["such a short agenda","so short agenda","a such short agenda","so a short agenda"],0,"With a noun, use <em>such a</em> + adjective + noun → <b>such a short agenda</b>. <em>So</em> goes with an adjective alone (<em>so short</em>)."],
+["Under no circumstances ___ share their passwords.",["should employees","employees should","employees","should"],0,"A negative expression at the start causes inversion → <b>should employees</b>."]
+],
+"comparisons":[
+["The second quarter was ___ than the first.",["busier","busyer","more busy","busiest"],0,"Two syllables ending in -y: change to -ier → <b>busier</b>."],
+["Of all the candidates, Ms. Ito has ___ experience.",["the most","more","most","the more"],0,"<em>Of all</em> signals a superlative → <b>the most</b>."],
+["The new office is ___ the old one.",["twice as large as","twice larger as","as twice large as","twice as larger than"],0,"Multiplier + <em>as … as</em> with the base form → <b>twice as large as</b>."],
+["This year's conference was not ___ successful as last year's.",["as","more","so much","than"],0,"The structure is <em>not as … as</em> → <b>as</b>."],
+["The results were ___ worse than we predicted.",["much","very","too","so"],0,"Before a comparative (<em>worse</em>), use <b>much</b>, never <em>very</em>."],
+["Customer complaints have become ___ this year.",["less frequent","fewer frequent","less frequently","least frequent"],0,"After <em>become</em> you need an adjective; with adjectives use <em>less</em> → <b>less frequent</b>."],
+["Online sales grew ___ than in-store sales.",["more rapidly","more rapid","most rapidly","rapider"],0,"It modifies the verb <em>grew</em> and <em>than</em> follows → <b>more rapidly</b>."],
+["Our new headquarters is ___ from the airport than the old one.",["farther","farthest","more far","far"],0,"Physical distance + <em>than</em> → <b>farther</b>."],
+["Please contact Human Resources for ___ information about the position.",["further","farther","furthest","farthest"],0,"\"Additional information\" is <b>further information</b>. <em>Farther</em> is only for distance."],
+["The deluxe package is ___ expensive of the three options.",["the most","more","most","the more"],0,"<em>Of the three</em> → superlative with <em>the</em>: <b>the most</b>."],
+["This is ___ the most reliable printer we have ever used.",["by far","very","much more","so"],0,"To strengthen a superlative, use <b>by far</b>."],
+["The more you practice, ___ your score will be.",["the higher","higher","the highest","more high"],0,"Double comparative: <em>the more …, the + comparative</em> → <b>the higher</b>."],
+["The Chicago office has ___ employees than the Boston office.",["fewer","less","little","least"],0,"<em>Employees</em> is countable → <b>fewer</b>."],
+["We spent ___ money on advertising this year.",["less","fewer","few","lesser"],0,"<em>Money</em> is uncountable → <b>less</b>."],
+["This laptop is ___ to the model we bought last year.",["similar","same","alike","as similar"],0,"The expression is <b>similar to</b>."],
+["Our return policy is different ___ that of other stores.",["from","than","as","with"],0,"The standard form is <b>different from</b>."],
+["The new uniform is the same color ___ the old one.",["as","than","like","to"],0,"<em>The same (+ noun) as</em> → <b>as</b>."],
+["Ms. Moreno is the ___ of the two candidates.",["stronger","strongest","more strong","most strong"],0,"When comparing exactly two, formal English uses <em>the</em> + comparative → <b>the stronger of the two</b>."],
+["Prices this year are ___ higher than last year.",["slightly","slight","slighter","slightest"],0,"It modifies the comparative <em>higher</em> → adverb: <b>slightly</b>."],
+["The deadline is ___ than we expected.",["earlier","more early","earliest","early"],0,"<em>Early</em> → <b>earlier</b> (consonant + y → -ier)."],
+["The second interview went ___ than the first one.",["better","more good","best","well"],0,"Irregular comparative of <em>well/good</em> → <b>better</b>."],
+["This was the ___ product launch in the company's history.",["most successful","more successful","successfulest","successfully"],0,"<em>The … in the company's history</em> → long superlative: <b>most successful</b>."],
+["Train tickets are ___ than plane tickets.",["less expensive","less expensively","least expensive","fewer expensive"],0,"<em>Be</em> + comparative with <em>less</em> → <b>less expensive</b>."],
+["Of all our branches, the Monterrey branch performed ___.",["the best","better","the better","good"],0,"<em>Of all</em> → superlative: <b>the best</b>."],
+["Our product is cheaper than ___ of our main competitor.",["that","those","it","them"],0,"We compare <em>product</em> (singular) with the competitor's product → <b>that of</b>."],
+["The new system processes orders ___ as the old one.",["twice as fast","two times faster","as twice fast","twice faster"],0,"With <em>as</em> after the blank, the structure is <b>twice as fast as</b>."],
+["Nothing is ___ to our clients than reliable service.",["more important","most important","importanter","more importantly"],0,"<em>Be</em> + adjective + <em>than</em> → <b>more important</b>."],
+["Ms. Han is ___ employee in the department.",["the most experienced","the more experienced","most experienced","more experienced"],0,"<em>In the department</em> → superlative with <em>the</em>: <b>the most experienced</b>."],
+["The new packaging is ___ environmentally friendly than the old one.",["more","much","most","very"],0,"Long adjective + <em>than</em> → <b>more</b>."],
+["Shipping costs have risen ___ quickly than expected.",["more","most","much","many"],0,"Adverb ending in -ly + <em>than</em> → <b>more quickly</b>."],
+["This model is the ___ expensive in our product line.",["least","less","fewer","little"],0,"Superlative with <em>least</em> and <em>the</em> → <b>least</b>."],
+["Our team responded to the complaint ___ than the competitor's team.",["faster","fastest","more fast","fastly"],0,"<em>Fast</em> is both an adjective and an adverb; comparative → <b>faster</b>. (<em>Fastly</em> does not exist.)"],
+["The older machines are ___ efficient than the new ones.",["less","fewer","least","little"],0,"With adjectives use <em>less</em>, not <em>fewer</em> → <b>less efficient</b>."],
+["The higher the quality, ___ the price.",["the higher","higher","the highest","high"],0,"Double comparative: <em>the higher …, the higher …</em>."],
+["The report was ___ longer than necessary.",["far","very","too much","so"],0,"<b>Far</b> can come before a comparative (= mucho)."],
+["This year's revenue is three times ___ last year's.",["as high as","higher as","as higher as","high than"],0,"Multiplier + <b>as high as</b>."],
+["Our new website is easier to use ___ the old one.",["than","then","as","from"],0,"Comparative + <b>than</b>. <em>Then</em> means \"after that\" (= después)."],
+["Of the two proposals, the second is ___ practical.",["more","most","the most","much"],0,"Comparing two options → comparative: <b>more practical</b>."],
+["It was the ___ snowstorm the city had seen in decades.",["worst","worse","baddest","most bad"],0,"Irregular superlative of <em>bad</em> → <b>worst</b>."],
+["This is one of the ___ hotels in the downtown area.",["oldest","older","old","most old"],0,"<em>One of the</em> + superlative + plural noun → <b>oldest</b>."]
+]};
+TOPICS.forEach(t=>{ t.quiz = t.quiz.concat(BANK[t.id].map(([q,o,a,why])=>({q,o,a,why}))); });
+
+/* ===== Topics 04–07. Quiz rows: [question, [correct, d1, d2, d3], explanation] — options are shuffled at runtime ===== */
+const NA = "— (no article)";
+const NEW_TOPICS = [
+{ id:"articles", key:"t4", n:"04", name:"Articles",
+  blurb:"A, an, the or no article: countable vs. uncountable nouns, first vs. second mention, and fixed expressions.",
+  slides:[
+  {cover:true, title:"Articles", lead:"Ask two questions: <em>Can I count it?</em> and <em>Do we both know which one?</em>"},
+  {title:"A / an: one of many", lead:"Use a or an with a singular countable noun when it is one of many or mentioned for the first time.",
+   body:`<div class="cols" style="--n:2">
+     <div class="col"><b>a + consonant sound</b><small>it's the sound, not the letter</small>a report · a <mark>u</mark>niversity · a <mark>E</mark>uropean firm · a <mark>o</mark>ne-day course</div>
+     <div class="col"><b>an + vowel sound</b><small>silent h, letters said as "em", "ef"…</small>an invoice · an <mark>h</mark>our · an <mark>h</mark>onor · an <mark>M</mark>BA · an <mark>F</mark>AQ page</div></div>
+     <ul class="ex"><li>We received <mark>a</mark> complaint yesterday. <span class="hint">first mention</span></li>
+     <li>Ms. Park is <mark>an</mark> accountant. <span class="hint">jobs need a/an</span></li>
+     <li>$25 <mark>an</mark> hour · twice <mark>a</mark> week <span class="hint">= per</span></li></ul>`},
+  {title:"The: we both know which one", lead:"Use the when the listener can identify the exact thing.",
+   body:`<div class="tbl"><table><thead><tr><th>Use</th><th>Example</th></tr></thead><tbody>
+   <tr><td>Second mention</td><td>We received a complaint. <mark>The</mark> complaint was about late delivery.</td></tr>
+   <tr><td>Only one exists</td><td><mark>the</mark> CEO of the company · <mark>the</mark> internet · <mark>the</mark> head office</td></tr>
+   <tr><td>Superlatives</td><td><mark>the</mark> best offer · <mark>the</mark> most efficient printer</td></tr>
+   <tr><td>Ordinals, only, same</td><td><mark>the</mark> third floor · <mark>the</mark> only person · <mark>the</mark> same supplier</td></tr>
+   <tr><td>Defined by "of" or a clause</td><td><mark>the</mark> price of oil · <mark>the</mark> report you sent me</td></tr>
+   <tr><td>Some country names, hotels</td><td><mark>the</mark> United States · <mark>the</mark> Philippines · <mark>the</mark> Hilton</td></tr>
+   </tbody></table></div>`},
+  {title:"No article: general meaning", lead:"Plural and uncountable nouns used in a general sense take no article.",
+   body:`<ul class="ex"><li class="yes"><mark>Prices</mark> are rising across the region.</li>
+   <li class="yes"><mark>Inflation</mark> is a concern for small businesses.</li>
+   <li class="no">The inflation is a concern for small businesses.</li></ul>
+   <div class="cols"><div class="col"><b>Names</b><small>people, companies, cities, most countries</small>Ms. Ortega · Delmar Logistics · Japan</div>
+   <div class="col"><b>Meals</b><small>breakfast, lunch, dinner</small>have lunch with a client</div>
+   <div class="col"><b>Fixed phrases</b><small>by + transport, at + place</small>by bus · at work · at night · on time</div></div>
+   <div class="tip">En español decimos "<b>la</b> inflación es un problema" o "<b>los</b> precios suben". En inglés, si hablas en general, va <b>sin artículo</b>.</div>`},
+  {title:"Countable or uncountable?", lead:"These business nouns are uncountable. No a/an, no plural -s.",
+   body:`<div class="tbl"><table><thead><tr><th>Uncountable</th><th>Correct</th><th>Wrong</th></tr></thead><tbody>
+   <tr><td>information</td><td>some information · a piece of information</td><td>an information · informations</td></tr>
+   <tr><td>advice</td><td>some advice · a piece of advice</td><td>an advice · advices</td></tr>
+   <tr><td>equipment, furniture</td><td>new equipment · office furniture</td><td>equipments · a furniture</td></tr>
+   <tr><td>luggage, baggage</td><td>your luggage</td><td>luggages</td></tr>
+   <tr><td>feedback, research</td><td>useful feedback · a lot of research</td><td>a feedback · researches</td></tr>
+   <tr><td>news</td><td>The news <b>is</b> good.</td><td>a news · the news are</td></tr>
+   </tbody></table></div>`},
+  {title:"A few, few, a little, little", lead:"The article changes the meaning. With a, the idea is positive.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>countable</b><ul class="ex"><li><mark>a few</mark> = some, enough<br><span class="hint">We have a few ideas.</span></li><li><mark>few</mark> = almost none<br><span class="hint">Few applicants met the requirements.</span></li></ul></div>
+   <div class="col"><b>uncountable</b><ul class="ex"><li><mark>a little</mark> = some, enough<br><span class="hint">There's a little time for questions.</span></li><li><mark>little</mark> = almost none<br><span class="hint">There is little time left, so hurry.</span></li></ul></div></div>`},
+  {title:"TOEIC traps", lead:"Check these before you choose.",
+   body:`<ul class="ex"><li class="no">She is engineer.</li><li class="yes">She is <mark>an</mark> engineer.</li>
+   <li class="no">an useful tool · a hour</li><li class="yes"><mark>a</mark> useful tool · <mark>an</mark> hour</li>
+   <li class="no">I go to the work by the car.</li><li class="yes">I go to work by car.</li>
+   <li class="no">Can you give me an advice?</li><li class="yes">Can you give me <mark>some</mark> advice?</li></ul>
+   <div class="tip">"Es ingeniera" no lleva artículo en español, pero en inglés las profesiones siempre llevan <b>a/an</b>.</div>`}
+  ],
+  quiz:[
+  ["Ms. Rivera has ___ appointment with the bank manager at 3 p.m.",["an","a","the",NA],"<em>Appointment</em> starts with a vowel sound and it's mentioned for the first time → <b>an</b>."],
+  ["Our company was founded by ___ European entrepreneur.",["a","an","the",NA],"<em>European</em> starts with a /j/ sound (\"you\"), a consonant sound → <b>a</b>."],
+  ["The job interview lasted ___ hour.",["an","a","the",NA],"The <em>h</em> in <em>hour</em> is silent, so it starts with a vowel sound → <b>an</b>."],
+  ["Please send me ___ report you mentioned in yesterday's meeting.",["the","a","an",NA],"A clause defines exactly which report (<em>you mentioned…</em>) → <b>the</b>."],
+  ["___ CEO of Delmar Logistics will speak at the conference.",["The","A","An",NA],"A company has only one CEO → <b>The</b>."],
+  ["Mr. Park is ___ accountant at a large firm in Monterrey.",["an","a","the",NA],"Jobs need a/an, and <em>accountant</em> starts with a vowel sound → <b>an</b>."],
+  ["We need more ___ before we make a decision.",["information","informations","an information","the informations"],"<em>Information</em> is uncountable: no plural and no a/an → <b>information</b>."],
+  ["Could you give me some ___ about the new pension plan?",["advice","advices","an advice","a advice"],"<em>Advice</em> is uncountable → <b>some advice</b>."],
+  ["This is ___ most efficient printer we have ever purchased.",["the","a","an",NA],"Superlatives take <b>the</b>."],
+  ["___ prices of raw materials have increased this year.",["The","A","An",NA],"<em>Of raw materials</em> defines which prices → <b>The</b>."],
+  ["___ inflation is a major concern for small businesses.",[NA,"The","An","A"],"General uncountable noun → <b>no article</b>. (En español sí diríamos \"la inflación\".)"],
+  ["The new manager graduated from ___ university in Canada.",["a","an","the",NA],"<em>University</em> starts with a /j/ sound → <b>a</b>."],
+  ["She earns $25 ___ hour as a freelance translator.",["an","a","the","per the"],"In prices and rates, a/an = per. Silent h → <b>an</b> hour."],
+  ["The team meets twice ___ week to review progress.",["a","the","an",NA],"Frequency: <em>twice a week</em> (= per week) → <b>a</b>."],
+  ["We ordered new ___ for the conference room.",["furniture","furnitures","a furniture","the furnitures"],"<em>Furniture</em> is uncountable → <b>furniture</b>."],
+  ["Mr. Gómez travels to ___ United States every quarter.",["the","a",NA,"an"],"Country names with <em>States, Kingdom, Republic</em> take <b>the</b>."],
+  ["Ms. Lee has worked in ___ Japan for five years.",[NA,"the","a","an"],"Most country names take <b>no article</b>."],
+  ["Our office is on ___ third floor of the building.",["the","a",NA,"an"],"Ordinal numbers (<em>first, second, third</em>) take <b>the</b>."],
+  ["Most employees go to work by ___ bus.",[NA,"the","a","an"],"<em>By</em> + transport takes <b>no article</b>: by bus, by car, by train."],
+  ["Please arrive on ___ time for the training session.",[NA,"the","a","an"],"Fixed expression: <b>on time</b>, with no article."],
+  ["There was ___ error in the invoice, so we sent a corrected copy.",["an","a","the",NA],"First mention + vowel sound → <b>an</b>."],
+  ["We received a complaint yesterday. ___ complaint was about late delivery.",["The","A","An",NA],"Second mention: now we both know which complaint → <b>The</b>."],
+  ["Mr. Tanaka has ___ MBA from a top business school.",["an","a","the",NA],"<em>MBA</em> is said \"em-bee-ay\", which starts with a vowel sound → <b>an</b>."],
+  ["It was ___ honor to receive the Employee of the Year award.",["an","a","the",NA],"Silent h in <em>honor</em> → <b>an</b>."],
+  ["This is ___ unique opportunity to expand into Latin America.",["a","an","the",NA],"<em>Unique</em> starts with a /j/ sound → <b>a</b>."],
+  ["We still need ___ equipment for the new lab.",["some","an","a","many"],"<em>Equipment</em> is uncountable: use <b>some</b>, not a/an or <em>many</em>."],
+  ["The latest ___ from the head office is very encouraging.",["news","new","a news","newses"],"<em>News</em> is uncountable and takes a singular verb (<em>is</em>) → <b>news</b>."],
+  ["All passengers must check their ___ at counter 5.",["luggage","luggages","a luggage","the luggages"],"<em>Luggage</em> is uncountable → <b>luggage</b>."],
+  ["Mr. Díaz usually has ___ lunch with clients on Fridays.",[NA,"the","a","an"],"Meals take <b>no article</b>: have lunch, have dinner."],
+  ["___ Mexico City office will close early on Friday.",["The","A","An",NA],"A specific office that both people know → <b>The</b>. (<em>Mexico City</em> describes the office.)"],
+  ["We are looking for ___ experienced sales representative.",["an","a","the",NA],"The article goes with the next word: <em>experienced</em> starts with a vowel sound → <b>an</b>."],
+  ["We received ___ useful feedback from customers.",["some","a","an","many"],"<em>Feedback</em> is uncountable → <b>some</b>."],
+  ["She is one of ___ best negotiators in the company.",["the","a",NA,"an"],"<em>One of the</em> + superlative → <b>the</b>."],
+  ["Please read ___ instructions on page 4 before using the machine.",["the","an","a",NA],"Specific instructions (<em>on page 4</em>) → <b>the</b>."],
+  ["The hotel has ___ swimming pool and a fitness center.",["a","an","the",NA],"First mention, singular countable, consonant sound → <b>a</b>."],
+  ["___ Ms. Ortega will lead the workshop.",[NA,"The","A","An"],"Names of people take <b>no article</b>."],
+  ["We will discuss the budget in ___ afternoon.",["the","a",NA,"an"],"Fixed expression: <b>in the</b> morning / afternoon / evening."],
+  ["The museum is closed at ___ night.",[NA,"the","a","an"],"Fixed expression: <b>at night</b>, with no article."],
+  ["Can I speak to ___ person in charge of shipping?",["the","a","an",NA],"<em>In charge of shipping</em> identifies one specific person → <b>the</b>."],
+  ["Our new software is ___ easy-to-use tool for tracking expenses.",["an","a","the",NA],"The article goes with <em>easy</em>, which starts with a vowel sound → <b>an</b>."],
+  ["Only ___ few applicants met all the requirements.",["a","the",NA,"an"],"The fixed phrase is <b>only a few</b> (= a small number)."],
+  ["There is ___ little time left, so we need to hurry.",[NA,"a","the","an"],"<em>So we need to hurry</em> shows a negative meaning: <em>little</em> = almost none → <b>no article</b>."],
+  ["The awards dinner was held at ___ Hilton downtown.",["the","a","an",NA],"Hotel names take <b>the</b>."],
+  ["Our company sells ___ solar panels to businesses across the region.",[NA,"the","a","an"],"General plural noun → <b>no article</b>."],
+  ["The manager made ___ important announcement this morning.",["an","a","the",NA],"<em>Important</em> starts with a vowel sound → <b>an</b>."],
+  ["Researchers have done a lot of ___ on remote work.",["research","researches","a research","the researches"],"<em>Research</em> is uncountable → <b>research</b>."],
+  ["Ms. Chen is ___ only person who has the key to the safe.",["the","a","an",NA],"<em>Only</em> takes <b>the</b>: the only person."],
+  ["The price is $40 ___ unit for orders of more than 100.",["per","the","an","by"],"In prices use <b>per</b> or <em>a</em>. <em>An unit</em> is wrong: <em>unit</em> starts with a /j/ sound."],
+  ["Mr. Ruiz was promoted to ___ position of regional director.",["the","a","an",NA],"<em>Of regional director</em> defines the position → <b>the</b>."],
+  ["We use ___ same supplier as our competitors.",["the","a",NA,"an"],"<em>Same</em> always takes <b>the</b>."]
+  ]},
+
+{ id:"tenses", key:"t5", n:"05", name:"Present & Past Tenses",
+  blurb:"Present simple and continuous, past simple and continuous, present perfect, past perfect and their time signals.",
+  slides:[
+  {cover:true, title:"Present & Past Tenses", lead:"Find the time expression first. It usually tells you the tense."},
+  {title:"Present simple vs. present continuous", lead:"Routines and facts vs. actions happening now or for a limited time.",
+   body:`<div class="cols" style="--n:2">
+   <div class="col"><b>Present simple</b><small>every day, usually, always, on Mondays, timetables</small><ul class="ex"><li>Ms. Kim <mark>prepares</mark> the report every Friday.</li><li>The train <mark>leaves</mark> at 7:45 tomorrow.</li></ul></div>
+   <div class="col"><b>Present continuous</b><small>now, right now, currently, at the moment, this week</small><ul class="ex"><li>Mr. Ortiz <mark>is speaking</mark> with a client right now.</li><li>We <mark>are testing</mark> a new system this month.</li></ul></div></div>
+   <div class="tip">Los <b>stative verbs</b> casi nunca van en continuo: know, need, want, own, belong, cost, prefer, understand. "I <s>am knowing</s>" → "I know".</div>`},
+  {title:"Past simple vs. past continuous", lead:"A finished action at a specific time vs. an action in progress at that time.",
+   body:`<div class="formula"><span class="chip">was / were + -ing</span><span class="arrow">when</span><span class="chip fill">past simple</span></div>
+   <ul class="ex"><li>The company <mark>moved</mark> to Querétaro <mark>in 2019</mark>. <span class="hint">yesterday, last…, …ago, in + year</span></li>
+   <li>The power went out <mark>while</mark> Ms. Ruiz <mark>was giving</mark> her presentation.</li>
+   <li>I <mark>was reviewing</mark> the documents <mark>when</mark> I found an error.</li></ul>`},
+  {title:"Present perfect", lead:"have / has + past participle. It connects the past with now.",
+   body:`<div class="cols"><div class="col"><b>Unfinished time</b><small>this year, so far, since, for</small>We <mark>have opened</mark> three branches this year.</div>
+   <div class="col"><b>Result now</b><small>just, already, yet</small>I <mark>haven't received</mark> the email yet.</div>
+   <div class="col"><b>Experience</b><small>ever, never, the first time</small><mark>Have</mark> you ever <mark>been</mark> to our Monterrey office?</div></div>
+   <div class="tip"><b>since</b> + momento (since 2020, since January) · <b>for</b> + duración (for three years). "Since three years" es incorrecto.</div>`},
+  {title:"Present perfect or past simple?", lead:"If the time is finished and stated, use the past simple.",
+   body:`<div class="tbl"><table><thead><tr><th>Present perfect</th><th>Past simple</th></tr></thead><tbody>
+   <tr><td>Sales <b>have risen</b> this year.</td><td>Sales <b>rose</b> last year.</td></tr>
+   <tr><td>I <b>have worked</b> here since 2015.</td><td>I <b>worked</b> there from 2010 to 2015.</td></tr>
+   <tr><td>The client <b>has</b> just <b>called</b>.</td><td>The client <b>called</b> an hour ago.</td></tr>
+   <tr><td>over the past month · so far · recently</td><td>yesterday · last week · ago · in 2019</td></tr>
+   </tbody></table></div>
+   <div class="tip">"Trabajo aquí desde 2015" → <b>I have worked here since 2015</b>, no "I work here since 2015". Y "Es la primera vez que…" → "This is the first time I <b>have</b>…".</div>`},
+  {title:"Past perfect and perfect continuous", lead:"Two more forms that Part 5 tests.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>Past perfect: had + participle</b><small>the earlier of two past actions</small><ul class="ex"><li>By the time the client arrived, we <mark>had finished</mark> the proposal.</li><li>The meeting <mark>had already started</mark> when I got there.</li></ul></div>
+   <div class="col"><b>Present perfect continuous</b><small>have been + -ing: duration up to now</small><ul class="ex"><li>The team <mark>has been working</mark> since 9 a.m.</li><li>I <mark>have been trying</mark> to call him all morning.</li></ul></div></div>`},
+  {title:"TOEIC traps", lead:"Check these before you choose.",
+   body:`<ul class="ex"><li class="no">The shipment has arrived two days ago.</li><li class="yes">The shipment <mark>arrived</mark> two days ago.</li>
+   <li class="no">Did you finished the report?</li><li class="yes">Did you <mark>finish</mark> the report?</li>
+   <li class="no">This software is belonging to IT.</li><li class="yes">This software <mark>belongs</mark> to IT.</li>
+   <li class="no">I know Mr. Gómez since 2010.</li><li class="yes">I <mark>have known</mark> Mr. Gómez since 2010.</li></ul>`}
+  ],
+  quiz:[
+  ["Ms. Kim ___ the sales report every Friday afternoon.",["prepares","is preparing","prepared","has prepared"],"<em>Every Friday</em> shows a routine → present simple: <b>prepares</b>."],
+  ["Please be quiet. Mr. Ortiz ___ with an important client right now.",["is speaking","speaks","spoke","has spoken"],"<em>Right now</em> → present continuous: <b>is speaking</b>."],
+  ["The company ___ its headquarters to Querétaro in 2019.",["moved","has moved","moves","was moving"],"<em>In 2019</em> is a finished time → past simple: <b>moved</b>."],
+  ["We ___ three new branches since January.",["have opened","opened","open","are opening"],"<em>Since January</em> (up to now) → present perfect: <b>have opened</b>."],
+  ["Mr. Lee ___ for the company since 2015.",["has worked","works","worked","is working"],"<em>Since</em> + a point in time → present perfect: <b>has worked</b>. (No: \"works since\".)"],
+  ["I ___ the email yet. Could you resend it?",["haven't received","didn't receive","don't receive","am not receiving"],"<em>Yet</em> at the end of a negative → present perfect: <b>haven't received</b>."],
+  ["The power went out while Ms. Ruiz ___ her presentation.",["was giving","gave","has given","gives"],"An action in progress when another happened → past continuous: <b>was giving</b>."],
+  ["By the time the client arrived, we ___ the proposal.",["had finished","have finished","finish","were finishing"],"<em>By the time</em> + past → the earlier action takes past perfect: <b>had finished</b>."],
+  ["This software ___ to the IT department.",["belongs","is belonging","are belonging","belonging"],"<em>Belong</em> is a stative verb, so it isn't used in the continuous → <b>belongs</b>."],
+  ["Our sales ___ significantly over the past six months.",["have increased","increased","increase","are increasing"],"<em>Over the past six months</em> (up to now) → present perfect: <b>have increased</b>."],
+  ["The shipment ___ two days ago.",["arrived","has arrived","arrives","had been arrived"],"<em>Ago</em> → past simple: <b>arrived</b>. The present perfect never goes with <em>ago</em>."],
+  ["The train to Guadalajara ___ at 7:45 tomorrow morning.",["leaves","left","has left","was leaving"],"Timetables use the present simple, even for the future → <b>leaves</b>."],
+  ["We ___ a new accounting system this month, so there may be delays.",["are testing","test","tested","had tested"],"A temporary situation (<em>this month</em>) → present continuous: <b>are testing</b>."],
+  ["Mr. Tanaka ___ the contract yesterday.",["signed","has signed","signs","was signing"],"<em>Yesterday</em> → past simple: <b>signed</b>."],
+  ["Have you ever ___ to our Monterrey office?",["been","went","go","going"],"Present perfect: <em>have</em> + past participle → <b>been</b>."],
+  ["The team ___ on the project since 9 a.m. and they're exhausted.",["has been working","works","worked","is working"],"Duration from a past point up to now → present perfect continuous: <b>has been working</b>."],
+  ["When I called, the manager ___ a meeting, so I left a message.",["was attending","attended","has attended","attends"],"In progress at the moment I called → past continuous: <b>was attending</b>."],
+  ["Ms. Patel has just ___ the budget.",["approved","approve","approving","approves"],"<em>Has just</em> + past participle → <b>approved</b>."],
+  ["Last quarter, our profits ___ by 12 percent.",["rose","have risen","rise","are rising"],"<em>Last quarter</em> is finished → past simple: <b>rose</b>."],
+  ["The new printer ___ $1,200.",["costs","is costing","cost","has costing"],"<em>Cost</em> is stative; third person singular → <b>costs</b>."],
+  ["I ___ Mr. Gómez since we were in university.",["have known","know","knew","am knowing"],"<em>Since</em> + stative verb → present perfect: <b>have known</b>."],
+  ["Ms. Hill ___ in the Paris office at the moment.",["is working","works","worked","has worked"],"<em>At the moment</em> → present continuous: <b>is working</b>."],
+  ["We ___ the problem until a customer reported it.",["didn't notice","haven't noticed","don't notice","aren't noticing"],"The story is in the past (<em>reported</em>) → past simple: <b>didn't notice</b>."],
+  ["The conference that we ___ last week was very informative.",["attended","have attended","attend","are attending"],"<em>Last week</em> → past simple: <b>attended</b>."],
+  ["So far this year, we ___ more than 2,000 orders.",["have processed","processed","process","had processed"],"<em>So far this year</em> (time not finished) → present perfect: <b>have processed</b>."],
+  ["Mr. Díaz ___ his car keys, so he took a taxi.",["had lost","has lost","loses","is losing"],"He lost them before he took the taxi: the earlier past action → <b>had lost</b>."],
+  ["The board ___ the new CEO in a meeting yesterday.",["chose","has chosen","chooses","is choosing"],"<em>Yesterday</em> → past simple: <b>chose</b>."],
+  ["How long have you ___ at this company?",["worked","work","working","works"],"<em>Have</em> + past participle → <b>worked</b>."],
+  ["Customer complaints ___ every year since we improved our service.",["have decreased","decrease","decreased","are decreasing"],"<em>Since</em> + past event, up to now → present perfect: <b>have decreased</b>."],
+  ["While I ___ the documents, I found an error.",["was reviewing","reviewed","have reviewed","review"],"<em>While</em> + action in progress in the past → past continuous: <b>was reviewing</b>."],
+  ["She usually ___ the bus, but today she is driving.",["takes","is taking","took","has taken"],"<em>Usually</em> → routine → present simple: <b>takes</b>."],
+  ["Ms. Grant ___ the company before I joined.",["had already left","has already left","already leaves","is already leaving"],"Earlier of two past actions (before I joined) → past perfect: <b>had already left</b>."],
+  ["Our CEO ___ to Tokyo twice this year.",["has traveled","traveled","travels","is traveling"],"<em>This year</em> isn't finished, and we count times → present perfect: <b>has traveled</b>."],
+  ["The client ___ the order an hour ago.",["canceled","has canceled","cancels","had canceled"],"<em>An hour ago</em> → past simple: <b>canceled</b>."],
+  ["Mr. Park ___ the answer to your question; ask him.",["knows","is knowing","knew","has knowing"],"<em>Know</em> is stative, never continuous → <b>knows</b>."],
+  ["Interest rates ___ steadily at the moment.",["are rising","rise","rose","have risen"],"<em>At the moment</em> → present continuous: <b>are rising</b>."],
+  ["The store ___ at 9 a.m. on weekdays.",["opens","is opening","opened","has opened"],"A regular schedule → present simple: <b>opens</b>."],
+  ["I'm sorry, Ms. Chen isn't here. She ___ to lunch.",["has gone","goes","had gone","go"],"She left and isn't back yet (result now) → present perfect: <b>has gone</b>."],
+  ["We ___ our supplier three times in the last two years.",["have changed","changed","change","are changing"],"<em>In the last two years</em> (up to now) → present perfect: <b>have changed</b>."],
+  ["The meeting ___ when I arrived, so I missed the introduction.",["had already started","already starts","has already started","is already starting"],"It started before I arrived → past perfect: <b>had already started</b>."],
+  ["Did you ___ the invoice to the client?",["send","sent","sending","sends"],"After <em>did</em>, use the base form → <b>send</b>."],
+  ["Mr. Ortiz ___ in Spain for two years before he moved to Mexico.",["had lived","has lived","lives","is living"],"Earlier past period, before another past action → <b>had lived</b>."],
+  ["Sales ___ when the new product launched in March.",["jumped","have jumped","jump","are jumping"],"<em>In March</em>, a finished time → past simple: <b>jumped</b>."],
+  ["I ___ to reach Mr. Kim all morning, but his line is busy.",["have been trying","tried","try","am trying"],"An activity continuing up to now (<em>all morning</em>) → <b>have been trying</b>."],
+  ["We ___ the proposal at the moment and will reply by Friday.",["are reviewing","review","reviewed","had reviewed"],"<em>At the moment</em> → present continuous: <b>are reviewing</b>."],
+  ["The factory normally ___ 2,000 units per day.",["produces","is producing","produced","has producing"],"<em>Normally</em> → routine → present simple: <b>produces</b>."],
+  ["Ms. Rivera ___ the company in 2010 and still works here.",["joined","has joined","joins","had joined"],"<em>In 2010</em> is a finished time → past simple: <b>joined</b>."],
+  ["They ___ the warehouse when the fire alarm went off.",["were inspecting","inspected","have inspected","inspect"],"In progress when the alarm interrupted → past continuous: <b>were inspecting</b>."],
+  ["The prices on our website ___ yesterday.",["changed","have changed","change","are changing"],"<em>Yesterday</em> → past simple: <b>changed</b>."],
+  ["This is the first time I ___ a TOEIC exam.",["have taken","take","took","am taking"],"<em>This is the first time</em> + present perfect → <b>have taken</b>. (En español: \"es la primera vez que <em>presento</em>\".)"]
+  ]},
+
+{ id:"modals", key:"t6", n:"06", name:"Modals & Auxiliaries",
+  blurb:"Can, must, should, might and more; perfect modals; do, be and have in questions, negatives and tags.",
+  slides:[
+  {cover:true, title:"Modals & Auxiliaries", lead:"After a modal, use the base verb: no <em>to</em>, no <em>-s</em>, no <em>-ing</em>."},
+  {title:"The modal rule", lead:"Modals never change. The verb after them is always the base form.",
+   body:`<div class="formula"><span class="chip fill">can · could · may · might · must · should · will · would · shall</span><span class="arrow">+</span><span class="chip">base verb</span></div>
+   <ul class="ex"><li class="yes">All employees <mark>must wear</mark> their ID badges.</li>
+   <li class="no">must to wear · musts wear · must wearing</li>
+   <li class="yes">Ms. Chen <mark>can speak</mark> three languages.</li><li class="no">Ms. Chen cans speak / can speaks</li></ul>
+   <div class="tip">Estas expresiones sí llevan <b>to</b>: have to, need to, ought to, be able to, used to. "Will can" no existe → <b>will be able to</b>.</div>`},
+  {title:"What each modal means", lead:"In Part 5, the meaning of the sentence decides the modal.",
+   body:`<div class="tbl"><table><thead><tr><th>Meaning</th><th>Modals</th><th>Example</th></tr></thead><tbody>
+   <tr><td>Ability</td><td>can, could, be able to</td><td>We <b>will be able to</b> ship by Monday.</td></tr>
+   <tr><td>Permission</td><td>can, may, could</td><td><b>May</b> I use your phone?</td></tr>
+   <tr><td>Possibility</td><td>may, might, could</td><td>The shipment <b>might</b> arrive tomorrow.</td></tr>
+   <tr><td>Obligation</td><td>must, have to</td><td>Guests <b>must</b> check out by noon.</td></tr>
+   <tr><td>Advice</td><td>should, ought to, had better</td><td>You <b>had better</b> call the client.</td></tr>
+   <tr><td>Deduction</td><td>must (sure), can't (impossible)</td><td>She <b>must</b> be in a meeting.</td></tr>
+   <tr><td>Requests, offers</td><td>could you, would you, shall I</td><td><b>Shall</b> I help you with that?</td></tr>
+   </tbody></table></div>`},
+  {title:"Mustn't vs. don't have to", lead:"They look similar but mean very different things.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>mustn't</b><small>prohibition: it's not allowed</small>You <mark>mustn't</mark> smoke in the building.</div>
+   <div class="col"><b>don't have to / needn't</b><small>no obligation: it's not necessary</small>You <mark>don't have to</mark> bring a laptop; we'll provide one.</div></div>
+   <div class="tip"><b>No tienes que</b> = don't have to (no es necesario). <b>No debes</b> = mustn't (está prohibido). Es una de las confusiones más comunes.</div>`},
+  {title:"Perfect modals: talking about the past", lead:"modal + have + past participle.",
+   body:`<div class="tbl"><table><thead><tr><th>Form</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+   <tr><td>should have done</td><td>a good idea that didn't happen</td><td>We <b>should have ordered</b> more paper.</td></tr>
+   <tr><td>could have done</td><td>possible, but it didn't happen</td><td>You <b>could have told</b> me earlier.</td></tr>
+   <tr><td>must have done</td><td>logical deduction (sure)</td><td>Everyone <b>must have gone</b> home.</td></tr>
+   <tr><td>might / may have done</td><td>possible, not sure</td><td>He <b>might have missed</b> the train.</td></tr>
+   <tr><td>would have done</td><td>imaginary result</td><td>We <b>would have missed</b> the deadline without you.</td></tr>
+   </tbody></table></div>`},
+  {title:"Auxiliaries: do, be, have", lead:"Use them for questions, negatives, tags and short replies.",
+   body:`<div class="cols"><div class="col"><b>do / does / did</b><small>+ base verb</small><mark>Did</mark> the manager <mark>approve</mark> it? · She <mark>doesn't</mark> work on Fridays.</div>
+   <div class="col"><b>be</b><small>+ -ing / participle</small>The software <mark>is being</mark> installed. · Interns <mark>are not</mark> allowed.</div>
+   <div class="col"><b>have</b><small>+ past participle</small><mark>Has</mark> the order <mark>been</mark> shipped?</div></div>
+   <ul class="ex"><li>You finished the report, <mark>didn't you</mark>? · He hasn't replied, <mark>has he</mark>?</li>
+   <li>I enjoy this job. — <mark>So do I</mark>. · I can't attend. — <mark>Neither can I</mark>.</li></ul>`},
+  {title:"Polite business English and traps", lead:"These phrases appear often in TOEIC emails.",
+   body:`<ul class="ex"><li><mark>Would you mind</mark> clos<mark>ing</mark> the door? <span class="hint">+ -ing</span></li>
+   <li><mark>I would appreciate it if</mark> you could confirm by Friday.</li>
+   <li><mark>Would you like</mark> some coffee? · <mark>Shall I</mark> book the room?</li>
+   <li class="no">Can you to send me the file?</li><li class="yes">Can you send me the file?</li>
+   <li class="no">I will can attend.</li><li class="yes">I <mark>will be able to</mark> attend.</li></ul>`}
+  ],
+  quiz:[
+  ["All employees must ___ their ID badges at all times.",["wear","to wear","wearing","wears"],"Modal + base verb → <b>wear</b>."],
+  ["Ms. Chen can ___ three languages fluently.",["speak","speaks","to speak","speaking"],"After <em>can</em>, base verb with no -s → <b>speak</b>."],
+  ["You ___ smoke anywhere in the building. It's against company policy.",["must not","don't have to","needn't","might not"],"It's against policy, so it's prohibited → <b>must not</b>."],
+  ["You ___ bring your laptop; we will provide one.",["don't have to","must not","can't","mustn't"],"It's not necessary (we provide one) → <b>don't have to</b>."],
+  ["___ you send me the updated figures by noon?",["Could","Must","Ought","Need"],"A polite request → <b>Could</b> you…?"],
+  ["We ___ have ordered more paper. Now we've run out.",["should","must","can","will"],"A good idea that didn't happen (regret) → <b>should have</b> + participle."],
+  ["The office is dark. Everyone ___ have gone home.",["must","should","can","will"],"A logical deduction about the past → <b>must have</b> + participle."],
+  ["Would you mind ___ the door?",["closing","close","to close","closed"],"<em>Would you mind</em> + <em>-ing</em> → <b>closing</b>."],
+  ["Applicants ___ submit their forms by Friday.",["have to","has to","having to","haves to"],"Plural subject → <b>have to</b>."],
+  ["I ___ to finish the report yesterday because of the system failure.",["wasn't able","couldn't","can't","mustn't"],"<em>To</em> follows the blank, so you need <b>wasn't able</b> (to). <em>Couldn't</em> doesn't take <em>to</em>."],
+  ["The manager ___ like to meet you at 3 p.m.",["would","will","should","can"],"Polite form for wishes: <b>would like</b>."],
+  ["___ I help you with your luggage?",["Shall","Must","Would","Ought"],"An offer → <b>Shall</b> I…?"],
+  ["You had better ___ the client before noon.",["call","to call","calling","called"],"<em>Had better</em> + base verb → <b>call</b>."],
+  ["Employees ought ___ report any safety hazards immediately.",["to","for","that","be"],"<em>Ought</em> always takes <b>to</b>: ought to report."],
+  ["Next year, we will ___ offer online payments.",["be able to","can","could","able to"],"Two modals can't go together (<em>will can</em>) → <b>will be able to</b>."],
+  ["The shipment ___ arrive tomorrow, but it isn't certain.",["might","must","has to","should have"],"Possibility, not certain → <b>might</b>."],
+  ["___ the manager approve the request yesterday?",["Did","Does","Has","Was"],"Past simple question with a base verb (<em>approve</em>) → <b>Did</b>."],
+  ["Ms. Lopez ___ not work on Fridays.",["does","do","is","has"],"Present simple negative, third person → <b>does</b> not work."],
+  ["The documents ___ been signed by both parties.",["have","has","are","do"],"Plural subject + present perfect passive → <b>have</b> been signed."],
+  ["The new software ___ being installed this week.",["is","are","has","does"],"Singular subject + <em>being</em> + participle (continuous passive) → <b>is</b>."],
+  ["You finished the report, ___?",["didn't you","did you","don't you","haven't you"],"Positive past simple statement → negative tag with <em>did</em>: <b>didn't you</b>?"],
+  ["Mr. Park hasn't replied yet, ___?",["has he","hasn't he","did he","does he"],"Negative statement with <em>has</em> → positive tag: <b>has he</b>?"],
+  ["I enjoy working with this team. — So ___ I.",["do","am","have","does"],"<em>Enjoy</em> is present simple → <b>So do I</b>."],
+  ["I can't attend the meeting. — Neither ___ I.",["can","do","am","can't"],"Repeat the auxiliary in positive form: <b>Neither can I</b>."],
+  ["We ___ have missed the deadline if you hadn't helped us.",["would","will","should","must"],"Imaginary past result (third conditional) → <b>would have</b> missed."],
+  ["Guests ___ check out by 12 p.m.",["must","must to","musts","are must"],"Modal + base verb, no <em>to</em> and no -s → <b>must</b>."],
+  ["Ms. Ruiz isn't answering. She ___ be in a meeting.",["may","mays","may to","maybe"],"Possibility: modal <b>may</b> + base verb. <em>Maybe</em> is an adverb, not a modal."],
+  ["You ___ worry about the cost; the company will pay for it.",["needn't","mustn't","can't","mightn't"],"It's not necessary to worry → <b>needn't</b>."],
+  ["Customers ___ return items within 30 days of purchase.",["can","cans","can to","are can"],"Permission: <b>can</b> + base verb."],
+  ["Our flight was canceled, so we ___ stay an extra night in Chicago.",["had to","must","have to","should"],"Past obligation → <b>had to</b>. <em>Must</em> has no past form."],
+  ["Visitors ___ not park in the reserved spaces.",["may","are","have","been"],"Formal prohibition → <b>may not</b> + base verb."],
+  ["I would appreciate it if you ___ confirm your attendance.",["could","can to","will to","must to"],"<em>I would appreciate it if you</em> + <b>could</b> + base verb."],
+  ["You ___ have told me about the change. I would have prepared.",["could","must","can","will"],"A complaint: it was possible but you didn't → <b>could have</b> told."],
+  ["The report ___ be finished by Monday; the client is waiting.",["has to","have to","having to","had to be"],"Singular subject + obligation → <b>has to</b>."],
+  ["___ you like some coffee while you wait?",["Would","Will","Do","Shall"],"Polite offer → <b>Would</b> you like…?"],
+  ["He ___ have taken the wrong train; he's usually on time.",["must","should","would","ought"],"A logical explanation for the past → <b>must have</b> taken."],
+  ["We don't ___ to wear a suit on Fridays.",["need","must","should","can"],"<em>Don't need to</em> = it's not necessary → <b>need</b>."],
+  ["___ the order been shipped yet?",["Has","Have","Did","Is"],"Singular subject + present perfect passive question → <b>Has</b>."],
+  ["The printer ___ working again. Could you call IT?",["isn't","doesn't","hasn't","don't"],"Present continuous negative: <b>isn't</b> working."],
+  ["When ___ the new policy take effect?",["does","is","has","do"],"Present simple question, singular subject, base verb (<em>take</em>) → <b>does</b>."],
+  ["Ms. Grant ___ already left when I arrived.",["had","has","was","did"],"Past perfect: <b>had</b> + participle."],
+  ["Interns ___ allowed to use the executive parking lot.",["are not","do not","have not","cannot"],"Passive <em>be allowed to</em> → <b>are not</b> allowed."],
+  ["You ___ better check the figures again before sending them.",["had","would","should","have"],"Fixed expression: <b>had better</b> + base verb."],
+  ["May I ___ your phone for a moment?",["use","to use","using","used"],"Modal + base verb → <b>use</b>."],
+  ["Mr. Díaz used ___ work in our Tijuana branch.",["to","for","the","be"],"Past habit: <b>used to</b> + base verb."],
+  ["Could you tell me where I ___ find the conference room?",["can","could to","may to","must to"],"Modal + base verb, no <em>to</em> → <b>can</b>."],
+  ["You ___ to sign the form in blue or black ink.",["need","must","should","can"],"Only <b>need</b> takes <em>to</em> here. <em>Must, should, can</em> never take <em>to</em>."],
+  ["The meeting ___ been postponed until next week.",["has","have","is","was"],"Singular subject + present perfect passive → <b>has</b> been."],
+  ["We ___ be able to deliver your order until Monday.",["won't","don't","can't","aren't"],"<em>Be able to</em> needs a modal before it: <b>won't</b> be able to. (<em>Can't be able</em> is wrong.)"],
+  ["Last year, Ms. Kim ___ speak only a little Spanish; now she is fluent.",["could","can","cans","could to"],"Past ability → <b>could</b> + base verb."]
+  ]},
+
+{ id:"pronouns", key:"t7", n:"07", name:"Pronouns",
+  blurb:"Subject, object, possessive and reflexive forms; who, whom, whose and which; each, other and another.",
+  slides:[
+  {cover:true, title:"Pronouns", lead:"Check the job of the word: subject, object, owner, or the same person."},
+  {title:"Five forms", lead:"In Part 5 the four options are often the same pronoun in different forms.",
+   body:`<div class="tbl"><table><thead><tr><th>Subject</th><th>Object</th><th>Possessive adj.</th><th>Possessive pron.</th><th>Reflexive</th></tr></thead><tbody>
+   <tr><td>I</td><td>me</td><td>my</td><td>mine</td><td>myself</td></tr>
+   <tr><td>you</td><td>you</td><td>your</td><td>yours</td><td>yourself / yourselves</td></tr>
+   <tr><td>he</td><td>him</td><td>his</td><td>his</td><td>himself</td></tr>
+   <tr><td>she</td><td>her</td><td>her</td><td>hers</td><td>herself</td></tr>
+   <tr><td>it</td><td>it</td><td>its</td><td>—</td><td>itself</td></tr>
+   <tr><td>we</td><td>us</td><td>our</td><td>ours</td><td>ourselves</td></tr>
+   <tr><td>they</td><td>them</td><td>their</td><td>theirs</td><td>themselves</td></tr>
+   </tbody></table></div>`},
+  {title:"Read the slot", lead:"The words around the blank tell you which form you need.",
+   body:`<div class="tbl"><table><thead><tr><th>Slot</th><th>Form</th><th>Example</th></tr></thead><tbody>
+   <tr><td>___ + verb</td><td>subject</td><td>Mr. Lee and <mark>I</mark> will attend.</td></tr>
+   <tr><td>verb / preposition + ___</td><td>object</td><td>Please send it to <mark>us</mark>.</td></tr>
+   <tr><td>___ + noun</td><td>possessive adj.</td><td>The company announced <mark>its</mark> results.</td></tr>
+   <tr><td>___ alone (no noun)</td><td>possessive pron.</td><td>These files aren't mine. They're <mark>yours</mark>.</td></tr>
+   <tr><td>same person as subject</td><td>reflexive</td><td>Ms. Rivera introduced <mark>herself</mark>.</td></tr>
+   </tbody></table></div>
+   <div class="tip">Truco: quita a la otra persona. "Mr. Lee and <s>me</s> will attend" → "<s>Me</s> will attend" suena mal → <b>I</b>.</div>`},
+  {title:"Reflexive pronouns", lead:"Three common uses.",
+   body:`<div class="cols"><div class="col"><b>Same person</b><small>subject = object</small>Ms. Rivera introduced <mark>herself</mark>.</div>
+   <div class="col"><b>Emphasis</b><small>that person, not someone else</small>The CEO <mark>himself</mark> answered the questions.</div>
+   <div class="col"><b>by + reflexive</b><small>= alone, without help</small>He finished the report <mark>by himself</mark>.</div></div>
+   <ul class="ex"><li class="no">Please contact myself with any questions.</li><li class="yes">Please contact <mark>me</mark> with any questions.</li></ul>`},
+  {title:"Relative pronouns", lead:"They connect a description to a noun.",
+   body:`<div class="tbl"><table><thead><tr><th>Pronoun</th><th>Use</th><th>Example</th></tr></thead><tbody>
+   <tr><td>who</td><td>people (subject)</td><td>The employee <b>who</b> won the award…</td></tr>
+   <tr><td>whom</td><td>people (object, after a preposition)</td><td>To <b>whom</b> should I address the letter?</td></tr>
+   <tr><td>whose</td><td>possession</td><td>The candidate <b>whose</b> application impressed us…</td></tr>
+   <tr><td>which</td><td>things; after a comma</td><td>The board approved the plan, <b>which</b> surprised everyone.</td></tr>
+   <tr><td>that</td><td>people or things; never after a comma</td><td>The printer <b>that</b> we bought…</td></tr>
+   <tr><td>where</td><td>places</td><td>the hotel <b>where</b> we stayed</td></tr>
+   </tbody></table></div>`},
+  {title:"Indefinite pronouns, other, another", lead:"Small words, frequent questions.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>Singular verb</b><small>everyone, someone, anyone, each, neither, none of + uncountable</small><ul class="ex"><li>Everyone <mark>is</mark> invited.</li><li>Each of the participants <mark>receives</mark> a certificate.</li></ul></div>
+   <div class="col"><b>Other forms</b><small>another, the other, others, each other, one/ones</small><ul class="ex"><li>Would you like <mark>another</mark> coffee?</li><li>One office is in León; <mark>the other</mark> is in Monterrey.</li><li>I need a faster <mark>one</mark>.</li></ul></div></div>`},
+  {title:"TOEIC traps", lead:"Check these before you choose.",
+   body:`<ul class="ex"><li class="no">The company announced it's results.</li><li class="yes">The company announced <mark>its</mark> results. <span class="hint">it's = it is</span></li>
+   <li class="no">Between you and I …</li><li class="yes">Between you and <mark>me</mark> …</li>
+   <li class="no">Their going to announce the winner.</li><li class="yes"><mark>They're</mark> going to announce the winner. <span class="hint">their / there / they're</span></li>
+   <li class="no">Is important to back up your files.</li><li class="yes"><mark>It</mark> is important to back up your files.</li></ul>
+   <div class="tip">En español omitimos el sujeto ("Es importante", "Hay tres razones"). En inglés siempre se necesita: <b>It</b> is important, <b>There</b> are three reasons.</div>`}
+  ],
+  quiz:[
+  ["Ms. Ortega asked ___ to prepare the slides.",["me","I","my","mine"],"After the verb <em>asked</em> → object pronoun: <b>me</b>."],
+  ["Mr. Lee and ___ will attend the trade fair in Las Vegas.",["I","me","myself","mine"],"Part of the subject (before <em>will attend</em>) → <b>I</b>. Remove \"Mr. Lee and\" to check."],
+  ["The company announced ___ quarterly results this morning.",["its","it's","their's","it"],"Possessive before a noun → <b>its</b>. <em>It's</em> = it is."],
+  ["These files are not mine. They must be ___.",["yours","your","you","yourself"],"No noun after the blank → possessive pronoun: <b>yours</b>."],
+  ["The manager ___ will interview the final candidates.",["herself","her","she's","hers"],"Emphasis (she will do it personally) → <b>herself</b>."],
+  ["Please send the invoice directly to ___.",["us","we","our","ours"],"After a preposition (<em>to</em>) → object: <b>us</b>."],
+  ["Mr. Park finished the report by ___ because his assistant was sick.",["himself","him","his","he"],"<em>By</em> + reflexive = alone, without help → <b>himself</b>."],
+  ["The candidate ___ application impressed us most was from Puebla.",["whose","who","whom","which"],"Possession (the candidate's application) → <b>whose</b>."],
+  ["The employee ___ won the award has worked here for 20 years.",["who","which","whom","whose"],"Person + subject of <em>won</em> → <b>who</b>."],
+  ["The printer ___ we bought last month is already broken.",["that","who","whom","whose"],"A thing, no comma → <b>that</b> (or <em>which</em>)."],
+  ["To ___ should I address the letter?",["whom","who","whose","which"],"After a preposition (<em>to</em>), for a person → <b>whom</b>."],
+  ["Everyone in the department ___ invited to the dinner.",["is","are","were","have been"],"<em>Everyone</em> takes a singular verb → <b>is</b>."],
+  ["Each of the participants ___ a certificate.",["receives","receive","are receiving","have received"],"<em>Each of</em> + plural noun takes a singular verb → <b>receives</b>."],
+  ["Our prices are lower than ___.",["theirs","their","them","they's"],"No noun after the blank (their prices) → <b>theirs</b>."],
+  ["___ is important to back up your files every day.",["It","There","They","Its"],"English needs a subject: <b>It</b> is important… (En español: \"Es importante\")."],
+  ["___ are several reasons for the delay.",["There","Their","They're","It"],"To say that something exists → <b>There</b> are. (En español: \"Hay\")."],
+  ["Team members should help ___ when deadlines are tight.",["each other","themselves each","theirs","them others"],"A mutual action between people → <b>each other</b>."],
+  ["This laptop is too slow. I need a faster ___.",["one","it","ones","other"],"To avoid repeating a singular countable noun (<em>laptop</em>) → <b>one</b>."],
+  ["We have two offices: one is in León, and ___ is in Monterrey.",["the other","another","other","others"],"The second of exactly two → <b>the other</b>."],
+  ["Would you like ___ cup of coffee?",["another","other","the others","others"],"One more (singular) → <b>another</b>."],
+  ["Some employees prefer working from home; ___ prefer the office.",["others","other","another","the another"],"Plural pronoun standing alone → <b>others</b>."],
+  ["Between you and ___, I think the proposal is too expensive.",["me","I","myself","mine"],"After a preposition (<em>between</em>) → object: <b>me</b>. \"Between you and I\" is a common mistake."],
+  ["The clients said ___ were satisfied with the service.",["they","them","their","theirs"],"Subject of <em>were</em> → <b>they</b>."],
+  ["If anyone calls, tell ___ I'll be back at 3.",["them","they","their","themselves"],"Object of <em>tell</em>, for an unknown person → <b>them</b>."],
+  ["Ms. Rivera introduced ___ to the new team.",["herself","her","hers","she"],"Subject and object are the same person → <b>herself</b>."],
+  ["Our team worked harder than ___ did.",["they","them","their","theirs"],"Subject of <em>did</em> → <b>they</b>."],
+  ["Is this ___ umbrella, Mr. Gómez?",["your","yours","you","yourself"],"Before a noun → possessive adjective: <b>your</b>."],
+  ["The board approved the plan, ___ surprised everyone.",["which","who","what","that"],"After a comma, referring to a thing or idea → <b>which</b>. <em>That</em> never follows a comma."],
+  ["This is the hotel ___ we stayed during the conference.",["where","which","who","whose"],"A place + full clause (<em>we stayed</em>) → <b>where</b>."],
+  ["Neither of the proposals ___ acceptable.",["is","are","were","have been"],"<em>Neither of</em> takes a singular verb in formal English → <b>is</b>."],
+  ["The staff will receive ___ bonuses in December.",["their","there","they're","theirs"],"Possessive before a noun → <b>their</b>."],
+  ["___ going to announce the winner at noon.",["They're","Their","There","Theirs"],"<em>They are</em> going to… → <b>They're</b>."],
+  ["The software updates ___ automatically every night.",["itself","it","its","it's"],"The software updates the software → reflexive: <b>itself</b>."],
+  ["Please let ___ know if you need anything.",["me","I","my","myself"],"Object of <em>let</em> → <b>me</b>."],
+  ["The suppliers ___ we contacted have not replied.",["whom","whose","what","which"],"People + object of <em>contacted</em> → <b>whom</b> (or <em>who/that</em>)."],
+  ["Mr. Tanaka is the person to ___ you should send the forms.",["whom","who","that","which"],"After a preposition, for a person → <b>whom</b>."],
+  ["Somebody left ___ jacket in the meeting room.",["their","there","they're","theirs"],"Possessive before a noun; <em>their</em> is used for an unknown person → <b>their</b>."],
+  ["The two companies compete with ___ for the same customers.",["each other","themselves","theirs","them"],"A mutual action (A competes with B, B with A) → <b>each other</b>."],
+  ["Ms. Kim's office is bigger than ___.",["mine","my","me","myself"],"No noun after the blank (my office) → <b>mine</b>."],
+  ["All of the employees ___ completed the training.",["have","has","is","was"],"<em>All of</em> + plural noun → plural verb: <b>have</b>."],
+  ["None of the information ___ correct.",["was","were","are","have been"],"<em>None of</em> + uncountable noun → singular verb: <b>was</b>."],
+  ["The director wants to speak with you and ___.",["me","I","myself","mine"],"After a preposition (<em>with</em>) → object: <b>me</b>."],
+  ["___ of the two candidates is qualified; we will interview both.",["Each","Every","Both","All"],"<em>Each of</em> + plural noun + singular verb (<em>is</em>). <em>Every</em> can't take <em>of</em>."],
+  ["We need to hire someone ___ speaks Japanese.",["who","which","whom","whose"],"Person + subject of <em>speaks</em> → <b>who</b>."],
+  ["I made a mistake, and I take full responsibility for ___.",["it","its","itself","them"],"Object of <em>for</em>, referring to <em>a mistake</em> → <b>it</b>."],
+  ["The company relocated ___ headquarters to Querétaro.",["its","it's","their's","it"],"Possessive before a noun → <b>its</b>."],
+  ["The CEO ___ answered all the questions from investors.",["himself","him","his","he's"],"Emphasis (personally) → <b>himself</b>."],
+  ["Thank you for helping ___ with the presentation.",["us","we","our","ourselves"],"Object of <em>helping</em> → <b>us</b>."],
+  ["The marketing team presented ___ ideas to the board.",["their","there","they're","theirs"],"Possessive before a noun → <b>their</b>."],
+  ["Anyone ___ wants to attend must register by Friday.",["who","which","whom","whose"],"Person + subject of <em>wants</em> → <b>who</b>."]
+  ]}
+];
+NEW_TOPICS.forEach(t=>{ t.quiz = t.quiz.map(([q,o,why])=>({q,o,a:0,why})); TOPICS.push(t); });
+
+/* ===== Topics 08–10. Quiz rows: [question, [correct, d1, d2, d3], explanation] ===== */
+const NP = "— (no preposition)";
+const NEW_TOPICS_2 = [
+{ id:"still-yet-already", key:"t8", n:"08", name:"Still, Yet & Already",
+  blurb:"Meaning, position and tense of still, yet and already, plus have yet to, no longer and yet as a conjunction.",
+  slides:[
+  {cover:true, title:"Still, Yet & Already", lead:"Three time adverbs, three positions. Check if the sentence is positive, negative or a question."},
+  {title:"What they mean", lead:"Each one looks at time from a different angle.",
+   body:`<div class="cols">
+   <div class="col"><b>already</b><small>before now · sooner than expected</small>I've <mark>already</mark> sent the invoice.</div>
+   <div class="col"><b>yet</b><small>up to now · negatives and questions</small>We haven't received the payment <mark>yet</mark>.</div>
+   <div class="col"><b>still</b><small>continuing · not finished</small>Mr. Kim is <mark>still</mark> in the meeting.</div></div>
+   <div class="tip"><b>ya</b> = already · <b>todavía no / aún no</b> = not yet · <b>todavía / aún</b> = still · <b>ya no</b> = no longer / not anymore.</div>`},
+  {title:"Where they go", lead:"Position is often what Part 5 is testing.",
+   body:`<div class="tbl"><table><thead><tr><th>Adverb</th><th>Position</th><th>Example</th></tr></thead><tbody>
+   <tr><td>already</td><td>between auxiliary and main verb, or at the end</td><td>She has <mark>already</mark> left. · She has left <mark>already</mark>.</td></tr>
+   <tr><td>yet</td><td>at the end of a negative or question</td><td>Has the technician arrived <mark>yet</mark>?</td></tr>
+   <tr><td>still</td><td>before the main verb, after <em>be</em></td><td>He <mark>still</mark> works here. · He is <mark>still</mark> here.</td></tr>
+   <tr><td>still (negative)</td><td>before the negative auxiliary</td><td>The shipment <mark>still</mark> hasn't arrived.</td></tr>
+   </tbody></table></div>`},
+  {title:"Which tenses?", lead:"Already and yet usually go with the present perfect. Still goes with almost any tense.",
+   body:`<ul class="ex"><li>We have <mark>already</mark> hired three engineers this month. <span class="hint">present perfect</span></li>
+   <li>The meeting hasn't started <mark>yet</mark>. <span class="hint">present perfect</span></li>
+   <li>By the time I called, the store had <mark>already</mark> closed. <span class="hint">past perfect</span></li>
+   <li>The accountants are <mark>still</mark> at the office. <span class="hint">present</span></li></ul>
+   <div class="tip">En inglés americano informal también se oye "Did you eat yet?", pero en el TOEIC lo más seguro es <b>present perfect</b> con already y yet.</div>`},
+  {title:"Still not vs. not yet", lead:"Both mean the action hasn't happened. Still adds impatience or surprise.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>not … yet</b><small>neutral: it will happen later</small>The report hasn't arrived <mark>yet</mark>.</div>
+   <div class="col"><b>still not</b><small>it's late; we expected it before</small>The report <mark>still</mark> hasn't arrived.</div></div>
+   <ul class="ex"><li class="no">I still not have decided.</li><li class="yes">I <mark>still</mark> haven't decided.</li></ul>`},
+  {title:"More uses you'll see on the TOEIC", lead:"Formal patterns from emails and reports.",
+   body:`<div class="tbl"><table><thead><tr><th>Pattern</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+   <tr><td>have yet to + verb</td><td>haven't done it so far</td><td>We <b>have yet to receive</b> a reply.</td></tr>
+   <tr><td>yet (conjunction)</td><td>= but</td><td>The proposal was short, <b>yet</b> persuasive.</td></tr>
+   <tr><td>no longer / not … anymore</td><td>it stopped</td><td>Mr. Díaz <b>no longer</b> works here. · He doesn't work here <b>anymore</b>.</td></tr>
+   <tr><td>already in questions</td><td>surprise: so soon?</td><td>Have you <b>already</b> finished? That was fast!</td></tr>
+   </tbody></table></div>`},
+  {title:"TOEIC traps", lead:"Check these before you choose.",
+   body:`<ul class="ex"><li class="no">I have finished the report yet.</li><li class="yes">I have <mark>already</mark> finished the report.</li>
+   <li class="no">Have you yet booked the room?</li><li class="yes">Have you booked the room <mark>yet</mark>?</li>
+   <li class="no">He doesn't work here still.</li><li class="yes">He doesn't work here <mark>anymore</mark>. · He <mark>no longer</mark> works here.</li></ul>`}
+  ],
+  quiz:[
+  ["Ms. Lopez has ___ sent the invoice, so you don't need to email it.",["already","yet","still","anymore"],"It happened before now, in a positive sentence → <b>already</b>."],
+  ["We haven't received the payment ___.",["yet","already","still","no longer"],"Negative present perfect, end of the sentence → <b>yet</b>."],
+  ["Mr. Kim is ___ in the meeting; it's taking longer than expected.",["still","yet","already","anymore"],"The meeting continues (not finished) → <b>still</b>, after <em>be</em>."],
+  ["Have you booked the conference room ___?",["yet","still","anymore","since"],"A question asking if something has happened up to now → <b>yet</b>, at the end."],
+  ["The shipment ___ hasn't arrived, and the client is getting impatient.",["still","yet","already","anymore"],"Before the negative auxiliary, showing impatience → <b>still</b> hasn't."],
+  ["I'm sorry, Mr. Díaz no ___ works in this department.",["longer","more","still","yet"],"Fixed expression: <b>no longer</b> (= ya no)."],
+  ["The new branch isn't open ___, but it will open in May.",["yet","already","still","longer"],"Negative, and it will happen later → <b>yet</b>."],
+  ["It's only 9 a.m., and the printer is ___ out of paper!",["already","yet","anymore","no longer"],"Sooner than expected (<em>only 9 a.m.</em>) → <b>already</b>."],
+  ["We have ___ to receive a reply from the supplier.",["yet","still","already","ever"],"<b>Have yet to</b> + verb = we haven't received it so far."],
+  ["Are you ___ working on the budget? It was due yesterday.",["still","yet","already","anymore"],"The action continues longer than expected → <b>still</b>."],
+  ["The proposal was short, ___ very persuasive.",["yet","already","so","too"],"Here <b>yet</b> is a conjunction meaning <em>but</em>."],
+  ["Has the technician arrived ___?",["yet","still","ago","anymore"],"Question, end position → <b>yet</b>."],
+  ["We switched to electronic billing last year, so we don't send paper invoices ___.",["anymore","yet","already","still"],"Something that stopped → <b>not … anymore</b> (= ya no)."],
+  ["I ___ haven't decided which candidate to hire.",["still","yet","already","no longer"],"Before a negative auxiliary → <b>still</b> haven't. <em>Yet</em> would go at the end."],
+  ["Don't worry about the slides. I've ___ prepared them.",["already","yet","still","ever"],"Positive present perfect, between <em>have</em> and the participle → <b>already</b>."],
+  ["The meeting hasn't started ___. We're waiting for the director.",["yet","already","still","anymore"],"Negative present perfect, end position → <b>yet</b>."],
+  ["Do you ___ have the contract I gave you last week?",["still","yet","already","anymore"],"Asking if a situation continues → <b>still</b>."],
+  ["By the time I called, the store had ___ closed.",["already","yet","still","longer"],"Past perfect, positive, it happened before my call → <b>already</b>."],
+  ["The repairs are ___ not finished, even after three weeks.",["still","yet","already","no longer"],"<em>Even after three weeks</em> shows impatience → <b>still</b> not finished."],
+  ["The board has ___ to approve the new budget, so we cannot hire anyone.",["yet","still","already","no longer"],"<b>Has yet to</b> + verb = has not approved it so far."],
+  ["Have you ___ finished the report? That was fast!",["already","yet","still","anymore"],"Surprise that it happened so soon → <b>already</b> in a question."],
+  ["Our team ___ the first phase of the project.",["has already completed","has yet completed","has completed still","already completing"],"<em>Already</em> goes between the auxiliary and the participle → <b>has already completed</b>."],
+  ["Mr. Ortiz ___ in Guadalajara; he hasn't moved.",["still lives","lives yet","already lives","lives still yet"],"<em>Still</em> goes before the main verb → <b>still lives</b>."],
+  ["Is the warehouse ___ closed for inventory?",["still","yet","already","longer"],"Asking if the situation continues → <b>still</b>, after <em>be</em>."],
+  ["Sales have ___ exceeded last year's total, and it's only October.",["already","yet","still","anymore"],"Sooner than expected (<em>only October</em>) → <b>already</b>."],
+  ["The software update isn't available ___. It will be released next week.",["yet","already","still","anymore"],"Negative, and it will happen later → <b>yet</b>."],
+  ["Even though it's after 8 p.m., the accountants are ___ at the office.",["still","yet","already","no longer"],"They continue to be there, later than expected → <b>still</b>."],
+  ["We have ___ hired three new engineers this month.",["already","yet","still","ever"],"Positive present perfect → <b>already</b>."],
+  ["Have the new uniforms arrived ___?",["yet","still","ago","since"],"Question, end position → <b>yet</b>."],
+  ["I can't believe it! You've ___ finished the whole project.",["already","yet","still","longer"],"Surprise at how soon → <b>already</b>."],
+  ["Passengers ___ don't know when the flight will leave.",["still","yet","already","anymore"],"Before a negative auxiliary → <b>still</b> don't know."],
+  ["The position has been advertised for two months, but it ___ hasn't been filled.",["still","yet","already","anymore"],"Impatience after a long time → <b>still</b> hasn't."],
+  ["We haven't ___ decided on a venue for the conference.",["yet","already","still","anymore"],"In formal English, <b>yet</b> can go right after <em>not</em>: haven't yet decided."],
+  ["Is Mr. Tanaka ___ here? I need to speak with him before he leaves.",["still","yet","already","anymore"],"Asking if he continues to be here → <b>still</b>."],
+  ["The product was expensive, ___ it sold very well.",["yet","already","too","enough"],"Conjunction meaning <em>but</em> → <b>yet</b>."],
+  ["They had ___ left the office when the client called.",["already","yet","still","longer"],"Past perfect, positive, before the call → <b>already</b>."],
+  ["The renovation is not complete ___; please use the side entrance.",["yet","already","still","anymore"],"Negative, end of the clause → <b>yet</b>."],
+  ["Mr. Gómez ___ works for us, but he plans to retire next year.",["still","yet","already","no longer"],"He continues to work here → <b>still</b>. (<em>No longer</em> contradicts \"plans to retire\".)"],
+  ["Have you ___ been to the new office? — Yes, I went last week.",["already","yet","still","anymore"],"Middle position in a question → <b>already</b>. <em>Yet</em> goes at the end."],
+  ["I've called the supplier three times, and they ___ haven't answered.",["still","yet","already","anymore"],"Before a negative auxiliary, with impatience → <b>still</b> haven't."],
+  ["The tickets for the conference are ___ sold out, two months before the event.",["already","yet","still","anymore"],"Sooner than expected → <b>already</b>."],
+  ["The contract ___ needs the director's signature before we can send it.",["still","yet","already","anymore"],"Something not finished yet that continues to be needed → <b>still</b>."],
+  ["Customers can ___ use their old cards until December 31.",["still","yet","already","anymore"],"The situation continues for now → <b>still</b>."],
+  ["I'm afraid the results aren't ready ___.",["yet","already","still","anymore"],"Negative, end position → <b>yet</b>."],
+  ["The company is small, ___ it has clients in twelve countries.",["yet","already","too","so"],"Contrast, conjunction meaning <em>but</em> → <b>yet</b>."],
+  ["Mr. Lee doesn't work here ___. He moved to a competitor.",["anymore","yet","already","still"],"It stopped → <b>not … anymore</b>."],
+  ["We've ___ discussed this issue at two meetings; let's make a decision.",["already","yet","still","anymore"],"Positive present perfect → <b>already</b>."],
+  ["Is the 2:00 train ___ on time, or has it been delayed?",["still","yet","already","anymore"],"Asking if the situation continues → <b>still</b>."],
+  ["The invoice has ___ been paid, so you can close the account.",["already","yet","still","anymore"],"Positive present perfect passive → <b>already</b> been paid."],
+  ["The new manager has ___ to make any major changes.",["yet","still","already","no longer"],"<b>Has yet to</b> + verb = hasn't made any so far."]
+  ]},
+
+{ id:"so-such-too", key:"t9", n:"09", name:"So, Such, Too, Enough & Very",
+  blurb:"So vs. such, too vs. very, the position of enough, and the result patterns so … that and too … to.",
+  slides:[
+  {cover:true, title:"So, Such, Too, Enough & Very", lead:"Look at what comes after the blank: an adjective, a noun, or a result."},
+  {title:"So vs. such", lead:"So goes with adjectives and adverbs. Such goes with nouns.",
+   body:`<div class="tbl"><table><thead><tr><th>Word</th><th>Pattern</th><th>Example</th></tr></thead><tbody>
+   <tr><td>so</td><td>so + adjective / adverb</td><td>The meeting was <mark>so long</mark>. · She spoke <mark>so quickly</mark>.</td></tr>
+   <tr><td>so</td><td>so + many / much / few / little + noun</td><td><mark>so many</mark> applicants · <mark>so little</mark> time</td></tr>
+   <tr><td>such</td><td>such + a/an + adjective + singular noun</td><td><mark>such a long</mark> meeting</td></tr>
+   <tr><td>such</td><td>such + adjective + plural / uncountable</td><td><mark>such good</mark> results · <mark>such bad</mark> weather</td></tr>
+   </tbody></table></div>
+   <div class="tip"><b>tan</b> + adjetivo = so · <b>un/una … tan</b> + sustantivo = such a. "So a good idea" es incorrecto → <b>such a good idea</b>.</div>`},
+  {title:"Too vs. very", lead:"Very makes an adjective stronger. Too means more than is acceptable, so there is a problem.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>very</b><small>strong, but possible</small>The hotel was <mark>very</mark> expensive, but we stayed there.</div>
+   <div class="col"><b>too</b><small>excessive → negative result</small>The hotel was <mark>too</mark> expensive, so we chose another one.</div></div>
+   <div class="formula"><span class="chip fill">too</span><span class="chip">adjective</span><span class="chip">(for + person)</span><span class="chip">to + verb</span></div>
+   <ul class="ex"><li>The box is <mark>too heavy for one person to lift</mark>.</li></ul>
+   <div class="tip"><b>muy</b> = very · <b>demasiado</b> = too. "Too" casi siempre implica que algo <b>no</b> se puede hacer.</div>`},
+  {title:"Enough", lead:"Its position changes with the word it describes.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>adjective / adverb + enough</b><small>after</small>The room is <mark>big enough</mark>. · He didn't finish <mark>quickly enough</mark>.</div>
+   <div class="col"><b>enough + noun</b><small>before</small>We don't have <mark>enough chairs</mark>. · There isn't <mark>enough time</mark>.</div></div>
+   <ul class="ex"><li class="no">The room isn't enough big.</li><li class="yes">The room isn't <mark>big enough</mark> for 50 people.</li></ul>`},
+  {title:"Result patterns", lead:"Four patterns that join an idea and its result.",
+   body:`<div class="tbl"><table><thead><tr><th>Pattern</th><th>Example</th></tr></thead><tbody>
+   <tr><td>so + adj + that</td><td>The presentation was <b>so long that</b> some people left.</td></tr>
+   <tr><td>such (a) + adj + noun + that</td><td>It was <b>such a good opportunity that</b> we accepted.</td></tr>
+   <tr><td>too + adj + to</td><td>The office is <b>too far to</b> walk.</td></tr>
+   <tr><td>adj + enough + to</td><td>He is <b>experienced enough to</b> lead the project.</td></tr>
+   </tbody></table></div>
+   <div class="tip">No confundas <b>so … that</b> (tan … que, resultado) con <b>so that</b> (para que, propósito).</div>`},
+  {title:"Many, much and stronger forms", lead:"Countable and uncountable nouns still matter here.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>countable</b><ul class="ex"><li><mark>too many</mark> errors</li><li><mark>so many</mark> complaints</li><li><mark>so few</mark> customers</li></ul></div>
+   <div class="col"><b>uncountable</b><ul class="ex"><li><mark>too much</mark> noise</li><li><mark>so much</mark> traffic</li><li><mark>so little</mark> time</li></ul></div></div>
+   <ul class="ex"><li>To make <em>too</em> stronger, use <mark>much too</mark>: The price is <mark>much too</mark> high.</li>
+   <li>With verbs, use <mark>very much</mark>: Thank you <mark>very much</mark>.</li></ul>`},
+  {title:"TOEIC traps", lead:"Check these before you choose.",
+   body:`<ul class="ex"><li class="no">It was such expensive.</li><li class="yes">It was <mark>so</mark> expensive.</li>
+   <li class="no">It was so a long meeting.</li><li class="yes">It was <mark>such a</mark> long meeting.</li>
+   <li class="no">The price is too much expensive.</li><li class="yes">The price is <mark>much too</mark> expensive.</li>
+   <li class="no">He is very old to travel.</li><li class="yes">He is <mark>too</mark> old to travel.</li></ul>`}
+  ],
+  quiz:[
+  ["The presentation was ___ long that some people left early.",["so","such","too","very"],"Adjective (<em>long</em>) + <em>that</em> → <b>so</b> … that."],
+  ["It was ___ a long meeting that we missed lunch.",["such","so","too","very"],"<em>A</em> + adjective + noun → <b>such</b> a … that."],
+  ["The box is ___ heavy for one person to lift.",["too","so","such","enough"],"Excessive, with <em>for … to</em> → <b>too</b> heavy for one person to lift."],
+  ["The conference room isn't big ___ for 50 people.",["enough","too","so","very"],"<em>Enough</em> goes after the adjective → big <b>enough</b>."],
+  ["We don't have ___ chairs for all the participants.",["enough","too","so","such"],"<em>Enough</em> goes before a noun → <b>enough</b> chairs."],
+  ["The hotel was ___ expensive, but we stayed there because the service was excellent.",["very","too","such","enough"],"They stayed, so it was possible → <b>very</b>. <em>Too</em> would mean they couldn't."],
+  ["Our sales team received ___ good feedback that we gave them a bonus.",["such","so","too","very"],"Adjective + uncountable noun (<em>good feedback</em>) + that → <b>such</b>."],
+  ["There were ___ many applicants that we extended the interview period.",["so","such","too","very"],"<em>Many</em> + noun + that → <b>so</b> many."],
+  ["The instructions were ___ complicated for new users to understand.",["too","so","such","enough"],"<em>For … to</em> after the adjective → <b>too</b>."],
+  ["Ms. Kim spoke ___ quickly that nobody could take notes.",["so","such","too","enough"],"Adverb (<em>quickly</em>) + that → <b>so</b>."],
+  ["The report is not detailed ___ to present to the board.",["enough","too","so","very"],"Adjective + <b>enough</b> + to."],
+  ["We had ___ little time that we couldn't review every document.",["so","such","too","enough"],"<em>Little</em> + noun + that → <b>so</b> little."],
+  ["The new software is ___ easy to use that training takes only an hour.",["so","such","too","enough"],"Adjective + that → <b>so</b>."],
+  ["It's ___ a good opportunity that we shouldn't miss it.",["such","so","too","very"],"<em>A</em> + adjective + noun → <b>such</b> a."],
+  ["The office is ___ far from the airport to walk.",["too","so","such","enough"],"Adjective + <em>to</em> + verb, with a negative result → <b>too</b>."],
+  ["Mr. Ortiz is experienced ___ to lead the project.",["enough","too","so","such"],"Adjective + <b>enough</b> + to."],
+  ["There is ___ much traffic in the morning that I leave home at 6 a.m.",["so","such","too","very"],"<em>Much</em> + noun + that → <b>so</b> much."],
+  ["There are ___ many errors in this report to send it to the client.",["too","so","such","very"],"Excessive + <em>to</em> + verb → <b>too</b> many."],
+  ["The products were of ___ high quality that we ordered more.",["such","so","too","very"],"Adjective + noun (<em>high quality</em>) + that → <b>such</b>."],
+  ["Thank you ___ much for your help with the event.",["very","too","such","enough"],"Fixed expression with verbs: thank you <b>very</b> much."],
+  ["The price was ___ high for our budget.",["too","such","enough","so much"],"More than acceptable <em>for our budget</em> → <b>too</b> high."],
+  ["These are ___ difficult problems that we need an expert.",["such","so","too","very"],"Adjective + plural noun + that → <b>such</b>."],
+  ["The deadline is ___ close for us to add new features.",["too","so","such","enough"],"<em>For us to</em> + verb → <b>too</b>."],
+  ["Is the font large ___ for everyone to read?",["enough","too","so","such"],"Adjective + <b>enough</b> + for … to."],
+  ["The staff were ___ helpful that we wrote them a thank-you note.",["so","such","too","enough"],"Adjective + that → <b>so</b>."],
+  ["We received ___ many complaints that we recalled the product.",["so","such","too","very"],"<em>Many</em> + noun + that → <b>so</b> many."],
+  ["The new manager is ___ friendly person.",["a very","very","so a","too a"],"<em>A</em> goes before the adverb: <b>a very</b> friendly person."],
+  ["She didn't study ___ to pass the exam.",["enough","too","so","such"],"After the verb, \"the necessary amount\" → <b>enough</b> to."],
+  ["This laptop is ___ old to run the new software.",["too","so","such","enough"],"Adjective + <em>to</em>, negative result → <b>too</b>."],
+  ["It was ___ hot day that the outdoor event was moved inside.",["such a","so","too","very"],"Adjective + singular noun + that → <b>such a</b>."],
+  ["The demand was ___ strong that we sold out in one week.",["so","such","too","enough"],"Adjective + that → <b>so</b>."],
+  ["The road is not wide ___ for two trucks.",["enough","too","so","such"],"Adjective + <b>enough</b>."],
+  ["There isn't ___ time to finish the report today.",["enough","too","so","such"],"Before a noun → <b>enough</b> time."],
+  ["The applicant was ___ qualified, so we offered him the job.",["very","too","such","enough"],"They offered the job, so it's positive → <b>very</b>. <em>Too qualified</em> would be a problem."],
+  ["This is ___ an important client that the CEO will meet her personally.",["such","so","too","very"],"<em>An</em> + adjective + noun → <b>such</b> an."],
+  ["The instructions were written ___ clearly that everyone understood them.",["so","such","too","enough"],"Adverb + that → <b>so</b>."],
+  ["The suitcase is ___ big to take on the plane as hand luggage.",["too","so","such","enough"],"Adjective + <em>to</em>, negative result → <b>too</b>."],
+  ["Our team worked ___ hard that we finished two days early.",["so","such","too","enough"],"Adverb + that → <b>so</b>."],
+  ["The training room was warm ___, so we turned off the heater.",["enough","too","so","such"],"Adjective + <b>enough</b> (it had the necessary temperature)."],
+  ["The price is ___ expensive.",["much too","too much","very much","so much"],"To make <em>too</em> stronger before an adjective → <b>much too</b>. <em>Too much expensive</em> is wrong."],
+  ["There's ___ much noise in here for us to concentrate.",["too","so","such","very"],"<em>For us to</em> + verb → <b>too</b> much."],
+  ["He arrived ___ late to attend the opening speech.",["too","so","such","enough"],"Adverb + <em>to</em>, negative result → <b>too</b> late."],
+  ["The project was ___ success that the company expanded it.",["such a","so","too","very"],"<em>Success</em> is a singular noun here + that → <b>such a</b>."],
+  ["The meeting room is ___ small for twenty people.",["too","enough","such","so much"],"Excessive (not big enough) → <b>too</b> small."],
+  ["Mr. Ruiz isn't senior ___ to approve this expense.",["enough","too","so","such"],"Adjective + <b>enough</b> + to."],
+  ["We had ___ few customers on Monday that we closed early.",["so","such","too","very"],"<em>Few</em> + noun + that → <b>so</b> few."],
+  ["It was ___ bad weather that the flights were canceled.",["such","so","too","very"],"Adjective + uncountable noun + that → <b>such</b>, with no <em>a</em>."],
+  ["The coffee was ___ hot to drink right away.",["too","so","such","enough"],"Adjective + <em>to</em>, negative result → <b>too</b>."],
+  ["The new policy is ___ important. Please read it carefully.",["very","too","such","enough"],"Just stronger, no negative result → <b>very</b>."],
+  ["The candidates had ___ different backgrounds that it was hard to compare them.",["such","so","too","very"],"Adjective + plural noun + that → <b>such</b>."]
+  ]},
+
+{ id:"prepositions", key:"t10", n:"10", name:"Prepositions",
+  blurb:"Time and place, by vs. until, for vs. during, and the fixed adjective, verb and noun combinations of business English.",
+  slides:[
+  {cover:true, title:"Prepositions", lead:"Time, place and fixed combinations. Many TOEIC prepositions are learned as chunks."},
+  {title:"Time: at, on, in", lead:"From small to large.",
+   body:`<div class="cols"><div class="col"><b>at</b><small>exact time</small>at 9:30 · at noon · at night · at the end of the month</div>
+   <div class="col"><b>on</b><small>days and dates</small>on Monday · on March 31 · on weekdays</div>
+   <div class="col"><b>in</b><small>longer periods</small>in May · in 1998 · in the second quarter · in the morning</div></div>
+   <ul class="ex"><li>The product will launch <mark>in</mark> two weeks. <span class="hint">= two weeks from now</span></li>
+   <li>Refunds must be requested <mark>within</mark> 30 days. <span class="hint">= no more than 30 days</span></li></ul>`},
+  {title:"By vs. until · for vs. during vs. since", lead:"These pairs appear in almost every TOEIC Reading section.",
+   body:`<div class="tbl"><table><thead><tr><th>Preposition</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+   <tr><td>by</td><td>deadline: no later than</td><td>Submit the report <b>by</b> Friday.</td></tr>
+   <tr><td>until</td><td>continues up to that time</td><td>The store is open <b>until</b> 10 p.m.</td></tr>
+   <tr><td>for</td><td>+ length of time</td><td>She has been manager <b>for</b> six years.</td></tr>
+   <tr><td>during</td><td>+ noun (an event or period)</td><td>No phones <b>during</b> the presentation.</td></tr>
+   <tr><td>since</td><td>+ starting point</td><td>He has worked here <b>since</b> 2015.</td></tr>
+   </tbody></table></div>
+   <div class="tip"><b>para el viernes</b> (fecha límite) = by Friday · <b>hasta el viernes</b> = until Friday.</div>`},
+  {title:"Place: at, on, in", lead:"A point, a surface or line, an enclosed area.",
+   body:`<div class="cols"><div class="col"><b>at</b><small>a point or exact address</small>at the reception desk · at the airport · at 245 Reforma Avenue</div>
+   <div class="col"><b>on</b><small>floors, streets, surfaces</small>on the third floor · on Juárez Street · on the website</div>
+   <div class="col"><b>in</b><small>cities, countries, rooms</small>in Monterrey · in the office · in the conference room</div></div>
+   <ul class="ex"><li>The bank is <mark>between</mark> the post office and the pharmacy.</li>
+   <li>The hotel is <mark>across</mark> the street <mark>from</mark> the convention center.</li>
+   <li>arrive <mark>in</mark> a city · arrive <mark>at</mark> a building <span class="hint">never "arrive to"</span></li></ul>`},
+  {title:"Adjective and verb + preposition", lead:"Learn these as one unit. The TOEIC tests them constantly.",
+   body:`<div class="tbl"><table><thead><tr><th>+ for</th><th>+ with</th><th>+ of</th><th>+ on / to / in</th></tr></thead><tbody>
+   <tr><td>responsible for</td><td>familiar with</td><td>aware of</td><td>depend on · focus on</td></tr>
+   <tr><td>eligible for</td><td>comply with</td><td>capable of</td><td>respond to · refer to</td></tr>
+   <tr><td>apply for</td><td>satisfied with</td><td>consist of</td><td>apply to (a company)</td></tr>
+   <tr><td>account for</td><td>deal with</td><td>in charge of</td><td>interested in · participate in</td></tr>
+   </tbody></table></div>
+   <div class="tip"><b>depende de</b> → depend <b>on</b> · <b>consiste en</b> → consist <b>of</b> · <b>casado con</b> → married <b>to</b>. No traduzcas la preposición palabra por palabra.</div>`},
+  {title:"Noun + preposition and fixed phrases", lead:"Common in reports and business emails.",
+   body:`<div class="cols" style="--n:2"><div class="col"><b>noun + preposition</b><ul class="ex"><li>an increase <mark>in</mark> sales</li><li>demand <mark>for</mark> our products</li><li>access <mark>to</mark> the database</li><li>a solution <mark>to</mark> the problem</li></ul></div>
+   <div class="col"><b>multi-word prepositions</b><ul class="ex"><li><mark>according to</mark> the report</li><li><mark>on behalf of</mark> the committee</li><li><mark>prior to</mark> the meeting</li><li><mark>in addition to</mark> · <mark>regardless of</mark></li></ul></div></div>
+   <ul class="ex"><li>Prices have risen <mark>by</mark> 5 percent. <span class="hint">by = the amount of change</span></li></ul>`},
+  {title:"TOEIC traps", lead:"Check these before you choose.",
+   body:`<ul class="ex"><li class="no">We discussed about the budget.</li><li class="yes">We discussed the budget. <span class="hint">no preposition</span></li>
+   <li class="no">We look forward to hear from you.</li><li class="yes">We look forward to <mark>hearing</mark> from you. <span class="hint">to = preposition + -ing</span></li>
+   <li class="no">The flight arrived to Cancún.</li><li class="yes">The flight arrived <mark>in</mark> Cancún.</li>
+   <li class="no">She is married with a lawyer.</li><li class="yes">She is married <mark>to</mark> a lawyer.</li></ul>`}
+  ],
+  quiz:[
+  ["The meeting will start ___ 9:30 a.m.",["at","on","in","by"],"Exact clock time → <b>at</b>."],
+  ["Our office is closed ___ Sundays.",["on","in","at","by"],"Days of the week → <b>on</b>."],
+  ["The company was founded ___ 1998.",["in","on","at","by"],"Years → <b>in</b>."],
+  ["Please submit your report ___ Friday at the latest.",["by","until","since","during"],"A deadline (<em>at the latest</em>) → <b>by</b>."],
+  ["The store will be open ___ 10 p.m. tonight.",["until","by","since","at"],"The situation continues up to that time → <b>until</b>."],
+  ["Mr. Kim has worked here ___ 2015.",["since","for","from","during"],"A starting point with the present perfect → <b>since</b>."],
+  ["Ms. Lee has been the manager ___ six years.",["for","since","during","by"],"A length of time → <b>for</b>."],
+  ["No phones are allowed ___ the presentation.",["during","for","while","since"],"<em>During</em> + noun (an event). <em>While</em> needs a clause."],
+  ["The new product will launch ___ two weeks.",["in","on","at","since"],"Time from now → <b>in</b> two weeks."],
+  ["Refunds must be requested ___ 30 days of purchase.",["within","during","since","between"],"Inside a time limit → <b>within</b>."],
+  ["The reception desk is ___ the first floor.",["on","in","at","by"],"Floors of a building → <b>on</b>."],
+  ["Please wait ___ the reception desk.",["at","on","in","into"],"A specific point → <b>at</b>."],
+  ["Our headquarters is located ___ Monterrey.",["in","on","at","to"],"Cities → <b>in</b>."],
+  ["The bank is ___ the post office and the pharmacy.",["between","among","through","along"],"In the middle of two things → <b>between</b>. <em>Among</em> is for three or more."],
+  ["The hotel is ___ the street from the convention center.",["across","along","through","between"],"Fixed expression: <b>across</b> the street from (= enfrente)."],
+  ["Ms. Rivera is responsible ___ training new employees.",["for","of","to","with"],"<b>Responsible for</b> + noun / -ing."],
+  ["Are you familiar ___ this software?",["with","to","of","for"],"<b>Familiar with</b>."],
+  ["All employees must comply ___ the safety regulations.",["with","to","for","at"],"<b>Comply with</b> (= follow rules)."],
+  ["The package consists ___ three items.",["of","in","with","on"],"<b>Consist of</b>. (En español \"consiste <em>en</em>\", pero en inglés es <em>of</em>.)"],
+  ["Our success depends ___ customer satisfaction.",["on","of","from","in"],"<b>Depend on</b>. (En español \"depende <em>de</em>\".)"],
+  ["Mr. Ortiz applied ___ the position of sales manager.",["for","to","on","at"],"Apply <b>for</b> a job or position. Apply <em>to</em> a company."],
+  ["We are interested ___ expanding into South America.",["in","on","for","about"],"<b>Interested in</b> + noun / -ing."],
+  ["Full-time employees are eligible ___ health insurance.",["for","to","of","with"],"<b>Eligible for</b> + noun."],
+  ["Please respond ___ this email by Thursday.",["to","at","for","on"],"<b>Respond to</b>."],
+  ["There has been a sharp increase ___ demand for electric cars.",["in","of","on","at"],"An increase <b>in</b> + the thing that grows."],
+  ["Demand ___ our products has grown this year.",["for","of","to","in"],"<b>Demand for</b>."],
+  ["Ms. Chen is in charge ___ the marketing department.",["of","for","on","with"],"Fixed phrase: <b>in charge of</b>."],
+  ["I am writing ___ behalf of the hiring committee.",["on","in","for","by"],"Fixed phrase: <b>on behalf of</b> (= en nombre de)."],
+  ["___ to the report, profits rose by 8 percent.",["According","Due","Prior","Owing"],"Citing a source → <b>According to</b>."],
+  ["All guests must check in ___ to 6 p.m.",["prior","previous","early","ahead"],"Formal phrase: <b>prior to</b> (= before)."],
+  ["We will hold the event ___ of the weather.",["regardless","despite","although","because"],"<b>Regardless of</b> = it doesn't matter what the weather is. <em>Despite</em> doesn't take <em>of</em>."],
+  ["Employees need a password to have access ___ the database.",["to","for","at","of"],"<b>Access to</b>."],
+  ["The flight from Mexico City arrived ___ Cancún at 10 a.m.",["in","to","on","into"],"Arrive <b>in</b> a city. Never \"arrive to\"."],
+  ["We discussed ___ the budget at yesterday's meeting.",[NP,"about","on","of"],"<em>Discuss</em> takes a direct object, with <b>no preposition</b>. \"Discuss about\" is a common mistake."],
+  ["The documents were signed ___ the director.",["by","from","with","of"],"In the passive, the person who does the action → <b>by</b>."],
+  ["Please fill in the form ___ black ink.",["in","with","by","on"],"Fixed phrase: <b>in</b> ink, <b>in</b> pencil."],
+  ["We traveled to the factory ___ train.",["by","on","in","with"],"Means of transport with no article → <b>by</b> train."],
+  ["The team is satisfied ___ the results of the survey.",["with","of","for","about"],"<b>Satisfied with</b>."],
+  ["Mr. Park is capable ___ managing large projects.",["of","for","to","in"],"<b>Capable of</b> + -ing."],
+  ["Ms. Grant is aware ___ the problem.",["of","with","for","on"],"<b>Aware of</b>."],
+  ["The new rules apply ___ all employees.",["to","for","on","at"],"Rules <b>apply to</b> people."],
+  ["The seminar will focus ___ customer service skills.",["on","in","at","about"],"<b>Focus on</b>."],
+  ["Please refer ___ the manual for more details.",["to","at","for","on"],"<b>Refer to</b>."],
+  ["We look forward ___ hearing from you.",["to","for","at","of"],"<b>Look forward to</b> + -ing. Here <em>to</em> is a preposition."],
+  ["The company's address is ___ 245 Reforma Avenue.",["at","on","in","by"],"An exact address with a number → <b>at</b>."],
+  ["Our store is ___ Juárez Street, next to the bank.",["on","at","in","by"],"A street name without a number → <b>on</b>."],
+  ["In addition ___ a salary, the job offers a company car.",["to","of","with","for"],"Fixed phrase: <b>in addition to</b>."],
+  ["The contract will expire ___ March 31.",["on","in","at","since"],"Dates → <b>on</b>."],
+  ["Prices have risen ___ 5 percent since January.",["by","of","with","on"],"The amount of change → <b>by</b>."],
+  ["Sales reached their highest level ___ the second quarter.",["in","on","at","by"],"Quarters, months and other periods → <b>in</b>."]
+  ]}
+];
+NEW_TOPICS_2.forEach(t=>{ t.quiz = t.quiz.map(([q,o,why])=>({q,o,a:0,why})); TOPICS.push(t); });
+
+const LS = "toeic-suite-v1";
+function loadStore(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
+function saveStore(s){ try{ localStorage.setItem(LS, JSON.stringify(s)); }catch(e){} }
+const store = loadStore();
+
+const S = { view: APP==="join" ? "join" : "home", topic:null, tab: APP==="study" ? "review" : "present", slide:0, quiz:null, pmode:"live", size:{topic:10, mixed:30} };
+const app = document.getElementById("app");
+const L = ["A","B","C","D"];
+
+function topicBy(id){ return TOPICS.find(t=>t.id===id); }
+function esc(s){ return s.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function qHTML(q){ return esc(q).replace("___",'<span class="blank">?</span>'); }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function setHash(h){ try{ history.replaceState(null,"", h?"#"+h:location.pathname); }catch(e){ location.hash=h; } }
+
+function bar(){
+  const crumb = (APP==="join" || S.view==="home") ? "" : S.view==="mixed" ? "Mixed test" : topicBy(S.topic).name;
+  const tag = {teacher:"Teacher", study:"Study", join:"Live"}[APP];
+  return `<header class="bar"><button class="brand" ${APP==="join"?"":'data-go="home"'} aria-label="Home"><span class="dots"><i></i><i></i><i></i><i></i></span><b>TOEIC Grammar Suite</b><span class="apptag">${tag}</span></button>
+  <span class="mono crumb">${crumb}</span></header>`;
+}
+
+function sibling(file){ try{ return new URL(file, location.href).href.split("#")[0]; }catch(e){ return file; } }
+function renderHome(){
+  document.documentElement.removeAttribute("data-topic");
+  const teacher = APP==="teacher";
+  const hero = teacher ? `
+  <section class="hero">
+    <div><span class="mono" style="color:var(--muted)">Class screen · Reading Part 5 &amp; 6</span>
+      <h1>Present the grammar. Quiz the class live.</h1>
+      <p>Show the slides on the projector, then open Practice: students answer on their phones and the screen shows how the class voted.</p></div>
+    <div class="howto">
+      <div><span class="mono">Present</span><span>Full-screen slides. Use the ← → arrows or the space bar.</span></div>
+      <div><span class="mono">Practice</span><span><b>Live</b>: students answer on their phones. <b>On screen</b>: the class solves together.</span></div>
+      <div><span class="mono">Join app</span><span class="linkrow"><code>${esc(sibling("toeic-join.html").replace(/^https?:\/\//,""))}</code><button class="btn" data-copy="${esc(sibling("toeic-join.html"))}">Copy</button></span></div>
+      <div><span class="mono">Study app</span><span class="linkrow"><code>${esc(sibling("toeic-study.html").replace(/^https?:\/\//,""))}</code><button class="btn" data-copy="${esc(sibling("toeic-study.html"))}">Copy</button></span></div>
+    </div>
+  </section>` : `
+  <section class="hero">
+    <div><span class="mono" style="color:var(--muted)">Study · Reading Part 5 &amp; 6</span>
+      <h1>Grammar that the TOEIC tests every time.</h1>
+      <p>Review each topic at your own pace, then practice with TOEIC-style questions and instant feedback.</p></div>
+    <div class="howto">
+      <div><span class="mono">Review</span><span>All the content of a topic on one page, with examples and common mistakes.</span></div>
+      <div><span class="mono">Practice</span><span>50 Part 5 questions per topic. Rounds of 10, 25 or 50, in a new order every time.</span></div>
+      <div><span class="mono">In class?</span><span class="linkrow"><a class="btn solid" href="toeic-join.html">Join your teacher's live quiz</a></span></div>
+    </div>
+  </section>`;
+  const tabsFor = teacher ? [["present","Present"],["practice","Practice"]] : [["review","Review"],["practice","Practice"]];
+  app.innerHTML = bar() + hero + `
+  <section class="topics">${TOPICS.map(t=>{
+    const best = store[t.id];
+    return `<article class="tcard" data-topic="${t.key}">
+      <span class="mono">Topic ${t.n}</span><h2>${t.name}</h2><p>${t.blurb}</p>
+      <div class="actions">${tabsFor.map(([k,l],i)=>`<button class="btn ${i?"":"solid"}" data-open="${t.id}" data-tab="${k}">${l}</button>`).join("")}</div>
+      <div class="meta"><span>${teacher?t.slides.length+" slides · ":""}${t.quiz.length} questions</span>${teacher?"":`<span>${best!=null?`Best: ${best}%`:"Not attempted"}</span>`}</div>
+    </article>`;}).join("")}
+    <article class="tcard mixed"><span class="mono">All topics</span><h2>Mixed test</h2><p>Questions from all ${TOPICS.length} topics, shuffled together, like the real exam.</p>
+      <div class="actions"><button class="btn solid" data-go="mixed">${teacher?"Practice with the class":"Start mixed test"}</button></div>
+      <div class="meta"><span>${TOPICS.reduce((n,t)=>n+t.quiz.length,0)} questions</span>${teacher?"":`<span>${store.mixed!=null?`Best: ${store.mixed}%`:"Not attempted"}</span>`}</div>
+    </article></section>`;
+}
+
+function renderTopic(){
+  const t = topicBy(S.topic);
+  document.documentElement.setAttribute("data-topic", t.key);
+  const tabs = APP==="teacher" ? [["present","Present"],["practice","Practice"]] : [["review","Review"],["practice","Practice"]];
+  let inner = "";
+  if(S.tab==="present") inner = presentHTML(t);
+  else if(S.tab==="review") inner = reviewHTML(t);
+  else inner = practiceHTML();
+  app.innerHTML = bar() + `<div class="thead"><div><span class="mono">Topic ${t.n}</span><h1>${t.name}</h1></div>
+   <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab-go="${k}">${l}</button>`).join("")}</div></div>` + inner;
+  afterPractice();
+}
+function practiceHTML(){
+  if(APP!=="teacher") return quizHTML();
+  const modes=[["live","Live · phones"],["screen","On screen"]];
+  return `<div class="pmode"><div class="tabs" role="tablist" aria-label="Practice mode">${modes.map(([k,l])=>`<button role="tab" aria-selected="${S.pmode===k}" data-pmode="${k}">${l}</button>`).join("")}</div>
+  <span class="hint">${S.pmode==="live"?"Students answer on their phones with the Join app.":"Solve the questions together on the classroom screen."}</span></div>` + (S.pmode==="live" ? `<div id="live"></div>` : quizHTML());
+}
+function inPractice(){ return (S.view==="topic"&&S.tab==="practice")||S.view==="mixed"; }
+function afterPractice(){ if(APP==="teacher" && inPractice() && S.pmode==="live"){ liveKey=""; liveRender(); } }
+
+function slideHTML(t,s,i,inStage){
+  const kick = `<div class="kick"><span>${t.name}</span><span>${String(i+1).padStart(2,"0")} / ${String(t.slides.length).padStart(2,"0")}</span></div>`;
+  if(inStage){
+    if(s.cover) return `<div class="slide cover">${kick}<h2>${s.title}</h2><p class="lead">${s.lead}</p></div>`;
+    return `<div class="slide">${kick}<h2>${s.title}</h2>${s.lead?`<p class="lead">${s.lead}</p>`:""}<div class="body">${s.body}</div></div>`;
+  }
+  return `<section class="rsec"><span class="kick">${String(i).padStart(2,"0")}</span><h2>${s.title}</h2>${s.lead?`<p class="lead">${s.lead}</p>`:""}<div class="body">${s.body}</div></section>`;
+}
+
+function presentHTML(t){
+  const i = S.slide, n = t.slides.length;
+  return `<div class="stagewrap" id="stagewrap">
+    <div class="stage" id="stage">${slideHTML(t,t.slides[i],i,true)}</div>
+    <div class="stagectl">
+      <button class="iconbtn" data-nav="-1" ${i===0?"disabled":""} aria-label="Previous">←</button>
+      <div class="prog"><i style="width:${(i+1)/n*100}%"></i></div>
+      <span class="count">${i+1} / ${n}</span>
+      <button class="iconbtn" data-nav="1" ${i===n-1?"disabled":""} aria-label="Next">→</button>
+      <button class="btn" data-fs>Full screen</button>
+    </div>
+    <span class="hint">Keyboard: ← → to move · F for full screen · when you finish, go to <b>Practice</b> and solve as a group.</span>
+  </div>`;
+}
+
+function reviewHTML(t){
+  const cover = t.slides[0];
+  return `<div class="review">
+    <p class="lead" style="margin:0;color:var(--muted);max-width:62ch">${cover.lead}</p>
+    ${t.slides.slice(1).map((s,i)=>slideHTML(t,s,i+1,false)).join("")}
+    <div class="cta"><div><h3>Ready to practice?</h3><p>${t.quiz.length} Part 5 questions with explanations.</p></div><button class="btn" data-tab-go="practice">Go to practice</button></div>
+  </div>`;
+}
+
+function shuffleOpts(it){
+  const order = shuffle([0,1,2,3]);
+  return {...it, o: order.map(k=>it.o[k]), a: order.indexOf(it.a)};
+}
+function newQuiz(items, key, size){
+  return { key, size, items: shuffle(items).slice(0,size).map(shuffleOpts), i:0, answers:[], done:false, saved:false };
+}
+function sizeKind(){ return S.view==="mixed" ? "mixed" : "topic"; }
+function ensureQuiz(){
+  const key = S.view==="mixed" ? "mixed" : S.topic;
+  if(!S.quiz || S.quiz.key!==key){
+    const items = key==="mixed" ? TOPICS.flatMap(t=>t.quiz.map(q=>({...q, from:t.name, tkey:t.key}))) : topicBy(key).quiz;
+    S.quiz = newQuiz(items, key, S.size[sizeKind()]);
+  }
+}
+
+function quizHTML(){
+  ensureQuiz();
+  const Q = S.quiz, total = Q.items.length;
+  const opts = S.view==="mixed" ? [30,60,100] : [10,25,50];
+  const sel = `<div class="qsize"><span class="mono">Round</span><div class="tabs" role="tablist">${opts.map(n=>`<button role="tab" aria-selected="${Q.size===n}" data-size="${n}">${S.view!=="mixed"&&n===opts[2]?n+" (all)":n} questions</button>`).join("")}</div></div>`;
+  if(Q.done) return sel + resultHTML();
+  return sel + questionHTML();
+}
+function questionHTML(){
+  const Q = S.quiz, total = Q.items.length;
+  const it = Q.items[Q.i], ans = Q.answers[Q.i];
+  const answered = ans!=null;
+  const sheet = Q.items.map((_,k)=>{const a=Q.answers[k]; const c=a==null?"":(a===Q.items[k].a?"ok":"no"); return `<span class="${c} ${k===Q.i?"cur":""}"></span>`;}).join("");
+  return `<div class="qcard" ${it.tkey?`data-topic="${it.tkey}"`:""}>
+    <div class="qtop"><span class="mono">Question ${Q.i+1} of ${total}${it.from?` · ${it.from}`:""}</span><span>Choose the best answer</span></div>
+    <p class="qtext">${qHTML(it.q)}</p>
+    <div class="opts">${it.o.map((o,k)=>{
+      let cls=""; if(answered){ if(k===it.a) cls="right"; else if(k===ans) cls="wrong"; }
+      return `<button class="opt ${cls}" data-ans="${k}" ${answered?"disabled":""}><span class="bub">${L[k]}</span><span>${esc(o)}</span></button>`;}).join("")}</div>
+    ${answered?`<div class="fb ${ans===it.a?"ok":"no"}"><strong>${ans===it.a?"Correct!":"The answer is "+L[it.a]}</strong><span>${it.why}</span></div>`:""}
+    <div class="qnav"><div class="sheet" aria-hidden="true">${sheet}</div>
+      ${answered?`<button class="btn solid" data-next>${Q.i===total-1?"See results":"Next →"}</button>`:`<span class="hint">Press A, B, C or D to answer</span>`}</div>
+  </div>`;
+}
+
+function resultHTML(){
+  const Q = S.quiz, total = Q.items.length;
+  const score = Q.items.reduce((n,it,k)=>n+(Q.answers[k]===it.a?1:0),0);
+  const pctNow = Math.round(score/total*100);
+  const prev = store[Q.key];
+  if(!Q.saved){ Q.saved=true; if(prev==null || pctNow>prev){ store[Q.key]=pctNow; saveStore(store); } }
+  const pct = score/total;
+  const msg = pct>=.9 ? "Excellent! You know this topic well." : pct>=.7 ? "Good work. Check the ones you missed." : "Go back to Review, then try again.";
+  return `<div class="qcard" style="max-width:none">
+    <div class="result"><div class="score">${score}<small>/${total}</small></div>
+      <div><h2 style="font-family:var(--f-display);margin:0 0 4px">${msg}</h2><p style="margin:0;color:var(--muted)">${pctNow}% · Best score on this device: ${Math.max(pctNow,prev??0)}%</p>
+      <div class="actions" style="margin-top:12px"><button class="btn solid" data-retry>Try again</button>${S.view==="mixed"?`<button class="btn" data-go="home">Back to topics</button>`:`<button class="btn" data-tab-go="review">Review the topic</button>`}</div></div></div>
+    <div class="rlist">${Q.items.map((it,k)=>{const ok=Q.answers[k]===it.a; return `<div class="ritem ${ok?"ok":"no"}">${it.from?`<span class="tag" data-topic="${it.tkey}">${it.from}</span>`:""}<span class="q">${k+1}. ${esc(it.q).replace("___", "<mark>"+(it.o[it.a].startsWith("—")?"∅":esc(it.o[it.a]))+"</mark>")}</span>${ok?"":`<span class="ans">Your answer: ${L[Q.answers[k]]}) ${esc(it.o[Q.answers[k]])}</span><span>${it.why}</span>`}</div>`;}).join("")}</div>
+  </div>`;
+}
+
+function renderMixed(){
+  document.documentElement.removeAttribute("data-topic");
+  app.innerHTML = bar() + `<div class="thead"><div><span class="mono" style="color:var(--muted)">All topics</span><h1>Mixed test</h1></div></div>` + practiceHTML();
+  afterPractice();
+}
+
+function render(){
+  if(APP==="join") return renderJoin();
+  if(S.view==="home") renderHome();
+  else if(S.view==="mixed") renderMixed();
+  else renderTopic();
+}
+
+function go(view, topic, tab){
+  S.view=view; S.topic=topic||null; if(tab) S.tab=tab;
+  if(view==="topic"){ S.slide=0; }
+  S.quiz=null;
+  setHash(view==="home"?"":view==="mixed"?"mixed":topic+"-"+S.tab);
+  render(); window.scrollTo(0,0);
+}
+
+app.addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.dataset.go==="home") return go("home");
+  if(b.dataset.go==="mixed") return go("mixed");
+  if(b.dataset.pmode){ S.pmode=b.dataset.pmode; render(); return; }
+  if(b.dataset.copy!=null){ const t=b.dataset.copy; const done=()=>{ b.textContent="Copied"; setTimeout(()=>b.textContent="Copy",1500); };
+    try{ navigator.clipboard.writeText(t).then(done,()=>selectNext(b)); }catch(err){ selectNext(b); } return; }
+  if(b.dataset.open) return go("topic", b.dataset.open, b.dataset.tab);
+  if(b.dataset.tabGo){ S.tab=b.dataset.tabGo; if(S.tab==="practice" && S.quiz && S.quiz.done) S.quiz=null; setHash(S.topic+"-"+S.tab); render(); window.scrollTo(0,0); return; }
+  if(b.dataset.nav) return nav(+b.dataset.nav);
+  if(b.hasAttribute("data-fs")) return toggleFS();
+  if(b.dataset.ans!=null) return answer(+b.dataset.ans);
+  if(b.hasAttribute("data-next")) return next();
+  if(b.dataset.size){ S.size[sizeKind()]=+b.dataset.size; S.quiz=null; render(); return; }
+  if(b.hasAttribute("data-retry")){ const k=S.quiz.key; S.quiz=null; render(); return; }
+});
+
+function selectNext(b){ const c=b.previousElementSibling; if(!c) return; const r=document.createRange(); r.selectNodeContents(c); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+function nav(d){
+  const t=topicBy(S.topic); const n=S.slide+d;
+  if(n<0||n>=t.slides.length) return;
+  S.slide=n;
+  const stage=document.getElementById("stage");
+  if(stage){ stage.innerHTML=slideHTML(t,t.slides[n],n,true);
+    const w=document.getElementById("stagewrap");
+    w.querySelector(".prog i").style.width=((n+1)/t.slides.length*100)+"%";
+    w.querySelector(".count").textContent=`${n+1} / ${t.slides.length}`;
+    w.querySelector('[data-nav="-1"]').disabled = n===0;
+    w.querySelector('[data-nav="1"]').disabled = n===t.slides.length-1;
+  }
+}
+function toggleFS(){
+  const w=document.getElementById("stagewrap"); if(!w) return;
+  try{
+    if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+    else if(w.requestFullscreen) w.requestFullscreen().catch(()=>{});
+  }catch(e){}
+}
+function answer(k){ const Q=S.quiz; if(Q.answers[Q.i]!=null) return; Q.answers[Q.i]=k; render(); }
+function next(){ const Q=S.quiz; if(Q.i<Q.items.length-1) Q.i++; else Q.done=true; render(); }
+
+document.addEventListener("keydown", e=>{
+  if(e.target.closest("input,textarea")) return;
+  if(S.view==="topic" && S.tab==="present"){
+    if(e.key==="ArrowRight"||e.key===" "||e.key==="PageDown"){ e.preventDefault(); nav(1); }
+    else if(e.key==="ArrowLeft"||e.key==="PageUp"){ e.preventDefault(); nav(-1); }
+    else if(e.key==="f"||e.key==="F") toggleFS();
+    return;
+  }
+  const inQuiz = inPractice() && !(APP==="teacher" && S.pmode==="live");
+  if(inQuiz && S.quiz && !S.quiz.done){
+    const k=["a","b","c","d"].indexOf(e.key.toLowerCase());
+    if(k>-1 && S.quiz.answers[S.quiz.i]==null) answer(k);
+    else if(e.key==="Enter" && S.quiz.answers[S.quiz.i]!=null) next();
+  }
+});
+
+function fromHash(){
+  const h=(location.hash||"").slice(1);
+  if(APP==="join") return;
+  if(h==="mixed"){ S.view="mixed"; return; }
+  const m=h.match(/^(conjunctions|word-order|comparisons|articles|tenses|modals|pronouns|still-yet-already|so-such-too|prepositions)(?:-(present|review|practice))?$/);
+  if(m){ const ok = APP==="teacher" ? ["present","practice"] : ["review","practice"]; S.view="topic"; S.topic=m[1]; S.tab = ok.includes(m[2]) ? m[2] : ok[0]; }
+}
+/* ===================== LIVE MODE ===================== */
+/* The Firebase config lives in toeic-firebase-config.js (shared by the teacher and join apps). */
+const FIREBASE_CONFIG = window.TOEIC_FIREBASE_CONFIG || { apiKey:"PASTE_API_KEY" };
+const LIVE_COLL = "toeic_live";
+const FB_VER = "10.12.2";
+const LIVE_N = [10,15,20], LIVE_T = [10,20,30];
+
+function liveConfigured(){ return !!window.firebase || (FIREBASE_CONFIG.apiKey && !/^PASTE/.test(FIREBASE_CONFIG.apiKey)); }
+const loadedScripts = {};
+function loadScript(src){
+  if(!loadedScripts[src]) loadedScripts[src] = new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=()=>{ delete loadedScripts[src]; rej(new Error("Could not load "+src)); }; document.head.appendChild(s); });
+  return loadedScripts[src];
+}
+let dbPromise = null;
+function getDB(){
+  if(!dbPromise) dbPromise = (async()=>{
+    if(!window.firebase){
+      await loadScript(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-app-compat.js`);
+      await loadScript(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-firestore-compat.js`);
+    }
+    if(!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    return firebase.firestore();
+  })().catch(e=>{ dbPromise=null; throw e; });
+  return dbPromise;
+}
+function ssGet(k){ try{ return JSON.parse(sessionStorage.getItem(k)); }catch(e){ return null; } }
+function ssSet(k,v){ try{ v==null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+function livePool(topicId){ return topicId==="mixed" ? TOPICS.flatMap(t=>t.quiz.map(q=>({...q, from:t.name, tkey:t.key}))) : (topicBy(topicId)||TOPICS[0]).quiz; }
+function liveTopicName(topicId){ return topicId==="mixed" ? "Mixed test" : (topicBy(topicId)||{}).name || ""; }
+function liveQ(sess, i){
+  const q = livePool(sess.topicId)[sess.qIdx[i]];
+  const order = sess.orders[i].split("").map(Number);
+  return {...q, o: order.map(k=>q.o[k]), a: order.indexOf(q.a)};
+}
+function joinURL(code){ return sibling("toeic-join.html") + "#" + code; }
+function newCode(){ const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let c=""; for(let i=0;i<5;i++) c+=A[Math.floor(Math.random()*A.length)]; return c; }
+function optText(o){ return o.startsWith("—") ? o : esc(o); }
+function errMsg(e){
+  const m = String(e && e.message || e);
+  if(/permission|insufficient/i.test(m)) return "Firestore rejected the request. Add the toeic_live rule to your Firestore security rules.";
+  if(/load/i.test(m)) return "Live mode couldn't connect. Check the internet connection. Live mode only works in the version on your hosting, not inside Claude.";
+  return "Something went wrong: " + m;
+}
+
+/* ---------- Host (classroom screen) ---------- */
+const LH = { code:null, topicId:null, sess:null, players:[], counts:[0,0,0,0], answered:0, unsubs:[], ansUnsub:null, ansFor:-1, timer:null, revealedFor:-1, n:10, dur:10, results:null, error:"", busy:false };
+
+function hostStop(){ LH.unsubs.forEach(u=>{ try{u();}catch(e){} }); LH.unsubs=[]; if(LH.ansUnsub){ try{LH.ansUnsub();}catch(e){} LH.ansUnsub=null; } LH.ansFor=-1; clearInterval(LH.timer); LH.timer=null; }
+async function hostStart(topicId){
+  LH.busy=true; LH.error=""; liveRender();
+  try{
+    const db = await getDB();
+    let code, ref;
+    for(let tries=0; tries<5; tries++){ code=newCode(); ref=db.collection(LIVE_COLL).doc(code); const s=await ref.get(); if(!s.exists) break; }
+    const pool = livePool(topicId);
+    const qIdx = shuffle(pool.map((_,i)=>i)).slice(0, LH.n);
+    const orders = qIdx.map(()=>shuffle([0,1,2,3]).join(""));
+    await ref.set({ topicId, qIdx, orders, n:qIdx.length, dur:LH.dur, cur:-1, phase:"lobby", endsAt:0, createdAt:Date.now() });
+    LH.code=code; LH.topicId=topicId; LH.results=null; LH.revealedFor=-1;
+    ssSet("toeic-live-host", {code, topicId});
+    hostListen();
+  }catch(e){ LH.error=errMsg(e); }
+  LH.busy=false; liveRender();
+}
+async function hostListen(){
+  hostStop();
+  const db = await getDB();
+  const ref = db.collection(LIVE_COLL).doc(LH.code);
+  LH.unsubs.push(ref.onSnapshot(s=>{
+    if(!s.exists){ LH.error="This session no longer exists."; LH.code=null; ssSet("toeic-live-host",null); hostStop(); liveRender(); return; }
+    LH.sess = s.data();
+    if(LH.sess.phase==="question" || LH.sess.phase==="reveal") hostWatchAnswers(ref, LH.sess.cur);
+    if(LH.sess.phase==="question" && !LH.timer) LH.timer=setInterval(hostTick, 250);
+    if(LH.sess.phase!=="question" && LH.timer){ clearInterval(LH.timer); LH.timer=null; }
+    if(LH.sess.phase==="ended" && !LH.results) hostResults();
+    liveRender();
+  }, e=>{ LH.error=errMsg(e); liveRender(); }));
+  LH.unsubs.push(ref.collection("players").onSnapshot(qs=>{
+    LH.players = qs.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(a.joinedAt||0)-(b.joinedAt||0));
+    liveUpdate();
+  }));
+}
+function hostWatchAnswers(ref, cur){
+  if(LH.ansFor===cur) return;
+  if(LH.ansUnsub){ try{LH.ansUnsub();}catch(e){} }
+  LH.ansFor=cur; LH.counts=[0,0,0,0]; LH.answered=0;
+  LH.ansUnsub = ref.collection("answers").where("q","==",cur).onSnapshot(qs=>{
+    const c=[0,0,0,0]; qs.docs.forEach(d=>{ const k=d.data().choice; if(k>=0&&k<4) c[k]++; });
+    LH.counts=c; LH.answered=qs.size; liveUpdate();
+  });
+}
+function hostRemaining(){ return LH.sess ? Math.max(0, (LH.sess.endsAt - Date.now())/1000) : 0; }
+function hostTick(){
+  const s=LH.sess; if(!s || s.phase!=="question") return;
+  const rem = hostRemaining();
+  const t=document.getElementById("lv-time"); if(t) t.textContent=Math.ceil(rem);
+  const ring=document.getElementById("lv-ring"); if(ring) ring.style.setProperty("--p", (rem/s.dur*100).toFixed(1));
+  const all = LH.players.length>0 && LH.answered>=LH.players.length;
+  if((rem<=0 || all) && LH.revealedFor!==s.cur){ LH.revealedFor=s.cur; hostUpdate({phase:"reveal"}); }
+}
+async function hostUpdate(data){ try{ const db=await getDB(); await db.collection(LIVE_COLL).doc(LH.code).update(data); }catch(e){ LH.error=errMsg(e); liveRender(); } }
+function hostNext(){
+  const s=LH.sess; if(!s) return;
+  if(s.cur+1 >= s.n) return hostUpdate({phase:"ended"});
+  hostUpdate({phase:"question", cur:s.cur+1, endsAt:Date.now()+s.dur*1000});
+}
+async function hostResults(){
+  try{
+    const db=await getDB(); const ref=db.collection(LIVE_COLL).doc(LH.code); const s=LH.sess;
+    const [ans, pl] = await Promise.all([ref.collection("answers").get(), ref.collection("players").get()]);
+    const correct = s.qIdx.map((_,i)=>liveQ(s,i).a);
+    const names={}; pl.docs.forEach(d=>names[d.id]=d.data().name);
+    const score={}; Object.keys(names).forEach(id=>score[id]=0);
+    const perQ = s.qIdx.map(()=>({ok:0,total:0}));
+    ans.docs.forEach(d=>{ const a=d.data(); if(a.q<0||a.q>=s.n) return; perQ[a.q].total++; if(a.choice===correct[a.q]){ perQ[a.q].ok++; score[a.pid]=(score[a.pid]||0)+1; } });
+    const rank = Object.keys(score).map(id=>({name:names[id]||"Student", score:score[id]})).sort((a,b)=>b.score-a.score);
+    const tot = perQ.reduce((n,q)=>n+q.total,0), ok = perQ.reduce((n,q)=>n+q.ok,0);
+    LH.results = { rank, perQ, pct: tot? Math.round(ok/tot*100) : 0 };
+  }catch(e){ LH.error=errMsg(e); }
+  liveRender();
+}
+function hostEnd(){ hostStop(); ssSet("toeic-live-host", null); LH.code=null; LH.sess=null; LH.players=[]; LH.results=null; LH.error=""; liveRender(); }
+
+/* ---------- Player (phone) ---------- */
+const LP = { code:"", name:"", pid:null, sess:null, answers:{}, unsub:null, error:"", joining:false };
+async function playerJoin(code, name){
+  code=(code||"").trim().toUpperCase(); name=(name||"").trim().slice(0,24);
+  if(!liveConfigured()){ LP.error="Live quizzes aren't set up yet. Tell your teacher."; return liveRender(); }
+  if(code.length!==5){ LP.error="Enter the 5-character code on the screen."; return liveRender(); }
+  if(!name){ LP.error="Enter your name so your teacher knows who answered."; return liveRender(); }
+  LP.joining=true; LP.error=""; liveRender();
+  try{
+    const db=await getDB(); const ref=db.collection(LIVE_COLL).doc(code); const s=await ref.get();
+    if(!s.exists){ LP.error="That code doesn't exist. Check it with your teacher."; }
+    else if(s.data().phase==="ended"){ LP.error="This live quiz has already finished."; }
+    else{
+      const saved = ssGet("toeic-live-player");
+      const pid = saved && saved.code===code ? saved.pid : Math.random().toString(36).slice(2,10);
+      await ref.collection("players").doc(pid).set({name, joinedAt:Date.now()});
+      Object.assign(LP, {code, name, pid, answers: saved && saved.code===code ? saved.answers||{} : {}});
+      ssSet("toeic-live-player", {code, name, pid, answers:LP.answers});
+      playerListen();
+    }
+  }catch(e){ LP.error=errMsg(e); }
+  LP.joining=false; liveRender();
+}
+async function playerListen(){
+  if(LP.unsub){ try{LP.unsub();}catch(e){} }
+  const db=await getDB();
+  LP.unsub = db.collection(LIVE_COLL).doc(LP.code).onSnapshot(s=>{ LP.sess = s.exists ? s.data() : null; liveRender(); }, e=>{ LP.error=errMsg(e); liveRender(); });
+}
+async function playerAnswer(k){
+  const s=LP.sess; if(!s || s.phase!=="question" || LP.answers[s.cur]!=null) return;
+  LP.answers[s.cur]=k; ssSet("toeic-live-player", {code:LP.code, name:LP.name, pid:LP.pid, answers:LP.answers}); liveRender();
+  try{ const db=await getDB(); await db.collection(LIVE_COLL).doc(LP.code).collection("answers").doc(s.cur+"_"+LP.pid).set({q:s.cur, pid:LP.pid, choice:k, at:Date.now()}); }
+  catch(e){ delete LP.answers[s.cur]; LP.error=errMsg(e); liveRender(); }
+}
+function playerScore(){ const s=LP.sess; if(!s) return 0; const upTo = s.phase==="question" ? s.cur-1 : (s.phase==="ended" ? s.n-1 : s.cur); let n=0; for(let i=0;i<=upTo;i++){ if(LP.answers[i]!=null && LP.answers[i]===liveQ(s,i).a) n++; } return n; }
+function playerLeave(){ if(LP.unsub){ try{LP.unsub();}catch(e){} } ssSet("toeic-live-player", null); Object.assign(LP,{code:"",pid:null,sess:null,answers:{},error:""}); liveRender(); }
+
+/* ---------- Rendering ---------- */
+let liveKey = "";
+function liveRender(){
+  const el=document.getElementById("live"); if(!el) return;
+  const isHost = APP==="teacher";
+  const key = isHost ? ["h",liveConfigured(),LH.code,LH.sess&&LH.sess.phase,LH.sess&&LH.sess.cur,LH.error,!!LH.results,LH.n,LH.dur,LH.busy].join("|")
+                     : ["p",LP.code,LP.sess&&LP.sess.phase,LP.sess&&LP.sess.cur,LP.sess&&LP.answers[LP.sess.cur],LP.error,LP.joining].join("|");
+  if(key!==liveKey || !el.firstChild){
+    liveKey=key; el.innerHTML = isHost ? hostHTML() : playerHTML();
+    if(isHost && LH.sess && LH.sess.phase==="lobby") drawQR();
+    if(!isHost){ const i=document.getElementById("lv-name"); if(i && !i.value && LP.name) i.value=LP.name; }
+  }
+  if(isHost) liveUpdate();
+}
+function liveUpdate(){
+  if(APP!=="teacher") return;
+  const pc=document.getElementById("lv-pcount"); if(pc) pc.textContent=LH.players.length;
+  const pl=document.getElementById("lv-players"); if(pl) pl.innerHTML = LH.players.length ? LH.players.map(p=>`<span class="pchip">${esc(p.name||"Student")}</span>`).join("") : `<span class="hint">Waiting for students to join…</span>`;
+  const an=document.getElementById("lv-answered"); if(an) an.textContent=`${LH.answered} / ${LH.players.length} answered`;
+  const max = Math.max(1, LH.answered);
+  for(let k=0;k<4;k++){ const b=document.getElementById("lv-bar-"+k); if(b) b.style.width=(LH.counts[k]/max*100)+"%"; const c=document.getElementById("lv-cnt-"+k); if(c) c.textContent=LH.counts[k]; }
+  hostTick();
+}
+function drawQR(){
+  const box=document.getElementById("lv-qr"); if(!box || !LH.code) return;
+  loadScript("https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js").then(()=>{
+    const b=document.getElementById("lv-qr"); if(!b) return; b.innerHTML="";
+    new QRCode(b, {text:joinURL(LH.code), width:208, height:208, colorDark:"#16202B", colorLight:"#FFFFFF", correctLevel:QRCode.CorrectLevel.M});
+  }).catch(()=>{ const b=document.getElementById("lv-qr"); if(b) b.hidden=true; });
+}
+function setupHTML(){
+  return `<div class="lcard"><span class="mono lv-k">Live mode setup</span><h2 class="lv-h">Connect live mode to Firebase</h2>
+  <p class="lead">Live mode stores the answers in your Firestore project, so phones and the classroom screen can see the same quiz.</p>
+  <ol class="lv-steps"><li>Open <b>toeic-firebase-config.js</b> in a text editor.</li>
+  <li>Paste the web config of your Firebase project (Project settings → Your apps → Config). The teacher and join apps both read this file.</li>
+  <li>Add this block to your Firestore rules:<pre>match /toeic_live/{code}/{document=**} {
+  allow read, write: if true;
+}
+match /toeic_live/{code} {
+  allow read, write: if true;
+}</pre></li>
+  <li>Upload the four files to the same folder on your hosting. Live mode does not work inside Claude.</li></ol></div>`;
+}
+function hostHTML(){
+  if(!liveConfigured()) return setupHTML();
+  const err = LH.error ? `<div class="fb no"><strong>Live mode error</strong><span>${esc(LH.error)}</span></div>` : "";
+  const s = LH.sess;
+  if(!LH.code || !s){
+    const topicId = S.view==="mixed" ? "mixed" : S.topic;
+    return `${err}<div class="lcard"><span class="mono lv-k">Live quiz · ${esc(liveTopicName(topicId))}</span>
+    <h2 class="lv-h">Students answer from their phones.</h2>
+    <p class="lead">They scan a QR code, type their name and choose A, B, C or D. The screen shows how many students chose each option, then reveals the correct answer when time runs out.</p>
+    <div class="lv-opts"><div><span class="mono">Questions</span><div class="tabs">${LIVE_N.map(n=>`<button aria-selected="${LH.n===n}" data-lv-n="${n}">${n}</button>`).join("")}</div></div>
+    <div><span class="mono">Time per question</span><div class="tabs">${LIVE_T.map(n=>`<button aria-selected="${LH.dur===n}" data-lv-t="${n}">${n} s</button>`).join("")}</div></div></div>
+    <div class="actions"><button class="btn solid" data-lv="start" ${LH.busy?"disabled":""}>${LH.busy?"Creating session…":"Start live session"}</button></div></div>`;
+  }
+  const top = `<div class="lv-top"><span class="mono lv-k">Live · ${esc(liveTopicName(s.topicId))} · Code <b>${LH.code}</b></span>
+    <div class="actions"><button class="btn" data-lv="fs">Full screen</button><button class="btn" data-lv="end">${s.phase==="ended"?"Close":"End session"}</button></div></div>`;
+  if(s.phase==="lobby"){
+    const local = location.protocol==="file:";
+    return `${err}<div class="lstage" id="lv-stage">${top}
+    <div class="lv-lobby"><div class="lv-join"><span class="mono lv-k">Join on your phone</span>
+      <div class="lv-url">${esc(joinURL(LH.code).replace(/^https?:\/\//,""))}</div>
+      <span class="mono lv-k">Code</span><div class="lv-code">${LH.code}</div>
+      ${local?`<p class="hint">This file is open from your computer, so phones can't reach it. Upload it to your hosting first.</p>`:""}</div>
+      <div class="lv-qr" id="lv-qr" aria-label="QR code to join"></div></div>
+    <div class="lv-plhead"><b><span id="lv-pcount">0</span> students joined</b><button class="btn solid" data-lv="next">Start quiz →</button></div>
+    <div class="lv-players" id="lv-players"></div></div>`;
+  }
+  if(s.phase==="question" || s.phase==="reveal"){
+    const q = liveQ(s, s.cur), rev = s.phase==="reveal";
+    return `${err}<div class="lstage ${rev?"rev":""}" id="lv-stage" ${q.tkey?`data-topic="${q.tkey}"`:""}>${top}
+    <div class="lv-qhead"><span class="mono lv-k">Question ${s.cur+1} of ${s.n}${q.from?` · ${esc(q.from)}`:""}</span>
+      <span id="lv-answered" class="hint"></span>
+      ${rev?`<span class="lv-done">${hostRemaining()>0?"Everyone answered":"Time's up"}</span>`:`<div class="lv-ring" id="lv-ring" style="--p:100"><span id="lv-time">${s.dur}</span></div>`}</div>
+    <p class="lv-q">${qHTML(q.q)}</p>
+    <div class="lv-grid">${q.o.map((o,k)=>`<div class="lv-opt ${rev?(k===q.a?"right":"dim"):""}"><span class="bub">${L[k]}</span><span class="lv-ot">${optText(o)}</span><span class="lv-cnt" id="lv-cnt-${k}">0</span><span class="lv-bar"><i id="lv-bar-${k}"></i></span></div>`).join("")}</div>
+    ${rev?`<div class="fb ok"><strong>Answer: ${L[q.a]}) ${optText(q.o[q.a])}</strong><span>${q.why}</span></div>
+      <div class="lv-plhead"><span class="hint">Press Enter or → for the next question</span><button class="btn solid" data-lv="next">${s.cur+1>=s.n?"See results":"Next question →"}</button></div>`
+      :`<div class="lv-plhead"><span class="hint">The answer appears when time runs out or everyone has answered.</span><button class="btn" data-lv="reveal">Show answer now</button></div>`}</div>`;
+  }
+  const r = LH.results;
+  return `${err}<div class="lstage" id="lv-stage">${top}
+  ${r?`<div class="result"><div class="score">${r.pct}<small>%</small></div><div><h2 class="lv-h" style="margin:0">Class accuracy</h2><p class="lead">${r.rank.length} ${r.rank.length===1?"student":"students"} · ${s.n} questions. ${(h=>h.length?` Review these questions: ${h.join(", ")}.`:" Every question had a correct majority.")(r.perQ.map((p,i)=>({i,v:p.total?p.ok/p.total:1})).filter(x=>x.v<.5).sort((a,b)=>a.v-b.v).slice(0,3).map(x=>"Q"+(x.i+1)))}</p></div></div>
+  <ol class="lv-rank">${r.rank.slice(0,10).map(p=>`<li><span>${esc(p.name)}</span><b>${p.score} / ${s.n}</b></li>`).join("")}</ol>`:`<p class="hint">Calculating results…</p>`}
+  <div class="actions"><button class="btn solid" data-lv="new">New live session</button></div></div>`;
+}
+function playerHTML(){
+  const err = LP.error ? `<div class="fb no"><strong>Can't continue</strong><span>${esc(LP.error)}</span></div>` : "";
+  const s = LP.sess;
+  if(!LP.code || !s){
+    const pre = (location.hash.match(/^#(?:join-)?([A-Za-z0-9]{5})$/)||[])[1] || "";
+    return `<form class="lcard pl" id="lv-join" autocomplete="off"><span class="mono lv-k">Live quiz</span><h2 class="lv-h">Join your class</h2>
+      ${err}<label for="lv-code">Code</label><input id="lv-code" class="lv-in mono" maxlength="5" value="${esc(pre.toUpperCase())}" placeholder="ABCDE" autocapitalize="characters">
+      <label for="lv-name">Your name</label><input id="lv-name" class="lv-in" maxlength="24" placeholder="First name and last name">
+      <button class="btn solid lv-big" type="submit" ${LP.joining?"disabled":""}>${LP.joining?"Joining…":"Join"}</button></form>`;
+  }
+  const tk = (topicBy(s.topicId)||{}).key; const el=document.getElementById("live"); if(el){ tk ? el.setAttribute("data-topic", tk) : el.removeAttribute("data-topic"); }
+  const head = `<div class="pl-head"><span class="mono lv-k">${esc(LP.name)} · ${LP.code}</span><span class="mono lv-k">${playerScore()} ${playerScore()===1?"pt":"pts"}</span></div>`;
+  if(s.phase==="lobby") return `<div class="lcard pl">${head}${err}<h2 class="lv-h">You're in!</h2><p class="lead">Look at the classroom screen. The first question will appear here when your teacher starts.</p><div class="pulse"></div></div>`;
+  if(s.phase==="ended"){
+    return `<div class="lcard pl">${head}<span class="mono lv-k">Final score</span><div class="score">${playerScore()}<small>/${s.n}</small></div>
+    <p class="lead">${playerScore()/s.n>=.8?"Excellent work!":playerScore()/s.n>=.6?"Good job. Review the topic to improve.":"Keep practicing. Open the topic and use Review and Practice."}</p>
+    <div class="actions"><a class="btn solid" href="toeic-study.html${s.topicId!=="mixed"?"#"+s.topicId+"-review":""}">Study this topic</a><button class="btn" data-lv="leave">Leave</button></div></div>`;
+  }
+  const q = liveQ(s, s.cur), mine = LP.answers[s.cur], rev = s.phase==="reveal";
+  let body;
+  if(rev){
+    const ok = mine===q.a;
+    body = `<div class="fb ${ok?"ok":"no"}"><strong>${mine==null?"No answer":ok?"Correct!":"Not this time"}</strong><span>Answer: ${L[q.a]}) ${optText(q.o[q.a])}</span><span>${q.why}</span></div><p class="hint">Wait for the next question.</p>`;
+  }else if(mine!=null){
+    body = `<div class="pl-sent"><span class="bub">${L[mine]}</span><div><b>Answer sent</b><p class="hint">${optText(q.o[mine])}<br>Look at the screen to see the results.</p></div></div>`;
+  }else{
+    body = `<div class="opts pl-opts">${q.o.map((o,k)=>`<button class="opt" data-lv-ans="${k}"><span class="bub">${L[k]}</span><span>${optText(o)}</span></button>`).join("")}</div>`;
+  }
+  return `<div class="lcard pl" ${q.tkey?`data-topic="${q.tkey}"`:""}>${head}${err}<span class="mono lv-k">Question ${s.cur+1} of ${s.n}</span><p class="qtext">${qHTML(q.q)}</p>${body}</div>`;
+}
+function renderJoin(){
+  document.documentElement.removeAttribute("data-topic");
+  app.innerHTML = bar() + `<div id="live" class="pl-wrap"></div>`;
+  liveKey=""; liveRender();
+}
+
+/* ---------- Events ---------- */
+app.addEventListener("click", e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.lvN){ LH.n=+b.dataset.lvN; return liveRender(); }
+  if(b.dataset.lvT){ LH.dur=+b.dataset.lvT; return liveRender(); }
+  if(b.dataset.lvAns!=null) return playerAnswer(+b.dataset.lvAns);
+  const a=b.dataset.lv; if(!a) return;
+  if(a==="start") hostStart(S.view==="mixed" ? "mixed" : S.topic);
+  else if(a==="next") hostNext();
+  else if(a==="reveal"){ if(LH.sess){ LH.revealedFor=LH.sess.cur; hostUpdate({phase:"reveal"}); } }
+  else if(a==="end"){ if(LH.sess && LH.sess.phase!=="ended") hostUpdate({phase:"ended"}); hostEnd(); }
+  else if(a==="new") hostEnd();
+  else if(a==="leave") playerLeave();
+  else if(a==="fs"){ const w=document.getElementById("lv-stage"); try{ if(document.fullscreenElement) document.exitFullscreen().catch(()=>{}); else if(w&&w.requestFullscreen) w.requestFullscreen().catch(()=>{}); }catch(err){} }
+});
+app.addEventListener("submit", e=>{
+  if(e.target.id!=="lv-join") return; e.preventDefault();
+  playerJoin(document.getElementById("lv-code").value, document.getElementById("lv-name").value);
+});
+document.addEventListener("keydown", e=>{
+  if(e.target.closest("input,textarea")) return;
+  const host = APP==="teacher" && inPractice() && S.pmode==="live";
+  if(host && LH.sess && LH.sess.phase==="reveal" && (e.key==="Enter"||e.key==="ArrowRight")){ e.preventDefault(); hostNext(); }
+});
+function liveResume(){
+  const h = APP==="teacher" && ssGet("toeic-live-host");
+  if(h && h.code && liveConfigured()){ LH.code=h.code; LH.topicId=h.topicId; hostListen().catch(e=>{ LH.error=errMsg(e); liveRender(); }); }
+  const p = APP==="join" && ssGet("toeic-live-player");
+  if(p && p.code && liveConfigured()){ Object.assign(LP, {code:p.code, name:p.name, pid:p.pid, answers:p.answers||{}}); playerListen().catch(e=>{ LP.error=errMsg(e); liveRender(); }); }
+}
+
+fromHash(); liveResume(); render();
+</script>
+
+</body>
+</html>
